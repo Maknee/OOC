@@ -53,21 +53,21 @@ typedef struct _Object
 
 /*============================================================================
 |   RTTI (Have to declare in reverse order, so compiler knows that structs are defined already)
-|	VFTable 		<===============\
-|	| CompleteObjectLocator 		|
-|		| Signature = "HZ"			|
-|		| TypeDescriptor 			|
-|			| pVFTable =============/	<===============\
-|			| name = Class's name ("Object")			|
-|		| ClassHierarchyDescriptor						|
-|			| attributes = 0 (NONE)						|
-|			| numBaseClasses = 1 (Object class)			|
-|			| BaseClassArrayDescriptor					|
-|				[										|
-|					ObjectBaseClassDescriptor			|
-|						| numContainedClasses (None)	|
-|						| TypeDescriptor ===============/
-|				]
+|   VFTable         <===============\
+|   | CompleteObjectLocator         |
+|       | Signature = "HZ"          |
+|       | TypeDescriptor            |
+|           | pVFTable =============/   <===============\
+|           | name = Class's name ("Object")            |
+|       | ClassHierarchyDescriptor                      |
+|           | attributes = 0 (NONE)                     |
+|           | numBaseClasses = 1 (Object class)         |
+|           | BaseClassArrayDescriptor                  |
+|               [                                       |
+|                   ObjectBaseClassDescriptor           |
+|                       | numContainedClasses (None)    |
+|                       | TypeDescriptor ===============/
+|               ]
 *===========================================================================*/
 
 static const TypeDescriptor objectTypeDescriptor =
