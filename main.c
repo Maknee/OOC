@@ -3,7 +3,6 @@
 
 int main()
 {
-	printf("%s", (*objectCompleteObjectLocator.pClassHierarchyDescriptor->pBaseClassArray)[0].pTypeDescriptor->name);
-	system("pause");
+	printf("%s", (*objectCompleteObjectLocator.pClassHierarchyDescriptor->pBaseClassArray).pTypeDescriptor->name);
 	return 0;
 }

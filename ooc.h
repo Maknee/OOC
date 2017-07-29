@@ -99,6 +99,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define MAX_CLASS_NAME_LENGTH                80
 
@@ -129,7 +130,7 @@ typedef struct _ClassHierarchyDescriptor
 {
 	uint32_t attributes;
 	uint32_t numBaseClasses;
-	struct _BaseClassDescriptor **pBaseClassArray; //pointer to array
+	struct _BaseClassDescriptor *pBaseClassArray; //pointer to array
 } ClassHierarchyDescriptor;
 
 typedef struct _BaseClassDescriptor

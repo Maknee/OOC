@@ -130,7 +130,7 @@ static ClassHierarchyDescriptor containerClassHierarchyDescriptor =
 {
 	.attributes = 0,
 	.numBaseClasses = 1,
-	.pBaseClassArray = &containerBaseClassArray
+	.pBaseClassArray = containerBaseClassArray
 };
 
 static CompleteObjectLocator containerCompleteObjectLocator =

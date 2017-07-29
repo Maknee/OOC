@@ -150,7 +150,7 @@ static ClassHierarchyDescriptor stringClassHierarchyDescriptor =
 {
 	.attributes = 0,
 	.numBaseClasses = 1,
-	.pBaseClassArray = &stringBaseClassArray
+	.pBaseClassArray = stringBaseClassArray
 };
 
 static CompleteObjectLocator stringCompleteObjectLocator =
@@ -200,7 +200,7 @@ void StringConstruct(void* this)
 	((String*)this)->length = 0;
 
 	//Null out buffer
-	memset(((String*)this)->data.buf, NULL, sizeof(((String*)this)->data.buf));
+	memset(((String*)this)->data.buf, 0, sizeof(((String*)this)->data.buf));
 }
 
 /*============================================================================
@@ -264,7 +264,7 @@ bool StringAdd(void* this, void* item)
 		if(CheckIfStringIsAllocated(this))
 		{
 			//this string is dynamically allocated, so realloc with twice the length
-			realloc(this_string->data.pBuf, new_length * 2);
+			this_string->data.pBuf = realloc(this_string->data.pBuf, new_length * 2);
 
 			//copy the other string's data
 			StringStrncat(this_string, other_string);
@@ -298,6 +298,7 @@ bool StringAdd(void* this, void* item)
 
 		this_string->length = new_length;
 	}
+	return true;
 }
 
 void StringClear(void* this)
@@ -307,22 +308,22 @@ void StringClear(void* this)
 
 bool StringRemove(void* this, void* item)
 {
-
+	return false;
 }
 
 bool StringContains(void* this, void* item)
 {
-	
+	return false;
 }
 
 bool StringIsEmpty(void* this)
 {
-	
+	return false;
 }
 
 int StringSize(void* this)
 {
-
+	return 0;
 }
 
 /*============================================================================

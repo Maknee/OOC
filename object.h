@@ -90,7 +90,7 @@ typedef struct _Object
 |               ]
 *===========================================================================*/
 
-static const TypeDescriptor objectTypeDescriptor =
+static TypeDescriptor objectTypeDescriptor =
 {
 	.pVFTable = &objectVFTable,
 	.name = "Object"
@@ -102,16 +102,16 @@ static const TypeDescriptor objectTypeDescriptor =
 			.pTypeDescriptor = &objectTypeDescriptor        \
 		}                                                   \
 
-static const BaseClassDescriptor objectBaseClassArray[] =
+static BaseClassDescriptor objectBaseClassArray[] =
 {
 	ObjectBaseClassDescriptor
 };
 
-static const ClassHierarchyDescriptor objectClassHierarchyDescriptor =
+static ClassHierarchyDescriptor objectClassHierarchyDescriptor =
 {
 	.attributes = 0,
 	.numBaseClasses = 1,
-	.pBaseClassArray = &objectBaseClassArray
+	.pBaseClassArray = objectBaseClassArray
 };
 
 static CompleteObjectLocator objectCompleteObjectLocator =
@@ -139,8 +139,6 @@ void ObjectConstruct(void* this)
 	//Why? because this will set the derived's global vtable
 	//((Object*)this)->pVFTable = &objectVFTable;
 	memcpy(((Object*)this)->pVFTable, &objectVFTable, sizeof(ObjectVFTable));
-
-	return false;
 }
 
 /*============================================================================
