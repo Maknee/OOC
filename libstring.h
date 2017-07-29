@@ -128,7 +128,7 @@ typedef struct _String
 |               ]
 *===========================================================================*/
 
-static const TypeDescriptor stringTypeDescriptor =
+static TypeDescriptor stringTypeDescriptor =
 {
 	.pVFTable = &stringVFTable,
 	.name = "String"
@@ -140,22 +140,22 @@ static const TypeDescriptor stringTypeDescriptor =
 			.pTypeDescriptor = &stringTypeDescriptor    \
 		}												\
 
-static const BaseClassDescriptor stringBaseClassArray[] =
+static BaseClassDescriptor stringBaseClassArray[] =
 {
 	ContainerBaseClassDescriptor,
 	StringBaseClassDescriptor
 };
 
-static const ClassHierarchyDescriptor stringClassHierarchyDescriptor =
+static ClassHierarchyDescriptor stringClassHierarchyDescriptor =
 {
 	.attributes = 0,
 	.numBaseClasses = 1,
 	.pBaseClassArray = &stringBaseClassArray
 };
 
-static const CompleteObjectLocator stringCompleteObjectLocator =
+static CompleteObjectLocator stringCompleteObjectLocator =
 {
-	.signature = "HEHE",
+	.signature = 0x48454845,
 	.pTypeDescriptor = &stringTypeDescriptor,
 	.pClassHierarchyDescriptor = &stringClassHierarchyDescriptor
 };

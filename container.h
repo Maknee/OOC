@@ -108,7 +108,7 @@ typedef struct _Container
 |               ]
 *===========================================================================*/
 
-static const TypeDescriptor containerTypeDescriptor =
+static TypeDescriptor containerTypeDescriptor =
 {
 	.pVFTable = &containerVFTable,
 	.name = "Container"
@@ -120,22 +120,22 @@ static const TypeDescriptor containerTypeDescriptor =
 			.pTypeDescriptor = &containerTypeDescriptor     \
 		}                                                   \
 
-static const BaseClassDescriptor containerBaseClassArray[] =
+static BaseClassDescriptor containerBaseClassArray[] =
 {
 	ObjectBaseClassDescriptor,
 	ContainerBaseClassDescriptor
 };
 
-static const ClassHierarchyDescriptor containerClassHierarchyDescriptor =
+static ClassHierarchyDescriptor containerClassHierarchyDescriptor =
 {
 	.attributes = 0,
 	.numBaseClasses = 1,
 	.pBaseClassArray = &containerBaseClassArray
 };
 
-static const CompleteObjectLocator containerCompleteObjectLocator =
+static CompleteObjectLocator containerCompleteObjectLocator =
 {
-	.signature = "HEHE",
+	.signature = 0x48454845,
 	.pTypeDescriptor = &containerTypeDescriptor,
 	.pClassHierarchyDescriptor = &containerClassHierarchyDescriptor
 };

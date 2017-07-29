@@ -22,3 +22,5 @@ $(TARGET): $(OBJECTS)
 clean:
 	-rm -f *.c
 	-rm -f $(TARGET)
+run:
+	./$(TARGET)

@@ -129,7 +129,7 @@ typedef struct _ClassHierarchyDescriptor
 {
 	uint32_t attributes;
 	uint32_t numBaseClasses;
-	struct _BaseClassDescriptor (*pBaseClassArray)[]; //pointer to array
+	struct _BaseClassDescriptor **pBaseClassArray; //pointer to array
 } ClassHierarchyDescriptor;
 
 typedef struct _BaseClassDescriptor

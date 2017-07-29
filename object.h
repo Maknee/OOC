@@ -114,9 +114,9 @@ static const ClassHierarchyDescriptor objectClassHierarchyDescriptor =
 	.pBaseClassArray = &objectBaseClassArray
 };
 
-static const CompleteObjectLocator objectCompleteObjectLocator =
+static CompleteObjectLocator objectCompleteObjectLocator =
 {
-	.signature = "HEHE",
+	.signature = 0x48454845,
 	.pTypeDescriptor = &objectTypeDescriptor,
 	.pClassHierarchyDescriptor = &objectClassHierarchyDescriptor
 };
