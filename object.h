@@ -16,8 +16,15 @@
 *===========================================================================*/
 
 /*============================================================================
-|
+|   Defines
 *===========================================================================*/
+
+#define NULL_OBJECT_VFTABLE                                 \
+        {                                                   \
+			.pCompleteObjectLocator = NULL,                 \
+			.equals = NULL,                                 \
+			.toString = NULL                                \
+		}                                                   \
 
 /*============================================================================
 |   Object virtual function table definition
@@ -27,8 +34,21 @@ typedef struct _ObjectVFTable
 {
 	CompleteObjectLocator* pCompleteObjectLocator;
 	bool (*equals)(void* this, void* other);
-	String (*toString)(void* this);
+	char* (*toString)(void* this);
 } ObjectVFTable;
+
+/*============================================================================
+|	Overridden member function definitions
+*===========================================================================*/
+
+/*============================================================================
+|	Class member definitions
+|	Note: this is a special case since this is the base class
+|	due to the fact there's nothing overwriting the vtable's values
+*===========================================================================*/
+
+bool ObjectEquals(void* this, void* other);
+char* ObjectToString(void* this);
 
 /*============================================================================
 |   Object virtual function table instance
@@ -38,8 +58,8 @@ typedef struct _ObjectVFTable
 static ObjectVFTable objectVFTable =
 {
 	.pCompleteObjectLocator = NULL,
-	.equals = NULL,
-	.toString = NULL
+	.equals = &ObjectEquals,
+	.toString = &ObjectToString
 };
 
 /*============================================================================
@@ -48,14 +68,14 @@ static ObjectVFTable objectVFTable =
 
 typedef struct _Object
 {
-	void* pObjectVFTable;
+	void* pVFTable;
 } Object;
 
 /*============================================================================
 |   RTTI (Have to declare in reverse order, so compiler knows that structs are defined already)
 |   VFTable         <===============\
 |   | CompleteObjectLocator         |
-|       | Signature = "HZ"          |
+|       | Signature = "HEHE"        |
 |       | TypeDescriptor            |
 |           | pVFTable =============/   <===============\
 |           | name = Class's name ("Object")            |
@@ -65,7 +85,7 @@ typedef struct _Object
 |           | BaseClassArrayDescriptor                  |
 |               [                                       |
 |                   ObjectBaseClassDescriptor           |
-|                       | numContainedClasses (None)    |
+|                       | numContainedClasses (0)       |
 |                       | TypeDescriptor ===============/
 |               ]
 *===========================================================================*/
@@ -76,11 +96,11 @@ static const TypeDescriptor objectTypeDescriptor =
 	.name = "Object"
 };
 
-#define ObjectBaseClassDescriptor						\
-		{												\
-			.numContainedClasses = 0,					\
-			.pTypeDescriptor = &objectTypeDescriptor	\
-		}												\
+#define ObjectBaseClassDescriptor                           \
+        {                                                   \
+			.numContainedClasses = 0,                       \
+			.pTypeDescriptor = &objectTypeDescriptor        \
+		}                                                   \
 
 static const BaseClassDescriptor objectBaseClassArray[] =
 {
@@ -96,7 +116,7 @@ static const ClassHierarchyDescriptor objectClassHierarchyDescriptor =
 
 static const CompleteObjectLocator objectCompleteObjectLocator =
 {
-	.signature = "HZ",
+	.signature = "HEHE",
 	.pTypeDescriptor = &objectTypeDescriptor,
 	.pClassHierarchyDescriptor = &objectClassHierarchyDescriptor
 };
@@ -107,15 +127,20 @@ static const CompleteObjectLocator objectCompleteObjectLocator =
 
 void ObjectConstruct(void* this)
 {
-	//check if class passed is an allocated object
-	if (this == NULL)
-		return;
-
-	//Initialize the vtable to point to this object's vtable
-	((Object*)this)->pObjectVFTable = &objectVFTable;
-
 	//Set the vtable's complete object locator to complete the RTTI circle
 	objectVFTable.pCompleteObjectLocator = &objectCompleteObjectLocator;
+
+	//(Actual C++)Initialize the vtable to point to this object's vtable
+	//(OOC)Memcpy the entire VFTable into the table pointed by pVFTable
+	//Reason: There would be no reason to call superclass's constructor
+	//if it's just setting the pointer and the base class will set the pointer
+	//again...
+	//Reason 2: No need to malloc vftables :)
+	//Why? because this will set the derived's global vtable
+	//((Object*)this)->pVFTable = &objectVFTable;
+	memcpy(((Object*)this)->pVFTable, &objectVFTable, sizeof(ObjectVFTable));
+
+	return false;
 }
 
 /*============================================================================
@@ -125,4 +150,23 @@ void ObjectConstruct(void* this)
 void ObjectDestruct(void* this)
 {
 	//No use since this is an abstract class
+}
+
+/*============================================================================
+|	Overridden member functions
+*===========================================================================*/
+
+/*============================================================================
+|	Class member functions
+*===========================================================================*/
+
+bool ObjectEquals(void* this, void* other)
+{
+	return (!strcmp(ObjectToString(this), ObjectToString(other))) ? true : false;
+}
+
+char* ObjectToString(void* this)
+{
+	ObjectVFTable* pThisObjectVFTable = (ObjectVFTable*)((Object*)this)->pVFTable;
+	return pThisObjectVFTable->pCompleteObjectLocator->pTypeDescriptor->name;
 }
