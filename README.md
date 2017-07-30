@@ -5,6 +5,10 @@ Credits:
 Explanations of implementing object oriented in c
 https://stackoverflow.com/questions/2181079/object-oriented-programming-in-c
 
+https://github.com/softwaresaved/build_and_test_examples
+Great Travis CI testing C example
+
+
 RTTI-
 http://www.openrce.org/articles/full_view/23
 https://www.blackhat.com/presentations/bh-dc-07/Sabanal_Yason/Paper/bh-dc-07-Sabanal_Yason-WP.pdf
