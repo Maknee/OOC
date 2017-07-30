@@ -25,7 +25,7 @@ Test on linux and create makefile
 Implement Dynamic cast (upcast/downcast)
 Provide Examples
 
-## ?Wonderings, pondering, desgign decisions?
+## ?Wonderings, pondering, design decisions?
 ==
 Should constructors just set vftable pointer to super's vftable or should the super's vftable be memcpy'ed into the dervied pointer?
 
