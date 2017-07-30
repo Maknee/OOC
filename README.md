@@ -2,7 +2,6 @@
 [![Build Status](https://travis-ci.com/Maknee/OOC.svg?token=awrLzay2NUpTLyLqBpuQ&branch=master)](https://travis-ci.com/Maknee/OOC)
 
 ## Credits
-==
 
 Explanations of implementing object oriented in c
 
@@ -17,7 +16,7 @@ http://www.openrce.org/articles/full_view/23
 https://www.blackhat.com/presentations/bh-dc-07/Sabanal_Yason/Paper/bh-dc-07-Sabanal_Yason-WP.pdf
 
 ## To Do
-==
+
 Document specifications
 Finish string class
 Test string class
@@ -26,7 +25,7 @@ Implement Dynamic cast (upcast/downcast)
 Provide Examples
 
 ## ?Wonderings, pondering, design decisions?
-==
+
 Should constructors just set vftable pointer to super's vftable or should the super's vftable be memcpy'ed into the dervied pointer?
 
 Leaning towards memcpy
