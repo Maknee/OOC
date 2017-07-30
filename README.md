@@ -1,7 +1,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Build Status](https://travis-ci.com/Maknee/OOC.svg?token=awrLzay2NUpTLyLqBpuQ&branch=master)](https://travis-ci.com/Maknee/OOC)
 
-##Credits
+## Credits
 ==
 
 Explanations of implementing object oriented in c
@@ -16,7 +16,7 @@ RTTI
 http://www.openrce.org/articles/full_view/23
 https://www.blackhat.com/presentations/bh-dc-07/Sabanal_Yason/Paper/bh-dc-07-Sabanal_Yason-WP.pdf
 
-##To Do
+## To Do
 ==
 Document specifications
 Finish string class
@@ -25,7 +25,7 @@ Test on linux and create makefile
 Implement Dynamic cast (upcast/downcast)
 Provide Examples
 
-##?Wonderings, pondering, desgign decisions?
+## ?Wonderings, pondering, desgign decisions?
 ==
 Should constructors just set vftable pointer to super's vftable or should the super's vftable be memcpy'ed into the dervied pointer?
 
