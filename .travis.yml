@@ -18,8 +18,10 @@ before_install:
 - cd ..
 
 script:
-- make && make test && ./ooc && make xunit-report
+- make && make test && ./ooc
 - gcov *.o
+- make xunit-report
+- cat TestResults.xml
 
 after_success:
 - bash <(curl -s https://codecov.io/bash)
