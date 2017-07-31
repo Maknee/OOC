@@ -5,6 +5,7 @@ env:
       - CODECOV_TOKEN=5a7a6637-fa92-4356-9651-0da0d491ba0d
 
 before_install:
+- sudo apt-get install xsltproc
 - wget http://downloads.sourceforge.net/project/cunit/CUnit/2.1-2/CUnit-2.1-2-src.tar.bz2
 - tar -xvjpf CUnit-2.1-2-src.tar.bz2
 - cd CUnit-2.1-2
