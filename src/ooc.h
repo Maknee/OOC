@@ -1,3 +1,16 @@
+/** 
+* @file ooc.c
+* @brief Object oriented class definition header
+*
+* This file contains the necessary struct definitions 
+* for implmenting RTTI every object oriented class 
+* <b> should </br> inherit from this header.
+* 
+* @author Henry Zhu (Maknee)
+* @bug No know bugs.
+* @note 
+*/
+
 #pragma once
 
 //TEMPLATE HOLDER...
@@ -106,7 +119,6 @@
 #define CLASS_HIERARCHY_VIRTUAL_INHERITENCE  0x1
 #define CLASS_HIERARCHY_MULTIPLE_INHERTIENCE 0x3
 
-typedef struct _String String;
 typedef struct _TypeDescriptor TypeDescriptor;
 typedef struct _ClassHierarchyDescriptor ClassHierarchyDescriptor;
 typedef struct _BaseClassDescriptor BaseClassDescriptor;
