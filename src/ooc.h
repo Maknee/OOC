@@ -4,7 +4,7 @@
 *
 * This file contains the necessary struct definitions 
 * for implmenting RTTI every object oriented class 
-* <b> should </br> inherit from this header.
+* <b> should </b> inherit from this header.
 * 
 * @author Henry Zhu (Maknee)
 * @bug No know bugs.
@@ -107,8 +107,6 @@
 |	Class member functions
 *===========================================================================*/
 
-
-
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
@@ -130,7 +128,16 @@ typedef struct _CompleteObjectLocator
 	struct _ClassHierarchyDescriptor* pClassHierarchyDescriptor;
 } CompleteObjectLocator;
 
-//Contains the classes details and names
+/**********************************************************************************************//**
+ * @struct	_TypeDescriptor
+ *
+ * @brief	Used to locate the correct virtual function table
+ * 			and verify the object's name
+ * 			
+ * @var		_TypeDescriptor::pVFTable
+ * 			Member pVFTable contains ...
+ **************************************************************************************************/
+
 typedef struct _TypeDescriptor
 {
 	void* pVFTable;
