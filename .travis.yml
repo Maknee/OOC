@@ -18,7 +18,7 @@ before_install:
 
 script:
 - make && make test
-- gcov src/*.c
+- gcov *.o
 
 after_success:
 - bash <(curl -s https://codecov.io/bash)

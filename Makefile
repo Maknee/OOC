@@ -12,7 +12,7 @@
 # implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-CC=gcc -fprofile-arcs -ftest-coverage -O3
+CC=gcc -fprofile-arcs -ftest-coverage -O0
 LDFLAGS=-lcunit
 
 SRCDIR= src
