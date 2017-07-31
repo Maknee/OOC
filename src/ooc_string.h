@@ -45,6 +45,8 @@
 |   Object virtual function table definition
 *===========================================================================*/
 
+typedef struct _String String;
+
 typedef struct _StringVFTable
 {
 	ContainerVFTable containerVFTable;
