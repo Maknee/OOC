@@ -1,7 +1,8 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Build Status](https://travis-ci.com/Maknee/OOC.svg?token=awrLzay2NUpTLyLqBpuQ&branch=master)](https://travis-ci.com/Maknee/OOC)
 [![Documentation](https://codedocs.xyz/Maknee/OOC.svg)](https://codedocs.xyz/Maknee/OOC/)
-[![Coverage Status](https://coveralls.io/repos/github/Maknee/OOC/badge.svg?branch=master)](https://coveralls.io/github/Maknee/OOC?branch=master)
+
+
 ## Credits
 
 Explanations of implementing object oriented in c

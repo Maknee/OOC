@@ -12,7 +12,7 @@
 # implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-CC=gcc -O3
+CC=gcc -coverage -O3
 LDFLAGS=-lcunit
 
 SRCDIR= src
