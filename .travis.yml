@@ -17,7 +17,7 @@ before_install:
 - cd ..
 
 script:
-- make && make test
+- make && make test && ./ooc && xunit-report
 - gcov *.o
 
 after_success:
