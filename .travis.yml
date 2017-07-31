@@ -1,3 +1,6 @@
+service_name: travis-pro
+repo_token: kDxmVN1IouxZ49dhBWupnUdZmVA51M2Ht
+
 language: c
 
 before_install:
