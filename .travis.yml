@@ -1,5 +1,9 @@
 language: c
 
+env:
+  global:
+       - CODECOV_TOKEN=:5a7a6637-fa92-4356-9651-0da0d491ba0d
+
 before_install:
 - wget http://downloads.sourceforge.net/project/cunit/CUnit/2.1-2/CUnit-2.1-2-src.tar.bz2
 - tar -xvjpf CUnit-2.1-2-src.tar.bz2
@@ -14,7 +18,7 @@ before_install:
 
 script:
 - make && make test
-- gcov src/ooc_program.c
+- gcov src/*.c
 
 after_success:
 - bash <(curl -s https://codecov.io/bash)
