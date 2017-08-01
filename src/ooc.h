@@ -120,14 +120,17 @@
  * @brief	A macro that defines maximum class name length.
  * @see		_TypeDescriptor
  * 
- * @def		CLASS_HIERARCHY_VIRTUAL_INHERITENCE
+ * @def		CLASS_HIERARCHY_NO_INHERITENCE
  * @brief	A macro that idicates if a class is using no inheritence
- *
+ * @see		_ClassHierarchyDescriptor
+ * 			
  * @def		CLASS_HIERARCHY_VIRTUAL_INHERITENCE
  * @brief	A macro that idicates if a class is using virtual inheritence
+ * @see		_ClassHierarchyDescriptor
  *
  * @def		CLASS_HIERARCHY_MULTIPLE_INHERTIENCE
  * @brief	A macro that idicates if a class is using multiple inheritence
+ * @see		_ClassHierarchyDescriptor
  * @warning Multiple inhertience not implemented yet
  **************************************************************************************************/
 
@@ -175,7 +178,7 @@ typedef struct _CompleteObjectLocator
  * @var		_TypeDescriptor::pVFTable
  * 			Pointer to the the type's virtual function table
  * 			
- * @var		_TypeDescriptor::name
+ * @var		_TypeDescriptor::name	
  * 			Char array containing the class's name
  **************************************************************************************************/
 
@@ -215,7 +218,7 @@ typedef struct _ClassHierarchyDescriptor
  * @brief	Struct that contains information about inherited classes
  * 			
  * @var		_BaseClassDescriptor::numContainedClasses
- * 			An value containing the number of inherited classes the inherited class has
+ * 			A value containing the number of inherited classes the inherited class has
  *			@note Value does not include the class itself in the count 
  * 			
  * @var		_BaseClassDescriptor::pTypeDescriptor
@@ -225,7 +228,7 @@ typedef struct _ClassHierarchyDescriptor
 
 typedef struct _BaseClassDescriptor
 {
-	uint32_t numContainedClasses;
-	struct _TypeDescriptor* pTypeDescriptor;
+	uint32_t numContainedClasses; //!< A value containing the number of inherited classes the inherited class has
+	struct _TypeDescriptor* pTypeDescriptor; //!< Pointer the inherited class's type descriptor, which contains information about the vftable and the class's name
 } BaseClassDescriptor;
 
