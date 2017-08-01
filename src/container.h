@@ -294,7 +294,7 @@ static CompleteObjectLocator containerCompleteObjectLocator =
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void* NewContainer(void* this)
+ * @fn	void* NewContainer()
  * @brief	Container's new operator
  * 			
  *			Returns an allocated new container
@@ -389,7 +389,7 @@ void ContainerConstruct(void* this)
  * 			<b>DO NOT CALL THIS FUNCTION</b>
  **************************************************************************************************/
 
-void* ContainerConstruct(void* this)
+void* ContainerCopyConstruct(void* this)
 {
 	return NULL;
 }
