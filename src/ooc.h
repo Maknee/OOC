@@ -217,13 +217,6 @@ typedef struct _ClassHierarchyDescriptor
  *
  * @brief	Struct that contains information about inherited classes
  * 			
- * @var		_BaseClassDescriptor::numContainedClasses
- * 			A value containing the number of inherited classes the inherited class has
- *			@note Value does not include the class itself in the count 
- * 			
- * @var		_BaseClassDescriptor::pTypeDescriptor
- * 			Pointer the inherited class's type descriptor, which contains information 
- * 			about the vftable and the class's name
  **************************************************************************************************/
 
 typedef struct _BaseClassDescriptor
