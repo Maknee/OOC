@@ -1,14 +1,16 @@
 /** 
-* @file ooc.c
+* @file ooc.h
 * @brief Object oriented class definition header
-*
+* 		 
 * This file contains the necessary struct definitions 
 * for implmenting RTTI every object oriented class 
 * <b> should </b> inherit from this header.
 * 
 * @author Henry Zhu (Maknee)
 * @bug No know bugs.
-* @note 
+* @note
+* @warning
+* @date	8/1/2017
 */
 
 #pragma once
@@ -112,14 +114,50 @@
 #include <string.h>
 #include <stdlib.h>
 
+/**********************************************************************************************//**
+ * @def	MAX_CLASS_NAME_LENGTH
+ *
+ * @brief	A macro that defines maximum class name length.
+ * @see		_TypeDescriptor
+ * 
+ * @def		CLASS_HIERARCHY_VIRTUAL_INHERITENCE
+ * @brief	A macro that idicates if a class is using no inheritence
+ *
+ * @def		CLASS_HIERARCHY_VIRTUAL_INHERITENCE
+ * @brief	A macro that idicates if a class is using virtual inheritence
+ *
+ * @def		CLASS_HIERARCHY_MULTIPLE_INHERTIENCE
+ * @brief	A macro that idicates if a class is using multiple inheritence
+ * @warning Multiple inhertience not implemented yet
+ **************************************************************************************************/
+
 #define MAX_CLASS_NAME_LENGTH                80
 
+#define CLASS_HIERARCHY_NO_INHERITENCE  0x0
 #define CLASS_HIERARCHY_VIRTUAL_INHERITENCE  0x1
 #define CLASS_HIERARCHY_MULTIPLE_INHERTIENCE 0x3
 
 typedef struct _TypeDescriptor TypeDescriptor;
 typedef struct _ClassHierarchyDescriptor ClassHierarchyDescriptor;
 typedef struct _BaseClassDescriptor BaseClassDescriptor;
+
+/**********************************************************************************************//**
+ * @struct	_CompleteObjectLocator
+ *
+ * @brief	Struct containing the necessary information to identify a class's type,
+ * 			super classes and name. A class's vftable points to this struct.
+ *
+ * @var		_CompleteObjectLocator::signature
+ * 			Contains the signature to indicate that this is the object locator struct
+ *
+ * @var		_CompleteObjectLocator::pTypeDescriptor
+ * 			Pointer to the class's type descriptor 
+ * 			@see _TypeDescriptor
+ *
+ * @var		_CompleteObjectLocator::pClassHierarchyDescriptor
+ * 			Pointer to the class's hierarchy descriptor
+ *			@see _ClassHierarchyDescriptor
+ **************************************************************************************************/
 
 typedef struct _CompleteObjectLocator
 {
@@ -131,11 +169,14 @@ typedef struct _CompleteObjectLocator
 /**********************************************************************************************//**
  * @struct	_TypeDescriptor
  *
- * @brief	Used to locate the correct virtual function table
+ * @brief	Struct used to locate the correct virtual function table
  * 			and verify the object's name
  * 			
  * @var		_TypeDescriptor::pVFTable
- * 			Member pVFTable contains ...
+ * 			Pointer to the the type's virtual function table
+ * 			
+ * @var		_TypeDescriptor::name
+ * 			Char array containing the class's name
  **************************************************************************************************/
 
 typedef struct _TypeDescriptor
@@ -144,6 +185,22 @@ typedef struct _TypeDescriptor
 	char name[MAX_CLASS_NAME_LENGTH];
 } TypeDescriptor;
 
+/**********************************************************************************************//**
+ * @struct	_ClassHierarchyDescriptor
+ *
+ * @brief	Struct used to locate the class's super classes
+ * 			
+ * @var		_ClassHierarchyDescriptor::attributes
+ * 			An value containing indicates whether the class has inheritence or not
+ * 			
+ * @var		_ClassHierarchyDescriptor::numBaseClasses
+ * 			Number of classes that the class inherits from
+ *			@note Number includes itself
+ *
+ * @var		_ClassHierarchyDescriptor::pBaseClassArray
+ * 			Pointer to an array of base class descriptors contain
+ * 			information about the super classes that the class inherits 
+ **************************************************************************************************/
 
 typedef struct _ClassHierarchyDescriptor
 {
@@ -151,6 +208,20 @@ typedef struct _ClassHierarchyDescriptor
 	uint32_t numBaseClasses;
 	struct _BaseClassDescriptor *pBaseClassArray; //pointer to array
 } ClassHierarchyDescriptor;
+
+/**********************************************************************************************//**
+ * @struct	_BaseClassDescriptor
+ *
+ * @brief	Struct that contains information about inherited classes
+ * 			
+ * @var		_BaseClassDescriptor::numContainedClasses
+ * 			An value containing the number of inherited classes the inherited class has
+ *			@note Value does not include the class itself in the count 
+ * 			
+ * @var		_BaseClassDescriptor::pTypeDescriptor
+ * 			Pointer the inherited class's type descriptor, which contains information 
+ * 			about the vftable and the class's name
+ **************************************************************************************************/
 
 typedef struct _BaseClassDescriptor
 {

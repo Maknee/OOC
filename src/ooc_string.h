@@ -2,16 +2,20 @@
 
 #include "container.h"
 
-/*============================================================================
-|       Author:  Henry Zhu
-+-----------------------------------------------------------------------------
-|
-|  @brief		 Abstract container class of container classes (ex: string, vector, map...)
-|				 All derived classes must call donstructor and destructor
-|				 All derived classes must override every function in vftable
-|
-*===========================================================================*/
-
+/**
+* @file ooc_string.c
+* @brief Object oriented class definition header
+*
+* Abstract container class of container classes (ex: string, vector, map...)
+* All derived classes must call donstructor and destructor
+* All derived classes must override every function in vftable
+*
+* @author Henry Zhu (Maknee)
+* @bug No know bugs.
+* @note
+* @warning
+* @date	8/1/2017
+*/
 /*============================================================================
 |   Defines
 *===========================================================================*/
