@@ -1,11 +1,12 @@
 #pragma once
 
 #include "container.h"
+
 /*============================================================================
 |       Author:  Henry Zhu
 +-----------------------------------------------------------------------------
 |
-|  Description:  Abstract container class of container classes (ex: string, vector, map...)
+|  @brief		 Abstract container class of container classes (ex: string, vector, map...)
 |				 All derived classes must call donstructor and destructor
 |				 All derived classes must override every function in vftable
 |

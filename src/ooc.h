@@ -141,7 +141,6 @@ typedef struct _CompleteObjectLocator
 typedef struct _TypeDescriptor
 {
 	void* pVFTable;
-	/** @brief	The name[ maximum class name length] */
 	char name[MAX_CLASS_NAME_LENGTH];
 } TypeDescriptor;
 
