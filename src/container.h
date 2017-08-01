@@ -1,20 +1,38 @@
+/**
+* @file container.h
+* @brief Container class definition header
+*
+* This file contains the information about the
+* abstract container class of container classes 
+* (ex: string, vector, map...).
+* Every container class <b> MUST </br> inherit from this
+* class and override the functions in the vftable.
+* 
+* @author Henry Zhu (Maknee)
+* @bug No know bugs.
+* @note All derived classes must call donstructor and destructor
+* @note All derived classes must override every function in vftable
+* @warning
+* @date	8/1/2017
+*/
+
 #pragma once
 
 #include "object.h"
 
 /*============================================================================
-|       Author:  Henry Zhu
-+-----------------------------------------------------------------------------
-|
-|  Description:  Abstract container class of container classes (ex: string, vector, map...)
-|				 All derived classes must call donstructor and destructor
-|				 All derived classes must override every function in vftable
-|
-*===========================================================================*/
-
-/*============================================================================
 |   Defines
 *===========================================================================*/
+
+/**********************************************************************************************//**
+ * @def		NULL_CONTAINER_VFTABLE
+ *
+ * @brief	A macro that defines a null container vftable template for classes
+ * 			that inherit from the container class
+ * 			
+ * @see		_String
+ * @see		_List
+ **************************************************************************************************/
 
 #define NULL_CONTAINER_VFTABLE                              \
         {                                                   \
@@ -35,6 +53,77 @@
 /*============================================================================
 |   Object virtual function table definition
 *===========================================================================*/
+
+/**********************************************************************************************//**
+ * @struct	_ContainerVFTable
+ *
+ * @brief	Struct that contains the vftable of the container class
+ * 			
+ * @var		_ContainerVFTable::objectVFTable
+ * 			Pointer to the inherited object's virtual function table
+ * 			
+ * @var		_ContainerVFTable::add
+ * 			Pointer to a function that adds an item to the container
+ *			
+ *			@param this 
+ *			The object
+ *			@param item 
+ *			The item to be added to the object
+ *			@return bool
+ *			Returns true if the item was added successfully
+ *			Returns false if the item was added unsuccessfully		
+ *			
+ * @var		_ContainerVFTable::clear
+ * 			Pointer to a function that clears all items in the container
+ *
+ *			@param this
+ *			The object
+ *			@note Does not clear the container itself. 
+ *				  Clearing the container requires calling the destructor
+ *			@note The function should always successfully finish
+ *			
+ * @var		_ContainerVFTable::remove
+ * 			Pointer to a function that removes an item in the container
+ *
+ *			@param this
+ *			The object
+ *			@param item
+ *			The item to be removed
+ *			@return bool
+ *			Returns true if the item was removed successfully
+ *			Returns false if the item was removed unsuccessfully	
+ *			
+ * @var		_ContainerVFTable::contains
+ * 			Pointer to a function that checks whether or not an item is in
+ * 			the container
+ *
+ *			@param this
+ *			The object
+ *			@param item
+ *			The item to be checked
+ *			@return bool
+ *			Returns true if the item is in the container
+ *			Returns false if the item is not in the container
+ *			
+ * @var		_ContainerVFTable::isEmpty
+ * 			Pointer to a function that checks whether or not the container
+ * 			is empty
+ *
+ *			@param this
+ *			The object
+ *			@return bool
+ *			Returns true if the container is empty
+ *			Returns false if the container is not empty
+ *			
+ * @var		_ContainerVFTable::size
+ * 			Pointer to a function that returns the number of elements
+ * 			in the container
+ *
+ *			@param this
+ *			The object
+ *			@return int
+ *			Returns number of elements in the container
+ **************************************************************************************************/
 
 typedef struct _ContainerVFTable
 {

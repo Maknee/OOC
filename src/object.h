@@ -1,23 +1,36 @@
+/**
+* @file object.h
+* @brief Object class definition header
+*
+* Abstract base class of all classes in ooc.
+* Every class must inherit from this class and implement the 
+* necessary functions to ensure stability.
+* 
+* @author Henry Zhu (Maknee)
+* @bug Find a way to store CompleteObjectLocator in vtable at compile time
+*	   Use macros to generate object base...
+* @note All derived classes must call ObjectConstructor and ObjectDestructor
+* @note All derived classes must implement equals() and toString() in their vtable
+* @warning 
+* @date	8/1/2017
+*/
+
 #pragma once
 
 #include "ooc.h"
 
 /*============================================================================
-|       Author:  Henry Zhu
-+-----------------------------------------------------------------------------
-|
-|  Description:  Abstract base class of all classes in ooc
-|				 All derived classes must call ObjectConstructor and ObjectDestructor
-|				 All derived classes must implement equals() and toString() in their vtable
-|
-|   Known Bugs:  None
-|	To do: Find a way to store CompleteObjectLocator in vtable at compile time
-|		   Use macros to generate object base...
-*===========================================================================*/
-
-/*============================================================================
 |   Defines
 *===========================================================================*/
+
+/**********************************************************************************************//**
+ * @def		NULL_OBJECT_VFTABLE
+ *
+ * @brief	A macro that defines a null object vftable template for classes
+ * 			that inherit from the object class
+ * 			
+ * @see		_Container
+ **************************************************************************************************/
 
 #define NULL_OBJECT_VFTABLE                                 \
         {                                                   \

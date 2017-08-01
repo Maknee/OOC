@@ -3,7 +3,7 @@
 #include "container.h"
 
 /**
-* @file ooc_string.c
+* @file ooc_string.h
 * @brief Object oriented class definition header
 *
 * Abstract container class of container classes (ex: string, vector, map...)
@@ -16,9 +16,22 @@
 * @warning
 * @date	8/1/2017
 */
+
 /*============================================================================
 |   Defines
 *===========================================================================*/
+
+/**********************************************************************************************//**
+ * @def		DEFAULT_STRING_LENGTH
+ *
+ * @brief	A macro that defines the default length of a string before
+ * 			the string becomes dynamically allocated. 
+ * @see		_String
+ * 
+ * @def		NULL_STRING_VFTABLE
+ * @brief	A macro that defines a null string vftable template for classes
+ * 			that inherit from the string class
+ **************************************************************************************************/
 
 //15 characters + 1 null byte
 #define DEFAULT_STRING_LENGTH 15 + 1

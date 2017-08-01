@@ -1,6 +1,6 @@
 /** 
 * @file ooc.h
-* @brief Object oriented class definition header
+* @brief Object oriented class definition header (RTTI)
 * 		 
 * This file contains the necessary struct definitions 
 * for implmenting RTTI every object oriented class 
@@ -115,7 +115,7 @@
 #include <stdlib.h>
 
 /**********************************************************************************************//**
- * @def	MAX_CLASS_NAME_LENGTH
+ * @def		MAX_CLASS_NAME_LENGTH
  *
  * @brief	A macro that defines maximum class name length.
  * @see		_TypeDescriptor
@@ -136,7 +136,7 @@
 
 #define MAX_CLASS_NAME_LENGTH                80
 
-#define CLASS_HIERARCHY_NO_INHERITENCE  0x0
+#define CLASS_HIERARCHY_NO_INHERITENCE	     0x0
 #define CLASS_HIERARCHY_VIRTUAL_INHERITENCE  0x1
 #define CLASS_HIERARCHY_MULTIPLE_INHERTIENCE 0x3
 
@@ -147,11 +147,11 @@ typedef struct _BaseClassDescriptor BaseClassDescriptor;
 /**********************************************************************************************//**
  * @struct	_CompleteObjectLocator
  *
- * @brief	Struct containing the necessary information to identify a class's type,
+ * @brief	Struct that contains the necessary information to identify a class's type,
  * 			super classes and name. A class's vftable points to this struct.
  *
  * @var		_CompleteObjectLocator::signature
- * 			Contains the signature to indicate that this is the object locator struct
+ * 			Value that contains the signature to indicate that this is the object locator struct
  *
  * @var		_CompleteObjectLocator::pTypeDescriptor
  * 			Pointer to the class's type descriptor 
@@ -172,14 +172,15 @@ typedef struct _CompleteObjectLocator
 /**********************************************************************************************//**
  * @struct	_TypeDescriptor
  *
- * @brief	Struct used to locate the correct virtual function table
+ * @brief	Struct that contains the necessary information used
+ * 			to locate the correct virtual function table
  * 			and verify the object's name
  * 			
  * @var		_TypeDescriptor::pVFTable
- * 			Pointer to the the type's virtual function table
+ * 			Pointer to the type's virtual function table
  * 			
  * @var		_TypeDescriptor::name	
- * 			Char array containing the class's name
+ * 			Char array that contains the class's name
  **************************************************************************************************/
 
 typedef struct _TypeDescriptor
@@ -191,13 +192,13 @@ typedef struct _TypeDescriptor
 /**********************************************************************************************//**
  * @struct	_ClassHierarchyDescriptor
  *
- * @brief	Struct used to locate the class's super classes
+ * @brief	Struct that contains information in order to locate the class's super classes
  * 			
  * @var		_ClassHierarchyDescriptor::attributes
- * 			An value containing indicates whether the class has inheritence or not
+ * 			Value that contains indicates whether the class has inheritence or not
  * 			
  * @var		_ClassHierarchyDescriptor::numBaseClasses
- * 			Number of classes that the class inherits from
+ * 			Value that contains number of classes that the class inherits from
  *			@note Number includes itself
  *
  * @var		_ClassHierarchyDescriptor::pBaseClassArray
@@ -217,11 +218,18 @@ typedef struct _ClassHierarchyDescriptor
  *
  * @brief	Struct that contains information about inherited classes
  * 			
+ * @var		_BaseClassDescriptor::numContainedClasses
+ * 			Value that contains the number of inherited classes the inherited class has
+ *			@note Value does not include the class itself in the count 
+ * 			
+ * @var		_BaseClassDescriptor::pTypeDescriptor
+ * 			Pointer to the inherited class's type descriptor, which contains information 
+ * 			about the vftable and the class's name
  **************************************************************************************************/
 
 typedef struct _BaseClassDescriptor
 {
-	uint32_t numContainedClasses; //!< A value containing the number of inherited classes the inherited class has
-	struct _TypeDescriptor* pTypeDescriptor; //!< Pointer the inherited class's type descriptor, which contains information about the vftable and the class's name
+	uint32_t numContainedClasses;
+	struct _TypeDescriptor* pTypeDescriptor;
 } BaseClassDescriptor;
 
