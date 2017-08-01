@@ -7,11 +7,14 @@
 * necessary functions to ensure stability.
 * 
 * @author Henry Zhu (Maknee)
-* @bug Find a way to store CompleteObjectLocator in vtable at compile time
-*	   Use macros to generate object base...
+* @todo {Find a way to store CompleteObjectLocator in vtable at compile time
+*	   Use macros to generate object base...}
 * @note All derived classes must call ObjectConstructor and ObjectDestructor
 * @note All derived classes must implement equals() and toString() in their vtable
-* @warning 
+* @warning All functions do not check if the object or item is NULL
+* 		   nor do they check if the object or item is matches the
+* 		   correct object or item. Unfortunately, it is up to
+* 		   the <b>CODER</b> to ensure that the types are correct.
 * @date	8/1/2017
 */
 
