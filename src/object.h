@@ -1,6 +1,6 @@
 /**
 * @file object.h
-* @brief Object class definition header
+* @brief Object class header
 *
 * Abstract base class of all classes in ooc.
 * Every class must inherit from this class and implement the 
@@ -100,7 +100,7 @@ char* ObjectToString(void* this);
 /**
 * @brief   Global static object vftable
 * @relates ObjectVFTable
-* @note	Cannot make this const since there is a circluar reference with RTTI structs
+* @note	Cannot make this const since there is a circular reference with RTTI structs
 * @note	objectVFTable will be set in constructor
 */
 

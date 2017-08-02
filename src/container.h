@@ -1,6 +1,6 @@
 /**
 * @file container.h
-* @brief Container class definition header
+* @brief Container class header
 *
 * This file contains the information about the
 * abstract container class of container classes 
@@ -72,7 +72,7 @@
  *			The object
  *			@param [in] item 
  *			The item to be added to the object
- *			@return bool
+ *			@return
  *			Returns true if the item was added successfully, returns false if the item was added unsuccessfully		
  *			
  * @var		_ContainerVFTable::clear
@@ -156,7 +156,7 @@ char* ContainerToString(void* this);
 /** 
  * @brief   Global static container vftable
  * @relates ContainerVFTable
- * @note	Cannot make this const since there is a circluar reference with RTTI structs
+ * @note	Cannot make this const since there is a circular reference with RTTI structs
  * @note	objectVFTable will be set in constructor
  */
 
@@ -198,10 +198,10 @@ typedef struct _Container
 |       | Signature = "HEHE"        |
 |       | TypeDescriptor            |
 |           | pVFTable =============/   <===============\
-|           | name = Class's name ("Conatiner")         |
+|           | name = Class's name ("Container")         |
 |       | ClassHierarchyDescriptor                      |
-|           | attributes = 0 (NONE)                     |
-|           | numBaseClasses = 1 (Object class)         |
+|           | attributes = 1 (VIRTUAL)                  |
+|           | numBaseClasses = 2 (Object, Container)    |
 |           | BaseClassArrayDescriptor                  |
 |               [                                       |
 |                   ObjectBaseClassDescriptor           |
@@ -261,7 +261,7 @@ static BaseClassDescriptor containerBaseClassArray[] =
 *
 * 			Container class hierarchy descriptor is marked as virtual
 * 			since it inherits from the object class.
-* 			numBaseClasses is one since container inherits from only one class
+* 			numBaseClasses is two since container inherits from only one class
 * 			pBaseClassArray points to the container's base class descriptor
 *			@ref containerBaseClassArray
 */
@@ -269,7 +269,7 @@ static BaseClassDescriptor containerBaseClassArray[] =
 static ClassHierarchyDescriptor containerClassHierarchyDescriptor =
 {
 	.attributes = CLASS_HIERARCHY_VIRTUAL_INHERITENCE,
-	.numBaseClasses = 1,
+	.numBaseClasses = 2,
 	.pBaseClassArray = containerBaseClassArray
 };
 
