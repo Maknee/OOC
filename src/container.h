@@ -232,7 +232,7 @@ static TypeDescriptor containerTypeDescriptor =
  *
  * @brief	A macro that defines container base class descriptor.
  * 			
- *			Num contained classes is once since the container inherits from
+ *			Num contained classes is one since the container inherits from
  *			object.
  *			The type descriptor points to the container type descriptor
  **************************************************************************************************/
@@ -344,7 +344,7 @@ void DeleteContainer(void* this)
  *			and initializes class's member variables 
  *
  * @param	[in] this
- * 			Conatiner object to be initialized
+ * 			Container object to be initialized
  * 			
  * @return	Nothing
  **************************************************************************************************/
@@ -406,9 +406,12 @@ void* ContainerCopyConstruct(void* this)
  *			the deletion of the object's allocated resources
  *
  * @param	[in] this
- * 			Conatiner object that should be freed of its used resources
+ * 			Container object that should be freed of its used resources
  * 			
  * @return	Nothing
+ * @warning	Container is an abstract class, so
+ * 			even though this calls @ref ObjectDestruct
+ * 			nothing is actually executed
  **************************************************************************************************/
 
 void ContainerDestruct(void* this)
