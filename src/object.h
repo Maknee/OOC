@@ -270,7 +270,7 @@ void* NewObject()
 
 void DeleteObject(void* this)
 {
-	return NULL;
+
 }
 
 /*============================================================================

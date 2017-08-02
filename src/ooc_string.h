@@ -178,6 +178,13 @@ int StringFind(void* this, void* item);
 void* StringSubstring(void* this, int start, int end);
 
 /*============================================================================
+|	Helper member definitions
+*===========================================================================*/
+
+static bool CheckIfStringIsAllocated(String* this);
+static void StringStrncat(String* this, String* other);
+
+/*============================================================================
 |   Container virtual function table instance
 *===========================================================================*/
 
@@ -586,7 +593,7 @@ char* StringToString(void* this)
  * @note	Helper function @see StringAdd
  **************************************************************************************************/
 
-static bool CheckIfStringIsAllocated(String* this)
+bool CheckIfStringIsAllocated(String* this)
 {
 	return this->capacity >= DEFAULT_STRING_LENGTH;
 }

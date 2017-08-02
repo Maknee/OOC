@@ -135,7 +135,7 @@ typedef struct _ContainerVFTable
 	bool (*contains)(void* this, void* item);
 
 	bool (*isEmpty)(void* this);
-	int (*size)(void* this);
+	size_t (*size)(void* this);
 } ContainerVFTable;
 
 /*============================================================================
@@ -339,7 +339,7 @@ void* NewContainer()
 
 void DeleteContainer(void* this)
 {
-	return NULL;
+
 }
 
 /*============================================================================
