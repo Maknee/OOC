@@ -139,6 +139,16 @@ typedef struct _ContainerVFTable
 } ContainerVFTable;
 
 /*============================================================================
+|	Special class member function definitions
+*===========================================================================*/
+
+void* NewContainer();
+void DeleteContainer(void* this);
+void ContainerConstruct(void* this);
+void* ContainerCopyConstruct(void* this);
+void ContainerDestruct(void* this);
+
+/*============================================================================
 |	Overridden member function definitions
 *===========================================================================*/
 

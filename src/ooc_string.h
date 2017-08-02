@@ -140,10 +140,20 @@ typedef struct _StringVFTable
 {
 	ContainerVFTable containerVFTable;
 	char* (*c_str)(void* this);
-	void (*append)(void* this, char* value);
-	int (*find) (void* this, char* value);
+	void (*append)(void* this, char* item);
+	int (*find) (void* this, char* item);
 	void* (*substring)(void* this, int start, int end);
 } StringVFTable;
+
+/*============================================================================
+|	Special class member function definitions
+*===========================================================================*/
+
+void* NewString();
+void DeleteString(void* this);
+void StringConstruct(void* this);
+void* StringCopyConstruct(void* this);
+void StringDestruct(void* this);
 
 /*============================================================================
 |	Overridden member function definitions
@@ -156,15 +166,15 @@ void StringClear(void* this);
 bool StringRemove(void* this, void* item);
 bool StringContains(void* this, void* item);
 bool StringIsEmpty(void* this);
-int StringSize(void* this);
+size_t StringSize(void* this);
 
 /*============================================================================
 |	Class member definitions
 *===========================================================================*/
 
 char* StringC_Str(void* this);
-void StringAppend(void* this, char* value);
-int StringFind(void* this, char* value);
+bool StringAppend(void* this, char* item);
+int StringFind(void* this, void* item);
 void* StringSubstring(void* this, int start, int end);
 
 /*============================================================================
@@ -205,12 +215,12 @@ static StringVFTable stringVFTable =
  *			@see _Container
  *			
  * @var		_String::length
- * 			Value that contains the current number of characters in the string
+ * 			item that contains the current number of characters in the string
  *			@note
  *			Includes the NULL terminator
  *			
  * @var		_String::capacity
- * 			Value that contains that maximum characters that string can hold.
+ * 			item that contains that maximum characters that string can hold.
  *			@note
  *			If the allocated string is larger than capacity, the string functions
  *			will try to increase the capacity @ref StringAdd
@@ -359,7 +369,12 @@ static CompleteObjectLocator stringCompleteObjectLocator =
 
 void* NewString()
 {
-	return NULL;
+	//allocate a new string
+	void* string = calloc(1, sizeof(String));
+
+	//call constructor to set up string
+	StringConstruct(string);
+	return string;
 }
 
 /*============================================================================
@@ -373,15 +388,22 @@ void* NewString()
  *			Deletes the allocated string
  *
  * @param	[in] this
- * 			Container string to be deleted
+ * 			String object to be deleted
  * 			
  * @return	Nothing
- * @note	If NULL is passed, an attempt to free NULL will be made
+ * @warning If NULL is passed, an attempt to free NULL will be made
  **************************************************************************************************/
 
 void DeleteString(void* this)
 {
-	return NULL;
+	//call destructor
+	StringDestruct(this);
+
+	//free the string's resources
+	free(this);
+
+	//NULL the pointer, so we don't have use after free vulns
+	this = NULL;
 }
 
 /*============================================================================
@@ -428,7 +450,7 @@ void StringConstruct(void* this)
 	stringVFTable.containerVFTable.isEmpty = &StringIsEmpty;
 	stringVFTable.containerVFTable.size = &StringSize;
 
-	//Initialize the vtable to point to this object's vtable
+	//Initialize the vtable to a copy of this object's vtable
 	memcpy(((String*)this)->container.object.pVFTable, &stringVFTable, sizeof(StringVFTable));
 
 	//Initialize member variables
@@ -457,11 +479,29 @@ void StringConstruct(void* this)
  * @return	The copied string
  * @note	Derived classes may implement a copy constructor, 
  * 			but it is not necessary
+ * @note    This is a <b>DEEP</b> copy, which will dynamically allocate memory
+ * 			for the pBuf if the current string has dynamically allocated memory
+ * @note	Does not memcpy the vtable (just points to the same vtable as the current string)
  **************************************************************************************************/
 
 void* StringCopyConstruct(void* this)
 {
-	return NULL;
+	//allocate a new string
+	void* copy_string = calloc(1, sizeof(String));
+
+	//copy the contents of the string to the copied string
+	memcpy(copy_string, this, sizeof(String));
+
+	//check if the string was dynamically allocated
+	if (CheckIfStringIsAllocated(this))
+	{
+		//copy the contents of the data into another area of the heap
+		((String*)copy_string)->data.pBuf = calloc(1, ((String*)this)->capacity);
+		memcpy(((String*)copy_string)->data.pBuf, ((String*)this)->data.pBuf, ((String*)this)->length);
+	}
+	//no need to consider the other case because we memcpy'd the entire struct above!
+	
+	return copy_string;
 }
 
 /*============================================================================
@@ -530,7 +570,7 @@ bool StringEquals(void* this, void* other)
 
 char* StringToString(void* this)
 {
-	return StringToString(this);
+	return ContainerToString(this);
 }
 
 /**********************************************************************************************//**
@@ -656,8 +696,8 @@ bool StringAdd(void* this, void* item)
 				//copy the other string's data
 				StringStrncat(this_string, other_string);
 
-				//only update the capacity to the new length
-				this_string->capacity = new_length;
+				//keep the capacity at the limit
+				this_string->capacity = DEFAULT_STRING_LENGTH;
 			}
 		}
 
@@ -705,17 +745,50 @@ void StringClear(void* this)
  *
  * @brief	Remove the substring in a string
  *			
+ *			
+ *			
  * @param	[in] this
  * 			The string
  * @param	[in] other
  * 			The substring
  * @return	Returns true if the substring was removed, 
  * 			returns false if the substring couldn't be found or removed
+ * @note	Function will not resize the capacity. 
+ * 			The overhead of free is most likely not worth resizing the capacity
  **************************************************************************************************/
 
 bool StringRemove(void* this, void* item)
 {
-	
+	String* this_string = (String*)this;
+	String* other_string = (String*)item;
+
+	//find the substring's index in the current string
+	size_t start = StringFind(this_string, other_string);
+
+	//check if the substring exists
+	if (start != NPOS)
+	{
+		//update the length
+		size_t new_length = this_string->length - other_string->length;
+
+		//check whether or not the string is using an array or a dynamic pointer
+		if (CheckIfStringIsAllocated(this_string))
+		{
+			//fill the data after the substring into the data of the substring
+			memmove(this_string->data.pBuf + start,
+				this_string->data.pBuf + start + new_length + 1, this_string->length - start - new_length);
+		}
+		else
+		{
+			//fill the data after the substring into the data of the substring
+			memmove(this_string->data.buf + start,
+				this_string->data.buf + start + new_length + 1, this_string->length - start - new_length);
+		}
+
+		//update the length
+		this_string->length = new_length;
+		return true;
+	}
 	return false;
 }
 
@@ -734,13 +807,13 @@ bool StringRemove(void* this, void* item)
 
 bool StringContains(void* this, void* item)
 {
-	return false;
+	return StringFind(this, item);
 }
 
 /**********************************************************************************************//**
  * @fn		bool StringIsEmpty(void* this)
  *
- * @brief	Remove the substring in a string
+ * @brief	Checks if the string is empty
  *			
  * @param	[in] this
  * 			The string
@@ -750,7 +823,7 @@ bool StringContains(void* this, void* item)
 
 bool StringIsEmpty(void* this)
 {
-	return false;
+	return ((String*)this)->length == 0;
 }
 
 /**********************************************************************************************//**
@@ -763,9 +836,9 @@ bool StringIsEmpty(void* this)
  * @return	Returns the length of the string
  **************************************************************************************************/
 
-int StringSize(void* this)
+size_t StringSize(void* this)
 {
-	return 0;
+	return ((String*)this)->length;
 }
 
 /*============================================================================
@@ -784,56 +857,187 @@ int StringSize(void* this)
 
 char* StringC_Str(void* this)
 {
-	return NULL;
+	String* this_string = (String*)this;
+	if (CheckIfStringIsAllocated(this))
+	{
+		return this_string->data.pBuf;
+	}
+	else
+	{
+		return this_string->data.buf;
+	}
 }
 
 /**********************************************************************************************//**
- * @fn		void StringAppend(void* this, char* value);
+ * @fn		bool StringAppend(void* this, char* item);
  *
  * @brief	Appends one string with a char pointer
  *			
  * @param	[in] this
  * 			The string
- * @param	[in] value
+ * @param	[in] item
  * 			The pointer to a char array 
- * 			@return	Nothing
+ * @return	Returns true if the char array was added correctly, 
+ * 			returns false if the char array was not added correctly
  * @note	Function appends a char pointer to an array, <b>NOT</b>
  * 			a string object to another string object. @ref StringAdd
+ * @todo	{find a way for this function to return false}
  **************************************************************************************************/
 
-void StringAppend(void* this, char* value)
+bool StringAppend(void* this, char* item)
 {
-	
+	String* this_string = (String*)this;
+	size_t other_string_length = strlen(item);
+	//check if the new string can be appended
+	size_t new_length = this_string->length + other_string_length;
+	if (this_string->capacity < new_length)
+	{
+		//check whether or not the string is using an array or a dynamic pointer
+		if (CheckIfStringIsAllocated(this))
+		{
+			//this string is dynamically allocated, so realloc with twice the length
+			this_string->data.pBuf = realloc(this_string->data.pBuf, new_length * 2);
+
+			//copy the other string's data
+			strncat(this_string->data.pBuf, item, strlen(item));
+		}
+		else
+		{
+			//this string might need to dynamically allocated. 
+			if (new_length >= DEFAULT_STRING_LENGTH)
+			{
+				//this string should be dynamically allocated now
+				this_string->capacity = new_length * 2;
+
+				//allocate dynamically allocated string
+				char* tmp = calloc(1, this_string->capacity);
+
+				//copy this string's data
+				memcpy(tmp, this_string->data.pBuf, this_string->length);
+
+				//copy the other string's data
+				strncat(this_string->data.pBuf, item, strlen(item));
+			}
+			else
+			{
+				//copy the other string's data
+				strncat(this_string->data.buf, item, strlen(item));
+
+				//keep the capacity at the limit
+				this_string->capacity = DEFAULT_STRING_LENGTH;
+			}
+		}
+
+		//update the length
+		this_string->length = new_length;
+	}
+	return true;
 }
 
 /**********************************************************************************************//**
- * @fn		int StringSize(void* this)
+ * @fn		int StringFind(void* this, void* item)
  *
- * @brief	Returns the length of the string
+ * @brief	Returns the index of the first occurence of the substring
  *			
  * @param	[in] this
  * 			The string
- * @return	Returns the length of the string
+ * @param	[in] item
+ * 			The substring to be found
+ * @return	Returns the index
  **************************************************************************************************/
 
-int StringFind(void* this, char* value)
+int StringFind(void* this, void* item)
 {
+	//hey c has a function called strstr :)
+	String* this_string = (String*)this;
+	String* substring = (String*)item;
 
+	// pointer to the first element of the substring in the string
+	// if the substring was found
+	char* pFound = NULL;
+
+	if (CheckIfStringIsAllocated(this))
+	{
+		if (CheckIfStringIsAllocated(item))
+		{
+			pFound = strstr(this_string->data.pBuf, substring->data.pBuf);
+		}
+		else
+		{
+			pFound = strstr(this_string->data.pBuf, substring->data.buf);
+		}
+	}
+	else
+	{
+		if (CheckIfStringIsAllocated(item))
+		{
+			pFound = strstr(this_string->data.buf, substring->data.pBuf);
+		}
+		else
+		{
+			pFound = strstr(this_string->data.buf, substring->data.buf);
+		}
+	}
+
+	//if the substring wasn't found, return NPOS
+	if (pFound == NULL)
+	{
+		return NPOS;
+	}
+
+	//calculate the index
+	if(CheckIfStringIsAllocated(this))
+	{
+		return pFound - this_string->data.pBuf;
+	}
+	else
+	{
+		return pFound - this_string->data.buf;
+	}
 }
 
 
 /**********************************************************************************************//**
  * @fn		void* StringSubstring(void* this, int start, int end);
  *
- * @brief	Returns the length of the string
+ * @brief	Finds the substrings of of the string if possible
  *			
  * @param	[in] this
  * 			The string
- * @return	Returns the length of the string
+ * @return	Returns a new allocated substring
+ * @warning	Returns NULL if substring could not be found
  **************************************************************************************************/
 
 void* StringSubstring(void* this, int start, int end)
 {
-	return NULL;
+	//check if user made mistakes...
+	if (start > end || start < 0 || end < 0)
+	{
+		return NULL;
+	}
+
+	String* this_string = (String*)this;
+	
+	//check if indices are in bounds
+	if (start > this_string->length || end > this_string->length)
+	{
+		return NULL;
+	}
+
+	//allocate a copy string using the copy constructor
+	String* copy_string = StringCopyConstruct(this);
+	
+	//update the length of copy_string
+	copy_string->length = end - start + 1;
+
+	if (CheckIfStringIsAllocated(copy_string))
+	{
+		//use memmove to copy the data over because overlapping regions
+		memmove(copy_string->data.pBuf, copy_string->data.pBuf + start, copy_string->length);
+
+		//now zero out the rest
+		memset(copy_string->data.pBuf + copy_string->length, 0, end - copy_string->length);
+	}
+	return copy_string;
 }
 

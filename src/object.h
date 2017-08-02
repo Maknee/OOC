@@ -81,6 +81,16 @@ typedef struct _ObjectVFTable
 } ObjectVFTable;
 
 /*============================================================================
+|	Special class member function definitions
+*===========================================================================*/
+
+void* NewObject();
+void DeleteObject(void* this);
+void ObjectConstruct(void* this);
+void* ObjectCopyConstruct(void* this);
+void ObjectDestruct(void* this);
+
+/*============================================================================
 |	Overridden member function definitions
 *===========================================================================*/
 
