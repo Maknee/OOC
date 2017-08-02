@@ -142,7 +142,7 @@ typedef struct _StringVFTable
 	char* (*c_str)(void* this);
 	void (*append)(void* this, char* value);
 	int (*find) (void* this, char* value);
-	String* (*substring)(void* this, int start, int end);
+	void* (*substring)(void* this, int start, int end);
 } StringVFTable;
 
 /*============================================================================
@@ -161,6 +161,11 @@ int StringSize(void* this);
 /*============================================================================
 |	Class member definitions
 *===========================================================================*/
+
+char* StringC_Str(void* this);
+void StringAppend(void* this, char* value);
+int StringFind(void* this, char* value);
+void* StringSubstring(void* this, int start, int end);
 
 /*============================================================================
 |   Container virtual function table instance
@@ -605,7 +610,10 @@ void StringStrncat(String* this, String* other)
  * 			The other string
  * @return	Returns true if the string was added correctly, 
  * 			returns false if the string was not added correctly
+ * @note	Function only appends an object string to another object string,
+ * 			<b>NOT</b> a string object to a char pointer. @ref StringAppend
  * @todo	{find a case when the function should fail}
+ * @todo	{figure out a way to merge this function and StringAppend}
  **************************************************************************************************/
 
 bool StringAdd(void* this, void* item)
@@ -692,20 +700,68 @@ void StringClear(void* this)
 	memset(this_string->data.buf, 0, sizeof(this_string->data.buf));
 }
 
+/**********************************************************************************************//**
+ * @fn		bool StringRemove(void* this, void* item)
+ *
+ * @brief	Remove the substring in a string
+ *			
+ * @param	[in] this
+ * 			The string
+ * @param	[in] other
+ * 			The substring
+ * @return	Returns true if the substring was removed, 
+ * 			returns false if the substring couldn't be found or removed
+ **************************************************************************************************/
+
 bool StringRemove(void* this, void* item)
 {
+	
 	return false;
 }
+
+/**********************************************************************************************//**
+ * @fn		bool StringContains(void* this, void* item)
+ *
+ * @brief	Remove the substring in a string
+ *			
+ * @param	[in] this
+ * 			The string
+ * @param	[in] item
+ * 			The substring
+ * @return	Returns true if the substring was is in the string, 
+ * 			returns false if the substring couldn't be found
+ **************************************************************************************************/
 
 bool StringContains(void* this, void* item)
 {
 	return false;
 }
 
+/**********************************************************************************************//**
+ * @fn		bool StringIsEmpty(void* this)
+ *
+ * @brief	Remove the substring in a string
+ *			
+ * @param	[in] this
+ * 			The string
+ * @return	Returns true if the substring is empty, 
+ * 			returns false if the substring is not empty
+ **************************************************************************************************/
+
 bool StringIsEmpty(void* this)
 {
 	return false;
 }
+
+/**********************************************************************************************//**
+ * @fn		int StringSize(void* this)
+ *
+ * @brief	Returns the length of the string
+ *			
+ * @param	[in] this
+ * 			The string
+ * @return	Returns the length of the string
+ **************************************************************************************************/
 
 int StringSize(void* this)
 {
@@ -716,4 +772,68 @@ int StringSize(void* this)
 |	Class member functions
 *===========================================================================*/
 
+/**********************************************************************************************//**
+ * @fn		char* StringC_Str(void* this)
+ *
+ * @brief	Returns a pointer to the raw data of a string
+ *			
+ * @param	[in] this
+ * 			The string
+ * @return	Returns pointer to raw data
+ **************************************************************************************************/
+
+char* StringC_Str(void* this)
+{
+	return NULL;
+}
+
+/**********************************************************************************************//**
+ * @fn		void StringAppend(void* this, char* value);
+ *
+ * @brief	Appends one string with a char pointer
+ *			
+ * @param	[in] this
+ * 			The string
+ * @param	[in] value
+ * 			The pointer to a char array 
+ * 			@return	Nothing
+ * @note	Function appends a char pointer to an array, <b>NOT</b>
+ * 			a string object to another string object. @ref StringAdd
+ **************************************************************************************************/
+
+void StringAppend(void* this, char* value)
+{
+	
+}
+
+/**********************************************************************************************//**
+ * @fn		int StringSize(void* this)
+ *
+ * @brief	Returns the length of the string
+ *			
+ * @param	[in] this
+ * 			The string
+ * @return	Returns the length of the string
+ **************************************************************************************************/
+
+int StringFind(void* this, char* value)
+{
+
+}
+
+
+/**********************************************************************************************//**
+ * @fn		void* StringSubstring(void* this, int start, int end);
+ *
+ * @brief	Returns the length of the string
+ *			
+ * @param	[in] this
+ * 			The string
+ * @return	Returns the length of the string
+ **************************************************************************************************/
+
+void* StringSubstring(void* this, int start, int end)
+{
+	return NULL;
+}
 
