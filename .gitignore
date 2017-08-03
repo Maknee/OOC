@@ -1,3 +1,8 @@
+# VS files
+/Debug
+/Release
+OOC.*
+
 # Prerequisites
 *.d
 
