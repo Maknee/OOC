@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "ooc_cunit_test.h"
+#include "ooc_object_cunit_test.h"
 
 /*
  * Set up and run tests.
@@ -16,17 +16,14 @@ int main()
     }
 
     CU_pSuite suite = 
-        CU_add_suite("Fibonacci Suite", initialise_suite, cleanup_suite);
-    if (NULL == suite) 
+        CU_add_suite("OOC Testing Suite", initialise_suite, cleanup_suite);
+    if (suite != NULL)
     {
         CU_cleanup_registry();
         return CU_get_error();
     }
 
-    if ((NULL == CU_add_test(suite, "test_fibonacci_1", test_fibonacci_1)) ||
-        (NULL == CU_add_test(suite, "test_fibonacci_2", test_fibonacci_2)) ||
-        (NULL == CU_add_test(suite, "test_fibonacci_3", test_fibonacci_3)) ||
-        (NULL == CU_add_test(suite, "test_fibonacci_30", test_fibonacci_30)))
+    if (!CU_add_test(suite, "TestObjectVFTableCompleteObjectLocator", TestObjectVFTableCompleteObjectLocator) || !CU_add_test(suite, "TestObjectVFTableEquals", TestObjectVFTableEquals) || !CU_add_test(suite, "TestObjectVFTableObjectToString", TestObjectVFTableObjectToString))
     {
         CU_cleanup_registry();
         return CU_get_error();

@@ -2,7 +2,7 @@
 
 #include "CUnit/Automated.h"
 #include "CUnit/Basic.h"
-#include "ooc.h"
+#include "object.h"
 
 /*
  * Initialise test suite.
@@ -16,23 +16,13 @@ int initialise_suite(void);
  */
 int cleanup_suite(void);
 
-/* 
- * Test fibonacci(1).
- */
-void test_fibonacci_1(void);
+//object vftable tests
 
-/* 
- * Test fibonacci(2).
- */
-void test_fibonacci_2(void);
+void TestObjectVFTableCompleteObjectLocator();
 
-/* 
- * Test fibonacci(3).
- */
-void test_fibonacci_3(void);
+void TestObjectVFTableEquals();
 
-/* 
- * Test fibonacci(30).
- */
-void test_fibonacci_30(void);
+void TestObjectVFTableObjectToString();
+
+
 

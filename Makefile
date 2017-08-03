@@ -20,7 +20,7 @@ TESTDIR= test
 INC=-I$(SRCDIR) -I$(TESTDIR) -I$(HOME)/include
 
 OBJS=ooc.o
-TESTS=ooc_cunit_test.o
+TESTS=ooc_object_cunit_test.o
 
 ooc: $(OBJS) ooc_program.o
 	$(CC) -o $@ $^ $(INC)
@@ -48,6 +48,8 @@ all : ooc test
 clean :
 	rm -f ooc
 	rm -f ooc-tests
+	rm -f *.gcda
+	rm -f *.gcno
 	rm -f CUnit*.xml
 	rm -f TestResults.xml
 	rm -f *.o
