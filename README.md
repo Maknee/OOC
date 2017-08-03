@@ -14,7 +14,9 @@ Great Travis CI testing C example
 https://github.com/softwaresaved/build_and_test_examples
 
 RTTI
+
 http://www.openrce.org/articles/full_view/23
+
 https://www.blackhat.com/presentations/bh-dc-07/Sabanal_Yason/Paper/bh-dc-07-Sabanal_Yason-WP.pdf
 
 ## To Do

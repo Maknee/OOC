@@ -16,6 +16,7 @@
 * 		   nor do they check if the object or item is matches the 
 * 		   correct object or item. Unfortunately, it is up to 
 * 		   the <b>CODER</b> to ensure that the types are correct. 
+* @see container.c
 * @date	8/1/2017
 */
 
@@ -164,13 +165,13 @@ char* ContainerToString(void* this);
 *===========================================================================*/
 
 /** 
- * @brief   Global static container vftable
+ * @brief   Global extern container vftable
  * @relates ContainerVFTable
  * @note	Cannot make this const since there is a circular reference with RTTI structs
  * @note	objectVFTable will be set in constructor
  */
 
-static ContainerVFTable containerVFTable =
+extern ContainerVFTable containerVFTable =
 {
 	.objectVFTable = NULL_OBJECT_VFTABLE,
 	.add = NULL,
@@ -224,14 +225,14 @@ typedef struct _Container
 *===========================================================================*/
 
 /**
-* @brief	Global static container type descriptor
+* @brief	Global extern container type descriptor
 * 			
 * 			Contains the a pointer to the container vftable
 * 			and the name of "Container" to indicate that this
 * 			is the container class
 */
 
-static TypeDescriptor containerTypeDescriptor =
+extern TypeDescriptor containerTypeDescriptor =
 {
 	.pVFTable = &containerVFTable,
 	.name = "Container"
@@ -254,20 +255,20 @@ static TypeDescriptor containerTypeDescriptor =
 		}                                                   \
 
  /**
- * @brief	Global static container base class descriptor array
+ * @brief	Global extern container base class descriptor array
  *
  * 			Contains the object base descriptor and
  * 			its own base class descriptor (container base descriptor)
  */
 
-static BaseClassDescriptor containerBaseClassArray[] =
+extern BaseClassDescriptor containerBaseClassArray[] =
 {
 	ObjectBaseClassDescriptor,
 	ContainerBaseClassDescriptor
 };
 
 /**
-* @brief	Global static container class hierarchy descriptor
+* @brief	Global extern container class hierarchy descriptor
 *
 * 			Container class hierarchy descriptor is marked as virtual
 * 			since it inherits from the object class.
@@ -276,7 +277,7 @@ static BaseClassDescriptor containerBaseClassArray[] =
 *			@ref containerBaseClassArray
 */
 
-static ClassHierarchyDescriptor containerClassHierarchyDescriptor =
+extern ClassHierarchyDescriptor containerClassHierarchyDescriptor =
 {
 	.attributes = CLASS_HIERARCHY_VIRTUAL_INHERITENCE,
 	.numBaseClasses = 2,
@@ -284,7 +285,7 @@ static ClassHierarchyDescriptor containerClassHierarchyDescriptor =
 };
 
 /**
-* @brief	Global static container complete object locator
+* @brief	Global extern container complete object locator
 *
 * 			Contains the signature to indicate that this struct contains
 * 			RTTI information.
@@ -292,7 +293,7 @@ static ClassHierarchyDescriptor containerClassHierarchyDescriptor =
 * 			pClassHierarchyDescriptor points to the container's class hierarchy descriptor
 */
 
-static CompleteObjectLocator containerCompleteObjectLocator =
+extern CompleteObjectLocator containerCompleteObjectLocator =
 {
 	.signature = 0x48454845,
 	.pTypeDescriptor = &containerTypeDescriptor,

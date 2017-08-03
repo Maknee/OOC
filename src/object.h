@@ -15,6 +15,7 @@
 * 		   nor do they check if the object or item is matches the
 * 		   correct object or item. Unfortunately, it is up to
 * 		   the <b>CODER</b> to ensure that the types are correct.
+* @see object.c
 * @date	8/1/2017
 */
 
@@ -108,18 +109,13 @@ char* ObjectToString(void* this);
 *===========================================================================*/
 
 /**
-* @brief   Global static object vftable
+* @brief   Global extern object vftable
 * @relates ObjectVFTable
 * @note	Cannot make this const since there is a circular reference with RTTI structs
 * @note	objectVFTable will be set in constructor
 */
 
-static ObjectVFTable objectVFTable =
-{
-	.pCompleteObjectLocator = NULL,
-	.equals = &ObjectEquals,
-	.toString = &ObjectToString
-};
+extern ObjectVFTable objectVFTable;
 
 /*============================================================================
 |   Object class definition
@@ -159,18 +155,14 @@ typedef struct _Object
 *===========================================================================*/
 
 /**
-* @brief	Global static object type descriptor
+* @brief	Global extern object type descriptor
 *
 * 			Contains the a pointer to the object vftable
 * 			and the name of "Object" to indicate that this
 * 			is the object class
 */
 
-static TypeDescriptor objectTypeDescriptor =
-{
-	.pVFTable = &objectVFTable,
-	.name = "Object"
-};
+extern TypeDescriptor objectTypeDescriptor;
 
 /**********************************************************************************************//**
  * @def	ObjectBaseClassDescriptor
@@ -187,18 +179,18 @@ static TypeDescriptor objectTypeDescriptor =
 		}                                                   \
 
  /**
- * @brief	Global static object base class descriptor array
+ * @brief	Global extern object base class descriptor array
  *
  * 			Contains the object base descriptor (itself)
  */
 
-static BaseClassDescriptor objectBaseClassArray[] =
+extern BaseClassDescriptor objectBaseClassArray[] =
 {
 	ObjectBaseClassDescriptor
 };
 
 /**
-* @brief	Global static object class hierarchy descriptor
+* @brief	Global extern object class hierarchy descriptor
 *
 * 			Object class hierarchy descriptor is no inheritence since
 * 			the class does not inherit from any other class
@@ -207,7 +199,7 @@ static BaseClassDescriptor objectBaseClassArray[] =
 *			@ref objectBaseClassArray
 */
 
-static ClassHierarchyDescriptor objectClassHierarchyDescriptor =
+extern ClassHierarchyDescriptor objectClassHierarchyDescriptor =
 {
 	.attributes = CLASS_HIERARCHY_NO_INHERITENCE,
 	.numBaseClasses = 1,
@@ -215,7 +207,7 @@ static ClassHierarchyDescriptor objectClassHierarchyDescriptor =
 };
 
 /**
-* @brief	Global static object complete object locator
+* @brief	Global extern object complete object locator
 *
 * 			Contains the signature to indicate that this struct contains
 * 			RTTI information.
@@ -223,7 +215,7 @@ static ClassHierarchyDescriptor objectClassHierarchyDescriptor =
 * 			pClassHierarchyDescriptor points to the object's class hierarchy descriptor
 */
 
-static CompleteObjectLocator objectCompleteObjectLocator =
+extern CompleteObjectLocator objectCompleteObjectLocator =
 {
 	.signature = 0x48454845,
 	.pTypeDescriptor = &objectTypeDescriptor,

@@ -14,6 +14,7 @@
 * 		until the string becomes dynamically allocated. This makes the string
 * 		implementation work well with strings < 16 characters.
 * @warning
+* @see ooc_string.c
 * @date	8/1/2017
 */
 
@@ -181,21 +182,21 @@ void* StringSubstring(void* this, int start, int end);
 |	Helper member definitions
 *===========================================================================*/
 
-static bool CheckIfStringIsAllocated(String* this);
-static void StringStrncat(String* this, String* other);
+extern bool CheckIfStringIsAllocated(String* this);
+extern void StringStrncat(String* this, String* other);
 
 /*============================================================================
 |   Container virtual function table instance
 *===========================================================================*/
 
 /**
-* @brief   Global static string vftable
+* @brief   Global extern string vftable
 * @relates StringVFTable
 * @note	Cannot make this const since there is a circular reference with RTTI structs
 * @note	containerVFTable will be set in constructor
 */
 
-static StringVFTable stringVFTable =
+extern StringVFTable stringVFTable =
 {
 	.containerVFTable = NULL_CONTAINER_VFTABLE,                                      
 	.c_str = NULL,
@@ -287,14 +288,14 @@ typedef struct _String
 *===========================================================================*/
 
 /**
-* @brief	Global static string type descriptor
+* @brief	Global extern string type descriptor
 *
 * 			Contains the a pointer to the string vftable
 * 			and the name of "String" to indicate that this
 * 			is the string class
 */
 
-static TypeDescriptor stringTypeDescriptor =
+extern TypeDescriptor stringTypeDescriptor =
 {
 	.pVFTable = &stringVFTable,
 	.name = "String"
@@ -316,20 +317,20 @@ static TypeDescriptor stringTypeDescriptor =
 		}												\
 
  /**
- * @brief	Global static string base class descriptor array
+ * @brief	Global extern string base class descriptor array
  *
  * 			Contains the container base descriptor and
  * 			its own base class descriptor (string base descriptor)
  */
 
-static BaseClassDescriptor stringBaseClassArray[] =
+extern BaseClassDescriptor stringBaseClassArray[] =
 {
 	ContainerBaseClassDescriptor,
 	StringBaseClassDescriptor
 };
 
 /**
-* @brief	Global static string class hierarchy descriptor
+* @brief	Global extern string class hierarchy descriptor
 *
 * 			String class hierarchy descriptor is marked as virtual
 * 			since it inherits from the container class.
@@ -338,7 +339,7 @@ static BaseClassDescriptor stringBaseClassArray[] =
 *			@ref containerBaseClassArray
 */
 
-static ClassHierarchyDescriptor stringClassHierarchyDescriptor =
+extern ClassHierarchyDescriptor stringClassHierarchyDescriptor =
 {
 	.attributes = CLASS_HIERARCHY_VIRTUAL_INHERITENCE,
 	.numBaseClasses = 1,
@@ -346,7 +347,7 @@ static ClassHierarchyDescriptor stringClassHierarchyDescriptor =
 };
 
 /**
-* @brief	Global static string complete object locator
+* @brief	Global extern string complete object locator
 *
 * 			Contains the signature to indicate that this struct contains
 * 			RTTI information.
@@ -354,7 +355,7 @@ static ClassHierarchyDescriptor stringClassHierarchyDescriptor =
 * 			pClassHierarchyDescriptor points to the string's class hierarchy descriptor
 */
 
-static CompleteObjectLocator stringCompleteObjectLocator =
+extern CompleteObjectLocator stringCompleteObjectLocator =
 {
 	.signature = 0x48454845,
 	.pTypeDescriptor = &stringTypeDescriptor,
@@ -647,9 +648,9 @@ void StringStrncat(String* this, String* other)
  *			Checking the new length
  *			Checking whether or not the current string was dynamically allocated
  *			If so, just call realloc and append
- *			If not, then two cases appear with a string that is statically allocated
- *			If the new length is greater than static limit length, then make the pointer dynamic
- *			If the new length is less, then append to static length
+ *			If not, then two cases appear with a string that is externally allocated
+ *			If the new length is greater than extern limit length, then make the pointer dynamic
+ *			If the new length is less, then append to extern length
  *
  * @param	[in] this 
  * 			The string
