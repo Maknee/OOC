@@ -19,7 +19,7 @@ before_install:
 
 script:
 - make && make test && ./ooc
-- gcov *.o
+- gcov *.o src/*.o test/*.o
 - make xunit-report
 - cat TestResults.xml
 
