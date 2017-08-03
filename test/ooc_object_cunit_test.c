@@ -1,4 +1,3 @@
-
 #include "ooc_object_cunit_test.h"
 
 int initialise_suite(void)

@@ -16,6 +16,7 @@
 * @warning
 * @see ooc_string.c
 * @date	8/1/2017
+* @todo {consider replacing C11's strcat_s}
 */
 
 #pragma once
@@ -143,47 +144,305 @@ typedef struct _StringVFTable
 	char* (*c_str)(void* this);
 	void (*append)(void* this, char* item);
 	int (*find) (void* this, char* item);
-	void* (*substring)(void* this, int start, int end);
+	void* (*substring)(void* this, size_t start, size_t end);
 } StringVFTable;
 
 /*============================================================================
 |	Special class member function definitions
 *===========================================================================*/
 
+/*============================================================================
+|	New Operator
+*===========================================================================*/
+
+/**********************************************************************************************//**
+ * @fn	void* NewString()
+ * @brief	String's new operator
+ * 			
+ *			Returns an allocated new string
+ * 			
+ * @return	An allocated string object
+ **************************************************************************************************/
+
 void* NewString();
+
+/*============================================================================
+|	Delete Operator
+*===========================================================================*/
+
+/**********************************************************************************************//**
+ * @fn	void DeleteString(void* this)
+ * @brief	String's delete operator
+ * 			
+ *			Deletes the allocated string
+ *
+ * @param	[in] this
+ * 			String object to be deleted
+ * 			
+ * @return	Nothing
+ * @warning If NULL is passed, an attempt to free NULL will be made
+ **************************************************************************************************/
+
 void DeleteString(void* this);
+
+/*============================================================================
+|	Constructor
+*===========================================================================*/
+
+/**********************************************************************************************//**
+ * @fn	void StringConstruct(void* this)
+ * @brief	String's constructor
+ * 			
+ *			Setups the vftable by completing the RTTI dependency
+ *			and memcpys the table into the object's vftable
+ *
+ * @param	[in] this
+ * 			Object to be initialized
+ * 			
+ * @return	Nothing
+ * @todo	{Find a way to not use memcpy for setting up the vftable...}
+ **************************************************************************************************/
+
 void StringConstruct(void* this);
+
+/*============================================================================
+|	Copy Constructor
+*===========================================================================*/
+
+/**********************************************************************************************//**
+ * @fn	void* StringCopyConstruct(void* this)
+ * @brief	String's copy constructor
+ * 			
+ *			Returns a copy of the string
+ *
+ * @param	[in] this
+ * 			String to be used for copying
+ * 			
+ * @return	The copied string
+ * @note	Derived classes may implement a copy constructor, 
+ * 			but it is not necessary
+ * @note    This is a <b>DEEP</b> copy, which will dynamically allocate memory
+ * 			for the pBuf if the current string has dynamically allocated memory
+ * @note	Does not memcpy the vtable (just points to the same vtable as the current string)
+ **************************************************************************************************/
+
 void* StringCopyConstruct(void* this);
+
+/*============================================================================
+|	Destructor
+*===========================================================================*/
+
+/**********************************************************************************************//**
+ * @fn	void StringDestruct(void* this)
+ * @brief	String's destructor
+ * 			
+ *			Calls the super destructors and properly manages 
+ *			the deletion of the string's allocated resources
+ *
+ * @param	[in] this
+ * 			String that should be freed of its used resources
+ * 			
+ * @return	Nothing
+ **************************************************************************************************/
+
 void StringDestruct(void* this);
 
 /*============================================================================
 |	Overridden member function definitions
 *===========================================================================*/
 
+/**********************************************************************************************//**
+ * @fn		bool StringEquals(void* this, void* other);
+ *
+ * @brief	Checks if the type of the string is equal to another object
+ *
+ * @param	[in] this 
+ * 			The string object
+ * @param	[in] other
+ * 			The other object
+ *
+ * @return	True if it succeeds, false if it fails.
+ **************************************************************************************************/
+
 bool StringEquals(void* this, void* other);
+
+/**********************************************************************************************//**
+ * @fn		bool StringToString(void* this);
+ *
+ * @brief	Gives the object's type name.
+ * 			Is used for casts.
+ * 			Can be useful for debugging.
+ *
+ * @param	[in] this 
+ * 			The object
+ *
+ * @return	Returns a pointer to the object's name
+ **************************************************************************************************/
+
 char* StringToString(void* this);
+
+/**********************************************************************************************//**
+ * @fn		bool StringAdd(void* this, void* item)
+ *
+ * @brief	Concatenates the two strings
+ * 			
+ *			The strings are concatenated by:
+ *			Checking the new length
+ *			Checking whether or not the current string was dynamically allocated
+ *			If so, just call realloc and append
+ *			If not, then two cases appear with a string that is externally allocated
+ *			If the new length is greater than extern limit length, then make the pointer dynamic
+ *			If the new length is less, then append to extern length
+ *
+ * @param	[in] this 
+ * 			The string
+ * @param	[in] other
+ * 			The other string
+ * @return	Returns true if the string was added correctly, 
+ * 			returns false if the string was not added correctly
+ * @note	Function only appends an object string to another object string,
+ * 			<b>NOT</b> a string object to a char pointer. @ref StringAppend
+ * @todo	{find a case when the function should fail}
+ * @todo	{figure out a way to merge this function and StringAppend}
+ **************************************************************************************************/
+
 bool StringAdd(void* this, void* item);
+
+/**********************************************************************************************//**
+ * @fn		void StringClear(String* this)
+ *
+ * @brief	Clears the contents of the string
+ * 			
+ *			Sets the length to 0, 
+ *			sets the capacity to @ref DEFAULT_STRING_LENGTH,
+ *			and zeros out the data
+ *			
+ * @param	[in] this 
+ * 			The string
+ * @return	Nothing
+ **************************************************************************************************/
+
 void StringClear(void* this);
+
+/**********************************************************************************************//**
+ * @fn		bool StringRemove(void* this, void* item)
+ *
+ * @brief	Remove the substring in a string
+ *			
+ *			
+ *			
+ * @param	[in] this
+ * 			The string
+ * @param	[in] other
+ * 			The substring
+ * @return	Returns true if the substring was removed, 
+ * 			returns false if the substring couldn't be found or removed
+ * @note	Function will not resize the capacity. 
+ * 			The overhead of free is most likely not worth resizing the capacity
+ **************************************************************************************************/
+
 bool StringRemove(void* this, void* item);
+
+/**********************************************************************************************//**
+ * @fn		bool StringContains(void* this, void* item)
+ *
+ * @brief	Remove the substring in a string
+ *			
+ * @param	[in] this
+ * 			The string
+ * @param	[in] item
+ * 			The substring
+ * @return	Returns true if the substring was is in the string, 
+ * 			returns false if the substring couldn't be found
+ **************************************************************************************************/
+
 bool StringContains(void* this, void* item);
+
+/**********************************************************************************************//**
+ * @fn		bool StringIsEmpty(void* this)
+ *
+ * @brief	Checks if the string is empty
+ *			
+ * @param	[in] this
+ * 			The string
+ * @return	Returns true if the substring is empty, 
+ * 			returns false if the substring is not empty
+ **************************************************************************************************/
+
 bool StringIsEmpty(void* this);
+
+/**********************************************************************************************//**
+ * @fn		int StringSize(void* this)
+ *
+ * @brief	Returns the length of the string
+ *			
+ * @param	[in] this
+ * 			The string
+ * @return	Returns the length of the string
+ **************************************************************************************************/
+
 size_t StringSize(void* this);
 
 /*============================================================================
 |	Class member definitions
 *===========================================================================*/
 
+/**********************************************************************************************//**
+ * @fn		char* StringC_Str(void* this)
+ *
+ * @brief	Returns a pointer to the raw data of a string
+ *			
+ * @param	[in] this
+ * 			The string
+ * @return	Returns pointer to raw data
+ **************************************************************************************************/
+
 char* StringC_Str(void* this);
+
+/**********************************************************************************************//**
+ * @fn		bool StringAppend(void* this, char* item);
+ *
+ * @brief	Appends one string with a char pointer
+ *			
+ * @param	[in] this
+ * 			The string
+ * @param	[in] item
+ * 			The pointer to a char array 
+ * @return	Returns true if the char array was added correctly, 
+ * 			returns false if the char array was not added correctly
+ * @note	Function appends a char pointer to an array, <b>NOT</b>
+ * 			a string object to another string object. @ref StringAdd
+ * @todo	{find a way for this function to return false}
+ **************************************************************************************************/
+
 bool StringAppend(void* this, char* item);
+
+/**********************************************************************************************//**
+ * @fn		int StringFind(void* this, void* item)
+ *
+ * @brief	Returns the index of the first occurence of the substring
+ *			
+ * @param	[in] this
+ * 			The string
+ * @param	[in] item
+ * 			The substring to be found
+ * @return	Returns the index
+ **************************************************************************************************/
+
 int StringFind(void* this, void* item);
-void* StringSubstring(void* this, int start, int end);
 
-/*============================================================================
-|	Helper member definitions
-*===========================================================================*/
+/**********************************************************************************************//**
+ * @fn		void* StringSubstring(void* this, size_t start, size_t end);
+ *
+ * @brief	Finds the substrings of of the string if possible
+ *			
+ * @param	[in] this
+ * 			The string
+ * @return	Returns a new allocated substring
+ * @warning	Returns NULL if substring could not be found
+ **************************************************************************************************/
 
-extern bool CheckIfStringIsAllocated(String* this);
-extern void StringStrncat(String* this, String* other);
+void* StringSubstring(void* this, size_t start, size_t end);
 
 /*============================================================================
 |   Container virtual function table instance
@@ -196,21 +455,11 @@ extern void StringStrncat(String* this, String* other);
 * @note	containerVFTable will be set in constructor
 */
 
-extern StringVFTable stringVFTable =
-{
-	.containerVFTable = NULL_CONTAINER_VFTABLE,                                      
-	.c_str = NULL,
-	.append = NULL,
-	.find = NULL,
-	.substring = NULL
-};
+extern StringVFTable stringVFTable;
 
 /*============================================================================
 |   Container class definition
 *===========================================================================*/
-
-//https://stackoverflow.com/questions/10315041/meaning-of-acronym-sso-in-the-context-of-stdstring
-//SSO implementation
 
 /**********************************************************************************************//**
  * @struct	_String
@@ -295,11 +544,7 @@ typedef struct _String
 * 			is the string class
 */
 
-extern TypeDescriptor stringTypeDescriptor =
-{
-	.pVFTable = &stringVFTable,
-	.name = "String"
-};
+extern TypeDescriptor stringTypeDescriptor;
 
 /**********************************************************************************************//**
  * @def	StringBaseClassDescriptor
@@ -323,11 +568,7 @@ extern TypeDescriptor stringTypeDescriptor =
  * 			its own base class descriptor (string base descriptor)
  */
 
-extern BaseClassDescriptor stringBaseClassArray[] =
-{
-	ContainerBaseClassDescriptor,
-	StringBaseClassDescriptor
-};
+extern BaseClassDescriptor stringBaseClassArray[];
 
 /**
 * @brief	Global extern string class hierarchy descriptor
@@ -339,12 +580,7 @@ extern BaseClassDescriptor stringBaseClassArray[] =
 *			@ref containerBaseClassArray
 */
 
-extern ClassHierarchyDescriptor stringClassHierarchyDescriptor =
-{
-	.attributes = CLASS_HIERARCHY_VIRTUAL_INHERITENCE,
-	.numBaseClasses = 1,
-	.pBaseClassArray = stringBaseClassArray
-};
+extern ClassHierarchyDescriptor stringClassHierarchyDescriptor;
 
 /**
 * @brief	Global extern string complete object locator
@@ -355,697 +591,13 @@ extern ClassHierarchyDescriptor stringClassHierarchyDescriptor =
 * 			pClassHierarchyDescriptor points to the string's class hierarchy descriptor
 */
 
-extern CompleteObjectLocator stringCompleteObjectLocator =
-{
-	.signature = 0x48454845,
-	.pTypeDescriptor = &stringTypeDescriptor,
-	.pClassHierarchyDescriptor = &stringClassHierarchyDescriptor
-};
-
-/*============================================================================
-|	New Operator
-*===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn	void* NewString()
- * @brief	String's new operator
- * 			
- *			Returns an allocated new string
- * 			
- * @return	An allocated string object
- **************************************************************************************************/
-
-void* NewString()
-{
-	//allocate a new string
-	void* string = calloc(1, sizeof(String));
-
-	//call constructor to set up string
-	StringConstruct(string);
-	return string;
-}
-
-/*============================================================================
-|	Delete Operator
-*===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn	void DeleteString(void* this)
- * @brief	String's delete operator
- * 			
- *			Deletes the allocated string
- *
- * @param	[in] this
- * 			String object to be deleted
- * 			
- * @return	Nothing
- * @warning If NULL is passed, an attempt to free NULL will be made
- **************************************************************************************************/
-
-void DeleteString(void* this)
-{
-	//call destructor
-	StringDestruct(this);
-
-	//free the string's resources
-	free(this);
-
-	//NULL the pointer, so we don't have use after free vulns
-	this = NULL;
-}
-
-/*============================================================================
-|	Constructor
-*===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn	void StringConstruct(void* this)
- * @brief	String's constructor
- * 			
- *			Setups the vftable by completing the RTTI dependency
- *			and memcpys the table into the object's vftable
- *
- * @param	[in] this
- * 			Object to be initialized
- * 			
- * @return	Nothing
- * @todo	{Find a way to not use memcpy for setting up the vftable...}
- **************************************************************************************************/
-
-void StringConstruct(void* this)
-{
-	//call super class's constructor (ObjectConstruct)
-	ContainerConstruct(this);
-
-	//Override Object's methods
-	//=========================
-
-	//Set the vtable's complete object locator to complete the RTTI circle
-	stringVFTable.containerVFTable.objectVFTable.pCompleteObjectLocator = &stringCompleteObjectLocator;
-
-	//Set the equals function
-	stringVFTable.containerVFTable.objectVFTable.equals = &StringEquals;
-
-	//Set the toString
-	stringVFTable.containerVFTable.objectVFTable.toString = &StringToString;
-
-	//Override Container's methods
-	//==========================
-
-	stringVFTable.containerVFTable.clear = &StringClear;
-	stringVFTable.containerVFTable.remove = &StringRemove;
-	stringVFTable.containerVFTable.contains = &StringContains;
-	stringVFTable.containerVFTable.isEmpty = &StringIsEmpty;
-	stringVFTable.containerVFTable.size = &StringSize;
-
-	//Initialize the vtable to a copy of this object's vtable
-	memcpy(((String*)this)->container.object.pVFTable, &stringVFTable, sizeof(StringVFTable));
-
-	//Initialize member variables
-
-	//capacity excludes Null terminator
-	((String*)this)->capacity = DEFAULT_STRING_LENGTH - 1;
-	((String*)this)->length = 0;
-
-	//Null out buffer
-	memset(((String*)this)->data.buf, 0, sizeof(((String*)this)->data.buf));
-}
-
-/*============================================================================
-|	Copy Constructor
-*===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn	void* StringCopyConstruct(void* this)
- * @brief	String's copy constructor
- * 			
- *			Returns a copy of the string
- *
- * @param	[in] this
- * 			String to be used for copying
- * 			
- * @return	The copied string
- * @note	Derived classes may implement a copy constructor, 
- * 			but it is not necessary
- * @note    This is a <b>DEEP</b> copy, which will dynamically allocate memory
- * 			for the pBuf if the current string has dynamically allocated memory
- * @note	Does not memcpy the vtable (just points to the same vtable as the current string)
- **************************************************************************************************/
-
-void* StringCopyConstruct(void* this)
-{
-	//allocate a new string
-	void* copy_string = calloc(1, sizeof(String));
-
-	//copy the contents of the string to the copied string
-	memcpy(copy_string, this, sizeof(String));
-
-	//check if the string was dynamically allocated
-	if (CheckIfStringIsAllocated(this))
-	{
-		//copy the contents of the data into another area of the heap
-		((String*)copy_string)->data.pBuf = calloc(1, ((String*)this)->capacity);
-		memcpy(((String*)copy_string)->data.pBuf, ((String*)this)->data.pBuf, ((String*)this)->length);
-	}
-	//no need to consider the other case because we memcpy'd the entire struct above!
-	
-	return copy_string;
-}
-
-/*============================================================================
-|	Destructor
-*===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn	void StringDestruct(void* this)
- * @brief	String's destructor
- * 			
- *			Calls the super destructors and properly manages 
- *			the deletion of the string's allocated resources
- *
- * @param	[in] this
- * 			String that should be freed of its used resources
- * 			
- * @return	Nothing
- **************************************************************************************************/
-
-void StringDestruct(void* this)
-{
-	ContainerDestruct(this);
-	
-	//free dynamically allocated memory only if the size of the string
-	//is greater than the default string length (size of char array buffer)
-	if (((String*)this)->capacity >= DEFAULT_STRING_LENGTH)
-	{
-		free(((String*)this)->data.pBuf);
-	}
-}
+extern CompleteObjectLocator stringCompleteObjectLocator;
 
 /*============================================================================
 |	Overridden member functions
 *===========================================================================*/
 
-/**********************************************************************************************//**
- * @fn		bool StringEquals(void* this, void* other);
- *
- * @brief	Checks if the type of the string is equal to another object
- *
- * @param	[in] this 
- * 			The string object
- * @param	[in] other
- * 			The other object
- *
- * @return	True if it succeeds, false if it fails.
- **************************************************************************************************/
-
-bool StringEquals(void* this, void* other)
-{
-	return (!strcmp(StringToString(this), StringToString(other))) ? true : false;
-}
-
-/**********************************************************************************************//**
- * @fn		bool StringToString(void* this);
- *
- * @brief	Gives the object's type name.
- * 			Is used for casts.
- * 			Can be useful for debugging.
- *
- * @param	[in] this 
- * 			The object
- *
- * @return	Returns a pointer to the object's name
- **************************************************************************************************/
-
-char* StringToString(void* this)
-{
-	return ContainerToString(this);
-}
-
-/**********************************************************************************************//**
- * @fn		bool CheckIfStringIsAllocated(String* this);
- *
- * @brief	Checks if a string has been dynamically allocated or
- * 			is allocated in the struct
- *
- * @param	[in] this 
- * 			The string
- *
- * @return	Returns true if the string is allocated, returns false if the string isn't allocated
- * @note	Helper function @see StringAdd
- **************************************************************************************************/
-
-bool CheckIfStringIsAllocated(String* this)
-{
-	return this->capacity >= DEFAULT_STRING_LENGTH;
-}
-
-/**********************************************************************************************//**
- * @fn		void StringStrncat(String* this, String* other)
- *
- * @brief	Checks if this and other string is allocated and 
- * 			concatenates the two strings correctly 
- *
- * @param	[in] this 
- * 			The string
- * @param	[in] other
- * 			The other string
- * @return	Nothing
- * @note	Helper function @see StringAdd
- **************************************************************************************************/
-
-void StringStrncat(String* this, String* other)
-{
-	if (CheckIfStringIsAllocated(this))
-	{
-		if (CheckIfStringIsAllocated(other))
-		{
-			strncat(this->data.pBuf, other->data.pBuf, other->length);
-		}
-		else
-		{
-			strncat(this->data.pBuf, other->data.buf, other->length);
-		}
-	}
-	else
-	{
-		if (CheckIfStringIsAllocated(other))
-		{
-			strncat(this->data.buf, other->data.pBuf, other->length);
-		}
-		else
-		{
-			strncat(this->data.buf, other->data.buf, other->length);
-		}
-	}
-}
-
-/**********************************************************************************************//**
- * @fn		void StringStrncat(String* this, String* other)
- *
- * @brief	Concatenates the two strings
- * 			
- *			The strings are concatenated by:
- *			Checking the new length
- *			Checking whether or not the current string was dynamically allocated
- *			If so, just call realloc and append
- *			If not, then two cases appear with a string that is externally allocated
- *			If the new length is greater than extern limit length, then make the pointer dynamic
- *			If the new length is less, then append to extern length
- *
- * @param	[in] this 
- * 			The string
- * @param	[in] other
- * 			The other string
- * @return	Returns true if the string was added correctly, 
- * 			returns false if the string was not added correctly
- * @note	Function only appends an object string to another object string,
- * 			<b>NOT</b> a string object to a char pointer. @ref StringAppend
- * @todo	{find a case when the function should fail}
- * @todo	{figure out a way to merge this function and StringAppend}
- **************************************************************************************************/
-
-bool StringAdd(void* this, void* item)
-{
-	String* this_string = (String*)this;
-	String* other_string = (String*)item;
-
-	//check if the new string can be appended
-	size_t new_length = this_string->length + other_string->length;
-	if (this_string->capacity < new_length)
-	{
-		//check whether or not the string is using an array or a dynamic pointer
-		if(CheckIfStringIsAllocated(this))
-		{
-			//this string is dynamically allocated, so realloc with twice the length
-			this_string->data.pBuf = realloc(this_string->data.pBuf, new_length * 2);
-
-			//copy the other string's data
-			StringStrncat(this_string, other_string);
-		}
-		else
-		{
-			//this string might need to dynamically allocated. 
-			if (new_length >= DEFAULT_STRING_LENGTH)
-			{
-				//this string should be dynamically allocated now
-				this_string->capacity = new_length * 2;
-				
-				//allocate dynamically allocated string
-				char* tmp = calloc(1, this_string->capacity);
-				
-				//copy this string's data
-				memcpy(tmp, this_string->data.pBuf, this_string->length);
-				
-				//copy the other string's data
-				StringStrncat(this_string, other_string);
-			}
-			else
-			{
-				//copy the other string's data
-				StringStrncat(this_string, other_string);
-
-				//keep the capacity at the limit
-				this_string->capacity = DEFAULT_STRING_LENGTH;
-			}
-		}
-
-		//update the length
-		this_string->length = new_length;
-	}
-	return true;
-}
-
-/**********************************************************************************************//**
- * @fn		void StringClear(String* this)
- *
- * @brief	Clears the contents of the string
- * 			
- *			Sets the length to 0, 
- *			sets the capacity to @ref DEFAULT_STRING_LENGTH,
- *			and zeros out the data
- *			
- * @param	[in] this 
- * 			The string
- * @return	Nothing
- **************************************************************************************************/
-
-void StringClear(void* this)
-{
-	String* this_string = (String*)this;
-
-	//update the length and capacity
-	this_string->length = 0;
-	this_string->capacity = DEFAULT_STRING_LENGTH;
-
-	//check if the string was dynamically allocated
-	if (CheckIfStringIsAllocated(this))
-	{
-		//deallocate the dynamically allocated data
-		free(this_string->data.pBuf);
-	}
-
-	//clear the data out
-	memset(this_string->data.buf, 0, sizeof(this_string->data.buf));
-}
-
-/**********************************************************************************************//**
- * @fn		bool StringRemove(void* this, void* item)
- *
- * @brief	Remove the substring in a string
- *			
- *			
- *			
- * @param	[in] this
- * 			The string
- * @param	[in] other
- * 			The substring
- * @return	Returns true if the substring was removed, 
- * 			returns false if the substring couldn't be found or removed
- * @note	Function will not resize the capacity. 
- * 			The overhead of free is most likely not worth resizing the capacity
- **************************************************************************************************/
-
-bool StringRemove(void* this, void* item)
-{
-	String* this_string = (String*)this;
-	String* other_string = (String*)item;
-
-	//find the substring's index in the current string
-	size_t start = StringFind(this_string, other_string);
-
-	//check if the substring exists
-	if (start != NPOS)
-	{
-		//update the length
-		size_t new_length = this_string->length - other_string->length;
-
-		//check whether or not the string is using an array or a dynamic pointer
-		if (CheckIfStringIsAllocated(this_string))
-		{
-			//fill the data after the substring into the data of the substring
-			memmove(this_string->data.pBuf + start,
-				this_string->data.pBuf + start + new_length + 1, this_string->length - start - new_length);
-		}
-		else
-		{
-			//fill the data after the substring into the data of the substring
-			memmove(this_string->data.buf + start,
-				this_string->data.buf + start + new_length + 1, this_string->length - start - new_length);
-		}
-
-		//update the length
-		this_string->length = new_length;
-		return true;
-	}
-	return false;
-}
-
-/**********************************************************************************************//**
- * @fn		bool StringContains(void* this, void* item)
- *
- * @brief	Remove the substring in a string
- *			
- * @param	[in] this
- * 			The string
- * @param	[in] item
- * 			The substring
- * @return	Returns true if the substring was is in the string, 
- * 			returns false if the substring couldn't be found
- **************************************************************************************************/
-
-bool StringContains(void* this, void* item)
-{
-	return StringFind(this, item);
-}
-
-/**********************************************************************************************//**
- * @fn		bool StringIsEmpty(void* this)
- *
- * @brief	Checks if the string is empty
- *			
- * @param	[in] this
- * 			The string
- * @return	Returns true if the substring is empty, 
- * 			returns false if the substring is not empty
- **************************************************************************************************/
-
-bool StringIsEmpty(void* this)
-{
-	return ((String*)this)->length == 0;
-}
-
-/**********************************************************************************************//**
- * @fn		int StringSize(void* this)
- *
- * @brief	Returns the length of the string
- *			
- * @param	[in] this
- * 			The string
- * @return	Returns the length of the string
- **************************************************************************************************/
-
-size_t StringSize(void* this)
-{
-	return ((String*)this)->length;
-}
-
 /*============================================================================
 |	Class member functions
 *===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn		char* StringC_Str(void* this)
- *
- * @brief	Returns a pointer to the raw data of a string
- *			
- * @param	[in] this
- * 			The string
- * @return	Returns pointer to raw data
- **************************************************************************************************/
-
-char* StringC_Str(void* this)
-{
-	String* this_string = (String*)this;
-	if (CheckIfStringIsAllocated(this))
-	{
-		return this_string->data.pBuf;
-	}
-	else
-	{
-		return this_string->data.buf;
-	}
-}
-
-/**********************************************************************************************//**
- * @fn		bool StringAppend(void* this, char* item);
- *
- * @brief	Appends one string with a char pointer
- *			
- * @param	[in] this
- * 			The string
- * @param	[in] item
- * 			The pointer to a char array 
- * @return	Returns true if the char array was added correctly, 
- * 			returns false if the char array was not added correctly
- * @note	Function appends a char pointer to an array, <b>NOT</b>
- * 			a string object to another string object. @ref StringAdd
- * @todo	{find a way for this function to return false}
- **************************************************************************************************/
-
-bool StringAppend(void* this, char* item)
-{
-	String* this_string = (String*)this;
-	size_t other_string_length = strlen(item);
-	//check if the new string can be appended
-	size_t new_length = this_string->length + other_string_length;
-	if (this_string->capacity < new_length)
-	{
-		//check whether or not the string is using an array or a dynamic pointer
-		if (CheckIfStringIsAllocated(this))
-		{
-			//this string is dynamically allocated, so realloc with twice the length
-			this_string->data.pBuf = realloc(this_string->data.pBuf, new_length * 2);
-
-			//copy the other string's data
-			strncat(this_string->data.pBuf, item, strlen(item));
-		}
-		else
-		{
-			//this string might need to dynamically allocated. 
-			if (new_length >= DEFAULT_STRING_LENGTH)
-			{
-				//this string should be dynamically allocated now
-				this_string->capacity = new_length * 2;
-
-				//allocate dynamically allocated string
-				char* tmp = calloc(1, this_string->capacity);
-
-				//copy this string's data
-				memcpy(tmp, this_string->data.pBuf, this_string->length);
-
-				//copy the other string's data
-				strncat(this_string->data.pBuf, item, strlen(item));
-			}
-			else
-			{
-				//copy the other string's data
-				strncat(this_string->data.buf, item, strlen(item));
-
-				//keep the capacity at the limit
-				this_string->capacity = DEFAULT_STRING_LENGTH;
-			}
-		}
-
-		//update the length
-		this_string->length = new_length;
-	}
-	return true;
-}
-
-/**********************************************************************************************//**
- * @fn		int StringFind(void* this, void* item)
- *
- * @brief	Returns the index of the first occurence of the substring
- *			
- * @param	[in] this
- * 			The string
- * @param	[in] item
- * 			The substring to be found
- * @return	Returns the index
- **************************************************************************************************/
-
-int StringFind(void* this, void* item)
-{
-	//hey c has a function called strstr :)
-	String* this_string = (String*)this;
-	String* substring = (String*)item;
-
-	// pointer to the first element of the substring in the string
-	// if the substring was found
-	char* pFound = NULL;
-
-	if (CheckIfStringIsAllocated(this))
-	{
-		if (CheckIfStringIsAllocated(item))
-		{
-			pFound = strstr(this_string->data.pBuf, substring->data.pBuf);
-		}
-		else
-		{
-			pFound = strstr(this_string->data.pBuf, substring->data.buf);
-		}
-	}
-	else
-	{
-		if (CheckIfStringIsAllocated(item))
-		{
-			pFound = strstr(this_string->data.buf, substring->data.pBuf);
-		}
-		else
-		{
-			pFound = strstr(this_string->data.buf, substring->data.buf);
-		}
-	}
-
-	//if the substring wasn't found, return NPOS
-	if (pFound == NULL)
-	{
-		return NPOS;
-	}
-
-	//calculate the index
-	if(CheckIfStringIsAllocated(this))
-	{
-		return pFound - this_string->data.pBuf;
-	}
-	else
-	{
-		return pFound - this_string->data.buf;
-	}
-}
-
-
-/**********************************************************************************************//**
- * @fn		void* StringSubstring(void* this, int start, int end);
- *
- * @brief	Finds the substrings of of the string if possible
- *			
- * @param	[in] this
- * 			The string
- * @return	Returns a new allocated substring
- * @warning	Returns NULL if substring could not be found
- **************************************************************************************************/
-
-void* StringSubstring(void* this, int start, int end)
-{
-	//check if user made mistakes...
-	if (start > end || start < 0 || end < 0)
-	{
-		return NULL;
-	}
-
-	String* this_string = (String*)this;
-	
-	//check if indices are in bounds
-	if (start > this_string->length || end > this_string->length)
-	{
-		return NULL;
-	}
-
-	//allocate a copy string using the copy constructor
-	String* copy_string = StringCopyConstruct(this);
-	
-	//update the length of copy_string
-	copy_string->length = end - start + 1;
-
-	if (CheckIfStringIsAllocated(copy_string))
-	{
-		//use memmove to copy the data over because overlapping regions
-		memmove(copy_string->data.pBuf, copy_string->data.pBuf + start, copy_string->length);
-
-		//now zero out the rest
-		memset(copy_string->data.pBuf + copy_string->length, 0, end - copy_string->length);
-	}
-	return copy_string;
-}
 

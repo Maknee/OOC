@@ -85,10 +85,104 @@ typedef struct _ObjectVFTable
 |	Special class member function definitions
 *===========================================================================*/
 
+/*============================================================================
+|	New Operator
+*===========================================================================*/
+
+/**********************************************************************************************//**
+ * @fn	void* NewObject()
+ * @brief	Object's new operator
+ * 			
+ *			Returns an allocated new object
+ * 			
+ * @return	An allocated object
+ * @warning	Object is an abstract class, so
+ * 			<b>DO NOT CALL THIS FUNCTION</b>
+ **************************************************************************************************/
+
 void* NewObject();
+
+/*============================================================================
+|	Delete Operator
+*===========================================================================*/
+
+/**********************************************************************************************//**
+ * @fn	void DeleteObject(void* this)
+ * @brief	Object's delete operator
+ * 			
+ *			Deletes the allocated object
+ *
+ * @param	[in] this
+ * 			Object to be deleted
+ * 			
+ * @return	Nothing
+ * @warning	Object is an abstract class, so
+ * 			<b>DO NOT CALL THIS FUNCTION</b>
+ **************************************************************************************************/
+
 void DeleteObject(void* this);
+
+/*============================================================================
+|	Constructor
+*===========================================================================*/
+
+/**********************************************************************************************//**
+ * @fn	void ObjectConstruct(void* this)
+ * @brief	Object's constructor
+ * 			
+ *			Setups the vftable by completing the RTTI dependency
+ *			and memcpys the table into the object's vftable
+ *
+ * @param	[in] this
+ * 			Object to be initialized
+ * 			
+ * @return	Nothing
+ * @todo	{Find a way to not use memcpy for setting up the vftable...}
+ **************************************************************************************************/
+
 void ObjectConstruct(void* this);
+
+/*============================================================================
+|	Copy Constructor
+*===========================================================================*/
+
+/**********************************************************************************************//**
+ * @fn	void* ObjectCopyConstruct(void* this)
+ * @brief	Object's copy constructor
+ * 			
+ *			Returns a copy of the object
+ *
+ * @param	[in] this
+ * 			Object to be used for copying
+ * 			
+ * @return	The copied object
+ * @note	Derived classes may implement a copy constructor, 
+ * 			but it is not necessary
+ * @warning	Object is an abstract class, so
+ * 			<b>DO NOT CALL THIS FUNCTION</b>
+ **************************************************************************************************/
+
 void* ObjectCopyConstruct(void* this);
+
+/*============================================================================
+|	Destructor
+*===========================================================================*/
+
+/**********************************************************************************************//**
+ * @fn	void ObjectDestruct(void* this)
+ * @brief	Object's destructor
+ * 			
+ *			Calls the super destructors and properly manages 
+ *			the deletion of the object's allocated resources
+ *
+ * @param	[in] this
+ * 			Object that should be freed of its used resources
+ * 			
+ * @return	Nothing
+ * @warning	Object is an abstract class, so
+ * 			nothing is actually executed
+ **************************************************************************************************/
+
 void ObjectDestruct(void* this);
 
 /*============================================================================
@@ -101,7 +195,34 @@ void ObjectDestruct(void* this);
 |	due to the fact there's nothing overwriting the vtable's values
 *===========================================================================*/
 
+/**********************************************************************************************//**
+ * @fn		bool ObjectEquals(void* this, void* other);
+ *
+ * @brief	Checks if the type of the object is equal to another object
+ *
+ * @param	[in] this 
+ * 			The object
+ * @param	[in] other
+ * 			The other object
+ *
+ * @return	True if it succeeds, false if it fails.
+ **************************************************************************************************/
+
 bool ObjectEquals(void* this, void* other);
+
+/**********************************************************************************************//**
+ * @fn		bool ObjectToString(void* this);
+ *
+ * @brief	Gives the object's type name.
+ * 			Is used for casts.
+ * 			Can be useful for debugging.
+ *
+ * @param	[in] this 
+ * 			The object
+ *
+ * @return	Returns a pointer to the object's name
+ **************************************************************************************************/
+
 char* ObjectToString(void* this);
 
 /*============================================================================
@@ -184,10 +305,7 @@ extern TypeDescriptor objectTypeDescriptor;
  * 			Contains the object base descriptor (itself)
  */
 
-extern BaseClassDescriptor objectBaseClassArray[] =
-{
-	ObjectBaseClassDescriptor
-};
+extern BaseClassDescriptor objectBaseClassArray[];
 
 /**
 * @brief	Global extern object class hierarchy descriptor
@@ -199,13 +317,7 @@ extern BaseClassDescriptor objectBaseClassArray[] =
 *			@ref objectBaseClassArray
 */
 
-extern ClassHierarchyDescriptor objectClassHierarchyDescriptor =
-{
-	.attributes = CLASS_HIERARCHY_NO_INHERITENCE,
-	.numBaseClasses = 1,
-	.pBaseClassArray = objectBaseClassArray
-};
-
+extern ClassHierarchyDescriptor objectClassHierarchyDescriptor;
 /**
 * @brief	Global extern object complete object locator
 *
@@ -215,139 +327,7 @@ extern ClassHierarchyDescriptor objectClassHierarchyDescriptor =
 * 			pClassHierarchyDescriptor points to the object's class hierarchy descriptor
 */
 
-extern CompleteObjectLocator objectCompleteObjectLocator =
-{
-	.signature = 0x48454845,
-	.pTypeDescriptor = &objectTypeDescriptor,
-	.pClassHierarchyDescriptor = &objectClassHierarchyDescriptor
-};
-
-/*============================================================================
-|	New Operator
-*===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn	void* NewObject()
- * @brief	Object's new operator
- * 			
- *			Returns an allocated new object
- * 			
- * @return	An allocated object
- * @warning	Object is an abstract class, so
- * 			<b>DO NOT CALL THIS FUNCTION</b>
- **************************************************************************************************/
-
-void* NewObject()
-{
-	return NULL;
-}
-
-/*============================================================================
-|	Delete Operator
-*===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn	void DeleteObject(void* this)
- * @brief	Object's delete operator
- * 			
- *			Deletes the allocated object
- *
- * @param	[in] this
- * 			Object to be deleted
- * 			
- * @return	Nothing
- * @warning	Object is an abstract class, so
- * 			<b>DO NOT CALL THIS FUNCTION</b>
- **************************************************************************************************/
-
-void DeleteObject(void* this)
-{
-
-}
-
-/*============================================================================
-|	Constructor
-*===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn	void ObjectConstruct(void* this)
- * @brief	Object's constructor
- * 			
- *			Setups the vftable by completing the RTTI dependency
- *			and memcpys the table into the object's vftable
- *
- * @param	[in] this
- * 			Object to be initialized
- * 			
- * @return	Nothing
- * @todo	{Find a way to not use memcpy for setting up the vftable...}
- **************************************************************************************************/
-
-void ObjectConstruct(void* this)
-{
-	//Set the vtable's complete object locator to complete the RTTI circle
-	objectVFTable.pCompleteObjectLocator = &objectCompleteObjectLocator;
-
-	//(Actual C++)Initialize the vtable to point to this object's vtable
-	//(OOC)Memcpy the entire VFTable into the table pointed by pVFTable
-	//Reason: There would be no reason to call superclass's constructor
-	//if it's just setting the pointer and the base class will set the pointer
-	//again...
-	//Reason 2: No need to malloc vftables :)
-	//Why? because this will set the derived's global vtable
-	//The C++ way:
-	//((Object*)this)->pVFTable = &objectVFTable;
-	memcpy(((Object*)this)->pVFTable, &objectVFTable, sizeof(ObjectVFTable));
-}
-
-/*============================================================================
-|	Copy Constructor
-*===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn	void* ObjectCopyConstruct(void* this)
- * @brief	Object's copy constructor
- * 			
- *			Returns a copy of the object
- *
- * @param	[in] this
- * 			Object to be used for copying
- * 			
- * @return	The copied object
- * @note	Derived classes may implement a copy constructor, 
- * 			but it is not necessary
- * @warning	Object is an abstract class, so
- * 			<b>DO NOT CALL THIS FUNCTION</b>
- **************************************************************************************************/
-
-void* ObjectCopyConstruct(void* this)
-{
-	return NULL;
-}
-
-/*============================================================================
-|	Destructor
-*===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn	void ObjectDestruct(void* this)
- * @brief	Object's destructor
- * 			
- *			Calls the super destructors and properly manages 
- *			the deletion of the object's allocated resources
- *
- * @param	[in] this
- * 			Object that should be freed of its used resources
- * 			
- * @return	Nothing
- * @warning	Object is an abstract class, so
- * 			nothing is actually executed
- **************************************************************************************************/
-
-void ObjectDestruct(void* this)
-{
-	//No use since this is an abstract class
-}
+extern CompleteObjectLocator objectCompleteObjectLocator;
 
 /*============================================================================
 |	Overridden member functions
@@ -356,40 +336,3 @@ void ObjectDestruct(void* this)
 /*============================================================================
 |	Class member functions
 *===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn		bool ObjectEquals(void* this, void* other);
- *
- * @brief	Checks if the type of the object is equal to another object
- *
- * @param	[in] this 
- * 			The object
- * @param	[in] other
- * 			The other object
- *
- * @return	True if it succeeds, false if it fails.
- **************************************************************************************************/
-
-bool ObjectEquals(void* this, void* other)
-{
-	return (!strcmp(ObjectToString(this), ObjectToString(other))) ? true : false;
-}
-
-/**********************************************************************************************//**
- * @fn		bool ObjectToString(void* this);
- *
- * @brief	Gives the object's type name.
- * 			Is used for casts.
- * 			Can be useful for debugging.
- *
- * @param	[in] this 
- * 			The object
- *
- * @return	Returns a pointer to the object's name
- **************************************************************************************************/
-
-char* ObjectToString(void* this)
-{
-	ObjectVFTable* pThisObjectVFTable = (ObjectVFTable*)((Object*)this)->pVFTable;
-	return pThisObjectVFTable->pCompleteObjectLocator->pTypeDescriptor->name;
-}

@@ -143,17 +143,138 @@ typedef struct _ContainerVFTable
 |	Special class member function definitions
 *===========================================================================*/
 
+/*============================================================================
+|	New Operator
+*===========================================================================*/
+
+/**********************************************************************************************//**
+ * @fn	void* NewContainer()
+ * @brief	Container's new operator
+ * 			
+ *			Returns an allocated new container
+ * 			
+ * @return	An allocated container object
+ * @warning	Container is an abstract class, so
+ * 			<b>DO NOT CALL THIS FUNCTION</b>
+ **************************************************************************************************/
+
 void* NewContainer();
+
+/*============================================================================
+|	Delete Operator
+*===========================================================================*/
+
+/**********************************************************************************************//**
+ * @fn	void DeleteContainer(void* this)
+ * @brief	Container's delete operator
+ * 			
+ *			Deletes the allocated object
+ *
+ * @param	[in] this
+ * 			Container object to be deleted
+ * 			
+ * @return	Nothing
+ * @warning	Container is an abstract class, so
+ * 			<b>DO NOT CALL THIS FUNCTION</b>
+ **************************************************************************************************/
+
 void DeleteContainer(void* this);
+
+/*============================================================================
+|	Constructor
+*===========================================================================*/
+
+/**********************************************************************************************//**
+ * @fn	void ContainerConstruct(void* this)
+ * @brief	Container's constructor
+ * 			
+ *			Calls the super constructors, setups the vftable 
+ *			and initializes class's member variables 
+ *
+ * @param	[in] this
+ * 			Container object to be initialized
+ * 			
+ * @return	Nothing
+ **************************************************************************************************/
+
 void ContainerConstruct(void* this);
+
+/*============================================================================
+|	Copy Constructor
+*===========================================================================*/
+
+/**********************************************************************************************//**
+ * @fn	void* ContainerCopyConstruct(void* this)
+ * @brief	Container's copy constructor
+ * 			
+ *			Returns a copy of the container object
+ *
+ * @param	[in] this
+ * 			Container object to be used for copying
+ * 			
+ * @return	The copied container object
+ * @note	Derived classes may implement a copy constructor, 
+ * 			but it is not necessary
+ * @warning	Container is an abstract class, so
+ * 			<b>DO NOT CALL THIS FUNCTION</b>
+ **************************************************************************************************/
+
 void* ContainerCopyConstruct(void* this);
+
+/*============================================================================
+|	Destructor
+*===========================================================================*/
+
+/**********************************************************************************************//**
+ * @fn	void ContainerDestruct(void* this)
+ * @brief	Container's destructor
+ * 			
+ *			Calls the super destructors and properly manages 
+ *			the deletion of the object's allocated resources
+ *
+ * @param	[in] this
+ * 			Container object that should be freed of its used resources
+ * 			
+ * @return	Nothing
+ * @warning	Container is an abstract class, so
+ * 			even though this calls @ref ObjectDestruct
+ * 			nothing is actually executed
+ **************************************************************************************************/
+
 void ContainerDestruct(void* this);
 
 /*============================================================================
 |	Overridden member function definitions
 *===========================================================================*/
 
+/**********************************************************************************************//**
+ * @fn		bool ContainerEquals(void* this, void* other);
+ *
+ * @brief	Checks if the type of the container is equal to another container
+ *
+ * @param	[in] this 
+ * 			The object
+ * @param	[in] other
+ * 			The other object
+ *
+ * @return	True if it succeeds, false if it fails.
+ **************************************************************************************************/
+
 bool ContainerEquals(void* this, void* other);
+
+/**********************************************************************************************//**
+ * @fn		bool ContainerToString(void* this);
+ *
+ * @brief	Gives the object's type name.
+ * 			Is used for casts.
+ * 			Can be useful for debugging.
+ *
+ * @param	[in] this 
+ * 			The object
+ *
+ * @return	Returns a pointer to the object's name
+ **************************************************************************************************/
+
 char* ContainerToString(void* this);
 
 /*============================================================================
@@ -171,16 +292,7 @@ char* ContainerToString(void* this);
  * @note	objectVFTable will be set in constructor
  */
 
-extern ContainerVFTable containerVFTable =
-{
-	.objectVFTable = NULL_OBJECT_VFTABLE,
-	.add = NULL,
-	.clear = NULL,
-	.remove = NULL,
-	.contains = NULL,
-	.isEmpty = NULL,
-	.size = NULL
-};
+extern ContainerVFTable containerVFTable;
 
 /*============================================================================
 |   Container class definition
@@ -232,11 +344,7 @@ typedef struct _Container
 * 			is the container class
 */
 
-extern TypeDescriptor containerTypeDescriptor =
-{
-	.pVFTable = &containerVFTable,
-	.name = "Container"
-};
+extern TypeDescriptor containerTypeDescriptor;
 
 /**********************************************************************************************//**
  * @def	ContainerBaseClassDescriptor
@@ -261,11 +369,7 @@ extern TypeDescriptor containerTypeDescriptor =
  * 			its own base class descriptor (container base descriptor)
  */
 
-extern BaseClassDescriptor containerBaseClassArray[] =
-{
-	ObjectBaseClassDescriptor,
-	ContainerBaseClassDescriptor
-};
+extern BaseClassDescriptor containerBaseClassArray[];
 
 /**
 * @brief	Global extern container class hierarchy descriptor
@@ -277,12 +381,7 @@ extern BaseClassDescriptor containerBaseClassArray[] =
 *			@ref containerBaseClassArray
 */
 
-extern ClassHierarchyDescriptor containerClassHierarchyDescriptor =
-{
-	.attributes = CLASS_HIERARCHY_VIRTUAL_INHERITENCE,
-	.numBaseClasses = 2,
-	.pBaseClassArray = containerBaseClassArray
-};
+extern ClassHierarchyDescriptor containerClassHierarchyDescriptor;
 
 /**
 * @brief	Global extern container complete object locator
@@ -293,186 +392,13 @@ extern ClassHierarchyDescriptor containerClassHierarchyDescriptor =
 * 			pClassHierarchyDescriptor points to the container's class hierarchy descriptor
 */
 
-extern CompleteObjectLocator containerCompleteObjectLocator =
-{
-	.signature = 0x48454845,
-	.pTypeDescriptor = &containerTypeDescriptor,
-	.pClassHierarchyDescriptor = &containerClassHierarchyDescriptor
-};
-
-/*============================================================================
-|	New Operator
-*===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn	void* NewContainer()
- * @brief	Container's new operator
- * 			
- *			Returns an allocated new container
- * 			
- * @return	An allocated container object
- * @warning	Container is an abstract class, so
- * 			<b>DO NOT CALL THIS FUNCTION</b>
- **************************************************************************************************/
-
-void* NewContainer()
-{
-	return NULL;
-}
-
-/*============================================================================
-|	Delete Operator
-*===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn	void DeleteContainer(void* this)
- * @brief	Container's delete operator
- * 			
- *			Deletes the allocated object
- *
- * @param	[in] this
- * 			Container object to be deleted
- * 			
- * @return	Nothing
- * @warning	Container is an abstract class, so
- * 			<b>DO NOT CALL THIS FUNCTION</b>
- **************************************************************************************************/
-
-void DeleteContainer(void* this)
-{
-
-}
-
-/*============================================================================
-|	Constructor
-*===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn	void ContainerConstruct(void* this)
- * @brief	Container's constructor
- * 			
- *			Calls the super constructors, setups the vftable 
- *			and initializes class's member variables 
- *
- * @param	[in] this
- * 			Container object to be initialized
- * 			
- * @return	Nothing
- **************************************************************************************************/
-
-void ContainerConstruct(void* this)
-{
-	//call super class's constructor (ObjectConstruct)
-	ObjectConstruct(this);
-
-	//Override super's methods
-
-	//Set the vtable's complete object locator to complete the RTTI circle
-	containerVFTable.objectVFTable.pCompleteObjectLocator = &containerCompleteObjectLocator;
-
-	//Set the equals function
-	containerVFTable.objectVFTable.equals = &ContainerEquals;
-
-	//Set the toString
-	containerVFTable.objectVFTable.toString = &ContainerToString;
-
-	//Initialize the vtable to point to this object's vtable
-	memcpy(((Container*)this)->object.pVFTable, &containerVFTable, sizeof(ContainerVFTable));
-}
-
-/*============================================================================
-|	Copy Constructor
-*===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn	void* ContainerCopyConstruct(void* this)
- * @brief	Container's copy constructor
- * 			
- *			Returns a copy of the container object
- *
- * @param	[in] this
- * 			Container object to be used for copying
- * 			
- * @return	The copied container object
- * @note	Derived classes may implement a copy constructor, 
- * 			but it is not necessary
- * @warning	Container is an abstract class, so
- * 			<b>DO NOT CALL THIS FUNCTION</b>
- **************************************************************************************************/
-
-void* ContainerCopyConstruct(void* this)
-{
-	return NULL;
-}
-
-/*============================================================================
-|	Destructor
-*===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn	void ContainerDestruct(void* this)
- * @brief	Container's destructor
- * 			
- *			Calls the super destructors and properly manages 
- *			the deletion of the object's allocated resources
- *
- * @param	[in] this
- * 			Container object that should be freed of its used resources
- * 			
- * @return	Nothing
- * @warning	Container is an abstract class, so
- * 			even though this calls @ref ObjectDestruct
- * 			nothing is actually executed
- **************************************************************************************************/
-
-void ContainerDestruct(void* this)
-{
-	//No use since this is an abstract class
-	ObjectDestruct(this);
-}
-
-/*============================================================================
-|	Overridden member functions
-*===========================================================================*/
-
-/**********************************************************************************************//**
- * @fn		bool ContainerEquals(void* this, void* other);
- *
- * @brief	Checks if the type of the container is equal to another container
- *
- * @param	[in] this 
- * 			The object
- * @param	[in] other
- * 			The other object
- *
- * @return	True if it succeeds, false if it fails.
- **************************************************************************************************/
-
-bool ContainerEquals(void* this, void* other)
-{
-	return (!strcmp(ContainerToString(this), ContainerToString(other))) ? true : false;
-}
-
-/**********************************************************************************************//**
- * @fn		bool ContainerToString(void* this);
- *
- * @brief	Gives the object's type name.
- * 			Is used for casts.
- * 			Can be useful for debugging.
- *
- * @param	[in] this 
- * 			The object
- *
- * @return	Returns a pointer to the object's name
- **************************************************************************************************/
-
-char* ContainerToString(void* this)
-{
-	return ObjectToString(this);
-}
+extern CompleteObjectLocator containerCompleteObjectLocator;
 
 /*============================================================================
 |	Class member functions
 *===========================================================================*/
 
+/*============================================================================
+|	Overridden member functions
+*===========================================================================*/
 

@@ -1,4 +1,4 @@
-#include "ooc_string.h"
+#include "object.h"
 #include "stdio.h"
 
 int main()

@@ -2,7 +2,7 @@
 
 #include "CUnit/Automated.h"
 #include "CUnit/Basic.h"
-#include "object.h"
+#include "../src/object.h"
 
 /*
  * Initialise test suite.
