@@ -52,6 +52,8 @@ clean :
 	rm -f ooc-tests
 	rm -f *.gcda
 	rm -f *.gcno
+	rm -f src/*.gcda
+	rm -f src/*.gcno
 	rm -f CUnit*.xml
 	rm -f TestResults.xml
 	rm -f *.o

@@ -369,7 +369,7 @@ TypeDescriptor containerTypeDescriptor;
  * 			its own base class descriptor (container base descriptor)
  */
 
-BaseClassDescriptor containerBaseClassArray[];
+BaseClassDescriptor containerBaseClassArray[2];
 
 /**
 * @brief	Global container class hierarchy descriptor

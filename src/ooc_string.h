@@ -568,7 +568,7 @@ TypeDescriptor stringTypeDescriptor;
  * 			its own base class descriptor (string base descriptor)
  */
 
-BaseClassDescriptor stringBaseClassArray[];
+BaseClassDescriptor stringBaseClassArray[2];
 
 /**
 * @brief	Global string class hierarchy descriptor
@@ -577,7 +577,7 @@ BaseClassDescriptor stringBaseClassArray[];
 * 			since it inherits from the container class.
 * 			numBaseClasses is one since container inherits from only one class
 * 			pBaseClassArray points to the container's base class descriptor
-*			@ref containerBaseClassArray
+*			@ref stringBaseClassArray
 */
 
 ClassHierarchyDescriptor stringClassHierarchyDescriptor;

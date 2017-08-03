@@ -305,7 +305,7 @@ TypeDescriptor objectTypeDescriptor;
  * 			Contains the object base descriptor (itself)
  */
 
-BaseClassDescriptor objectBaseClassArray[];
+BaseClassDescriptor objectBaseClassArray[1];
 
 /**
 * @brief	Global object class hierarchy descriptor
