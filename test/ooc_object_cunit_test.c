@@ -22,7 +22,7 @@ void TestObjectVFTableInitializedCompleteObjectLocator()
 	//since object is an abstract object
 	void* object = malloc(sizeof(Object));
 	ObjectConstruct(object);
-	CU_ASSERT_PTR_EQUAL(objectVFTable.pCompleteObjectLocator, objectCompleteObjectLocator);
+	CU_ASSERT_PTR_EQUAL(objectVFTable.pCompleteObjectLocator, &objectCompleteObjectLocator);
 	free(object);
 }
 
