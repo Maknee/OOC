@@ -19,7 +19,9 @@ SRCDIR= src
 TESTDIR= test
 INC=-I$(SRCDIR) -I$(TESTDIR) -I$(HOME)/include
 
-OBJS=ooc.o
+MAIN_SOURCE=src/ooc_program.c
+MAIN_PROGRAM=$(MAIN_SOURCE:.c=.o)
+OBJS=$(patsubst %.c, %.o, $(filter-out $(MAIN_SOURCE), $(wildcard src/*.c)))
 TESTS=ooc_object_cunit_test.o
 
 ooc: $(OBJS) ooc_program.o
