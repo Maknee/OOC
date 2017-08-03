@@ -16,6 +16,7 @@
 * 		   correct object or item. Unfortunately, it is up to
 * 		   the <b>CODER</b> to ensure that the types are correct.
 * @see object.c
+* @todo {Maybe have an initialize/cleanup for the entire project? like for RTTI circular dependency@ref ObjectConstruct}
 * @date	8/1/2017
 */
 

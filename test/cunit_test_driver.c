@@ -16,16 +16,20 @@ int main()
         return CU_get_error();
     }
 
-    CU_pSuite suite = 
-        CU_add_suite("OOC Testing Suite", initialise_suite, cleanup_suite);
-    if (suite == NULL)
+    CU_pSuite objectSuite = CU_add_suite("Object Testing Suite", 
+									ObjectInitializeSuite, 
+									ObjectCleanUpSuite);
+    if (objectSuite == NULL)
     {
     	printf("%s\n", CU_get_error_msg());
         CU_cleanup_registry();
         return CU_get_error();
     }
 
-    if (!CU_add_test(suite, "TestObjectVFTableCompleteObjectLocator", TestObjectVFTableCompleteObjectLocator) || !CU_add_test(suite, "TestObjectVFTableEquals", TestObjectVFTableEquals) || !CU_add_test(suite, "TestObjectVFTableObjectToString", TestObjectVFTableObjectToString))
+    if (!CU_add_test(objectSuite, "TestObjectVFTableUninitializedCompleteObjectLocator", TestObjectVFTableUninitializedCompleteObjectLocator) ||
+		!CU_add_test(objectSuite, "TestObjectVFTableInitializedCompleteObjectLocator", TestObjectVFTableInitializedCompleteObjectLocator) ||
+		!CU_add_test(objectSuite, "TestObjectVFTableEquals", TestObjectVFTableEquals) ||
+		!CU_add_test(objectSuite, "TestObjectVFTableObjectToString", TestObjectVFTableObjectToString))
     {
     	printf("%s\n", CU_get_error_msg());
         CU_cleanup_registry();
