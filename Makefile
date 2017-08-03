@@ -12,7 +12,7 @@
 # implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-CC=gcc -fprofile-arcs -ftest-coverage -O0
+CC=gcc -fprofile-arcs -ftest-coverage -O0 -g -ftrapv -Werror -Wextra -Wall -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wwrite-strings -Waggregate-return -Wswitch-default -Wswitch-enum -Wconversion -Wunreachable-code -Winit-self -Wformat-nonliteral 
 LDFLAGS=-lcunit
 
 SRCDIR= src
@@ -33,7 +33,7 @@ ooc-tests: $(TESTS) $(OBJS) cunit_test_driver.o
 %.o : $(SRCDIR)/%.c
 	$(CC) -c $^ -o $@ $(INC)
 %.o : $(TESTDIR)/%.c
-	$(CC) -c $< -o $@ $(INC)
+	$(CC) -c $^ -o $@ $(INC)
 
 .PHONY : xunit-report
 xunit-report :

@@ -12,7 +12,7 @@ int cleanup_suite(void)
 
 void TestObjectVFTableCompleteObjectLocator()
 {
-	CU_ASSERT_PTR_EQUAL(objectVFTable.equals, NULL);
+	CU_ASSERT_PTR_EQUAL(objectVFTable.pCompleteObjectLocator, NULL);
 }
 
 void TestObjectVFTableEquals()
