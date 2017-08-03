@@ -286,13 +286,13 @@ char* ContainerToString(void* this);
 *===========================================================================*/
 
 /** 
- * @brief   Global extern container vftable
+ * @brief   Global container vftable
  * @relates ContainerVFTable
  * @note	Cannot make this const since there is a circular reference with RTTI structs
  * @note	objectVFTable will be set in constructor
  */
 
-extern ContainerVFTable containerVFTable;
+ContainerVFTable containerVFTable;
 
 /*============================================================================
 |   Container class definition
@@ -337,14 +337,14 @@ typedef struct _Container
 *===========================================================================*/
 
 /**
-* @brief	Global extern container type descriptor
+* @brief	Global container type descriptor
 * 			
 * 			Contains the a pointer to the container vftable
 * 			and the name of "Container" to indicate that this
 * 			is the container class
 */
 
-extern TypeDescriptor containerTypeDescriptor;
+TypeDescriptor containerTypeDescriptor;
 
 /**********************************************************************************************//**
  * @def	ContainerBaseClassDescriptor
@@ -363,16 +363,16 @@ extern TypeDescriptor containerTypeDescriptor;
 		}                                                   \
 
  /**
- * @brief	Global extern container base class descriptor array
+ * @brief	Global container base class descriptor array
  *
  * 			Contains the object base descriptor and
  * 			its own base class descriptor (container base descriptor)
  */
 
-extern BaseClassDescriptor containerBaseClassArray[];
+BaseClassDescriptor containerBaseClassArray[];
 
 /**
-* @brief	Global extern container class hierarchy descriptor
+* @brief	Global container class hierarchy descriptor
 *
 * 			Container class hierarchy descriptor is marked as virtual
 * 			since it inherits from the object class.
@@ -381,10 +381,10 @@ extern BaseClassDescriptor containerBaseClassArray[];
 *			@ref containerBaseClassArray
 */
 
-extern ClassHierarchyDescriptor containerClassHierarchyDescriptor;
+ClassHierarchyDescriptor containerClassHierarchyDescriptor;
 
 /**
-* @brief	Global extern container complete object locator
+* @brief	Global container complete object locator
 *
 * 			Contains the signature to indicate that this struct contains
 * 			RTTI information.
@@ -392,7 +392,7 @@ extern ClassHierarchyDescriptor containerClassHierarchyDescriptor;
 * 			pClassHierarchyDescriptor points to the container's class hierarchy descriptor
 */
 
-extern CompleteObjectLocator containerCompleteObjectLocator;
+CompleteObjectLocator containerCompleteObjectLocator;
 
 /*============================================================================
 |	Class member functions

@@ -291,8 +291,8 @@ char* StringToString(void* this);
  *			Checking whether or not the current string was dynamically allocated
  *			If so, just call realloc and append
  *			If not, then two cases appear with a string that is externally allocated
- *			If the new length is greater than extern limit length, then make the pointer dynamic
- *			If the new length is less, then append to extern length
+ *			If the new length is greater than limit length, then make the pointer dynamic
+ *			If the new length is less, then append to length
  *
  * @param	[in] this 
  * 			The string
@@ -449,13 +449,13 @@ void* StringSubstring(void* this, size_t start, size_t end);
 *===========================================================================*/
 
 /**
-* @brief   Global extern string vftable
+* @brief   Global string vftable
 * @relates StringVFTable
 * @note	Cannot make this const since there is a circular reference with RTTI structs
 * @note	containerVFTable will be set in constructor
 */
 
-extern StringVFTable stringVFTable;
+StringVFTable stringVFTable;
 
 /*============================================================================
 |   Container class definition
@@ -537,14 +537,14 @@ typedef struct _String
 *===========================================================================*/
 
 /**
-* @brief	Global extern string type descriptor
+* @brief	Global string type descriptor
 *
 * 			Contains the a pointer to the string vftable
 * 			and the name of "String" to indicate that this
 * 			is the string class
 */
 
-extern TypeDescriptor stringTypeDescriptor;
+TypeDescriptor stringTypeDescriptor;
 
 /**********************************************************************************************//**
  * @def	StringBaseClassDescriptor
@@ -562,16 +562,16 @@ extern TypeDescriptor stringTypeDescriptor;
 		}												\
 
  /**
- * @brief	Global extern string base class descriptor array
+ * @brief	Global string base class descriptor array
  *
  * 			Contains the container base descriptor and
  * 			its own base class descriptor (string base descriptor)
  */
 
-extern BaseClassDescriptor stringBaseClassArray[];
+BaseClassDescriptor stringBaseClassArray[];
 
 /**
-* @brief	Global extern string class hierarchy descriptor
+* @brief	Global string class hierarchy descriptor
 *
 * 			String class hierarchy descriptor is marked as virtual
 * 			since it inherits from the container class.
@@ -580,10 +580,10 @@ extern BaseClassDescriptor stringBaseClassArray[];
 *			@ref containerBaseClassArray
 */
 
-extern ClassHierarchyDescriptor stringClassHierarchyDescriptor;
+ClassHierarchyDescriptor stringClassHierarchyDescriptor;
 
 /**
-* @brief	Global extern string complete object locator
+* @brief	Global string complete object locator
 *
 * 			Contains the signature to indicate that this struct contains
 * 			RTTI information.
@@ -591,7 +591,7 @@ extern ClassHierarchyDescriptor stringClassHierarchyDescriptor;
 * 			pClassHierarchyDescriptor points to the string's class hierarchy descriptor
 */
 
-extern CompleteObjectLocator stringCompleteObjectLocator;
+CompleteObjectLocator stringCompleteObjectLocator;
 
 /*============================================================================
 |	Overridden member functions

@@ -230,13 +230,13 @@ char* ObjectToString(void* this);
 *===========================================================================*/
 
 /**
-* @brief   Global extern object vftable
+* @brief   Global object vftable
 * @relates ObjectVFTable
 * @note	Cannot make this const since there is a circular reference with RTTI structs
 * @note	objectVFTable will be set in constructor
 */
 
-extern ObjectVFTable objectVFTable;
+ObjectVFTable objectVFTable;
 
 /*============================================================================
 |   Object class definition
@@ -276,14 +276,14 @@ typedef struct _Object
 *===========================================================================*/
 
 /**
-* @brief	Global extern object type descriptor
+* @brief	Global object type descriptor
 *
 * 			Contains the a pointer to the object vftable
 * 			and the name of "Object" to indicate that this
 * 			is the object class
 */
 
-extern TypeDescriptor objectTypeDescriptor;
+TypeDescriptor objectTypeDescriptor;
 
 /**********************************************************************************************//**
  * @def	ObjectBaseClassDescriptor
@@ -300,15 +300,15 @@ extern TypeDescriptor objectTypeDescriptor;
 		}                                                   \
 
  /**
- * @brief	Global extern object base class descriptor array
+ * @brief	Global object base class descriptor array
  *
  * 			Contains the object base descriptor (itself)
  */
 
-extern BaseClassDescriptor objectBaseClassArray[];
+BaseClassDescriptor objectBaseClassArray[];
 
 /**
-* @brief	Global extern object class hierarchy descriptor
+* @brief	Global object class hierarchy descriptor
 *
 * 			Object class hierarchy descriptor is no inheritence since
 * 			the class does not inherit from any other class
@@ -317,9 +317,9 @@ extern BaseClassDescriptor objectBaseClassArray[];
 *			@ref objectBaseClassArray
 */
 
-extern ClassHierarchyDescriptor objectClassHierarchyDescriptor;
+ClassHierarchyDescriptor objectClassHierarchyDescriptor;
 /**
-* @brief	Global extern object complete object locator
+* @brief	Global object complete object locator
 *
 * 			Contains the signature to indicate that this struct contains
 * 			RTTI information.
@@ -327,7 +327,7 @@ extern ClassHierarchyDescriptor objectClassHierarchyDescriptor;
 * 			pClassHierarchyDescriptor points to the object's class hierarchy descriptor
 */
 
-extern CompleteObjectLocator objectCompleteObjectLocator;
+CompleteObjectLocator objectCompleteObjectLocator;
 
 /*============================================================================
 |	Overridden member functions
