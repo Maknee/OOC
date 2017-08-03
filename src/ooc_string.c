@@ -310,11 +310,14 @@ bool StringRemove(void* this, void* item)
 	String* other_string = (String*)item;
 
 	//find the substring's index in the current string
-	size_t start = StringFind(this_string, other_string);
+	int found = StringFind(this_string, other_string);
 
 	//check if the substring exists
-	if (start != NPOS)
+	if (found != NPOS)
 	{
+		//cast found to size_t from int, now we know that the value isn't negative
+		size_t start = (size_t)found;
+
 		//update the length
 		size_t new_length = this_string->length - other_string->length;
 
@@ -463,11 +466,11 @@ int StringFind(void* this, void* item)
 	//calculate the index
 	if (CheckIfStringIsAllocated(this))
 	{
-		return pFound - this_string->data.pBuf;
+		return (int)(pFound - this_string->data.pBuf);
 	}
 	else
 	{
-		return pFound - this_string->data.buf;
+		return (int)(pFound - this_string->data.buf);
 	}
 }
 
