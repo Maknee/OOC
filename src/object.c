@@ -48,7 +48,16 @@ CompleteObjectLocator objectCompleteObjectLocator =
 
 void* NewObject()
 {
-	return NULL;
+	//allocate a new object
+	void* object = calloc(1, sizeof(Object));
+
+	//allocate vftable
+	((Object*)object)->pVFTable = calloc(1, sizeof(Object));
+
+	//call constructor to set up object
+	ObjectConstruct(object);
+
+	return object;
 }
 
 /*============================================================================
@@ -57,7 +66,17 @@ void* NewObject()
 
 void DeleteObject(void* this)
 {
+	//call destructor
+	StringDestruct(this);
 
+	//free vftable
+	free(((Object*)this)->pVFTable);
+
+	//free the string's resources
+	free(this);
+
+	//NULL the pointer, so we don't have use after free vulns
+	this = NULL;
 }
 
 /*============================================================================

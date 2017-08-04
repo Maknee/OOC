@@ -116,6 +116,9 @@ void* NewString()
 	//allocate a new string
 	void* string = calloc(1, sizeof(String));
 
+	//allocate vftable
+	((String*)string)->container.object.pVFTable = calloc(1, sizeof(StringVFTable));
+
 	//call constructor to set up string
 	StringConstruct(string);
 	return string;
@@ -129,6 +132,9 @@ void DeleteString(void* this)
 {
 	//call destructor
 	StringDestruct(this);
+
+	//free vftable
+	free(((String*)this)->container.object.pVFTable);
 
 	//free the string's resources
 	free(this);
