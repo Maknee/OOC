@@ -17,12 +17,13 @@
 * 		   the <b>CODER</b> to ensure that the types are correct.
 * @see object.c
 * @todo {Maybe have an initialize/cleanup for the entire project? like for RTTI circular dependency@ref ObjectConstruct}
+* @todo {Make macros for New and vftable calls...}
 * @date	8/1/2017
 */
 
 #pragma once
 
-#include "ooc.h"
+#include "rtti.h"
 
 /*============================================================================
 |   Defines

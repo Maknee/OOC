@@ -1,6 +1,6 @@
 /**
-* @file ooc_object_cunit_test.h
-* @brief Object class testing header file
+* @file ooc_container_cunit_test.h
+* @brief Container class testing header file
 *
 * @date	8/4/2017
 */
@@ -15,97 +15,97 @@
  * Initialise test suite.
  * @return zero on success, non-zero otherwise.
  */
-int ObjectInitializeSuite();
+int ContainerInitializeSuite();
 
 /* 
  * Clean up test suite.
  * @return zero on success, non-zero otherwise.
  */
-int ObjectCleanUpSuite();
+int ContainerCleanUpSuite();
 
 /**********************************************************************************************//**
- * @fn	void TestObjectVFTableUninitializedCompleteObjectLocator();
+ * @fn	void TestContainerVFTableUninitializedCompleteContainerLocator();
  *
- * @brief	Tests object vf table uninitialized complete object locator  is pointing to NULL
+ * @brief	Tests container vf table uninitialized complete container locator  is pointing to NULL
  **************************************************************************************************/
 
-void TestObjectVFTableUninitializedCompleteObjectLocator();
+void TestContainerVFTableUninitializedCompleteContainerLocator();
 
 /**********************************************************************************************//**
- * @fn	void TestObjectVFTableInitializedCompleteObjectLocator();
+ * @fn	void TestContainerVFTableInitializedCompleteContainerLocator();
  *
- * @brief	Tests object vf table initialized complete object locator  is pointing to NULL
+ * @brief	Tests container vf table initialized complete container locator  is pointing to NULL
  **************************************************************************************************/
 
-void TestObjectVFTableInitializedCompleteObjectLocator();
+void TestContainerVFTableInitializedCompleteContainerLocator();
 
 /**********************************************************************************************//**
- * @fn	void TestObjectNew();
+ * @fn	void TestContainerNew();
  *
- * @brief	Tests object new
- * @warning	Object is an abstract class, so
+ * @brief	Tests container new
+ * @warning	Container is an abstract class, so
  * 			<b>DO NOT CALL THIS FUNCTION</b>
  **************************************************************************************************/
 
-void TestObjectNew();
+void TestContainerNew();
 
 /**********************************************************************************************//**
- * @fn	void TestObjectDelete();
+ * @fn	void TestContainerDelete();
  *
- * @brief	Tests object delete
- * @warning	Object is an abstract class, so
+ * @brief	Tests container delete
+ * @warning	Container is an abstract class, so
  * 			<b>DO NOT CALL THIS FUNCTION</b>
  **************************************************************************************************/
 
-void TestObjectDelete();
+void TestContainerDelete();
 
 /**********************************************************************************************//**
- * @fn	void TestObjectConstructor();
+ * @fn	void TestContainerConstructor();
  *
- * @brief	Tests object constructor
+ * @brief	Tests container constructor
  **************************************************************************************************/
 
-void TestObjectConstructor();
+void TestContainerConstructor();
 
 /**********************************************************************************************//**
- * @fn	void TestObjectCopyConstructor();
+ * @fn	void TestContainerCopyConstructor();
  *
- * @brief	Tests object copy constructor
+ * @brief	Tests container copy constructor
  **************************************************************************************************/
 
-void TestObjectCopyConstructor();
+void TestContainerCopyConstructor();
 
 /**********************************************************************************************//**
- * @fn	void TestObjectdestructor();
+ * @fn	void TestContainerdestructor();
  *
- * @brief	Tests object destructor
+ * @brief	Tests container destructor
  **************************************************************************************************/
 
-void TestObjectDestructor();
+void TestContainerDestructor();
 
 /**********************************************************************************************//**
- * @fn	void TestObjectVFTableObjectToString();
+ * @fn	void TestContainerVFTableContainerToString();
  *
- * @brief	Tests object vf table ObjectToString  is pointing to the correct function
+ * @brief	Tests container vf table ContainerToString  is pointing to the correct function
  **************************************************************************************************/
 
-void TestObjectVFTableObjectToString();
+void TestContainerVFTableContainerToString();
 
 /**********************************************************************************************//**
- * @fn	void TestObjectVFTableEquals();
+ * @fn	void TestContainerVFTableEquals();
  *
- * @brief	Tests object vf table equals() is pointing to the correct function
+ * @brief	Tests container vf table equals() is pointing to the correct function
  **************************************************************************************************/
 
-void TestObjectVFTableEquals();
+void TestContainerVFTableEquals();
 
 /**********************************************************************************************//**
- * @fn	void TestObjectVFTableObjectToString();
+ * @fn	void TestContainerVFTableContainerToString();
  *
- * @brief	Tests object vf table ObjectToString  is pointing to the correct function
+ * @brief	Tests container vf table ContainerToString  is pointing to the correct function
  **************************************************************************************************/
 
-void TestObjectVFTableObjectToString();
+void TestContainerVFTableContainerToString();
 
 
 

@@ -1,6 +1,14 @@
+/**
+* @file cunit_test_driver.c
+* @brief Main testing file
+*
+* @date	8/4/2017
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include "ooc_object_cunit_test.h"
+#include "ooc_container_cunit_test.h"
 
 /*
  * Set up and run tests.
@@ -8,6 +16,7 @@
  * @return CUE_SUCCESS if successful, else a CUnit error code if
  * any problems arise.
  */
+ * 
 int main()
 {
     if (CUE_SUCCESS != CU_initialize_registry())
@@ -16,9 +25,12 @@ int main()
         return CU_get_error();
     }
 
+	//test object class
+
     CU_pSuite objectSuite = CU_add_suite("Object Testing Suite", 
-									ObjectInitializeSuite, 
-									ObjectCleanUpSuite);
+										 ObjectInitializeSuite, 
+										 ObjectCleanUpSuite);
+
     if (objectSuite == NULL)
     {
     	printf("%s\n", CU_get_error_msg());
@@ -41,6 +53,34 @@ int main()
         return CU_get_error();
     }
     
+	//test container class
+
+	CU_pSuite containerSuite = CU_add_suite("Container Testing Suite",
+											ContainerInitializeSuite,
+											ContainerCleanUpSuite);
+
+	if (containerSuite == NULL)
+	{
+		printf("%s\n", CU_get_error_msg());
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	if (!CU_add_test(containerSuite, "TestContainerVFTableUninitializedCompleteObjectLocator", TestContainerVFTableUninitializedCompleteObjectLocator) ||
+		!CU_add_test(containerSuite, "TestContainerVFTableInitializedCompleteObjectLocator", TestContainerVFTableInitializedCompleteObjectLocator) ||
+		!CU_add_test(containerSuite, "TestContainerNew", TestContainerNew) ||
+		!CU_add_test(containerSuite, "TestContainerDelete", TestContainerDelete) ||
+		!CU_add_test(containerSuite, "TestContainerConstructor", TestContainerConstructor) ||
+		!CU_add_test(containerSuite, "TestContainerCopyConstructor", TestContainerCopyConstructor) ||
+		!CU_add_test(containerSuite, "TestContainerDestructor", TestContainerDestructor) ||
+		!CU_add_test(containerSuite, "TestContainerVFTableEquals", TestContainerVFTableEquals) ||
+		!CU_add_test(containerSuite, "TestContainerVFTableContainerToString", TestContainerVFTableContainerToString))
+	{
+		printf("%s\n", CU_get_error_msg());
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
     // Run all tests using CUnit Basic interface which outputs
     // results to command-line.
     CU_basic_set_mode(CU_BRM_VERBOSE);
