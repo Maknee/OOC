@@ -54,6 +54,7 @@ CompleteObjectLocator containerCompleteObjectLocator =
 void* NewContainer()
 {
 	//No use since this is an abstract class
+	DEBUG_PRINT("%s\n", "Warning! Calling new on an abstract class!");
 	return NULL;
 }
 
@@ -64,6 +65,7 @@ void* NewContainer()
 void DeleteContainer(void* this)
 {
 	//No use since this is an abstract class
+	DEBUG_PRINT("%s\n", "Warning! Calling delete on an abstract class!");
 	this = NULL;
 }
 
@@ -97,6 +99,7 @@ void ContainerConstruct(void* this)
 
 void* ContainerCopyConstruct(void* this)
 {
+	DEBUG_PRINT("%s\n", "Warning! Calling copy constructor on an abstract class!");
 	return NULL;
 }
 
@@ -120,11 +123,14 @@ void ContainerDestruct(void* this)
 
 bool ContainerEquals(void* this, void* other)
 {
+	CHECK_NULL(this);
+	CHECK_NULL(other);
 	return (!strcmp(ContainerToString(this), ContainerToString(other))) ? true : false;
 }
 
 char* ContainerToString(void* this)
 {
+	CHECK_NULL(this);
 	return ObjectToString(this);
 }
 

@@ -16,8 +16,37 @@
 #include "container.h"
 #include "ooc_string.h"
 
-//will be templated
-//#include "list.h"
+/**********************************************************************************************//**
+ * @def	GET_FIRST_ARG(arg, ...)
+ *
+ * @brief	Gets the first argument of a macro
+ *
+ * @param	arg	The argument.
+ * @param	...	Variable arguments providing additional information.
+ * 
+ * @def	New(type)
+ *
+ * @brief	A macro that calls new for a class and returns an object
+ * @param	type	The class
+ * @return	An object
+ *  
+ * @def	Delete(type, object)
+ *
+ * @brief	A macro that calls new for a class and returns an object
+ * 			
+ * @param	type	The class
+ * @param	object	the object to be deleted
+ * 
+ * @def	Call(type, function, ...)
+ *
+ * @brief	A macro that calls a function in an object
+ * 			
+ * @param	type		The class
+ * @param	function	The object's member method
+ * @param	...			Variable arguments providing additional information.
+ * @note    The first parameter in the variable arguments must be the <b>object</b> because every member
+ * 			function passes <b>this</b> as the first argument
+ **************************************************************************************************/
 
 #define GET_FIRST_ARG(arg, ...) arg
 #define New(type) New ## type()

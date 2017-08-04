@@ -49,6 +49,7 @@ CompleteObjectLocator objectCompleteObjectLocator =
 void* NewObject()
 {
 	//No use since this is an abstract class
+	DEBUG_PRINT("%s\n", "Warning! Calling new on an abstract class!");
 	return NULL;
 }
 
@@ -59,6 +60,7 @@ void* NewObject()
 void DeleteObject(void* this)
 {
 	//No use since this is an abstract class
+	DEBUG_PRINT("%s\n", "Warning! Calling delete on an abstract class!");
 	this = NULL;
 }
 
@@ -90,6 +92,7 @@ void ObjectConstruct(void* this)
 
 void* ObjectCopyConstruct(void* this)
 {
+	DEBUG_PRINT("%s\n", "Warning! Calling copy constructor on an abstract class!");
 	return NULL;
 }
 
@@ -113,11 +116,14 @@ void ObjectDestruct(void* this)
 
 bool ObjectEquals(void* this, void* other)
 {
+	CHECK_NULL(this);
+	CHECK_NULL(other);
 	return (!strcmp(ObjectToString(this), ObjectToString(other))) ? true : false;
 }
 
 char* ObjectToString(void* this)
 {
+	CHECK_NULL(this);
 	ObjectVFTable* pThisObjectVFTable = (ObjectVFTable*)((Object*)this)->pVFTable;
 	return pThisObjectVFTable->pCompleteObjectLocator->pTypeDescriptor->name;
 }
