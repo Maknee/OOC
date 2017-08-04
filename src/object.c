@@ -67,7 +67,7 @@ void* NewObject()
 void DeleteObject(void* this)
 {
 	//call destructor
-	StringDestruct(this);
+	ObjectDestruct(this);
 
 	//free vftable
 	free(((Object*)this)->pVFTable);
