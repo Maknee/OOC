@@ -12,7 +12,7 @@
 # implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-CC=gcc -fprofile-arcs -ftest-coverage -O0 -g -ftrapv -Werror -Wextra -Wall -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wwrite-strings -Waggregate-return -Wswitch-default -Wswitch-enum -Wconversion -Wunreachable-code -Winit-self -Wformat-nonliteral -Wno-unused-parameter -Wno-unused-but-set-parameter
+CC=gcc -fprofile-arcs -ftest-coverage -O0 -g -ftrapv -Werror -Wextra -Wall -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wwrite-strings -Waggregate-return -Wswitch-default -Wswitch-enum -Wconversion -Wunreachable-code -Winit-self -Wformat-nonliteral -Wno-unused-parameter -Wno-unused-but-set-parameter -std=c11
 LDFLAGS=-lcunit
 
 SRCDIR= src
@@ -22,12 +22,12 @@ INC=-I$(SRCDIR) -I$(TESTDIR) -I$(HOME)/include
 MAIN_SOURCE=src/ooc_program.c
 MAIN_PROGRAM=$(MAIN_SOURCE:.c=.o)
 OBJS=$(patsubst %.c, %.o, $(filter-out $(MAIN_SOURCE), $(wildcard src/*.c)))
-TESTS=ooc_object_cunit_test.o
+TESTS=$(patsubst %.c, %.o, $(wildcard test/*.c))
 
 ooc: $(OBJS) ooc_program.o
 	$(CC) -o $@ $^ $(INC)
 
-ooc-tests: $(TESTS) $(OBJS) cunit_test_driver.o
+ooc-tests: $(TESTS) $(OBJS)
 	$(CC) -o $@ $^ $(INC) $(LDFLAGS)
 
 %.o : $(SRCDIR)/%.c
@@ -54,6 +54,8 @@ clean :
 	rm -f *.gcno
 	rm -f src/*.gcda
 	rm -f src/*.gcno
+	rm -f test/*.gcda
+	rm -f test/*.gcno
 	rm -f CUnit*.xml
 	rm -f TestResults.xml
 	rm -f *.o

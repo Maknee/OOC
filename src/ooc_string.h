@@ -49,15 +49,15 @@
 
 #define NPOS -1
 
-#define NULL_STRING_VFTABLE                                 \
-		{                                                   \
-			.containerVFTable =                             \
-			{                                               \
+#define NULL_STRING_VFTABLE                                                 \
+		{                                                           \
+			.containerVFTable =                                 \
+			{                                                   \
 				.objectVFTable =                            \
 				{                                           \
-					.pCompleteObjectLocator = NULL,         \
-					.equals = NULL,                         \
-					.toString = NULL                        \
+					.pCompleteObjectLocator = NULL,     \
+					.equals = NULL,                     \
+					.toString = NULL                    \
 				},                                          \
 				.add = NULL,                                \
 				.clear = NULL,                              \
@@ -65,12 +65,12 @@
 				.contains = NULL,                           \
 				.isEmpty = NULL,                            \
 				.size = NULL                                \
-			},                                              \
-			.c_str = NULL,                                  \
-			.append = NULL,                                 \
-			.find = NULL,                                   \
-			.substring = NULL                               \
-		}                                                   \
+			},                                                  \
+			.c_str = NULL,                                      \
+			.append = NULL,                                     \
+			.find = NULL,                                       \
+			.substring = NULL                                   \
+		}                                                           \
 
 /*============================================================================
 |   Object virtual function table definition

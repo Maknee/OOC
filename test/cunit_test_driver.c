@@ -16,7 +16,7 @@
  * @return CUE_SUCCESS if successful, else a CUnit error code if
  * any problems arise.
  */
- * 
+
 int main()
 {
     if (CUE_SUCCESS != CU_initialize_registry())

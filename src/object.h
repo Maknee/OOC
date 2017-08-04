@@ -38,12 +38,12 @@
  * @see		_Container
  **************************************************************************************************/
 
-#define NULL_OBJECT_VFTABLE                                 \
-        {                                                   \
+#define NULL_OBJECT_VFTABLE                                             \
+                {                                                       \
 			.pCompleteObjectLocator = NULL,                 \
 			.equals = NULL,                                 \
 			.toString = NULL                                \
-		}                                                   \
+		}                                                       \
 
 /*============================================================================
 |   Object virtual function table definition

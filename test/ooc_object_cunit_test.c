@@ -25,7 +25,7 @@ void TestObjectVFTableInitializedCompleteObjectLocator()
 	void* object = calloc(1, sizeof(Object));
 
 	//allocate vftable
-	((Object*)object)->pVFTable = calloc(1, sizeof(Object));
+	((Object*)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
 
 	//call constructor to set up object
 	ObjectConstruct(object);
@@ -69,7 +69,7 @@ void TestObjectConstructor()
 	void* object = calloc(1, sizeof(Object));
 
 	//allocate vftable
-	((Object*)object)->pVFTable = calloc(1, sizeof(Object));
+	((Object*)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
 
 	//call constructor to set up object
 	ObjectConstruct(object);
@@ -109,7 +109,7 @@ void TestObjectDestructor()
 	void* object = calloc(1, sizeof(Object));
 
 	//allocate vftable
-	((Object*)object)->pVFTable = calloc(1, sizeof(Object));
+	((Object*)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
 
 	//call constructor to set up object
 	ObjectConstruct(object);
@@ -143,7 +143,7 @@ void TestObjectVFTableEquals()
 	void* object = calloc(1, sizeof(Object));
 
 	//allocate vftable
-	((Object*)object)->pVFTable = calloc(1, sizeof(Object));
+	((Object*)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
 
 	//call constructor to set up object
 	ObjectConstruct(object);
@@ -152,7 +152,7 @@ void TestObjectVFTableEquals()
 	void* other_object = calloc(1, sizeof(Object));
 
 	//allocate vftable
-	((Object*)other_object)->pVFTable = calloc(1, sizeof(Object));
+	((Object*)other_object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
 
 	//call constructor to set up object
 	ObjectConstruct(other_object);
@@ -197,7 +197,7 @@ void TestObjectVFTableObjectToString()
 	void* object = calloc(1, sizeof(Object));
 
 	//allocate vftable
-	((Object*)object)->pVFTable = calloc(1, sizeof(Object));
+	((Object*)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
 
 	//call constructor to set up object
 	ObjectConstruct(object);

@@ -24,20 +24,20 @@ int ContainerInitializeSuite();
 int ContainerCleanUpSuite();
 
 /**********************************************************************************************//**
- * @fn	void TestContainerVFTableUninitializedCompleteContainerLocator();
+ * @fn	void TestContainerVFTableUninitializedCompleteObjectLocator();
  *
  * @brief	Tests container vf table uninitialized complete container locator  is pointing to NULL
  **************************************************************************************************/
 
-void TestContainerVFTableUninitializedCompleteContainerLocator();
+void TestContainerVFTableUninitializedCompleteObjectLocator();
 
 /**********************************************************************************************//**
- * @fn	void TestContainerVFTableInitializedCompleteContainerLocator();
+ * @fn	void TestContainerVFTableInitializedCompleteObjectLocator();
  *
  * @brief	Tests container vf table initialized complete container locator  is pointing to NULL
  **************************************************************************************************/
 
-void TestContainerVFTableInitializedCompleteContainerLocator();
+void TestContainerVFTableInitializedCompleteObjectLocator();
 
 /**********************************************************************************************//**
  * @fn	void TestContainerNew();

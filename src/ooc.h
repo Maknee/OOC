@@ -19,7 +19,8 @@
 //will be templated
 //#include "list.h"
 
-#define New(type) New ## type ## ()
-#define Delete(type, object) Delete ## type ## (object)
-#define Call(type, function, object, ...) ((type ## VFTable*)((Object*)object)->pVFTable)-> ## function ## (object, __VA_ARGS__)
-#define Call2(type, object, function, ...) ((type ## VFTable*)((Object*)object)->pVFTable)-> ## function ## (__VA_ARGS__)
+#define GET_FIRST_ARG(arg, ...) arg
+#define New(type) New ## type()
+#define Delete(type, object) Delete ## type(object)
+#define Call(type, function, ...) ((type ## VFTable*)((Object*)GET_FIRST_ARG(__VA_ARGS__))->pVFTable)->function(__VA_ARGS__)
+#define Call2(type, object, function, ...) ((type ## VFTable*)((Object*)object)->pVFTable)->function(__VA_ARGS__)

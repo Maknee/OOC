@@ -53,16 +53,8 @@ CompleteObjectLocator containerCompleteObjectLocator =
 
 void* NewContainer()
 {
-	//allocate a new string
-	void* container = calloc(1, sizeof(Container));
-
-	//allocate vftable
-	((Container*)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
-
-	//call constructor to set up string
-	ContainerConstruct(container);
-
-	return container;
+	//No use since this is an abstract class
+	return NULL;
 }
 
 /*============================================================================
@@ -71,16 +63,7 @@ void* NewContainer()
 
 void DeleteContainer(void* this)
 {
-	//call destructor
-	ContainerDestruct(this);
-
-	//free vftable
-	free(((Container*)this)->object.pVFTable);
-	
-	//free the string's resources
-	free(this);
-
-	//NULL the pointer, so we don't have use after free vulns
+	//No use since this is an abstract class
 	this = NULL;
 }
 
