@@ -54,7 +54,7 @@ void TestObjectNew()
 void TestObjectDelete()
 {
 	//pointer value could be random
-	void* object;
+	void* object = NULL;
 	DeleteObject(object);
 	CU_ASSERT_PTR_EQUAL(object, NULL);
 }
@@ -93,7 +93,7 @@ void TestObjectConstructor()
 void TestObjectCopyConstructor()
 {
 	//pointer value could be random
-	void* object;
+	void* object = NULL;
 	void* other_object = ObjectCopyConstruct(object);
 	//tests that the object isn't allocated and thus, equals NULL
 	CU_ASSERT_PTR_EQUAL(other_object, NULL);
