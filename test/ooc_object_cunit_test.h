@@ -25,6 +25,14 @@ int ObjectCleanUpSuite();
 void TestObjectVFTableUninitializedCompleteObjectLocator();
 
 /**********************************************************************************************//**
+ * @fn	void TestObjectVFTableInitializedCompleteObjectLocator();
+ *
+ * @brief	Tests object vf table initialized complete object locator  is pointing to NULL
+ **************************************************************************************************/
+
+void TestObjectVFTableInitializedCompleteObjectLocator();
+
+/**********************************************************************************************//**
  * @fn	void TestObjectNew();
  *
  * @brief	Tests object new
