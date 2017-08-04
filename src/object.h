@@ -39,10 +39,10 @@
  **************************************************************************************************/
 
 #define NULL_OBJECT_VFTABLE                                             \
-                {                                                       \
-			.pCompleteObjectLocator = NULL,                 \
-			.equals = NULL,                                 \
-			.toString = NULL                                \
+		{                                                       \
+			.pCompleteObjectLocator = NULL,                     \
+			.equals = NULL,                                     \
+			.toString = NULL                                    \
 		}                                                       \
 
 /*============================================================================

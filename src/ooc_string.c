@@ -12,7 +12,7 @@
 
 StringVFTable stringVFTable =
 {
-	.containerVFTable = NULL_CONTAINER_VFTABLE,
+	NULL_CONTAINER_VFTABLE,
 	.c_str = NULL,
 	.append = NULL,
 	.find = NULL,

@@ -39,19 +39,18 @@
  **************************************************************************************************/
 
 #define NULL_CONTAINER_VFTABLE                                          \
-                {                                                       \
-			.objectVFTable =                                \
-			{                                               \
-				.pCompleteObjectLocator = NULL,         \
-				.equals = NULL,                         \
-				.toString = NULL                        \
-			},                                              \
-			.add = NULL,                                    \
-			.clear = NULL,                                  \
-			.remove = NULL,                                 \
-			.contains = NULL,                               \
-			.isEmpty = NULL,                                \
-			.size = NULL                                    \
+		{                                                       \
+			{                                                   \
+				.pCompleteObjectLocator = NULL,                 \
+				.equals = NULL,                                 \
+				.toString = NULL                                \
+			},                                                  \
+			.add = NULL,                                        \
+			.clear = NULL,                                      \
+			.remove = NULL,                                     \
+			.contains = NULL,                                   \
+			.isEmpty = NULL,                                    \
+			.size = NULL                                        \
 		}                                                       \
 
 /*============================================================================
@@ -129,7 +128,7 @@
 
 typedef struct _ContainerVFTable
 {
-	ObjectVFTable objectVFTable;
+	struct _ObjectVFTable;
 	bool (*add)(void* this, void* item);
 	void (*clear)(void* this);
 	bool (*remove)(void* this, void* item);

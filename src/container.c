@@ -12,7 +12,7 @@
 
 ContainerVFTable containerVFTable =
 {
-	.objectVFTable = NULL_OBJECT_VFTABLE,
+	NULL_OBJECT_VFTABLE,
 	.add = NULL,
 	.clear = NULL,
 	.remove = NULL,

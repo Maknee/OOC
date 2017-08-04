@@ -49,28 +49,26 @@
 
 #define NPOS -1
 
-#define NULL_STRING_VFTABLE                                                 \
-		{                                                           \
-			.containerVFTable =                                 \
+#define NULL_STRING_VFTABLE                                     \
+		{                                                       \
 			{                                                   \
-				.objectVFTable =                            \
-				{                                           \
-					.pCompleteObjectLocator = NULL,     \
-					.equals = NULL,                     \
-					.toString = NULL                    \
-				},                                          \
-				.add = NULL,                                \
-				.clear = NULL,                              \
-				.remove = NULL,                             \
-				.contains = NULL,                           \
-				.isEmpty = NULL,                            \
-				.size = NULL                                \
+				{                                               \
+					.pCompleteObjectLocator = NULL,             \
+					.equals = NULL,                             \
+					.toString = NULL                            \
+				},                                              \
+				.add = NULL,                                    \
+				.clear = NULL,                                  \
+				.remove = NULL,                                 \
+				.contains = NULL,                               \
+				.isEmpty = NULL,                                \
+				.size = NULL                                    \
 			},                                                  \
 			.c_str = NULL,                                      \
 			.append = NULL,                                     \
 			.find = NULL,                                       \
 			.substring = NULL                                   \
-		}                                                           \
+		}                                                        \
 
 /*============================================================================
 |   Object virtual function table definition
@@ -140,7 +138,7 @@ typedef struct _String String;
 
 typedef struct _StringVFTable
 {
-	ContainerVFTable containerVFTable;
+	struct _ContainerVFTable;
 	char* (*c_str)(void* this);
 	void (*append)(void* this, char* item);
 	int (*find) (void* this, char* item);
