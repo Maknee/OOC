@@ -21,4 +21,5 @@
 
 #define New(type) New ## type ## ()
 #define Delete(type, object) Delete ## type ## (object)
-#define Call(type, object, function, ...) ((type ## VFTable*)((Object*)object)->pVFTable)-> ## function ## (__VA_ARGS__)
+#define Call(type, function, object, ...) ((type ## VFTable*)((Object*)object)->pVFTable)-> ## function ## (object, __VA_ARGS__)
+#define Call2(type, object, function, ...) ((type ## VFTable*)((Object*)object)->pVFTable)-> ## function ## (__VA_ARGS__)
