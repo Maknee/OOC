@@ -193,7 +193,7 @@ void StringConstruct(void* this)
 void* StringCopyConstruct(void* this)
 {
 	//allocate a new string
-	void* copy_string = calloc(1, sizeof(String));
+	void* copy_string = NewString();
 
 	//copy the contents of the string to the copied string
 	memcpy(copy_string, this, sizeof(String));

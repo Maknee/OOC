@@ -138,6 +138,7 @@ void DeleteObject(void* this);
  * 			Object to be initialized
  * 			
  * @return	Nothing
+ * @note	All derived classes constructors must call the object constructor
  * @todo	{Find a way to not use memcpy for setting up the vftable...}
  **************************************************************************************************/
 
@@ -180,6 +181,7 @@ void* ObjectCopyConstruct(void* this);
  * 			Object that should be freed of its used resources
  * 			
  * @return	Nothing
+ * @note	All derived classes destructors must call the object destructor
  * @warning	Object is an abstract class, so
  * 			nothing is actually executed
  **************************************************************************************************/

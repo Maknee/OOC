@@ -195,6 +195,7 @@ void DeleteContainer(void* this);
  * 			Container object to be initialized
  * 			
  * @return	Nothing
+ * @note	All derived class container constructors must call the container constructor
  **************************************************************************************************/
 
 void ContainerConstruct(void* this);
@@ -236,6 +237,7 @@ void* ContainerCopyConstruct(void* this);
  * 			Container object that should be freed of its used resources
  * 			
  * @return	Nothing
+ * @note	All derived class container destructors must call the container destructor
  * @warning	Container is an abstract class, so
  * 			even though this calls @ref ObjectDestruct
  * 			nothing is actually executed
@@ -250,7 +252,7 @@ void ContainerDestruct(void* this);
 /**********************************************************************************************//**
  * @fn		bool ContainerEquals(void* this, void* other);
  *
- * @brief	Checks if the type of the container is equal to another container
+ * @brief	Checks if the type of the container is equal to container container
  *
  * @param	[in] this 
  * 			The object

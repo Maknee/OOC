@@ -28,6 +28,11 @@ int main()
 
     if (!CU_add_test(objectSuite, "TestObjectVFTableUninitializedCompleteObjectLocator", TestObjectVFTableUninitializedCompleteObjectLocator) ||
 		!CU_add_test(objectSuite, "TestObjectVFTableInitializedCompleteObjectLocator", TestObjectVFTableInitializedCompleteObjectLocator) ||
+		!CU_add_test(objectSuite, "TestObjectNew", TestObjectNew) ||
+		!CU_add_test(objectSuite, "TestObjectDelete", TestObjectDelete) ||
+		!CU_add_test(objectSuite, "TestObjectConstructor", TestObjectConstructor) ||
+		!CU_add_test(objectSuite, "TestObjectCopyConstructor", TestObjectCopyConstructor) ||
+		!CU_add_test(objectSuite, "TestObjectDestructor", TestObjectDestructor) ||
 		!CU_add_test(objectSuite, "TestObjectVFTableEquals", TestObjectVFTableEquals) ||
 		!CU_add_test(objectSuite, "TestObjectVFTableObjectToString", TestObjectVFTableObjectToString))
     {

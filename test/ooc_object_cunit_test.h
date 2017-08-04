@@ -25,12 +25,56 @@ int ObjectCleanUpSuite();
 void TestObjectVFTableUninitializedCompleteObjectLocator();
 
 /**********************************************************************************************//**
- * @fn	void TestObjectVFTableInitializedCompleteObjectLocator();
+ * @fn	void TestObjectNew();
  *
- * @brief	Tests object vf table initialized complete object locator is pointing to the correct struct
+ * @brief	Tests object new
+ * @warning	Object is an abstract class, so
+ * 			<b>DO NOT CALL THIS FUNCTION</b>
  **************************************************************************************************/
 
-void TestObjectVFTableInitializedCompleteObjectLocator();
+void TestObjectNew();
+
+/**********************************************************************************************//**
+ * @fn	void TestObjectDelete();
+ *
+ * @brief	Tests object delete
+ * @warning	Object is an abstract class, so
+ * 			<b>DO NOT CALL THIS FUNCTION</b>
+ **************************************************************************************************/
+
+void TestObjectDelete();
+
+/**********************************************************************************************//**
+ * @fn	void TestObjectConstructor();
+ *
+ * @brief	Tests object constructor
+ **************************************************************************************************/
+
+void TestObjectConstructor();
+
+/**********************************************************************************************//**
+ * @fn	void TestObjectCopyConstructor();
+ *
+ * @brief	Tests object copy constructor
+ **************************************************************************************************/
+
+void TestObjectCopyConstructor();
+
+/**********************************************************************************************//**
+ * @fn	void TestObjectdestructor();
+ *
+ * @brief	Tests object destructor
+ **************************************************************************************************/
+
+void TestObjectDestructor();
+
+/**********************************************************************************************//**
+ * @fn	void TestObjectVFTableObjectToString();
+ *
+ * @brief	Tests object vf table ObjectToString  is pointing to the correct function
+ **************************************************************************************************/
+
+void TestObjectVFTableObjectToString();
 
 /**********************************************************************************************//**
  * @fn	void TestObjectVFTableEquals();
