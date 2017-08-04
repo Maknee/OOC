@@ -156,22 +156,22 @@ void StringConstruct(void* this)
 	//=========================
 
 	//Set the vtable's complete object locator to complete the RTTI circle
-	stringVFTable.containerVFTable.objectVFTable.pCompleteObjectLocator = &stringCompleteObjectLocator;
+	stringVFTable.pCompleteObjectLocator = &stringCompleteObjectLocator;
 
 	//Set the equals function
-	stringVFTable.containerVFTable.objectVFTable.equals = &StringEquals;
+	stringVFTable.equals = &StringEquals;
 
 	//Set the toString
-	stringVFTable.containerVFTable.objectVFTable.toString = &StringToString;
+	stringVFTable.toString = &StringToString;
 
 	//Override Container's methods
 	//==========================
 
-	stringVFTable.containerVFTable.clear = &StringClear;
-	stringVFTable.containerVFTable.remove = &StringRemove;
-	stringVFTable.containerVFTable.contains = &StringContains;
-	stringVFTable.containerVFTable.isEmpty = &StringIsEmpty;
-	stringVFTable.containerVFTable.size = &StringSize;
+	stringVFTable.clear = &StringClear;
+	stringVFTable.remove = &StringRemove;
+	stringVFTable.contains = &StringContains;
+	stringVFTable.isEmpty = &StringIsEmpty;
+	stringVFTable.size = &StringSize;
 
 	//Initialize the vtable to a copy of this object's vtable
 	memcpy(((String*)this)->container.object.pVFTable, &stringVFTable, sizeof(StringVFTable));

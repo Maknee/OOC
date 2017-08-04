@@ -79,13 +79,13 @@ void ContainerConstruct(void* this)
 	//Override super's methods
 
 	//Set the vtable's complete object locator to complete the RTTI circle
-	containerVFTable.objectVFTable.pCompleteObjectLocator = &containerCompleteObjectLocator;
+	containerVFTable.pCompleteObjectLocator = &containerCompleteObjectLocator;
 
 	//Set the equals function
-	containerVFTable.objectVFTable.equals = &ContainerEquals;
+	containerVFTable.equals = &ContainerEquals;
 
 	//Set the toString
-	containerVFTable.objectVFTable.toString = &ContainerToString;
+	containerVFTable.toString = &ContainerToString;
 
 	//Initialize the vtable to point to this object's vtable
 	memcpy(((Container*)this)->object.pVFTable, &containerVFTable, sizeof(ContainerVFTable));

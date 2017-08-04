@@ -12,7 +12,7 @@ int ContainerCleanUpSuite()
 
 void TestContainerVFTableUninitializedCompleteObjectLocator()
 {
-	CU_ASSERT_PTR_EQUAL(containerVFTable.objectVFTable.pCompleteObjectLocator, NULL);
+	CU_ASSERT_PTR_EQUAL(containerVFTable.pCompleteObjectLocator, NULL);
 }
 
 void TestContainerVFTableInitializedCompleteObjectLocator()
@@ -30,7 +30,7 @@ void TestContainerVFTableInitializedCompleteObjectLocator()
 	//call constructor to set up container
 	ContainerConstruct(container);
 
-	CU_ASSERT_PTR_EQUAL(containerVFTable.objectVFTable.pCompleteObjectLocator, &containerCompleteObjectLocator);
+	CU_ASSERT_PTR_EQUAL(containerVFTable.pCompleteObjectLocator, &containerCompleteObjectLocator);
 
 	//call destructor
 	ContainerDestruct(container);
@@ -133,7 +133,7 @@ void TestContainerDestructor()
 void TestContainerVFTableEquals()
 {
 	//compile time check
-	CU_ASSERT_PTR_EQUAL(containerVFTable.objectVFTable.equals, ContainerEquals);
+	CU_ASSERT_PTR_EQUAL(containerVFTable.equals, ContainerEquals);
 
 	//manually allocates and deallocates an container
 	//this should __NOT__ be done in a real program
@@ -158,8 +158,8 @@ void TestContainerVFTableEquals()
 	ContainerConstruct(other_container);
 
 	//test for equals
-	CU_ASSERT_TRUE(((ContainerVFTable*)((Container*)container)->object.pVFTable)->objectVFTable.equals(container, other_container));
-	CU_ASSERT_TRUE(((ContainerVFTable*)((Container*)other_container)->object.pVFTable)->objectVFTable.equals(other_container, container));
+	CU_ASSERT_TRUE(((ContainerVFTable*)((Container*)container)->object.pVFTable)->equals(container, other_container));
+	CU_ASSERT_TRUE(((ContainerVFTable*)((Container*)other_container)->object.pVFTable)->equals(other_container, container));
 	CU_ASSERT_TRUE(ContainerEquals(other_container, container));
 
 	//call destructor
@@ -187,7 +187,7 @@ void TestContainerVFTableEquals()
 void TestContainerVFTableContainerToString()
 {
 	//compile time check
-	CU_ASSERT_PTR_EQUAL(containerVFTable.objectVFTable.toString, ContainerToString);
+	CU_ASSERT_PTR_EQUAL(containerVFTable.toString, ContainerToString);
 
 	//manually allocates and deallocates an container
 	//this should __NOT__ be done in a real program
@@ -202,7 +202,7 @@ void TestContainerVFTableContainerToString()
 	//call constructor to set up container
 	ContainerConstruct(container);
 
-	CU_ASSERT_STRING_EQUAL(((ContainerVFTable*)((Container*)container)->object.pVFTable)->objectVFTable.toString(container), "Container");
+	CU_ASSERT_STRING_EQUAL(((ContainerVFTable*)((Container*)container)->object.pVFTable)->toString(container), "Container");
 	CU_ASSERT_STRING_EQUAL(ContainerToString(container), "Container");
 
 	//call destructor
