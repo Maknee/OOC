@@ -142,8 +142,8 @@ typedef struct _StringVFTable
 	struct _ContainerVFTable;
 	bool (*set)(void* this, char* item);
 	char* (*c_str)(void* this);
-	void (*append)(void* this, char* item);
-	int (*find) (void* this, char* item);
+	bool (*append)(void* this, char* item);
+	int (*find) (void* this, void* item);
 	void* (*substring)(void* this, size_t start, size_t end);
 } StringVFTable;
 

@@ -15,7 +15,7 @@ void* check_calloc(size_t size)
 	void* result = calloc(1, size);
 	if (!result)
 	{
-		DEBUG_PRINT("%s%d\n", "Error! Exiting... Could not be allocate size of: ", size);
+		DEBUG_PRINT("%s%zu\n", "Error! Exiting... Could not be allocate size of: ", size);
 		exit(-20);
 	}
 	return result;
