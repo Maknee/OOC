@@ -45,7 +45,7 @@
  **************************************************************************************************/
 
 //15 characters + 1 null byte
-#define DEFAULT_STRING_LENGTH 15 + 1
+#define DEFAULT_STRING_LENGTH 15
 
 #define NPOS -1
 

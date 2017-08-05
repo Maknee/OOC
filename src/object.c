@@ -10,6 +10,17 @@
 
 #include "object.h"
 
+void* check_calloc(size_t size)
+{
+	void* result = calloc(1, size);
+	if (!result)
+	{
+		DEBUG_PRINT("%s%d\n", "Error! Exiting... Could not be allocate size of: ", size);
+		exit(-20);
+	}
+	return result;
+}
+
 ObjectVFTable objectVFTable =
 {
 	.pCompleteObjectLocator = NULL,
@@ -61,7 +72,6 @@ void DeleteObject(void* this)
 {
 	//No use since this is an abstract class
 	DEBUG_PRINT("%s\n", "Warning! Calling delete on an abstract class!");
-	this = NULL;
 }
 
 /*============================================================================
@@ -116,14 +126,16 @@ void ObjectDestruct(void* this)
 
 bool ObjectEquals(void* this, void* other)
 {
-	CHECK_NULL(this);
-	CHECK_NULL(other);
+	CHECK_NULL(this, false);
+	CHECK_NULL(other, false);
+
 	return (!strcmp(ObjectToString(this), ObjectToString(other))) ? true : false;
 }
 
 char* ObjectToString(void* this)
 {
-	CHECK_NULL(this);
+	CHECK_NULL(this, NULL);
+
 	ObjectVFTable* pThisObjectVFTable = (ObjectVFTable*)((Object*)this)->pVFTable;
 	return pThisObjectVFTable->pCompleteObjectLocator->pTypeDescriptor->name;
 }

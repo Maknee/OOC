@@ -66,7 +66,6 @@ void DeleteContainer(void* this)
 {
 	//No use since this is an abstract class
 	DEBUG_PRINT("%s\n", "Warning! Calling delete on an abstract class!");
-	this = NULL;
 }
 
 /*============================================================================
@@ -123,14 +122,16 @@ void ContainerDestruct(void* this)
 
 bool ContainerEquals(void* this, void* other)
 {
-	CHECK_NULL(this);
-	CHECK_NULL(other);
+	CHECK_NULL(this, false);
+	CHECK_NULL(other, false);
+
 	return (!strcmp(ContainerToString(this), ContainerToString(other))) ? true : false;
 }
 
 char* ContainerToString(void* this)
 {
-	CHECK_NULL(this);
+	CHECK_NULL(this, NULL);
+
 	return ObjectToString(this);
 }
 

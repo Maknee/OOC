@@ -3,8 +3,12 @@
 
 int main()
 {
-	void* string = New(String);
-	printf("%s", Call(String, toString, string));
-	Delete(String, string);
+	void* s1 = New(String);
+	Call(String, append, s1, "HEYYY");
+	printf("%s\n", Call(String, c_str, s1));
+	Delete(String, s1);
+	void* s2 = New(String);
+	printf("%d\n", Call(String, equals, s2, s1));
+	Delete(String, s2);
 	return 0;
 }

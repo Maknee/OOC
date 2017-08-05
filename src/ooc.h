@@ -21,8 +21,7 @@
  *
  * @brief	Gets the first argument of a macro
  *
- * @param	arg	The argument.
- * @param	...	Variable arguments providing additional information.
+ * @param	args	The arguments
  * 
  * @def	New(type)
  *
@@ -48,7 +47,23 @@
  * 			function passes <b>this</b> as the first argument
  **************************************************************************************************/
 
-#define GET_FIRST_ARG(arg, ...) arg
+//bug in VS... //https://stackoverflow.com/questions/4750688/how-to-single-out-the-first-parameter-sent-to-a-macro-taking-only-a-variadic-par
+#define GET_FIRST_ARG_(arg, ...) arg
+#define GET_FIRST_ARG(args) GET_FIRST_ARG_ args
+
 #define New(type) New ## type()
-#define Delete(type, object) Delete ## type(object)
-#define Call(type, function, ...) ((type ## VFTable*)((Object*)GET_FIRST_ARG(__VA_ARGS__))->pVFTable)->function(__VA_ARGS__)
+
+#define Delete(type, object)                                    \
+		Delete ## type(object);                                 \
+		object = NULL                                           \
+
+#define Call(type, function, ...) ((type ## VFTable*)((Object*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)
+
+ /* Test for GCC > 4.9.0 */
+#if GCC_VERSION > 40900
+//implement _Generic
+#define Call_GCC
+#endif
+
+
+
