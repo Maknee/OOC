@@ -177,15 +177,18 @@ void StringConstruct(void* this)
 	//Override Container's methods
 	//==========================
 
+	stringVFTable.add = &StringAdd;
 	stringVFTable.clear = &StringClear;
 	stringVFTable.remove = &StringRemove;
 	stringVFTable.contains = &StringContains;
+	stringVFTable.copy = &StringCopy;
 	stringVFTable.isEmpty = &StringIsEmpty;
 	stringVFTable.size = &StringSize;
 
 	//Initialize class member methods
 	//==========================
 
+	stringVFTable.set = &StringSet;
 	stringVFTable.c_str = &StringC_Str;
 	stringVFTable.append = &StringAppend;
 	stringVFTable.find = &StringFind;
@@ -257,9 +260,6 @@ bool StringEquals(void* this, void* other)
 	CHECK_NULL(this, false);
 	CHECK_NULL(other, false);
 
-	printf("%s\n", StringC_Str(this));
-	printf("%s\n", StringC_Str(other));
-
 	return (!strcmp(StringC_Str(this), StringC_Str(other)) ? true : false);
 }
 
@@ -268,6 +268,66 @@ char* StringToString(void* this)
 	CHECK_NULL(this, NULL);
 
 	return ContainerToString(this);
+}
+
+bool StringSet(void* this, char* item)
+{
+	CHECK_NULL(this, false);
+	CHECK_NULL(item, false);
+
+	String* this_string = (String*)this;
+
+	//check if the new string can be appended
+	size_t new_length = strlen(item);
+	
+	//check whether or not the string is using an array or a dynamic pointer
+	if (CheckIfStringIsAllocated(this))
+	{
+		if (this_string->capacity < new_length)
+		{
+			//this string capacity should be increased
+			this_string->capacity = new_length * 2;
+
+			//this string is dynamically allocated, so realloc with twice the length
+			this_string->data.pBuf = realloc(this_string->data.pBuf, this_string->capacity);
+		}
+
+		//copy the other string's data
+		strncpy(this_string->data.pBuf, item, new_length);
+	}
+	else
+	{
+		//this string might need to dynamically allocated. 
+		if (new_length > DEFAULT_STRING_LENGTH)
+		{
+			//this string should already/become dynamically allocated now
+			this_string->capacity = new_length * 2;
+
+			//allocate a tmp to make sure that pBuf pointer doesn't
+			//overwrite buf's data. We need to copy buf's data and then set 
+			//pBuf to point to a copy of buf's data
+			char* tmp = check_calloc(this_string->capacity);
+
+			//copy the other string's data
+			strncpy(tmp, item, new_length);
+
+			//set the pBuf to tmp
+			this_string->data.pBuf = tmp;
+		}
+		else
+		{
+			//keep the capacity at the limit
+			this_string->capacity = DEFAULT_STRING_LENGTH;
+
+			//copy the other string's data
+			strncpy(this_string->data.buf, item, new_length);
+		}
+	}
+
+	//update the length
+	this_string->length = new_length;
+
+	return true;
 }
 
 bool StringAdd(void* this, void* item)
@@ -281,18 +341,17 @@ bool StringAdd(void* this, void* item)
 	//check if the new string can be appended
 	size_t new_length = this_string->length + other_string->length;
 
-
-	if (this_string->capacity < new_length)
-	{
-		//this string should already/become dynamically allocated now
-		this_string->capacity = new_length * 2;
-	}
-
 	//check whether or not the string is using an array or a dynamic pointer
 	if (CheckIfStringIsAllocated(this))
 	{
-		//this string is dynamically allocated, so realloc with twice the length
-		this_string->data.pBuf = realloc(this_string->data.pBuf, this_string->capacity);
+		if (this_string->capacity < new_length)
+		{
+			//this string capacity should be increased
+			this_string->capacity = new_length * 2;
+
+			//this string is dynamically allocated, so realloc with twice the length
+			this_string->data.pBuf = realloc(this_string->data.pBuf, this_string->capacity);
+		}
 
 		//copy the other string's data
 		StringStrncat(this_string, other_string);
@@ -302,22 +361,30 @@ bool StringAdd(void* this, void* item)
 		//this string might need to dynamically allocated. 
 		if (new_length > DEFAULT_STRING_LENGTH)
 		{
-			//allocate dynamically allocated string
+			//this string should already/become dynamically allocated now
+			this_string->capacity = new_length * 2;
+
+			//allocate a tmp to make sure that pBuf pointer doesn't
+			//overwrite buf's data. We need to copy buf's data and then set 
+			//pBuf to point to a copy of buf's data
 			char* tmp = check_calloc(this_string->capacity);
 
 			//copy this string's data
-			memcpy(tmp, this_string->data.pBuf, this_string->length);
+			memcpy(tmp, this_string->data.buf, this_string->length);
+
+			//set pbuf to the tmp
+			this_string->data.pBuf = tmp;
 
 			//copy the other string's data
 			StringStrncat(this_string, other_string);
 		}
 		else
 		{
-			//copy the other string's data
-			StringStrncat(this_string, other_string);
-
 			//keep the capacity at the limit
 			this_string->capacity = DEFAULT_STRING_LENGTH;
+
+			//copy the other string's data
+			StringStrncat(this_string, other_string);
 		}
 	}
 
@@ -397,6 +464,13 @@ bool StringContains(void* this, void* item)
 	return StringFind(this, item);
 }
 
+void* StringCopy(void* this)
+{
+	CHECK_NULL(this, NULL);
+
+	return StringCopyConstruct(this);
+}
+
 bool StringIsEmpty(void* this)
 {
 	CHECK_NULL(this, false);
@@ -437,50 +511,60 @@ bool StringAppend(void* this, char* item)
 
 	String* this_string = (String*)this;
 	size_t other_string_length = strlen(item);
+
 	//check if the new string can be appended
 	size_t new_length = this_string->length + other_string_length;
 	
-	if (this_string->capacity < new_length)
-	{
-		//this string should already/become dynamically allocated now
-		this_string->capacity = new_length * 2;
-	}
-
 	//check whether or not the string is using an array or a dynamic pointer
 	if (CheckIfStringIsAllocated(this))
 	{
-		//this string is dynamically allocated, so realloc with twice the length
-		this_string->data.pBuf = realloc(this_string->data.pBuf, this_string->capacity);
+		if (this_string->capacity < new_length)
+		{
+			//this string capacity should be increased
+			this_string->capacity = new_length * 2;
+
+			//this string is dynamically allocated, so realloc with twice the length
+			this_string->data.pBuf = realloc(this_string->data.pBuf, this_string->capacity);
+		}
 
 		//copy the other string's data
-		strncat(this_string->data.pBuf, item, strlen(item));
+		strncat(this_string->data.pBuf, item, new_length);
 	}
 	else
 	{
 		//this string might need to dynamically allocated. 
 		if (new_length > DEFAULT_STRING_LENGTH)
 		{
-			//allocate dynamically allocated string
+			//this string should already/become dynamically allocated now
+			this_string->capacity = new_length * 2;
+
+			//allocate a tmp to make sure that pBuf pointer doesn't
+			//overwrite buf's data. We need to copy buf's data and then set 
+			//pBuf to point to a copy of buf's data
 			char* tmp = check_calloc(this_string->capacity);
 
 			//copy this string's data
-			memcpy(tmp, this_string->data.pBuf, this_string->length);
+			memcpy(tmp, this_string->data.buf, this_string->length);
 
 			//copy the other string's data
-			strncat(this_string->data.pBuf, item, strlen(item));
+			strncat(tmp, item, new_length);
+
+			//set the pBuf to tmp
+			this_string->data.pBuf = tmp;
 		}
 		else
 		{
-			//copy the other string's data
-			strncat(this_string->data.buf, item, strlen(item));
-
 			//keep the capacity at the limit
 			this_string->capacity = DEFAULT_STRING_LENGTH;
+
+			//copy the other string's data
+			strncat(this_string->data.buf, item, new_length);
 		}
 	}
 
 	//update the length
 	this_string->length = new_length;
+
 	return true;
 }
 

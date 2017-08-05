@@ -61,6 +61,7 @@
 				.clear = NULL,                                  \
 				.remove = NULL,                                 \
 				.contains = NULL,                               \
+				.copy = NULL,                                   \
 				.isEmpty = NULL,                                \
 				.size = NULL                                    \
 			},                                                  \
@@ -139,6 +140,7 @@ typedef struct _String String;
 typedef struct _StringVFTable
 {
 	struct _ContainerVFTable;
+	bool (*set)(void* this, char* item);
 	char* (*c_str)(void* this);
 	void (*append)(void* this, char* item);
 	int (*find) (void* this, char* item);
@@ -294,7 +296,7 @@ char* StringToString(void* this);
  *
  * @param	[in] this 
  * 			The string
- * @param	[in] other
+ * @param	[in] item
  * 			The other string
  * @return	Returns true if the string was added correctly, 
  * 			returns false if the string was not added correctly
@@ -331,7 +333,7 @@ void StringClear(void* this);
  *			
  * @param	[in] this
  * 			The string
- * @param	[in] other
+ * @param	[in] item
  * 			The substring
  * @return	Returns true if the substring was removed, 
  * 			returns false if the substring couldn't be found or removed
@@ -355,6 +357,24 @@ bool StringRemove(void* this, void* item);
  **************************************************************************************************/
 
 bool StringContains(void* this, void* item);
+
+/**********************************************************************************************//**
+ * @fn	void* StringCopy(void* this)
+ * @brief	String's copy function
+ * 			
+ *			Returns a deep copy of the string
+ *
+ * @param	[in] this
+ * 			String to be used for copying
+ * 			
+ * @return	The copied string
+ * @note	Calls copy constructor @ref StringCopyConstruct
+ * @note    This is a <b>DEEP</b> copy, which will dynamically allocate memory
+ * 			for the pBuf if the current string has dynamically allocated memory
+ * @note	Does not memcpy the vtable (just points to the same vtable as the current string)
+ **************************************************************************************************/
+
+void* StringCopy(void* this);
 
 /**********************************************************************************************//**
  * @fn		bool StringIsEmpty(void* this)
@@ -384,6 +404,31 @@ size_t StringSize(void* this);
 /*============================================================================
 |	Class member definitions
 *===========================================================================*/
+
+/**********************************************************************************************//**
+ * @fn		bool StringSet(void* this, void* item)
+ *
+ * @brief	Concatenates the two strings
+ * 			
+ *			The strings are concatenated by:
+ *			Checking the new length
+ *			Checking whether or not the current string was dynamically allocated
+ *			If so, just call realloc and append
+ *			If not, then two cases appear with a string that is externally allocated
+ *			If the new length is greater than limit length, then make the pointer dynamic
+ *			If the new length is less, then append to length
+ *
+ * @param	[in] this 
+ * 			The string
+ * @param	[in] item
+ * 			The char array
+ * @return	Returns true if the string was set correctly, 
+ * 			returns false if the string was not set correctly
+ * @note	Function sets a string to a char array, not a string object @ref StringCopy to copy another string
+ * @todo	{find a case when the function should fail}
+ **************************************************************************************************/
+
+bool StringSet(void* this, char* item);
 
 /**********************************************************************************************//**
  * @fn		char* StringC_Str(void* this)

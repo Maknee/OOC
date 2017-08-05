@@ -84,14 +84,6 @@ void TestContainerCopyConstructor();
 void TestContainerDestructor();
 
 /**********************************************************************************************//**
- * @fn	void TestContainerVFTableContainerToString();
- *
- * @brief	Tests container vf table ContainerToString  is pointing to the correct function
- **************************************************************************************************/
-
-void TestContainerVFTableContainerToString();
-
-/**********************************************************************************************//**
  * @fn	void TestContainerVFTableEquals();
  *
  * @brief	Tests container vf table equals() is pointing to the correct function

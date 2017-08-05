@@ -4,11 +4,13 @@
 int main()
 {
 	void* s1 = New(String);
-	Call(String, append, s1, "HEYYY");
+	Call(String, set, s1, "0123456789");
 	printf("%s\n", Call(String, c_str, s1));
-	Delete(String, s1);
 	void* s2 = New(String);
-	printf("%d\n", Call(String, equals, s2, s1));
+	Call(String, set, s2, "0123456789");
+	printf("%d\n", Call(String, add, s2, s1));
+	printf("%s\n", Call(String, c_str, s2));
 	Delete(String, s2);
+	Delete(String, s1);
 	return 0;
 }

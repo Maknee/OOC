@@ -9,6 +9,7 @@
 #include <string.h>
 #include "ooc_object_cunit_test.h"
 #include "ooc_container_cunit_test.h"
+#include "ooc_string_cunit_test.h"
 
 /*
  * Set up and run tests.
@@ -75,6 +76,39 @@ int main()
 		!CU_add_test(containerSuite, "TestContainerDestructor", TestContainerDestructor) ||
 		!CU_add_test(containerSuite, "TestContainerVFTableEquals", TestContainerVFTableEquals) ||
 		!CU_add_test(containerSuite, "TestContainerVFTableContainerToString", TestContainerVFTableContainerToString))
+	{
+		printf("%s\n", CU_get_error_msg());
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	//test string class
+
+	CU_pSuite stringSuite = CU_add_suite("String Testing Suite",
+		StringInitializeSuite,
+		StringCleanUpSuite);
+
+	if (stringSuite == NULL)
+	{
+		printf("%s\n", CU_get_error_msg());
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	if (!CU_add_test(stringSuite, "TestStringVFTableUninitializedCompleteObjectLocator", TestStringVFTableUninitializedCompleteObjectLocator) ||
+		!CU_add_test(stringSuite, "TestStringVFTableInitializedCompleteObjectLocator", TestStringVFTableInitializedCompleteObjectLocator) ||
+		!CU_add_test(stringSuite, "TestStringNew", TestStringNew) ||
+		!CU_add_test(stringSuite, "TestStringDelete", TestStringDelete) ||
+		!CU_add_test(stringSuite, "TestStringConstructor", TestStringConstructor) ||
+		!CU_add_test(stringSuite, "TestStringCopyConstructor", TestStringCopyConstructor) ||
+		!CU_add_test(stringSuite, "TestStringDestructor", TestStringDestructor) ||
+		!CU_add_test(stringSuite, "TestStringVFTableEquals", TestStringVFTableEquals) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringToString", TestStringVFTableStringToString) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringSet", TestStringVFTableStringSet) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringC_Str", TestStringVFTableStringC_Str) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringAppend", TestStringVFTableStringAppend) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringFind", TestStringVFTableStringFind) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringSubString", TestStringVFTableStringSubString))
 	{
 		printf("%s\n", CU_get_error_msg());
 		CU_cleanup_registry();

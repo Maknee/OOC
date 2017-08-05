@@ -49,6 +49,7 @@
 			.clear = NULL,                                      \
 			.remove = NULL,                                     \
 			.contains = NULL,                                   \
+			.copy = NULL,                                       \
 			.isEmpty = NULL,                                    \
 			.size = NULL                                        \
 		}                                                       \
@@ -107,6 +108,15 @@
  *			@return
  *			Returns true if the item is in the container, false if the item is not in the container
  *			
+ * @var		_ContainerVFTable::copy
+ * 			Pointer to a function that copies the container and returns a pointer to the copy
+ * 			the container
+ *
+ *			@param [in] this
+ *			The object
+ *			@return
+ *			Returns a copy of the container or null if it cannot be copied
+ * 
  * @var		_ContainerVFTable::isEmpty
  * 			Pointer to a function that checks whether or not the container
  * 			is empty
@@ -133,6 +143,7 @@ typedef struct _ContainerVFTable
 	void (*clear)(void* this);
 	bool (*remove)(void* this, void* item);
 	bool (*contains)(void* this, void* item);
+	void* (*copy)(void* this);
 
 	bool (*isEmpty)(void* this);
 	size_t (*size)(void* this);
