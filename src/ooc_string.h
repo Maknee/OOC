@@ -140,11 +140,11 @@ typedef struct _String String;
 typedef struct _StringVFTable
 {
 	struct _ContainerVFTable;
-	bool (*set)(void* this, char* item);
+	bool (*set)(void* this, const char* item);
 	char* (*c_str)(void* this);
-	bool (*append)(void* this, char* item);
+	bool (*append)(void* this, const char* item);
 	int (*find) (void* this, void* item);
-	void* (*substring)(void* this, size_t start, size_t end);
+	void* (*substring)(void* this, int start, int end);
 } StringVFTable;
 
 /*============================================================================
@@ -428,7 +428,7 @@ size_t StringSize(void* this);
  * @todo	{find a case when the function should fail}
  **************************************************************************************************/
 
-bool StringSet(void* this, char* item);
+bool StringSet(void* this, const char* item);
 
 /**********************************************************************************************//**
  * @fn		char* StringC_Str(void* this)
@@ -458,7 +458,7 @@ char* StringC_Str(void* this);
  * @todo	{find a way for this function to return false}
  **************************************************************************************************/
 
-bool StringAppend(void* this, char* item);
+bool StringAppend(void* this, const char* item);
 
 /**********************************************************************************************//**
  * @fn		int StringFind(void* this, void* item)
@@ -475,17 +475,21 @@ bool StringAppend(void* this, char* item);
 int StringFind(void* this, void* item);
 
 /**********************************************************************************************//**
- * @fn		void* StringSubstring(void* this, size_t start, size_t end);
+ * @fn		void* StringSubstring(void* this, int start, int end);
  *
  * @brief	Finds the substrings of of the string if possible
  *			
  * @param	[in] this
  * 			The string
+ * @param	[in] start
+ * 			The beginning of the substring
+ * @param	[in] end
+ * 			The end of the substring
  * @return	Returns a new allocated substring
  * @warning	Returns NULL if substring could not be found
  **************************************************************************************************/
 
-void* StringSubstring(void* this, size_t start, size_t end);
+void* StringSubstring(void* this, int start, int end);
 
 /*============================================================================
 |   Container virtual function table instance

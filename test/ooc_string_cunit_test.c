@@ -141,11 +141,11 @@ void TestStringDestructor()
 	//call constructor to set up string
 	StringConstruct(string);
 
+	//show that vftable points to different memory region
+	CU_ASSERT_PTR_NOT_EQUAL(((String*)string)->container.object.pVFTable, &stringVFTable);
+
 	//call destructor
 	StringDestruct(string);
-
-	//Show that nothing happens after destructor is called since the destructor does not do anything
-	CU_ASSERT_PTR_NOT_EQUAL(((String*)string)->container.object.pVFTable, &stringVFTable);
 
 	//free vftable
 	free(((String*)string)->container.object.pVFTable);

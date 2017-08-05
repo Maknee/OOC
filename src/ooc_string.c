@@ -216,21 +216,27 @@ void* StringCopyConstruct(void* this)
 	CHECK_NULL(this, NULL);
 	
 	//allocate a new string
-	void* copy_string = NewString();
+	void* copy = NewString();
 
-	//copy the contents of the string to the copied string
-	memcpy(copy_string, this, sizeof(String));
+	//cast to string
+	String* this_string = (String*)this;
+	String* copy_string = (String*)copy;
+
+	//copy the contents of the string to the copied string except for vftable (which is contained in Container struct inside the String struct)
+	memcpy(&copy_string->length, &this_string->length, sizeof(this_string->length));
+	memcpy(&copy_string->capacity, &this_string->capacity, sizeof(this_string->capacity));
+	memcpy(copy_string->data.buf, this_string->data.buf, sizeof(this_string->data.buf));
 
 	//check if the string was dynamically allocated
 	if (CheckIfStringIsAllocated(this))
 	{
 		//copy the contents of the data into another area of the heap
-		((String*)copy_string)->data.pBuf = check_calloc(((String*)this)->capacity);
-		memcpy(((String*)copy_string)->data.pBuf, ((String*)this)->data.pBuf, ((String*)this)->length);
+		copy_string->data.pBuf = check_calloc(this_string->capacity);
+		memcpy(copy_string->data.pBuf, this_string->data.pBuf, this_string->length + 1);
 	}
 	//no need to consider the other case because we memcpy'd the entire struct above!
 
-	return copy_string;
+	return copy;
 }
 
 /*============================================================================
@@ -270,7 +276,7 @@ char* StringToString(void* this)
 	return ContainerToString(this);
 }
 
-bool StringSet(void* this, char* item)
+bool StringSet(void* this, const char* item)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(item, false);
@@ -504,7 +510,7 @@ char* StringC_Str(void* this)
 	}
 }
 
-bool StringAppend(void* this, char* item)
+bool StringAppend(void* this, const char* item)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(item, false);
@@ -621,12 +627,12 @@ int StringFind(void* this, void* item)
 	}
 }
 
-void* StringSubstring(void* this, size_t start, size_t end)
+void* StringSubstring(void* this, int start, int end)
 {
 	CHECK_NULL(this, NULL);
 	
 	//check if user made mistakes...
-	if (start > end)
+	if (start > end || start < 0 || end < 0)
 	{
 		return NULL;
 	}
@@ -634,24 +640,27 @@ void* StringSubstring(void* this, size_t start, size_t end)
 	String* this_string = (String*)this;
 
 	//check if indices are in bounds
-	if (start > this_string->length || end > this_string->length)
+	if (start > (int)this_string->length || end > (int)this_string->length)
 	{
 		return NULL;
 	}
+	
+	size_t start_t = (size_t)start;
+	size_t end_t = (size_t)end;
 
 	//allocate a copy string using the copy constructor
 	String* copy_string = StringCopyConstruct(this);
 
 	//update the length of copy_string
-	copy_string->length = end - start + 1;
+	copy_string->length = end_t - start_t + 1;
 
 	if (CheckIfStringIsAllocated(copy_string))
 	{
 		//use memmove to copy the data over because overlapping regions
-		memmove(copy_string->data.pBuf, copy_string->data.pBuf + start, copy_string->length);
+		memmove(copy_string->data.pBuf, copy_string->data.pBuf + start_t, copy_string->length);
 
 		//now zero out the rest
-		memset(copy_string->data.pBuf + copy_string->length, 0, end - copy_string->length);
+		memset(copy_string->data.pBuf + copy_string->length, 0, end_t - copy_string->length);
 	}
 	return copy_string;
 }
