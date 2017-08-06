@@ -520,6 +520,32 @@ void TestStringVFTableStringSetAllocated()
 	CU_ASSERT_PTR_EQUAL(string, NULL);
 }
 
+
+void TestStringVFTableStringSetAlreadyAllocated()
+{
+	//allocate a new string
+	void* string = New(String);
+
+	//append a char array > 16
+	Call(String, set, string, "Test this test because testing is good!");
+
+	//check if strings' values are the same
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, string), "Test this test because testing is good!");
+
+	//append a char array > 16
+	Call(String, set, string, "Test this test because testing is good!Test this test because testing is good!");
+
+	//check if strings' values are the same
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, string), "Test this test because testing is good!Test this test because testing is good!");
+
+
+	//free the string's resources
+	Delete(String, string);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(string, NULL);
+}
+
 void TestStringVFTableStringIsEmpty()
 {
 	//allocate a new string
@@ -551,49 +577,6 @@ void TestStringVFTableStringSize()
 
 	//check string's length
 	CU_ASSERT_EQUAL(Call(String, size, string), 15);
-
-	//free the string's resources
-	Delete(String, string);
-
-	//check that the pointers are freed
-	CU_ASSERT_PTR_EQUAL(string, NULL);
-}
-
-void TestStringVFTableStringSetAllocated()
-{
-	//allocate a new string
-	void* string = New(String);
-
-	//append a char array > 16
-	Call(String, set, string, "Test this test because testing is good!");
-
-	//check if strings' values are the same
-	CU_ASSERT_STRING_EQUAL(Call(String, c_str, string), "Test this test because testing is good!");
-
-	//free the string's resources
-	Delete(String, string);
-
-	//check that the pointers are freed
-	CU_ASSERT_PTR_EQUAL(string, NULL);
-}
-
-void TestStringVFTableStringSetAlreadyAllocated()
-{
-	//allocate a new string
-	void* string = New(String);
-
-	//append a char array > 16
-	Call(String, set, string, "Test this test because testing is good!");
-
-	//check if strings' values are the same
-	CU_ASSERT_STRING_EQUAL(Call(String, c_str, string), "Test this test because testing is good!");
-
-	//append a char array > 16
-	Call(String, set, string, "Test this test because testing is good!Test this test because testing is good!");
-
-	//check if strings' values are the same
-	CU_ASSERT_STRING_EQUAL(Call(String, c_str, string), "Test this test because testing is good!Test this test because testing is good!");
-
 
 	//free the string's resources
 	Delete(String, string);
