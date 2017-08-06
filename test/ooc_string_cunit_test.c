@@ -301,15 +301,11 @@ void TestStringVFTableStringAddAlreadyAllocated()
 	//append characters
 	Call(String, append, s1, "TestTestTestTest");
 
-	//not equal
-	CU_ASSERT_STRING_NOT_EQUAL(Call(String, c_str, s1), Call(String, c_str, s2));
+	//append characters
+	Call(String, append, s2, "TestTestTestTest");
 
-	//append characters twices
+	//append characters
 	Call(String, add, s2, s1);
-	Call(String, add, s2, s1);
-
-	//equal
-	CU_ASSERT_FALSE(Call(String, equals, s1, s2));
 
 	//c_str check
 	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s2), "TestTestTestTestTestTestTestTest");
@@ -374,6 +370,32 @@ void TestStringVFTableStringRemove()
 	void* s2 = New(String);
 
 	//set characters
+	Call(String, set, s1, "aaaTestTest");
+	Call(String, set, s2, "Test");
+
+	//Remove first "Test" from s1
+	Call(String, remove, s1, s2);
+
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "aaaTest");
+
+	//free the string's resources
+	Delete(String, s2);
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+	CU_ASSERT_PTR_EQUAL(s2, NULL);
+}
+
+void TestStringVFTableStringRemoveAllocated()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	//string copy
+	void* s2 = New(String);
+
+	//set characters
 	Call(String, set, s1, "TestTestTestTest");
 	Call(String, set, s2, "Test");
 
@@ -381,6 +403,30 @@ void TestStringVFTableStringRemove()
 	Call(String, remove, s1, s2);
 
 	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "TestTestTest");
+
+	//free the string's resources
+	Delete(String, s2);
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+	CU_ASSERT_PTR_EQUAL(s2, NULL);
+}
+
+void TestStringVFTableStringRemoveNPOS()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	//string copy
+	void* s2 = New(String);
+
+	//set characters
+	Call(String, set, s1, "TesTestTest");
+	Call(String, set, s2, "Twwwada");
+
+	//Remove which should produce false
+	CU_ASSERT_FALSE(Call(String, remove, s1, s2));
 
 	//free the string's resources
 	Delete(String, s2);
@@ -448,6 +494,24 @@ void TestStringVFTableStringSet()
 
 	//check if strings' values are the same
 	CU_ASSERT_STRING_EQUAL(Call(String, c_str, string), "Test this test");
+
+	//free the string's resources
+	Delete(String, string);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(string, NULL);
+}
+
+void TestStringVFTableStringSetAllocated()
+{
+	//allocate a new string
+	void* string = New(String);
+
+	//append a char array < 16
+	Call(String, set, string, "Test this test test test");
+
+	//check if strings' values are the same
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, string), "Test this test test test");
 
 	//free the string's resources
 	Delete(String, string);
@@ -604,10 +668,10 @@ void TestStringVFTableStringAppendAlreadyAllocated()
 	CU_ASSERT_STRING_EQUAL(Call(String, c_str, string), "Test this test because testing is good!");
 
 	//append more
-	Call(String, append, string, " Wowww long string");
+	Call(String, append, string, " Wowww long string!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 	//check if strings' values are the same
-	CU_ASSERT_STRING_EQUAL(Call(String, c_str, string), "Test this test because testing is good! Wowww long string");
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, string), "Test this test because testing is good! Wowww long string!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 	//free the string's resources
 	Delete(String, string);
@@ -682,16 +746,16 @@ void TestStringVFTableStringFindNeedleAllocated()
 	//allocate a new string
 	void* s2 = New(String);
 
-	//append characters to haystack
-	Call(String, set, s1, "Test this test because testing is good!");
+	//append characters to static haystack
+	Call(String, set, s1, "Test this test");
 
 	//append characters to needle and make it really long to make it dynamically allocated
 	Call(String, set, s2, "Test this test because testing is good!");
 
-	//set the needle back to what it was
+	//set the needle back to what it was (still dynamic)
 	Call(String, set, s2, "test");
 
-	//find index of www in s1
+	//find index of test in s1
 	int index = Call(String, find, s1, s2);
 
 	//index should be value of 10

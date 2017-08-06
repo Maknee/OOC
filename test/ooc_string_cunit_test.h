@@ -156,6 +156,22 @@ void TestStringVFTableStringClearAllocated();
 void TestStringVFTableStringRemove();
 
 /**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringRemoveAllocated();
+ *
+ * @brief	Tests string vf table string remove allocated
+ **************************************************************************************************/
+
+void TestStringVFTableStringRemoveAllocated();
+
+/**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringRemoveNPOS();
+ *
+ * @brief	Tests string vf table string remove npos
+ **************************************************************************************************/
+
+void TestStringVFTableStringRemoveNPOS();
+
+/**********************************************************************************************//**
  * @fn	void TestStringVFTableStringContains();
  *
  * @brief	Tests string vf table string contains.

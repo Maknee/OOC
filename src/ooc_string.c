@@ -418,16 +418,16 @@ void StringClear(void* this)
 
 	String* this_string = (String*)this;
 
-	//update the length and capacity
-	this_string->length = 0;
-	this_string->capacity = DEFAULT_STRING_LENGTH;
-
 	//check if the string was dynamically allocated
 	if (CheckIfStringIsAllocated(this))
 	{
 		//deallocate the dynamically allocated data
 		free(this_string->data.pBuf);
 	}
+	
+	//update the length and capacity
+	this_string->length = 0;
+	this_string->capacity = DEFAULT_STRING_LENGTH;
 
 	//clear the data out
 	memset(this_string->data.buf, 0, sizeof(this_string->data.buf));

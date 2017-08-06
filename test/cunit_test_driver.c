@@ -110,6 +110,8 @@ int main()
 		!CU_add_test(stringSuite, "TestStringVFTableStringClear", TestStringVFTableStringClear) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringClearAllocated", TestStringVFTableStringClearAllocated) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringRemove", TestStringVFTableStringRemove) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringRemoveAllocated", TestStringVFTableStringRemoveAllocated) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringRemoveNPOS", TestStringVFTableStringRemoveNPOS) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringContains", TestStringVFTableStringContains) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringCopy", TestStringVFTableStringCopy) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringIsEmpty", TestStringVFTableStringIsEmpty) ||
