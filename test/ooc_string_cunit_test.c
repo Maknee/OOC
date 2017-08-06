@@ -302,13 +302,13 @@ void TestStringVFTableStringAddAlreadyAllocated()
 	Call(String, append, s1, "TestTestTestTest");
 
 	//append characters
-	Call(String, append, s2, "TestTestTestTest");
+	Call(String, append, s2, "TestTestTestTestTestTestTestTestTestTestTestTest");
 
 	//append characters
 	Call(String, add, s2, s1);
 
 	//c_str check
-	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s2), "TestTestTestTestTestTestTestTest");
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s2), "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest");
 
 	//free the string's resources
 	Delete(String, s2);
@@ -533,10 +533,10 @@ void TestStringVFTableStringSetAlreadyAllocated()
 	CU_ASSERT_STRING_EQUAL(Call(String, c_str, string), "Test this test because testing is good!");
 
 	//append a char array > 16
-	Call(String, set, string, "Test this test because testing is good!Test this test because testing is good!");
+	Call(String, set, string, "Test this test because testing is good!Test this test because testing is good!Test this test because testing is good!");
 
 	//check if strings' values are the same
-	CU_ASSERT_STRING_EQUAL(Call(String, c_str, string), "Test this test because testing is good!Test this test because testing is good!");
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, string), "Test this test because testing is good!Test this test because testing is good!Test this test because testing is good!");
 
 
 	//free the string's resources
