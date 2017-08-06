@@ -819,7 +819,7 @@ void TestStringVFTableStringInsertOtherStringAllocated()
 	Call(String, set, s2, " Test");
 
 	//insert the string into s1 at index 
-	Call(String, insert, s1, s2, 14);
+	Call(String, insert, s1, s2, 4);
 
 	//test if substring == "test"
 	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "Test Test");
@@ -848,7 +848,7 @@ void TestStringVFTableStringInsertOtherStringAllocatedNewlyAllocated()
 	Call(String, set, s2, " Test this test Test");
 
 	//insert the string into s1 at index 
-	Call(String, insert, s1, s2, 14);
+	Call(String, insert, s1, s2, 4);
 
 	//test if substring == "test"
 	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "Test Test this test Test");
