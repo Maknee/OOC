@@ -76,7 +76,7 @@ void TestContainerConstructor();
 void TestContainerCopyConstructor();
 
 /**********************************************************************************************//**
- * @fn	void TestContainerdestructor();
+ * @fn	void TestContainerDestructor();
  *
  * @brief	Tests container destructor
  **************************************************************************************************/

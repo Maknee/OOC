@@ -76,7 +76,7 @@ void TestObjectConstructor();
 void TestObjectCopyConstructor();
 
 /**********************************************************************************************//**
- * @fn	void TestObjectdestructor();
+ * @fn	void TestObjectDestructor();
  *
  * @brief	Tests object destructor
  **************************************************************************************************/

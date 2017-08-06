@@ -76,7 +76,7 @@ void TestStringConstructor();
 void TestStringCopyConstructor();
 
 /**********************************************************************************************//**
- * @fn	void TestStringdestructor();
+ * @fn	void TestStringDestructor();
  *
  * @brief	Tests string destructor
  **************************************************************************************************/
@@ -132,7 +132,7 @@ void TestStringVFTableStringAddFirstAllocatedSecondNot();
 void TestStringVFTableStringAddSecondAllocatedFirstNot();
 
 /**********************************************************************************************//**
- * @fn	void TestStringVFTableStringAdd();
+ * @fn	void TestStringVFTableStringAddAllocated();
  *
  * @brief	Tests string vf table string add newly allocated.
  **************************************************************************************************/

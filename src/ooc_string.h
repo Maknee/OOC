@@ -309,7 +309,7 @@ char* StringToString(void* this);
 bool StringAdd(void* this, void* item);
 
 /**********************************************************************************************//**
- * @fn		void StringClear(String* this)
+ * @fn		void StringClear(void* this)
  *
  * @brief	Clears the contents of the string
  * 			
@@ -408,7 +408,7 @@ size_t StringSize(void* this);
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn		bool StringSet(void* this, void* item)
+ * @fn		bool StringSet(void* this, const char* item)
  *
  * @brief	Concatenates the two strings
  * 			
@@ -445,7 +445,7 @@ bool StringSet(void* this, const char* item);
 char* StringC_Str(void* this);
 
 /**********************************************************************************************//**
- * @fn		bool StringAppend(void* this, char* item);
+ * @fn		bool StringAppend(void* this, const char* item)
  *
  * @brief	Appends one string with a char pointer
  *			
