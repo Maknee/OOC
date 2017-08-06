@@ -299,7 +299,10 @@ bool StringSet(void* this, const char* item)
 		}
 
 		//copy the other string's data
-		strncpy(this_string->data.pBuf, item, new_length);
+		memcpy(this_string->data.pBuf, item, new_length);
+		
+		//zero out the rest of the string's data
+		memset(this_string->data.pBuf + new_length, 0, this_string->capacity - new_length);
 	}
 	else
 	{
@@ -315,7 +318,10 @@ bool StringSet(void* this, const char* item)
 			char* tmp = check_calloc(this_string->capacity);
 
 			//copy the other string's data
-			strncpy(tmp, item, new_length);
+			memcpy(tmp, item, new_length);
+			
+			//zero out the rest of the string's data
+			memset(tmp + new_length, 0, this_string->capacity - new_length);
 
 			//set the pBuf to tmp
 			this_string->data.pBuf = tmp;
@@ -326,7 +332,10 @@ bool StringSet(void* this, const char* item)
 			this_string->capacity = DEFAULT_STRING_LENGTH;
 
 			//copy the other string's data
-			strncpy(this_string->data.buf, item, new_length);
+			memcpy(this_string->data.buf, item, new_length);
+
+			//zero out the rest of the string's data
+			memset(this_string->data.buf + new_length, 0, this_string->capacity - new_length);
 		}
 	}
 
@@ -377,6 +386,9 @@ bool StringAdd(void* this, void* item)
 
 			//copy this string's data
 			memcpy(tmp, this_string->data.buf, this_string->length);
+
+			//zero out the rest of the string's data
+			memset(tmp + new_length, 0, this_string->capacity - new_length);
 
 			//set pbuf to the tmp
 			this_string->data.pBuf = tmp;
@@ -446,13 +458,17 @@ bool StringRemove(void* this, void* item)
 		{
 			//fill the data after the substring into the data of the substring
 			memmove(this_string->data.pBuf + start,
-				this_string->data.pBuf + start + new_length + 1, this_string->length - start - new_length);
+				this_string->data.pBuf + this_string->length - new_length, new_length);
+			//replace the rest with nulls
+			memset(this_string->data.pBuf + new_length, 0, this_string->length - new_length);
 		}
 		else
 		{
 			//fill the data after the substring into the data of the substring
 			memmove(this_string->data.buf + start,
-				this_string->data.buf + start + new_length + 1, this_string->length - start - new_length);
+				this_string->data.buf + this_string->length - new_length, new_length);
+			//replace the rest with nulls
+			memset(this_string->data.buf + new_length, 0, this_string->length - new_length);
 		}
 
 		//update the length
@@ -467,7 +483,7 @@ bool StringContains(void* this, void* item)
 	CHECK_NULL(this, false);
 	CHECK_NULL(item, false);
 
-	return StringFind(this, item);
+	return (StringFind(this, item) != NPOS) ? true : false;
 }
 
 void* StringCopy(void* this)
@@ -551,6 +567,9 @@ bool StringAppend(void* this, const char* item)
 
 			//copy this string's data
 			memcpy(tmp, this_string->data.buf, this_string->length);
+			
+			//zero out the rest of the string's data
+			memset(tmp + new_length, 0, this_string->capacity - new_length);
 
 			//copy the other string's data
 			strncat(tmp, item, new_length);

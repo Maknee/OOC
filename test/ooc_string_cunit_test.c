@@ -662,8 +662,8 @@ void TestStringVFTableStringFindHayStackAllocated()
 	//find index of www in s1
 	int index = Call(String, find, s1, s2);
 
-	//index should be value of 9
-	CU_ASSERT_EQUAL(index, 9);
+	//index should be value of 10
+	CU_ASSERT_EQUAL(index, 10);
 
 	//free the string's resources
 	Delete(String, s2);
@@ -694,8 +694,8 @@ void TestStringVFTableStringFindNeedleAllocated()
 	//find index of www in s1
 	int index = Call(String, find, s1, s2);
 
-	//index should be value of 9
-	CU_ASSERT_EQUAL(index, 9);
+	//index should be value of 10
+	CU_ASSERT_EQUAL(index, 10);
 
 	//free the string's resources
 	Delete(String, s2);
@@ -724,7 +724,7 @@ void TestStringVFTableStringFindHayStackAllocatedNeedleAllocated()
 	int index = Call(String, find, s1, s2);
 
 	//index should be value of 14
-	CU_ASSERT_EQUAL(index, 14);
+	CU_ASSERT_EQUAL(index, 15);
 
 	//free the string's resources
 	Delete(String, s2);
