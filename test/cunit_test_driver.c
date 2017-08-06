@@ -104,6 +104,8 @@ int main()
 		!CU_add_test(stringSuite, "TestStringDestructor", TestStringDestructor) ||
 		!CU_add_test(stringSuite, "TestStringVFTableEquals", TestStringVFTableEquals) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringToString", TestStringVFTableStringToString) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringAddFirstAllocatedSecondNot", TestStringVFTableStringAddFirstAllocatedSecondNot) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringAddSecondAllocatedFirstNot", TestStringVFTableStringAddSecondAllocatedFirstNot) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringAdd", TestStringVFTableStringAdd) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringAddAllocated", TestStringVFTableStringAddAllocated) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringAddAlreadyAllocated", TestStringVFTableStringAddAlreadyAllocated) ||

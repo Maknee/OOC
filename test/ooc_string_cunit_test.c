@@ -258,6 +258,58 @@ void TestStringVFTableStringAdd()
 	CU_ASSERT_PTR_EQUAL(s2, NULL);
 }
 
+void TestStringVFTableStringAddFirstAllocatedSecondNot()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	//string copy
+	void* s2 = New(String);
+
+	//append characters
+	Call(String, set, s1, "TestTestTestTestTest");
+
+	//append characters
+	Call(String, add, s1, s2);
+
+	//c_str check
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s2), "TestTestTestTestTest");
+
+	//free the string's resources
+	Delete(String, s2);
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+	CU_ASSERT_PTR_EQUAL(s2, NULL);
+}
+
+void TestStringVFTableStringAddSecondAllocatedFirstNot()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	//string copy
+	void* s2 = New(String);
+
+	//append characters
+	Call(String, set, s2, "TestTestTestTestTest");
+
+	//append characters
+	Call(String, add, s1, s2);
+
+	//c_str check
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "TestTestTestTestTest");
+
+	//free the string's resources
+	Delete(String, s2);
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+	CU_ASSERT_PTR_EQUAL(s2, NULL);
+}
+
 void TestStringVFTableStringAddAllocated()
 {
 	//allocate a new string

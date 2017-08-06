@@ -116,6 +116,22 @@ void TestStringVFTableStringToString();
 void TestStringVFTableStringAdd();
 
 /**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringAddFirstAllocatedSecondNot();
+ *
+ * @brief	Tests string vf table string add statically allocated.
+ **************************************************************************************************/
+
+void TestStringVFTableStringAddFirstAllocatedSecondNot();
+
+/**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringAddSecondAllocatedFirstNot();
+ *
+ * @brief	Tests string vf table string add statically allocated.
+ **************************************************************************************************/
+
+void TestStringVFTableStringAddSecondAllocatedFirstNot();
+
+/**********************************************************************************************//**
  * @fn	void TestStringVFTableStringAdd();
  *
  * @brief	Tests string vf table string add newly allocated.
