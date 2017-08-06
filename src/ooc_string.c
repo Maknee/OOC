@@ -488,7 +488,7 @@ size_t StringSize(void* this)
 {
 	CHECK_NULL(this, false);
 	
-	return ((String*)this)->length;
+	return ((String*)this)->length + 1;
 }
 
 /*============================================================================

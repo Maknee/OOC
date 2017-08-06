@@ -59,6 +59,9 @@
 
 #define Call(type, function, ...) ((type ## VFTable*)((Object*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)
 
+
+
+
  /* Test for GCC > 4.9.0 */
 #if GCC_VERSION > 40900
 //implement _Generic

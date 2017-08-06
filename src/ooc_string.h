@@ -337,6 +337,7 @@ void StringClear(void* this);
  * 			The substring
  * @return	Returns true if the substring was removed, 
  * 			returns false if the substring couldn't be found or removed
+ * @note    Removes the first occurence of the item in the string
  * @note	Function will not resize the capacity. 
  * 			The overhead of free is most likely not worth resizing the capacity
  **************************************************************************************************/
@@ -397,6 +398,7 @@ bool StringIsEmpty(void* this);
  * @param	[in] this
  * 			The string
  * @return	Returns the length of the string
+ * @note	Includes NULL terminator
  **************************************************************************************************/
 
 size_t StringSize(void* this);

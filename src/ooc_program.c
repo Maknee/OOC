@@ -31,7 +31,7 @@ int main()
 	Call(String, set, s2, "4");
 
 	//set characters of needle2
-	Call(String, set, s3, "abb");
+	Call(String, set, s3, "aee");
 
 	//find index of www in s1
 	int index1 = Call(String, find, s1, s2);
