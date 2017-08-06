@@ -637,7 +637,7 @@ bool StringInsert(void* this, void* item, int index)
 		
 		//shift the right side of the string, so that there is enough space
 		//for the inserted string to be placed in
-		memmove(this_string->data.pBuf + index_t + other_string->length, this_string->data.pBuf + index_t, other_string->length);
+		memmove(this_string->data.pBuf + index_t + other_string->length, this_string->data.pBuf + index_t, this_string->length - index_t);
 
 		//insert the other string's data into the index
 		if (CheckIfStringIsAllocated(item))
@@ -673,7 +673,7 @@ bool StringInsert(void* this, void* item, int index)
 
 			//shift the right side of the string, so that there is enough space
 			//for the inserted string to be placed in
-			memmove(this_string->data.pBuf + index_t + other_string->length, this_string->data.pBuf + index_t, other_string->length);
+			memmove(this_string->data.pBuf + index_t + other_string->length, this_string->data.pBuf + index_t, this_string->length - index_t);
 
 			//insert the other string's data into the index
 			if (CheckIfStringIsAllocated(item))
@@ -692,7 +692,7 @@ bool StringInsert(void* this, void* item, int index)
 
 			//shift the right side of the string, so that there is enough space
 			//for the inserted string to be placed in
-			memmove(this_string->data.buf + index_t + other_string->length, this_string->data.buf + index_t, other_string->length);
+			memmove(this_string->data.buf + index_t + other_string->length, this_string->data.pBuf + index_t, this_string->length - index_t);
 
 			//insert the other string's data into the index
 			if (CheckIfStringIsAllocated(item))
