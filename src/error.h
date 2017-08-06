@@ -76,6 +76,14 @@
 			return return_type;                                 \
 		}                                                       \
 
+#define CHECK_NULL_EXIT(ptr, fmt, ...)                          \
+		if (!ptr)                                               \
+		{                                                       \
+			DEBUG_PRINT(fmt, __VA_ARGS__);                      \
+			exit(-1);                                           \
+		}                                                       \
+
+
 #else
 #define DEBUG_PRINT(fmt, ...)
 #define DEBUG_PRINT_AND_EXIT(fmt, ...)
