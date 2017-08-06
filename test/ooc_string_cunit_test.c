@@ -309,7 +309,7 @@ void TestStringVFTableStringAddAlreadyAllocated()
 	Call(String, add, s2, s1);
 
 	//equal
-	CU_ASSERT_NOT_TRUE(Call(String, equals, s1, s2));
+	CU_ASSERT_FALSE(Call(String, equals, s1, s2));
 
 	//c_str check
 	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s2), "TestTestTestTestTestTestTestTest");
@@ -404,7 +404,7 @@ void TestStringVFTableStringContains()
 	Call(String, set, s2, "Test");
 
 	//s1 contains s2
-	CU_ASSERT_True(Call(String, c_str, s1, s2));
+	CU_ASSERT_TRUE(Call(String, contains, s1, s2));
 
 	//free the string's resources
 	Delete(String, s2);
@@ -486,7 +486,7 @@ void TestStringVFTableStringSize()
 	Call(String, set, string, "Test this test");
 
 	//check string's length
-	CU_ASSERT_EQUALS(Call(String, size, string), 15);
+	CU_ASSERT_EQUAL(Call(String, size, string), 15);
 
 	//free the string's resources
 	Delete(String, string);
