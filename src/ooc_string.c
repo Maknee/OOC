@@ -649,18 +649,27 @@ void* StringSubstring(void* this, int start, int end)
 	size_t end_t = (size_t)end;
 
 	//allocate a copy string using the copy constructor
+	//the copied string will be allocated like the parent string
 	String* copy_string = StringCopyConstruct(this);
 
 	//update the length of copy_string
-	copy_string->length = end_t - start_t + 1;
+	copy_string->length = end_t - start_t;
 
-	if (CheckIfStringIsAllocated(copy_string))
+	if (CheckIfStringIsAllocated(this))
 	{
 		//use memmove to copy the data over because overlapping regions
 		memmove(copy_string->data.pBuf, copy_string->data.pBuf + start_t, copy_string->length);
 
 		//now zero out the rest
 		memset(copy_string->data.pBuf + copy_string->length, 0, end_t - copy_string->length);
+	}
+	else
+	{
+		//use memmove to copy the data over because overlapping regions
+		memmove(copy_string->data.buf, copy_string->data.buf + start_t, copy_string->length);
+
+		//now zero out the rest
+		memset(copy_string->data.buf + copy_string->length, 0, end_t - copy_string->length);
 	}
 	return copy_string;
 }

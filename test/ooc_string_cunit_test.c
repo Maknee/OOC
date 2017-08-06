@@ -328,7 +328,7 @@ void TestStringVFTableStringSubString()
 	Call(String, set, s2, "www");
 
 	//set characters of needle2
-	Call(String, set, s2, "WWW");
+	Call(String, set, s3, "WWW");
 
 	//find index of www in s1
 	int index1 = Call(String, find, s1, s2);
@@ -346,7 +346,7 @@ void TestStringVFTableStringSubString()
 	void* substring = Call(String, substring, s1, index1, index2);
 
 	//test if substring == "test"
-	CU_ASSERT_STRING_EQUAL(Call(String, c_str, substring), "test");
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, substring), "wwwtest");
 
 	//free the string's resources
 	Delete(String, s3);
