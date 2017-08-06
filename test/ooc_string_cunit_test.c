@@ -273,7 +273,7 @@ void TestStringVFTableStringAddFirstAllocatedSecondNot()
 	Call(String, add, s1, s2);
 
 	//c_str check
-	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s2), "TestTestTestTestTest");
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "TestTestTestTestTest");
 
 	//free the string's resources
 	Delete(String, s2);
@@ -360,7 +360,7 @@ void TestStringVFTableStringAddAlreadyAllocated()
 	Call(String, add, s1, s2);
 
 	//c_str check
-	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s2), "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest");
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest");
 
 	//free the string's resources
 	Delete(String, s2);

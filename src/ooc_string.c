@@ -464,7 +464,7 @@ bool StringRemove(void* this, void* item)
 		{
 			//fill the data after the substring into the data of the substring
 			memmove(this_string->data.pBuf + start,
-				this_string->data.pBuf + this_string->length - new_length, new_length);
+				this_string->data.pBuf + new_length, this_string->length - new_length);
 			//replace the rest with nulls
 			memset(this_string->data.pBuf + new_length, 0, this_string->length - new_length);
 		}
@@ -472,7 +472,7 @@ bool StringRemove(void* this, void* item)
 		{
 			//fill the data after the substring into the data of the substring
 			memmove(this_string->data.buf + start,
-				this_string->data.buf + this_string->length - new_length, new_length);
+				this_string->data.buf + new_length, this_string->length - new_length);
 			//replace the rest with nulls
 			memset(this_string->data.buf + new_length, 0, this_string->length - new_length);
 		}
