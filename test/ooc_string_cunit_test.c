@@ -305,7 +305,7 @@ void TestStringVFTableStringAddAlreadyAllocated()
 	Call(String, append, s2, "TestTestTestTestTestTestTestTestTestTestTestTest");
 
 	//append characters
-	Call(String, add, s2, s1);
+	Call(String, add, s1, s2);
 
 	//c_str check
 	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s2), "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest");
