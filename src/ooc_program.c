@@ -21,36 +21,19 @@ int main()
 	//allocate a new string
 	void* s2 = New(String);
 
-	//allocate a new string
-	void* s3 = New(String);
+	//append characters to s1
+	Call(String, set, s1, "Test this test");
 
-	//set characters of haystack
-	Call(String, set, s1, "0123456789aaabbbcccddd");
+	//append characters to insertion string
+	Call(String, set, s2, " Test this test");
 
-	//set characters of needle1
-	Call(String, set, s2, "4");
-
-	//set characters of needle2
-	Call(String, set, s3, "cdd");
-
-	//find index of www in s1
-	int index1 = Call(String, find, s1, s2);
-
-	//index should be value of 4
-
-	//find index of WWW in s1
-	int index2 = Call(String, find, s1, s3);
-
-	//index should be value of 11
-
-	//call substring
-	String* substring = Call(String, substring, s1, index1, index2);
+	//insert the string into s1 at index 
+	Call(String, insert, s1, s2, 14);
 
 	//test if substring == "test"
-	printf("%s\n", Call(String, c_str, substring));
+	printf("%s\n", Call(String, c_str, s1));
 
 	//free the string's resources
-	Delete(String, s3);
 	Delete(String, s2);
 	Delete(String, s1);
 

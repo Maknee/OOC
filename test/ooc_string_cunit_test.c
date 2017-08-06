@@ -715,6 +715,145 @@ void TestStringVFTableStringAppendAlreadyAllocated()
 	CU_ASSERT_PTR_EQUAL(string, NULL);
 }
 
+void TestStringVFTableStringInsert()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	//allocate a new string
+	void* s2 = New(String);
+
+	//append characters to s1
+	Call(String, set, s1, "Test");
+
+	//append characters to insertion string
+	Call(String, set, s2, " this test");
+
+	//insert the string into s1 at index
+	Call(String, insert, s1, s2, 4);
+
+	//test if substring == "test"
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "Test this test");
+
+	//free the string's resources
+	Delete(String, s2);
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+	CU_ASSERT_PTR_EQUAL(s2, NULL);
+}
+
+void TestStringVFTableStringInsertAllocated()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	//allocate a new string
+	void* s2 = New(String);
+
+	//append characters to s1
+	Call(String, set, s1, "Test this test");
+
+	//append characters to insertion string
+	Call(String, set, s2, " Test this test");
+
+	//insert the string into s1 at index 
+	Call(String, insert, s1, s2, 14);
+
+	//test if substring == "test"
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "Test this test Test this test");
+
+	//free the string's resources
+	Delete(String, s2);
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+	CU_ASSERT_PTR_EQUAL(s2, NULL);
+}
+
+void TestStringVFTableStringInsertAlreadyAllocated()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	//allocate a new string
+	void* s2 = New(String);
+
+	//append characters to s1
+	Call(String, set, s1, "Test this test Test this test");
+
+	//append characters to insertion string
+	Call(String, set, s2, " Test this test");
+
+	//insert the string into s1 at index 
+	Call(String, insert, s1, s2, 29);
+
+	//test if substring == "test"
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "Test this test Test this test Test this test");
+
+	//free the string's resources
+	Delete(String, s2);
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+	CU_ASSERT_PTR_EQUAL(s2, NULL);
+}
+
+void TestStringVFTableStringInsertOutOfBounds()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	//allocate a new string
+	void* s2 = New(String);
+
+	//append characters to s1
+	Call(String, set, s1, "Test this test Test this test");
+
+	//append characters to insertion string
+	Call(String, set, s2, " Test this test");
+
+	//insert the string into s1 at index 
+	CU_ASSERT_FALSE(Call(String, insert, s1, s2, 80));
+
+	//free the string's resources
+	Delete(String, s2);
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+	CU_ASSERT_PTR_EQUAL(s2, NULL);
+}
+
+void TestStringVFTableStringInsertNPOS()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	//allocate a new string
+	void* s2 = New(String);
+
+	//append characters to s1
+	Call(String, set, s1, "Test this test Test this test");
+
+	//append characters to insertion string
+	Call(String, set, s2, " Test this test");
+
+	//insert the string into s1 at index 
+	CU_ASSERT_FALSE(Call(String, insert, s1, s2, NPOS));
+
+	//free the string's resources
+	Delete(String, s2);
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+	CU_ASSERT_PTR_EQUAL(s2, NULL);
+}
+
 void TestStringVFTableStringFind()
 {
 	//allocate a new string

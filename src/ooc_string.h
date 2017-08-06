@@ -13,7 +13,8 @@
 * @note A string holds up to 16 characters including the NULL terminator
 * 		until the string becomes dynamically allocated. This makes the string
 * 		implementation work well with strings < 16 characters.
-* @warning
+* @warning <b>NEVER</b> use the same string in a string function call. 
+* 		   It will corrupt the string.
 * @see ooc_string.c
 * @date	8/1/2017
 * @todo {consider replacing C11's strcat_s}
@@ -143,6 +144,8 @@ typedef struct _StringVFTable
 	bool (*set)(void* this, const char* item);
 	char* (*c_str)(void* this);
 	bool (*append)(void* this, const char* item);
+	bool (*insert)(void* this, void* item, int index);
+	bool (*replace)(void* this, void* item, void* replacement);
 	int (*find) (void* this, void* item);
 	void* (*substring)(void* this, int start, int end);
 } StringVFTable;
@@ -463,6 +466,40 @@ char* StringC_Str(void* this);
 bool StringAppend(void* this, const char* item);
 
 /**********************************************************************************************//**
+ * @fn		bool StringInsert(void* this, void* item, int index)
+ *
+ * @brief	Inserts other string into this string at index
+ *			
+ * @param	[in] this
+ * 			The parent string
+ * @param	[in] item
+ * 			The string to be inserted
+ * @param	[in] index
+ * 			The location of the string to be inserted into the parent string
+ * @return	Returns true if the string was inserted, and false if not
+ **************************************************************************************************/
+
+bool StringInsert(void* this, void* item, int index);
+
+/**********************************************************************************************//**
+ * @fn		bool StringReplace(void* this, void* item, void* replacement)
+ *
+ * @brief	Replace the all occurences of item in this with replacement
+ *			
+ * @param	[in] this
+ * 			The string
+ * @param	[in] item
+ * 			The substrings to be replaced
+ * @param	[in] replacement
+ * 			The replacement for the substrings
+ * @return	Returns true if the string was replaced, and false if not
+ * @note    This replaces all occurences, so if the user wants to replace the first occurrence,
+ * 			it can done using @ref StringFind, @ref StringRemove and @StringInsert
+ **************************************************************************************************/
+
+bool StringReplace(void* this, void* item, void* replacement);
+
+/**********************************************************************************************//**
  * @fn		int StringFind(void* this, void* item)
  *
  * @brief	Returns the index of the first occurence of the substring
@@ -471,7 +508,7 @@ bool StringAppend(void* this, const char* item);
  * 			The string
  * @param	[in] item
  * 			The substring to be found
- * @return	Returns the index
+ * @return	Returns true if the string was found, and false if not
  **************************************************************************************************/
 
 int StringFind(void* this, void* item);

@@ -125,6 +125,11 @@ int main()
 		!CU_add_test(stringSuite, "TestStringVFTableStringAppend", TestStringVFTableStringAppend) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringAppendAllocated", TestStringVFTableStringAppendAllocated) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringAppendAlreadyAllocated", TestStringVFTableStringAppendAlreadyAllocated) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringInsert", TestStringVFTableStringInsert) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringInsertAllocated", TestStringVFTableStringInsertAllocated) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringInsertAlreadyAllocated", TestStringVFTableStringInsertAlreadyAllocated) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringInsertOutOfBounds", TestStringVFTableStringInsertOutOfBounds) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringInsertNPOS", TestStringVFTableStringInsertNPOS) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringFind", TestStringVFTableStringFind) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringFindHayStackAllocated", TestStringVFTableStringFindHayStackAllocated) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringFindNeedleAllocated", TestStringVFTableStringFindNeedleAllocated) ||

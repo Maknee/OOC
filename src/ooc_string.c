@@ -195,6 +195,8 @@ void StringConstruct(void* this)
 	stringVFTable.set = &StringSet;
 	stringVFTable.c_str = &StringC_Str;
 	stringVFTable.append = &StringAppend;
+	stringVFTable.insert = &StringInsert;
+	stringVFTable.replace = &StringReplace;
 	stringVFTable.find = &StringFind;
 	stringVFTable.substring = &StringSubstring;
 
@@ -594,6 +596,124 @@ bool StringAppend(void* this, const char* item)
 	//update the length
 	this_string->length = new_length;
 
+	return true;
+}
+
+bool StringInsert(void* this, void* item, int index)
+{
+	CHECK_NULL(this, false);
+
+	//check if user made mistakes...
+	if (index < 0)
+	{
+		return false;
+	}
+
+	String* this_string = (String*)this;
+	String* other_string = (String*)item;
+
+	//check if indices are in bounds
+	if (index > (int)this_string->length)
+	{
+		return false;
+	}
+
+	size_t index_t = (size_t)index;
+
+	//get the new length of the string
+	size_t new_length = this_string->length + other_string->length;
+
+	//check whether or not the string is using an array or a dynamic pointer
+	if (CheckIfStringIsAllocated(this))
+	{
+		if (this_string->capacity < new_length)
+		{
+			//this string capacity should be increased
+			this_string->capacity = new_length * 2;
+
+			//this string is dynamically allocated, so realloc with twice the length
+			this_string->data.pBuf = realloc(this_string->data.pBuf, this_string->capacity);
+		}
+		
+		//shift the right side of the string, so that there is enough space
+		//for the inserted string to be placed in
+		memmove(this_string->data.pBuf + index_t + other_string->length, this_string->data.pBuf + index_t, other_string->length);
+
+		//insert the other string's data into the index
+		if (CheckIfStringIsAllocated(item))
+		{
+			memcpy(this_string->data.pBuf + index_t, other_string->data.pBuf, other_string->length);
+		}
+		else
+		{
+			memcpy(this_string->data.pBuf + index_t, other_string->data.buf, other_string->length);
+		}
+	}
+	else
+	{
+		//this string might need to dynamically allocated. 
+		if (new_length > DEFAULT_STRING_LENGTH)
+		{
+			//this string should already/become dynamically allocated now
+			this_string->capacity = new_length * 2;
+
+			//allocate a tmp to make sure that pBuf pointer doesn't
+			//overwrite buf's data. We need to copy buf's data and then set 
+			//pBuf to point to a copy of buf's data
+			char* tmp = check_calloc(this_string->capacity);
+
+			//copy this string's data
+			memcpy(tmp, this_string->data.buf, this_string->length);
+
+			//zero out the rest of the string's data
+			memset(tmp + new_length, 0, this_string->capacity - new_length);
+
+			//set pbuf to the tmp
+			this_string->data.pBuf = tmp;
+
+			//shift the right side of the string, so that there is enough space
+			//for the inserted string to be placed in
+			memmove(this_string->data.pBuf + index_t + other_string->length, this_string->data.pBuf + index_t, other_string->length);
+
+			//insert the other string's data into the index
+			if (CheckIfStringIsAllocated(item))
+			{
+				memcpy(this_string->data.pBuf + index_t, other_string->data.pBuf, other_string->length);
+			}
+			else
+			{
+				memcpy(this_string->data.pBuf + index_t, other_string->data.buf, other_string->length);
+			}
+		}
+		else
+		{
+			//keep the capacity at the limit
+			this_string->capacity = DEFAULT_STRING_LENGTH;
+
+			//shift the right side of the string, so that there is enough space
+			//for the inserted string to be placed in
+			memmove(this_string->data.buf + index_t + other_string->length, this_string->data.buf + index_t, other_string->length);
+
+			//insert the other string's data into the index
+			if (CheckIfStringIsAllocated(item))
+			{
+				memcpy(this_string->data.buf + index_t, other_string->data.pBuf, other_string->length);
+			}
+			else
+			{
+				memcpy(this_string->data.buf + index_t, other_string->data.buf, other_string->length);
+			}
+		}
+	}
+
+	//update the length
+	this_string->length = new_length;
+
+	return true;
+}
+
+bool StringReplace(void* this, void* item, void* replacement)
+{
 	return true;
 }
 

@@ -275,6 +275,47 @@ void TestStringVFTableStringAppendAllocated();
 
 void TestStringVFTableStringAppendAlreadyAllocated();
 
+
+/**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringInsert();
+ *
+ * @brief	Tests string vf table StringInsert static
+ **************************************************************************************************/
+
+void TestStringVFTableStringInsert();
+
+/**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringInsertAllocated();
+ *
+ * @brief	Tests string vf table StringInsert newly allocated
+ **************************************************************************************************/
+
+void TestStringVFTableStringInsertAllocated();
+
+/**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringInsertAlreadyAllocated();
+ *
+ * @brief	Tests string vf table StringInsert already allocated
+ **************************************************************************************************/
+
+void TestStringVFTableStringInsertAlreadyAllocated();
+
+/**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringInsertOutOfBounds();
+ *
+ * @brief	Tests string vf table StringInsert out of bounds
+ **************************************************************************************************/
+
+void TestStringVFTableStringInsertOutOfBounds();
+
+/**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringInsertNPOS();
+ *
+ * @brief	Tests string vf table StringInsert npos
+ **************************************************************************************************/
+
+void TestStringVFTableStringInsertNPOS();
+
 /**********************************************************************************************//**
  * @fn	void TestStringVFTableStringFind();
  *

@@ -38,7 +38,7 @@
  * @see		_List
  **************************************************************************************************/
 
-#define NULL_CONTAINER_VFTABLE                                          \
+#define NULL_CONTAINER_VFTABLE                                  \
 		{                                                       \
 			{                                                   \
 				.pCompleteObjectLocator = NULL,                 \
