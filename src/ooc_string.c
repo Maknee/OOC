@@ -99,14 +99,13 @@ static void StringStrncat(String* this, String* other)
 	}
 	else
 	{
-		//this line will never execute in StringAdd
-		/*
+		//StringAdd executes this if the first is not allocated,
+		//but second is allocated, but changed back to size < 16
 		if (CheckIfStringIsAllocated(other))
 		{
 			strncat(this->data.buf, other->data.pBuf, other->length);
 		}
 		else
-		*/
 		if (!CheckIfStringIsAllocated(other))
 		{
 			strncat(this->data.buf, other->data.buf, other->length);

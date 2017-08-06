@@ -204,6 +204,14 @@ void TestStringVFTableStringContains();
 void TestStringVFTableStringCopy();
 
 /**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringCopyAllocated();
+ *
+ * @brief	Tests string vf table string copy.
+ **************************************************************************************************/
+
+void TestStringVFTableStringCopyAllocated();
+
+/**********************************************************************************************//**
  * @fn	void TestStringVFTableStringIsEmpty();
  *
  * @brief	Tests string vf table string empty.
@@ -275,6 +283,13 @@ void TestStringVFTableStringAppendAllocated();
 
 void TestStringVFTableStringAppendAlreadyAllocated();
 
+/**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringInsert();
+ *
+ * @brief	Tests string vf table StringInsert static
+ **************************************************************************************************/
+
+void TestStringVFTableStringInsert();
 
 /**********************************************************************************************//**
  * @fn	void TestStringVFTableStringInsert();
@@ -293,12 +308,36 @@ void TestStringVFTableStringInsert();
 void TestStringVFTableStringInsertAllocated();
 
 /**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringInsertOtherStringAllocated();
+ *
+ * @brief	Tests string vf table StringInsert newly allocated other string
+ **************************************************************************************************/
+
+void TestStringVFTableStringInsertOtherStringAllocated();
+
+/**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringInsertOtherStringAllocatedNewlyAllocated();
+ *
+ * @brief	Tests string vf table StringInsert newly allocated other string
+ **************************************************************************************************/
+
+void TestStringVFTableStringInsertOtherStringAllocatedNewlyAllocated();
+
+/**********************************************************************************************//**
  * @fn	void TestStringVFTableStringInsertAlreadyAllocated();
  *
  * @brief	Tests string vf table StringInsert already allocated
  **************************************************************************************************/
 
 void TestStringVFTableStringInsertAlreadyAllocated();
+
+/**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringInsertAlreadyAllocatedInsertionStringAllocated();
+ *
+ * @brief	Tests string vf table StringInsert already allocated
+ **************************************************************************************************/
+
+void TestStringVFTableStringInsertAlreadyAllocatedInsertionStringAllocated();
 
 /**********************************************************************************************//**
  * @fn	void TestStringVFTableStringInsertOutOfBounds();
@@ -315,6 +354,14 @@ void TestStringVFTableStringInsertOutOfBounds();
  **************************************************************************************************/
 
 void TestStringVFTableStringInsertNPOS();
+
+/**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringReplace();
+ *
+ * @brief	Tests string vf table string replace.
+ **************************************************************************************************/
+
+void TestStringVFTableStringReplace();
 
 /**********************************************************************************************//**
  * @fn	void TestStringVFTableStringFind();
@@ -364,6 +411,14 @@ void TestStringVFTableStringFindNull();
  **************************************************************************************************/
 
 void TestStringVFTableStringSubString();
+
+/**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringSubStringAllocated();
+ *
+ * @brief	Tests string vf table SubString is pointing to the correct function
+ **************************************************************************************************/
+
+void TestStringVFTableStringSubStringAllocated();
 
 /**********************************************************************************************//**
  * @fn	void TestStringVFTableStringSubStringLessThanZero();

@@ -295,11 +295,14 @@ void TestStringVFTableStringAddSecondAllocatedFirstNot()
 	//append characters
 	Call(String, set, s2, "TestTestTestTestTest");
 
+	//still allocated
+	Call(String, set, s2, "Test");
+
 	//append characters
 	Call(String, add, s1, s2);
 
 	//c_str check
-	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "TestTestTestTestTest");
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "Test");
 
 	//free the string's resources
 	Delete(String, s2);
@@ -517,6 +520,31 @@ void TestStringVFTableStringCopy()
 {
 	//allocate a new string
 	void* s1 = New(String);
+
+	//string copy
+	void* s2 = Call(String, copy, s1);
+
+	//check that the objects are allocated in different regions
+	CU_ASSERT_PTR_NOT_EQUAL(s1, s2);
+
+	//check if strings' values are the same
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), Call(String, c_str, s2));
+
+	//free the string's resources
+	Delete(String, s2);
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+	CU_ASSERT_PTR_EQUAL(s2, NULL);
+}
+
+void TestStringVFTableStringCopyAllocated()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	Call(String, set, s1, "TestTestTestTestTest");
 
 	//string copy
 	void* s2 = Call(String, copy, s1);
@@ -773,6 +801,67 @@ void TestStringVFTableStringInsertAllocated()
 	CU_ASSERT_PTR_EQUAL(s2, NULL);
 }
 
+void TestStringVFTableStringInsertOtherStringAllocated()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	//allocate a new string
+	void* s2 = New(String);
+
+	//append characters to s1
+	Call(String, set, s1, "Test");
+
+	//append characters to insertion string
+	Call(String, set, s2, " Test this testttttttttttt");
+
+	//keep allocated
+	Call(String, set, s2, " Test");
+
+	//insert the string into s1 at index 
+	Call(String, insert, s1, s2, 14);
+
+	//test if substring == "test"
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "Test Test");
+
+	//free the string's resources
+	Delete(String, s2);
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+	CU_ASSERT_PTR_EQUAL(s2, NULL);
+}
+
+void TestStringVFTableStringInsertOtherStringAllocatedNewlyAllocated()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	//allocate a new string
+	void* s2 = New(String);
+
+	//append characters to s1
+	Call(String, set, s1, "Test");
+
+	//append characters to insertion string
+	Call(String, set, s2, " Test this test Test");
+
+	//insert the string into s1 at index 
+	Call(String, insert, s1, s2, 14);
+
+	//test if substring == "test"
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "Test Test this test Test");
+
+	//free the string's resources
+	Delete(String, s2);
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+	CU_ASSERT_PTR_EQUAL(s2, NULL);
+}
+
 void TestStringVFTableStringInsertAlreadyAllocated()
 {
 	//allocate a new string
@@ -782,16 +871,45 @@ void TestStringVFTableStringInsertAlreadyAllocated()
 	void* s2 = New(String);
 
 	//append characters to s1
-	Call(String, set, s1, "Test this test Test this test");
+	Call(String, set, s1, "Test this testtt");
 
 	//append characters to insertion string
-	Call(String, set, s2, " Test this test");
+	Call(String, set, s2, " Test");
 
 	//insert the string into s1 at index 
-	Call(String, insert, s1, s2, 29);
+	Call(String, insert, s1, s2, 14);
 
 	//test if substring == "test"
-	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "Test this test Test this test Test this test");
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "Test this testtt Test");
+
+	//free the string's resources
+	Delete(String, s2);
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+	CU_ASSERT_PTR_EQUAL(s2, NULL);
+}
+
+void TestStringVFTableStringInsertAlreadyAllocatedInsertionStringAllocated()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	//allocate a new string
+	void* s2 = New(String);
+
+	//append characters to s1
+	Call(String, set, s1, "Test this testtt");
+
+	//append characters to insertion string
+	Call(String, set, s2, " Test this test Test this test Test this test");
+
+	//insert the string into s1 at index 
+	Call(String, insert, s1, s2, 14);
+
+	//test if substring == "test"
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "Test this testtt Test this test Test this test Test this test");
 
 	//free the string's resources
 	Delete(String, s2);
@@ -852,6 +970,11 @@ void TestStringVFTableStringInsertNPOS()
 	//check that the pointers are freed
 	CU_ASSERT_PTR_EQUAL(s1, NULL);
 	CU_ASSERT_PTR_EQUAL(s2, NULL);
+}
+
+void TestStringVFTableStringReplace()
+{
+
 }
 
 void TestStringVFTableStringFind()
@@ -1015,6 +1138,55 @@ void TestStringVFTableStringSubString()
 
 	//set characters of haystack
 	Call(String, set, s1, "TESTwwwtestWWW");
+
+	//set characters of needle1
+	Call(String, set, s2, "www");
+
+	//set characters of needle2
+	Call(String, set, s3, "WWW");
+
+	//find index of www in s1
+	int index1 = Call(String, find, s1, s2);
+
+	//index should be value of 4
+	CU_ASSERT_EQUAL(index1, 4);
+
+	//find index of WWW in s1
+	int index2 = Call(String, find, s1, s3);
+
+	//index should be value of 11
+	CU_ASSERT_EQUAL(index2, 11);
+
+	//call substring
+	void* substring = Call(String, substring, s1, index1, index2);
+
+	//test if substring == "test"
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, substring), "wwwtest");
+
+	//free the string's resources
+	Delete(String, s3);
+	Delete(String, s2);
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s3, NULL);
+	CU_ASSERT_PTR_EQUAL(s2, NULL);
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+}
+
+void TestStringVFTableStringSubStringAllocated()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	//allocate a new string
+	void* s2 = New(String);
+
+	//allocate a new string
+	void* s3 = New(String);
+
+	//set characters of haystack
+	Call(String, set, s1, "TESTwwwtestWWWTEST");
 
 	//set characters of needle1
 	Call(String, set, s2, "www");

@@ -116,6 +116,7 @@ int main()
 		!CU_add_test(stringSuite, "TestStringVFTableStringRemoveNPOS", TestStringVFTableStringRemoveNPOS) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringContains", TestStringVFTableStringContains) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringCopy", TestStringVFTableStringCopy) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringCopyAllocated", TestStringVFTableStringCopyAllocated) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringIsEmpty", TestStringVFTableStringIsEmpty) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringSize", TestStringVFTableStringSize) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringSet", TestStringVFTableStringSet) ||
@@ -127,18 +128,22 @@ int main()
 		!CU_add_test(stringSuite, "TestStringVFTableStringAppendAlreadyAllocated", TestStringVFTableStringAppendAlreadyAllocated) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringInsert", TestStringVFTableStringInsert) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringInsertAllocated", TestStringVFTableStringInsertAllocated) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringInsertOtherStringAllocated", TestStringVFTableStringInsertOtherStringAllocated) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringInsertOtherStringAllocatedNewlyAllocated", TestStringVFTableStringInsertOtherStringAllocatedNewlyAllocated) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringInsertAlreadyAllocated", TestStringVFTableStringInsertAlreadyAllocated) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringInsertAlreadyAllocatedInsertionStringAllocated", TestStringVFTableStringInsertAlreadyAllocatedInsertionStringAllocated) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringInsertOutOfBounds", TestStringVFTableStringInsertOutOfBounds) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringInsertNPOS", TestStringVFTableStringInsertNPOS) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringReplace", TestStringVFTableStringReplace) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringFind", TestStringVFTableStringFind) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringFindHayStackAllocated", TestStringVFTableStringFindHayStackAllocated) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringFindNeedleAllocated", TestStringVFTableStringFindNeedleAllocated) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringFindHayStackAllocatedNeedleAllocated", TestStringVFTableStringFindHayStackAllocatedNeedleAllocated) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringFindNull", TestStringVFTableStringFindNull) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringSubString", TestStringVFTableStringSubString) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringSubStringAllocated", TestStringVFTableStringSubStringAllocated) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringSubStringLessThanZero", TestStringVFTableStringSubStringLessThanZero) ||
-		!CU_add_test(stringSuite, "TestStringVFTableStringSubStringOutOfBounds", TestStringVFTableStringSubStringOutOfBounds) ||
-		!CU_add_test(stringSuite, "TestStringNew", TestStringNew))
+		!CU_add_test(stringSuite, "TestStringVFTableStringSubStringOutOfBounds", TestStringVFTableStringSubStringOutOfBounds))
 	{
 		printf("%s\n", CU_get_error_msg());
 		CU_cleanup_registry();
