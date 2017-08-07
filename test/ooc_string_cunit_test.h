@@ -364,6 +364,14 @@ void TestStringVFTableStringInsertNPOS();
 void TestStringVFTableStringReplace();
 
 /**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringReplaceAllocated();
+ *
+ * @brief	Tests string vf table string replace.
+ **************************************************************************************************/
+
+void TestStringVFTableStringReplaceAllocated();
+
+/**********************************************************************************************//**
  * @fn	void TestStringVFTableStringFind();
  *
  * @brief	Tests string vf table StringFind haystack - static | needle - static

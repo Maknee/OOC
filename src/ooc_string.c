@@ -461,19 +461,49 @@ bool StringRemove(void* this, void* item)
 		//check whether or not the string is using an array or a dynamic pointer
 		if (CheckIfStringIsAllocated(this_string))
 		{
+			//start of substring
+			char* start_index = this_string->data.pBuf + start;
+			
+			//end of substring
+			char* end_index = this_string->data.pBuf + start + other_string->length;
+			
+			//length of data after substring
+			size_t data_after_substring_length = this_string->length - other_string->length - start;
+
+			//start of substring as if it was the end (this is the place to null out the rest of the data)
+			char* null_end_of_string_length = this_string->data.pBuf + this_string->length - other_string->length;
+
+			//fill the substring area with NULLs first (case when the substring is at the end)
+			memset(start_index, 0, other_string->length);
+
 			//fill the data after the substring into the data of the substring
-			memmove(this_string->data.pBuf + start,
-				this_string->data.pBuf + new_length, this_string->length - new_length);
+			memmove(start_index, end_index, data_after_substring_length);
+			
 			//replace the rest with nulls
-			memset(this_string->data.pBuf + new_length, 0, this_string->length - new_length);
+			memset(null_end_of_string_length, 0, data_after_substring_length);
 		}
 		else
 		{
+			//start of substring
+			char* start_index = this_string->data.buf + start;
+			
+			//end of substring
+			char* end_index = this_string->data.buf + start + other_string->length;
+			
+			//length of data after substring
+			size_t data_after_substring_length = this_string->length - other_string->length - start;
+
+			//start of substring as if it was the end (this is the place to null out the rest of the data)
+			char* null_end_of_string_length = this_string->data.buf + this_string->length - other_string->length;
+
+			//fill the substring area with NULLs first (case when the substring is at the end)
+			memset(start_index, 0, other_string->length);
+
 			//fill the data after the substring into the data of the substring
-			memmove(this_string->data.buf + start,
-				this_string->data.buf + new_length, this_string->length - new_length);
+			memmove(start_index, end_index, data_after_substring_length);
+			
 			//replace the rest with nulls
-			memset(this_string->data.buf + new_length, 0, this_string->length - new_length);
+			memset(null_end_of_string_length, 0, data_after_substring_length);
 		}
 
 		//update the length
@@ -601,6 +631,7 @@ bool StringAppend(void* this, const char* item)
 bool StringInsert(void* this, void* item, int index)
 {
 	CHECK_NULL(this, false);
+	CHECK_NULL(item, false);
 
 	//check if user made mistakes...
 	if (index < 0)
@@ -691,7 +722,7 @@ bool StringInsert(void* this, void* item, int index)
 
 			//shift the right side of the string, so that there is enough space
 			//for the inserted string to be placed in
-			memmove(this_string->data.buf + index_t + other_string->length, this_string->data.pBuf + index_t, this_string->length - index_t);
+			memmove(this_string->data.buf + index_t + other_string->length, this_string->data.buf + index_t, this_string->length - index_t);
 
 			//insert the other string's data into the index
 			if (CheckIfStringIsAllocated(item))
@@ -713,6 +744,87 @@ bool StringInsert(void* this, void* item, int index)
 
 bool StringReplace(void* this, void* item, void* replacement)
 {
+	CHECK_NULL(this, false);
+	CHECK_NULL(item, false);
+	CHECK_NULL(replacement, false);
+	
+	String* this_string = (String*)this;
+	String* to_find_string = (String*)item;
+	String* replacement_string = (String*)replacement;
+
+	//keep track of our starting index for each replacement
+	int index = 0;
+	while ((index = StringFind(this_string, to_find_string)) != NPOS)
+	{
+		//Taken from StringRemove (need since StringRemove doesn't take in the index)
+
+		//cast found to size_t from int, now we know that the value isn't negative
+		size_t start = (size_t)index;
+
+		//update the length
+		size_t new_length = this_string->length - to_find_string->length;
+
+		//check whether or not the string is using an array or a dynamic pointer
+		if (CheckIfStringIsAllocated(this_string))
+		{
+			//start of substring
+			char* start_index = this_string->data.pBuf + start;
+
+			//end of substring
+			char* end_index = this_string->data.pBuf + start + to_find_string->length;
+
+			//length of data after substring
+			size_t data_after_substring_length = this_string->length - to_find_string->length - start;
+
+			//start of substring as if it was the end (this is the place to null out the rest of the data)
+			char* null_end_of_string_length = this_string->data.pBuf + this_string->length - to_find_string->length;
+
+			//fill the substring area with NULLs first (case when the substring is at the end)
+			memset(start_index, 0, to_find_string->length);
+
+			//fill the data after the substring into the data of the substring
+			memmove(start_index, end_index, data_after_substring_length);
+
+			//replace the rest with nulls
+			memset(null_end_of_string_length, 0, data_after_substring_length);
+		}
+		else
+		{
+			//start of substring
+			char* start_index = this_string->data.buf + start;
+
+			//end of substring
+			char* end_index = this_string->data.buf + start + to_find_string->length;
+
+			//length of data after substring
+			size_t data_after_substring_length = this_string->length - to_find_string->length - start;
+
+			//start of substring as if it was the end (this is the place to null out the rest of the data)
+			char* null_end_of_string_length = this_string->data.buf + this_string->length - to_find_string->length;
+
+			//fill the substring area with NULLs first (case when the substring is at the end)
+			memset(start_index, 0, to_find_string->length);
+
+			//fill the data after the substring into the data of the substring
+			memmove(start_index, end_index, data_after_substring_length);
+
+			//replace the rest with nulls
+			memset(null_end_of_string_length, 0, data_after_substring_length);
+		}
+
+		//update the length
+		this_string->length = new_length;
+
+		//---------------------------------------------------//
+
+		//Insert the found string (no need to check since find checks)
+		StringInsert(this_string, replacement_string, index);
+
+		//update the index by the replacement length, so we don't
+		//go in an infinite loop
+		index += (int)replacement_string->length;
+	}
+
 	return true;
 }
 
