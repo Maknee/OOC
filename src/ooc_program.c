@@ -13,7 +13,7 @@ int main()
 	void* s3 = New(String);
 
 	//append characters to s1
-	Call(String, set, s1, "this this");
+	Call(String, set, s1, "this test this");
 
 	//append characters to insertion string
 	Call(String, set, s2, "this");

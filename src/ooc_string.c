@@ -480,7 +480,7 @@ bool StringRemove(void* this, void* item)
 			memmove(start_index, end_index, data_after_substring_length);
 			
 			//replace the rest with nulls
-			memset(null_end_of_string_length, 0, data_after_substring_length);
+			memset(null_end_of_string_length, 0, other_string->length);
 		}
 		else
 		{
@@ -503,7 +503,7 @@ bool StringRemove(void* this, void* item)
 			memmove(start_index, end_index, data_after_substring_length);
 			
 			//replace the rest with nulls
-			memset(null_end_of_string_length, 0, data_after_substring_length);
+			memset(null_end_of_string_length, 0, other_string->length);
 		}
 
 		//update the length
@@ -786,7 +786,7 @@ bool StringReplace(void* this, void* item, void* replacement)
 			memmove(start_index, end_index, data_after_substring_length);
 
 			//replace the rest with nulls
-			memset(null_end_of_string_length, 0, data_after_substring_length);
+			memset(null_end_of_string_length, 0, to_find_string->length);
 		}
 		else
 		{
@@ -809,15 +809,14 @@ bool StringReplace(void* this, void* item, void* replacement)
 			memmove(start_index, end_index, data_after_substring_length);
 
 			//replace the rest with nulls
-			memset(null_end_of_string_length, 0, data_after_substring_length);
+			memset(null_end_of_string_length, 0, to_find_string->length);
 		}
 
 		//update the length
 		this_string->length = new_length;
-
 		//---------------------------------------------------//
 
-		//Insert the found string (no need to check since find checks)
+		//Insert the found string (No check here since we check in the beginning)
 		StringInsert(this_string, replacement_string, index);
 
 		//update the index by the replacement length, so we don't
