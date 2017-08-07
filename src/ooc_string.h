@@ -79,11 +79,42 @@
 /**********************************************************************************************//**
  * @struct	_StringVFTable
  *
- * @brief	Struct that contains the vftable of the container class
- * 			
+ * @brief	Struct that contains the vftable of the string class
+ * 			String Methods\n\n
+ * 			Overridden Methods\n
+ * 			@ref Object Methods\n
+ *			equals\n
+ *			toString\n
+ *			@ref Container Methods\n
+ *			add\n
+ *			clear\n
+ *			remove\n
+ *			contains\n
+ *			copy\n
+ *			isEmpty\n
+ *			size\n\n
+ *			Class member methods\n
+ *			set\n
+ *			c_str\n
+ *			append\n
+ *			insert\n
+ *			replace\n
+ *			find\n
+ *			substring\n
+ *			
  * @var		_StringVFTable::containerVFTable
  * 			Pointer to the inherited container's virtual function table
  * 			
+ * @var		_StringVFTable::set
+ * 			Pointer to a function sets the contents of the string to a string literal
+ *			
+ *			@param [in] this 
+ *			The object
+ *			@param [in] item 
+ *			The string literal
+ *			@return
+ *			Returns true if the string's data was set, else false
+ *			
  * @var		_StringVFTable::c_str
  * 			Pointer to a function gives the raw char pointer.
  *			
@@ -108,6 +139,30 @@
  *			Nothing
  *			@note The function should always successfully finish
  *			
+ * @var		_StringVFTable::insert
+ * 			Pointer to a function that inserts the item into the string at the index
+ *
+ *			@param [in] this
+ *			The object
+ *			@param [in] item 
+ *			The string to be added to the object
+ *			@param [in] index
+ *			Index where the item should be inserted into the object
+ *			@return
+ *			Returns true if the item was inserted at the index, else false
+ *			
+ * @var		_StringVFTable::replace
+ * 			Pointer to a function that replaces the item with the replacement string in this string
+ *
+ *			@param [in] this
+ *			The object
+ *			@param [in] item 
+ *			The string to be replaced
+ *			@param [in] replacement
+ *			The string to replace the item with
+ *			@return
+ *			Returns true if all occurrences were replaced, else false
+ *
  * @var		_StringVFTable::find
  * 			Pointer to a function that finds the index of the first occurence of the string to be found
  * 			
@@ -550,7 +605,8 @@ StringVFTable stringVFTable;
 /**********************************************************************************************//**
  * @struct	_String
  *
- * @brief	The string struct, which contains necessary fields for implementing a string
+ * @brief	The string struct, which contains necessary fields for implementing a string\n
+ * 			See @ref StringVFTable for avaliable string functions
  * 			
  * @var		_String::container
  * 			Since the container inherits from the container class,
