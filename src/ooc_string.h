@@ -13,7 +13,7 @@
 * @note A string holds up to 16 characters including the NULL terminator
 * 		until the string becomes dynamically allocated. This makes the string
 * 		implementation work well with strings < 16 characters.
-* @warning <b>NEVER</b> use the same string in a string function call. 
+* @warning <b>NEVER</b> use the same string more than once in a string function call. 
 * 		   It will corrupt the string.
 * @see ooc_string.c
 * @date	8/1/2017

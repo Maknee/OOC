@@ -1,5 +1,4 @@
 #include "ooc.h"
-#include "stdio.h"
 
 int main()
 {	
@@ -9,25 +8,28 @@ int main()
 	//allocate a new string
 	void* s2 = New(String);
 
-	//allocate a new string
-	void* s3 = New(String);
+	//set s1 to "Much w0w"
+	Call(String, set, s1, "Much w0w");
 
-	//append characters to s1
-	Call(String, set, s1, "this test this");
+	//set s2 to " d0ge"
+	Call(String, set, s2, " d0ge");
 
-	//append characters to insertion string
-	Call(String, set, s2, "this");
+	//prints "Much w0w"
+	printf("%s\n", Call(String, c_str, s1));
 
-	//insert the string into s1 at index 
-	Call(String, replace, s1, s2, s3);
+	//add s2 to s1
+	Call(String, add, s1, s2);
 
-	//Call(String, remove, s1, s2);
+	//prints "Much w0w d0ge"
+	printf("%s\n", Call(String, c_str, s1));
 
-	//test if substring == "test"
+	//manually append string literal to s1
+	Call(String, append, s1, " gud");
+
+	//prints "Much w0w d0ge gud"
 	printf("%s\n", Call(String, c_str, s1));
 
 	//free the string's resources
-	Delete(String, s3);
 	Delete(String, s2);
 	Delete(String, s1);
 
