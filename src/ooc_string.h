@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include "template.h"
 #include "container.h"
 
 /*============================================================================
@@ -48,7 +49,8 @@
 //15 characters + 1 null byte
 #define DEFAULT_STRING_LENGTH 15
 
-#define NPOS -1
+//see templates.h
+//#define NPOS -1
 
 #define NULL_STRING_VFTABLE                                     \
 		{                                                       \

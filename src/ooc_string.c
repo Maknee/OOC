@@ -281,6 +281,10 @@ char* StringToString(void* this)
 	return ContainerToString(this);
 }
 
+/*============================================================================
+|	Class member definitions
+*===========================================================================*/
+
 bool StringSet(void* this, const char* item)
 {
 	CHECK_NULL(this, false);
@@ -539,7 +543,7 @@ size_t StringSize(void* this)
 {
 	CHECK_NULL(this, false);
 	
-	return ((String*)this)->length + 1;
+	return ((String*)this)->length;
 }
 
 /*============================================================================

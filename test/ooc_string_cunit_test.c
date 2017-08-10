@@ -656,7 +656,7 @@ void TestStringVFTableStringSize()
 	Call(String, set, string, "Test this test");
 
 	//check string's length
-	CU_ASSERT_EQUAL(Call(String, size, string), 15);
+	CU_ASSERT_EQUAL(Call(String, size, string), 14);
 
 	//free the string's resources
 	Delete(String, string);
