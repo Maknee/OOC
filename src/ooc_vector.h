@@ -32,24 +32,15 @@
 /**********************************************************************************************//**
  * @def		DEFAULT_VECTOR_CAPACITY
  *
- * @brief	A macro that defines the default length of a vector before
- * 			the vector becomes dynamically allocated. 
+ * @brief	A macro that defines the default capacity of a vector
  * @see		_Vector
- * 
- * @def		NPOS
- *
- * @brief	A macro that indicates that there was no match for a vector
- * @see		_VectorVFTable::find
- *
+ * 			
  * @def		NULL_VECTOR_VFTABLE
  * @brief	A macro that defines a null vector vftable template for classes
  * 			that inherit from the vector class
  **************************************************************************************************/
 
-//15 characters + 1 null byte
-#define DEFAULT_VECTOR_CAPACITY 15
-
-#define NPOS -1
+#define DEFAULT_VECTOR_CAPCITY 16
 
 #define NULL_VECTOR_VFTABLE                                     \
 		{                                                       \
@@ -67,18 +58,21 @@
 				.isEmpty = NULL,                                \
 				.size = NULL                                    \
 			},                                                  \
-			.c_str = NULL,                                      \
-			.append = NULL,                                     \
-			.find = NULL,                                       \
-			.subvector = NULL                                   \
-		}                                                        \
+			.set = NULL,                                        \
+			.get = NULL,                                        \
+			.push_front = NULL,                                 \
+			.push_back = NULL.                                  \
+			.insert = NULL,                                     \
+			.find = NULL                                        \
+			.replace = NULL                                     \
+		}                                                       \
 
 /*============================================================================
 |   Object virtual function table definition
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @struct	_VectorVFTable
+ * @struct	CAT(CAT(_Vector, T), VFTable)
  *
  * @brief	Struct that contains the vftable of the vector class
  * 			Vector Methods\n\n
@@ -103,7 +97,7 @@
  *			find\n
  *			subvector\n
  *			
- * @var		_VectorVFTable::containerVFTable
+ * @var		CAT(CAT(_Vector, T), VFTable)::pCompleteObjectLocator
  * 			Pointer to the inherited container's virtual function table
  * 			
  * @var		_VectorVFTable::set
