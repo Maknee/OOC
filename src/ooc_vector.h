@@ -616,7 +616,7 @@ TypeDescriptor CAT(vectorTypeDescriptor, T);
  * 			its own base class descriptor (vector base descriptor)
  */
 
-BaseClassDescriptor CAT(CAT(vectorBaseClassArray, T), [2]);
+BaseClassDescriptor CAT(vectorBaseClassArray, T)[2];
 
 /**
 * @brief	Global vector class hierarchy descriptor

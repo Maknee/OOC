@@ -8,9 +8,6 @@
 #define VectorVFTable CAT(VECTOR, VFTable)
 #define vectorVFTable CAT(CAT(vector, T), VFTable)
 
-//used in CAT(VectorError, T)(void* this);
-static int CAT(VectorErrorNo, T);
-
 VectorVFTable vectorVFTable =
 {
 	.pCompleteObjectLocator = NULL,
@@ -35,10 +32,10 @@ VectorVFTable vectorVFTable =
 TypeDescriptor CAT(vectorTypeDescriptor, T) =
 {
 	.pVFTable = &vectorVFTable,
-	.name = STRINGIFY(CAT(Vector, ADD_PARERENTHSIS(T)))
+	.name = STRINGIFY(Vector(T))
 };
 
-BaseClassDescriptor CAT(CAT(vectorBaseClassArray, T), []) =
+BaseClassDescriptor CAT(vectorBaseClassArray, T)[] =
 {
 	ContainerBaseClassDescriptor,
 	VectorBaseClassDescriptor(T)
@@ -208,7 +205,7 @@ bool CAT(VectorEquals, T)(void* this, void* other)
 	VECTOR* other_vector = (VECTOR*)other;
 
 	//compare memory to see if contents are the same
-	return (!memcmp(this_vector->data, this_vector->data, this_vector->size));
+	return (!memcmp(this_vector->data, other_vector->data, this_vector->size));
 }
 
 char* CAT(VectorToString, T)(void* this)
@@ -291,7 +288,7 @@ bool CAT(VectorRemove, T)(void* this, T item)
 			T* end_of_vector = this_vector->data + (sizeof(T) * this_vector->size);
 
 			//remove the current item and shift everything to the left
-			memmove(this_t, this_t + 1, end_of_vector - (this_t + sizeof(T)));
+			memmove(this_t, this_t + 1, (size_t)(end_of_vector - (this_t + 1)));
 
 			//zero out the remaining one
 			memset(end_of_vector - sizeof(T), 0, sizeof(T));
@@ -493,7 +490,7 @@ bool CAT(VectorInsert, T)(void* this, T item, int index)
 	T* end_of_vector = this_vector->data;
 
 	//shift everything to the left by one element
-	memmove(index_of_vector + 1, index_of_vector, end_of_vector - index_of_vector);
+	memmove(index_of_vector + 1, index_of_vector, (size_t)(end_of_vector - index_of_vector));
 
 	//insert element into beginning
 	memcpy(index_of_vector, &item, sizeof(T));
@@ -520,7 +517,7 @@ int CAT(VectorFind, T) (void* this, T item)
 		//check for equality
 		if (T_EQUALS(*this_t, item))
 		{
-			return i;
+			return (int)i;
 		}
 	}
 

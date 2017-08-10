@@ -53,12 +53,12 @@ int main()
 	
 	Call(Vector(int), set, vector, INITIALIZER_LIST(int, 1));
 
-	printf("%d\n", Call(Vector(int), size, vector));
+	printf("%zu\n", Call(Vector(int), size, vector));
 	
 	int error_no;
 	for (size_t i = 0; i < Call(Vector(int), size, vector); i++)
 	{
-		int v = Call(Vector(int), get, vector, i, &error_no);
+		int v = Call(Vector(int), get, vector, (int)i, &error_no);
 
 		printf("ww - %d - %d\n", v, error_no);
 	}
