@@ -40,7 +40,7 @@
  * 			that inherit from the vector class
  **************************************************************************************************/
 
-#define DEFAULT_VECTOR_CAPCITY 16
+#define DEFAULT_VECTOR_CAPACITY 16
 
 #define NULL_VECTOR_VFTABLE                                     \
 		{                                                       \
