@@ -24,4 +24,13 @@
 #endif
 #define T int
 #include "ooc_vector.h"
+#undef T
+
+#define T float
+#include "ooc_vector.h"
+#undef T
+
+#define T StringPtr
+#include "ooc_vector.h"
+#undef T
 

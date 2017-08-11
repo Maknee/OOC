@@ -170,7 +170,13 @@ void* CAT(VectorCopyConstruct, T)(void* this)
 	//copy the contents of the string to the copied vector except for vftable (which is contained in Container struct inside the String struct)
 	memcpy(&copy_vector->size, &this_vector->size, sizeof(this_vector->size));
 	memcpy(&copy_vector->capacity, &this_vector->capacity, sizeof(this_vector->capacity));
-	memcpy(copy_vector->data, this_vector->data, this_vector->capacity);
+	//memcpy(copy_vector->data, this_vector->data, this_vector->capacity);
+
+	//iterate through each item and copy
+	for (size_t i = 0; i < this_vector->size; i++)
+	{
+		*(copy_vector->data + i) = T_ALLOC(this_vector->data + i);
+	}
 
 	return copy;
 }
@@ -184,6 +190,12 @@ void CAT(VectorDestruct, T)(void* this)
 
 	//cast to vector
 	VECTOR* this_vector = (VECTOR*)this;
+
+	//iterate through each item and delete
+	for (size_t i = 0; i < this_vector->size; i++)
+	{
+		T_DELETE(this_vector->data);
+	}
 
 	//free dynamically allocated memory
 	free(this_vector->data);
@@ -233,7 +245,6 @@ static void CAT(VectorRealloc, T)(void* this, size_t new_size)
 bool CAT(VectorAdd, T)(void* this, T item)
 {
 	CHECK_NULL(this, false);
-	CHECK_NULL(item, false);
 
 	//cast to vector
 	VECTOR* this_vector = (VECTOR*)this;
@@ -261,6 +272,12 @@ void CAT(VectorClear, T)(void* this)
 	//cast to vector
 	VECTOR* this_vector = (VECTOR*)this;
 
+	//iterate through each item and delete
+	for (size_t i = 0; i < this_vector->size; i++)
+	{
+		T_DELETE(this_vector->data);
+	}
+
 	//NULL out vector's data
 	memset(this_vector->data, 0, this_vector->capacity);
 
@@ -271,7 +288,6 @@ void CAT(VectorClear, T)(void* this)
 bool CAT(VectorRemove, T)(void* this, T item)
 {
 	CHECK_NULL(this, false);
-	CHECK_NULL(item, false);
 
 	//cast to vector
 	VECTOR* this_vector = (VECTOR*)this;
@@ -286,6 +302,9 @@ bool CAT(VectorRemove, T)(void* this, T item)
 		if (T_EQUALS(*this_t, item))
 		{
 			T* end_of_vector = this_vector->data + (sizeof(T) * this_vector->size);
+
+			//delete the item
+			T_DELETE(this_t);
 
 			//remove the current item and shift everything to the left
 			memmove(this_t, this_t + 1, (size_t)(end_of_vector - (this_t + 1)));
@@ -545,6 +564,9 @@ bool CAT(VectorReplace, T)(void* this, T to_replace, T replacement)
 		if (T_EQUALS(*this_t, to_replace))
 		{
 			replaced = true;
+
+			//delete the item
+			T_DELETE(this_t);
 
 			//replace the element
 			memcpy(this_t, &replacement, sizeof(T));

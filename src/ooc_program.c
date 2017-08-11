@@ -40,6 +40,8 @@ int main()
 	Delete(String, s1);
 	*/
 	
+	String* s1 = New(String);
+
 	Vector(int)* vector = New(Vector(int));
 	printf("%s\n", Call(Vector(int), toString, vector));
 
