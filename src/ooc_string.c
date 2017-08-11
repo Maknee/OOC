@@ -308,7 +308,7 @@ bool StringSet(void* this, const char* item)
 		}
 
 		//copy the other string's data
-		memcpy(this_string->data.pBuf, item, new_length);
+		memmove(this_string->data.pBuf, item, new_length);
 		
 		//zero out the rest of the string's data
 		memset(this_string->data.pBuf + new_length, 0, this_string->capacity - new_length);
@@ -327,7 +327,7 @@ bool StringSet(void* this, const char* item)
 			char* tmp = check_calloc(this_string->capacity);
 
 			//copy the other string's data
-			memcpy(tmp, item, new_length);
+			memmove(tmp, item, new_length);
 			
 			//zero out the rest of the string's data
 			memset(tmp + new_length, 0, this_string->capacity - new_length);
@@ -341,7 +341,7 @@ bool StringSet(void* this, const char* item)
 			this_string->capacity = DEFAULT_STRING_LENGTH;
 
 			//copy the other string's data
-			memcpy(this_string->data.buf, item, new_length);
+			memmove(this_string->data.buf, item, new_length);
 
 			//zero out the rest of the string's data
 			memset(this_string->data.buf + new_length, 0, this_string->capacity - new_length);
@@ -676,11 +676,11 @@ bool StringInsert(void* this, void* item, int index)
 		//insert the other string's data into the index
 		if (CheckIfStringIsAllocated(item))
 		{
-			memcpy(this_string->data.pBuf + index_t, other_string->data.pBuf, other_string->length);
+			memmove(this_string->data.pBuf + index_t, other_string->data.pBuf, other_string->length);
 		}
 		else
 		{
-			memcpy(this_string->data.pBuf + index_t, other_string->data.buf, other_string->length);
+			memmove(this_string->data.pBuf + index_t, other_string->data.buf, other_string->length);
 		}
 	}
 	else
@@ -712,11 +712,11 @@ bool StringInsert(void* this, void* item, int index)
 			//insert the other string's data into the index
 			if (CheckIfStringIsAllocated(item))
 			{
-				memcpy(this_string->data.pBuf + index_t, other_string->data.pBuf, other_string->length);
+				memmove(this_string->data.pBuf + index_t, other_string->data.pBuf, other_string->length);
 			}
 			else
 			{
-				memcpy(this_string->data.pBuf + index_t, other_string->data.buf, other_string->length);
+				memmove(this_string->data.pBuf + index_t, other_string->data.buf, other_string->length);
 			}
 		}
 		else
@@ -731,11 +731,11 @@ bool StringInsert(void* this, void* item, int index)
 			//insert the other string's data into the index
 			if (CheckIfStringIsAllocated(item))
 			{
-				memcpy(this_string->data.buf + index_t, other_string->data.pBuf, other_string->length);
+				memmove(this_string->data.buf + index_t, other_string->data.pBuf, other_string->length);
 			}
 			else
 			{
-				memcpy(this_string->data.buf + index_t, other_string->data.buf, other_string->length);
+				memmove(this_string->data.buf + index_t, other_string->data.buf, other_string->length);
 			}
 		}
 	}

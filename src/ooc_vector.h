@@ -5,7 +5,6 @@
 * Vector class implementation using SSO optimiziation
 * Credits to: 
 * <a href="http://arnold.uthar.net/index.php?n=Work.TemplatesC"
-* <a href="https://stackoverflow.com/questions/10315041/meaning-of-acronym-sso-in-the-context-of-stdvector">More sso idea/implementation</a>
 * All derived classes must call donstructor and destructor
 * All derived classes must override every function in vftable
 * @author Henry Zhu (Maknee)
@@ -72,14 +71,14 @@
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @struct	CAT(CAT(_Vector, T), VFTable)
+ * @def	DEFINE_VECTOR_VFTABLE
  *
- * @brief	Struct that contains the vftable of the vector class
+ * @brief	Macro contain templated vftable of the vector class
  * 			Vector Methods\n\n
  * 			Overridden Methods\n
  * 			@ref Object Methods\n
  *			equals\n
- *			toVector\n
+ *			toString\n\n
  *			@ref Container Methods\n
  *			add\n
  *			clear\n
@@ -90,100 +89,13 @@
  *			size\n\n
  *			Class member methods\n
  *			set\n
- *			c_str\n
- *			append\n
- *			insert\n
+ *			get\n
+ *			push_front\n
+ *			push_back\n
  *			replace\n
  *			find\n
- *			subvector\n
+ *			replace\n
  *			
- * @var		CAT(CAT(_Vector, T), VFTable)::pCompleteObjectLocator
- * 			Pointer to the inherited container's virtual function table
- * 			
- * @var		_VectorVFTable::set
- * 			Pointer to a function sets the contents of the vector to a vector literal
- *			
- *			@param [in] this 
- *			The object
- *			@param [in] item 
- *			The vector literal
- *			@return
- *			Returns true if the vector's data was set, else false
- *			
- * @var		_VectorVFTable::c_str
- * 			Pointer to a function gives the raw char pointer.
- *			
- *			@param [in] this 
- *			The object
- *			@return
- *			Returns pointer to the raw vector data
- *			@warning
- *			If the pointer is returned, is it up to the <b>CODER</b> to not
- *			mess up the data and ensure that the char array is read-only. 
- *			If the data is corrupted, it is highly likely that
- *			the vector object will be corrupted and act strangely.
- *			
- * @var		_VectorVFTable::append
- * 			Pointer to a function that appends another vector to the current vector
- *
- *			@param [in] this
- *			The object
- *			@param [in] item 
- *			The vector to be added to the object
- *			@return
- *			Nothing
- *			@note The function should always successfully finish
- *			
- * @var		_VectorVFTable::insert
- * 			Pointer to a function that inserts the item into the vector at the index
- *
- *			@param [in] this
- *			The object
- *			@param [in] item 
- *			The vector to be added to the object
- *			@param [in] index
- *			Index where the item should be inserted into the object
- *			@return
- *			Returns true if the item was inserted at the index, else false
- *			
- * @var		_VectorVFTable::replace
- * 			Pointer to a function that replaces the item with the replacement vector in this vector
- *
- *			@param [in] this
- *			The object
- *			@param [in] item 
- *			The vector to be replaced
- *			@param [in] replacement
- *			The vector to replace the item with
- *			@return
- *			Returns true if all occurrences were replaced, else false
- *
- * @var		_VectorVFTable::find
- * 			Pointer to a function that finds the index of the first occurence of the vector to be found
- * 			
- *			@param [in] this
- *			The object
- *			@param [in] item
- *			The item to be found
- *			@return
- *			Returns index of the first occurence of the vector.
- *			@note
- *			Returns NPOS if no vector occurrence was found. @ref NPOS
- *			
- * @var		_VectorVFTable::subvector
- * 			Pointer to a function that returns a new subvector between two indices of a vector
- *
- *			@param [in] this
- *			The object
- *			@param [in] start
- *			The starting index
- *			@param [in] end
- *			The ending index
- *			@return
- *			Returns a new vector if a vector is formed, else NULL
- *			@warning
- *			Returns NULL if the indices are not within the vector's boundaries or the indices are
- *			swapped.
  **************************************************************************************************/
 
 typedef struct CAT(_Vector, T) CAT(Vector, T);
@@ -233,7 +145,7 @@ DEFINE_VECTOR_VFTABLE
  * 			
  *			Returns an allocated new vector
  * 			
- * @return	An allocated vector object
+ * @return	An allocated vector object or null if none could be allocated
  **************************************************************************************************/
 
 void* CAT(NewVector, T)();
@@ -244,15 +156,12 @@ void* CAT(NewVector, T)();
 
 /**********************************************************************************************//**
  * @fn	void CAT(DeleteVector, T)(void* this);
- * @brief	Vector's delete operator
- * 			
- *			Deletes the allocated vector
+ *
+ * @brief	Deletes and frees a vector's resources
  *
  * @param	[in] this
- * 			Vector object to be deleted
- * 			
+ * 			Object to be deleted
  * @return	Nothing
- * @warning If NULL is passed, an attempt to free NULL will be made
  **************************************************************************************************/
 
 void CAT(DeleteVector, T)(void* this);
@@ -262,7 +171,7 @@ void CAT(DeleteVector, T)(void* this);
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void VectorConstruct(void* this)
+ * @fn	void CAT(VectorConstruct, T)(void* this);
  * @brief	Vector's constructor
  * 			
  *			Setups the vftable by completing the RTTI dependency
@@ -282,7 +191,7 @@ void CAT(VectorConstruct, T)(void* this);
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void* VectorCopyConstruct(void* this)
+ * @fn	void* CAT(VectorCopyConstruct, T)(void* this);
  * @brief	Vector's copy constructor
  * 			
  *			Returns a copy of the vector
@@ -294,8 +203,7 @@ void CAT(VectorConstruct, T)(void* this);
  * @note	Derived classes may implement a copy constructor, 
  * 			but it is not necessary
  * @note    This is a <b>DEEP</b> copy, which will dynamically allocate memory
- * 			for the pBuf if the current vector has dynamically allocated memory
- * @note	Does not memcpy the vtable (just points to the same vtable as the current vector)
+ * 			for the vector and copy every element
  **************************************************************************************************/
 
 void* CAT(VectorCopyConstruct, T)(void* this);
@@ -305,7 +213,7 @@ void* CAT(VectorCopyConstruct, T)(void* this);
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void VectorDestruct(void* this)
+ * @fn	void CAT(VectorDestruct, T)(void* this);
  * @brief	Vector's destructor
  * 			
  *			Calls the super destructors and properly manages 
@@ -324,7 +232,7 @@ void CAT(VectorDestruct, T)(void* this);
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn		bool VectorEquals(void* this, void* other);
+ * @fn		bool CAT(VectorEquals, T)(void* this, void* other);
  *
  * @brief	Checks if the type of the vector is equal to another object
  *
@@ -339,7 +247,7 @@ void CAT(VectorDestruct, T)(void* this);
 bool CAT(VectorEquals, T)(void* this, void* other);
 
 /**********************************************************************************************//**
- * @fn		bool VectorToVector(void* this);
+ * @fn		char* CAT(VectorToString, T)(void* this);
  *
  * @brief	Gives the object's type name.
  * 			Is used for casts.
@@ -354,7 +262,7 @@ bool CAT(VectorEquals, T)(void* this, void* other);
 char* CAT(VectorToString, T)(void* this);
 
 /**********************************************************************************************//**
- * @fn		bool VectorAdd(void* this, void* item)
+ * @fn		bool CAT(VectorAdd, T)(void* this, T item);
  *
  * @brief	Concatenates the two vectors
  * 			
@@ -362,26 +270,22 @@ char* CAT(VectorToString, T)(void* this);
  *			Checking the new length
  *			Checking whether or not the current vector was dynamically allocated
  *			If so, just call realloc and append
- *			If not, then two cases appear with a vector that is externally allocated
- *			If the new length is greater than limit length, then make the pointer dynamic
- *			If the new length is less, then append to length
  *
  * @param	[in] this 
  * 			The vector
  * @param	[in] item
- * 			The other vector
+ * 			The item (element of the vector), not another <b>Vector</b>
  * @return	Returns true if the vector was added correctly, 
  * 			returns false if the vector was not added correctly
  * @note	Function only appends an object vector to another object vector,
  * 			<b>NOT</b> a vector object to a char pointer. @ref VectorAppend
  * @todo	{find a case when the function should fail}
- * @todo	{figure out a way to merge this function and VectorAppend}
  **************************************************************************************************/
 
 bool CAT(VectorAdd, T)(void* this, T item);
 
 /**********************************************************************************************//**
- * @fn		void VectorClear(void* this)
+ * @fn		void CAT(VectorClear, T)(void* this);
  *
  * @brief	Clears the contents of the vector
  * 			
@@ -401,15 +305,13 @@ void CAT(VectorClear, T)(void* this);
  *
  * @brief	Remove the subvector in a vector
  *			
- *			
- *			
  * @param	[in] this
  * 			The vector
  * @param	[in] item
- * 			The subvector
- * @return	Returns true if the subvector was removed, 
- * 			returns false if the subvector couldn't be found or removed
- * @note    Removes the first occurence of the item in the vector
+ * 			The item (element of the vector), not another <b>Vector</b>
+ * @return	Returns true if the item was removed,
+ * 			returns false if the item couldn't be found or removed
+ * @note    Removes the all occurences of the item in the vector
  * @note	Function will not resize the capacity. 
  * 			The overhead of free is most likely not worth resizing the capacity
  **************************************************************************************************/
@@ -417,22 +319,22 @@ void CAT(VectorClear, T)(void* this);
 bool CAT(VectorRemove, T)(void* this, T item);
 
 /**********************************************************************************************//**
- * @fn		bool VectorContains(void* this, void* item)
+ * @fn		bool CAT(VectorContains, T)(void* this, T item);
  *
- * @brief	Remove the subvector in a vector
+ * @brief	Remove the item in a vector
  *			
  * @param	[in] this
  * 			The vector
  * @param	[in] item
- * 			The subvector
- * @return	Returns true if the subvector was is in the vector, 
- * 			returns false if the subvector couldn't be found
+ * 			The item (element of the vector), not another <b>Vector</b>
+ * @return	Returns true if the item was is in the vector,
+ * 			returns false if the item couldn't be found
  **************************************************************************************************/
 
 bool CAT(VectorContains, T)(void* this, T item);
 
 /**********************************************************************************************//**
- * @fn	void* VectorCopy(void* this)
+ * @fn	void* CAT(VectorCopy, T)(void* this);
  * @brief	Vector's copy function
  * 			
  *			Returns a deep copy of the vector
@@ -444,28 +346,27 @@ bool CAT(VectorContains, T)(void* this, T item);
  * @note	Calls copy constructor @ref VectorCopyConstruct
  * @note    This is a <b>DEEP</b> copy, which will dynamically allocate memory
  * 			for the pBuf if the current vector has dynamically allocated memory
- * @note	Does not memcpy the vtable (just points to the same vtable as the current vector)
  **************************************************************************************************/
 
 void* CAT(VectorCopy, T)(void* this);
 
 /**********************************************************************************************//**
- * @fn		bool VectorIsEmpty(void* this)
+ * @fn		bool CAT(VectorIsEmpty, T)(void* this);
  *
  * @brief	Checks if the vector is empty
  *			
  * @param	[in] this
  * 			The vector
- * @return	Returns true if the subvector is empty, 
- * 			returns false if the subvector is not empty
+ * @return	Returns true if the vector is empty, 
+ * 			returns false if the vector is not empty
  **************************************************************************************************/
 
 bool CAT(VectorIsEmpty, T)(void* this);
 
 /**********************************************************************************************//**
- * @fn		int VectorSize(void* this)
+ * @fn		size_t CAT(VectorSize, T)(void* this);
  *
- * @brief	Returns the length of the vector
+ * @brief	Returns the number of elements in the vector
  *			
  * @param	[in] this
  * 			The vector
@@ -479,12 +380,119 @@ size_t CAT(VectorSize, T)(void* this);
 |	Class member definitions
 *===========================================================================*/
 
+/**********************************************************************************************//**
+ * @fn	bool CAT(VectorSet, T)(void* this, const T* item, size_t num_elements);
+ *
+ * @brief	Sets the vector to an array of elements
+ *
+ * @param	[in] this
+ * 			The vector
+ * @param	[in] item
+ * 			The item (element of the vector), not another <b>Vector</b>
+ * @param	[in] num_elements
+ * 			The number of elements to be placed
+ * @note	Use initializer list macro for this
+ * @return	True if it succeeds, false if it fails.
+ **************************************************************************************************/
+
 bool CAT(VectorSet, T)(void* this, const T* item, size_t num_elements);
+
+/**********************************************************************************************//**
+ * @fn	T CAT(VectorGet, T)(void* this, int index, int* error_code);
+ *
+ * @brief	Ca ts.
+ *
+ * @param	[in] this
+ * 			The vector
+ * @param	[in] index
+ * 			The index of the item
+ * @param	[in] error_code
+ * 			Error code will be -1 if the index was out of bounds
+ * 			
+ * @return	Returns the element. Error code will be set to -1 if 
+ * 			no element was returned
+ **************************************************************************************************/
+
 T CAT(VectorGet, T)(void* this, int index, int* error_code);
+
+/**********************************************************************************************//**
+ * @fn	bool CAT(VectorPushFront, T)(void* this, T item);
+ *
+ * @brief	Pushes the item in front of the vector
+ *
+ * @param	[in] this
+ * 			The vector
+ * @param	[in] item
+ * 			The item (element of the vector), not another <b>Vector</b>
+ *
+ * @return	True if it succeeds, false if it fails.
+ **************************************************************************************************/
+
 bool CAT(VectorPushFront, T)(void* this, T item);
+
+/**********************************************************************************************//**
+ * @fn	bool CAT(VectorPushBack, T)(void* this, T item);
+ *
+ * @brief	Pushes the item in back of the vector
+ *
+ * @param	[in] this
+ * 			The vector
+ * @param	[in] item
+ * 			The item (element of the vector), not another <b>Vector</b>
+ *
+ * @return	True if it succeeds, false if it fails.
+ **************************************************************************************************/
+
 bool CAT(VectorPushBack, T)(void* this, T item);
+
+/**********************************************************************************************//**
+ * @fn	bool CAT(VectorInsert, T)(void* this, T item, int index);
+ *
+ * @brief	Inserts the item at the index in the vector.\n
+ * 			Everything after the index will be shifted to the right
+ * 			
+ * @param	[in] this
+ * 			The vector
+ * @param	[in] item
+ * 			The item (element of the vector), not another <b>Vector</b>
+ * @param	[in] index
+ * 			The index to be index
+ *
+ * @return	True if it succeeds, false if it fails.
+ **************************************************************************************************/
+
 bool CAT(VectorInsert, T)(void* this, T item, int index);
+
+/**********************************************************************************************//**
+ * @fn	int CAT(VectorFind, T) (void* this, T item);
+ *
+ * @brief	Finds the index of the element in the vector
+ *
+ * @param	[in] this
+ * 			The vector
+ * @param	[in] item
+ * 			The item (element of the vector), not another <b>Vector</b>
+ *
+ * @return	Index of the element. NPOS if none were found
+ **************************************************************************************************/
+
 int CAT(VectorFind, T) (void* this, T item);
+
+/**********************************************************************************************//**
+ * @fn	bool CAT(VectorReplace, T)(void* this, T to_replace, T replacement);
+ *
+ * @brief	Replaces the elements with another element
+ * 			
+ * @param	[in] this
+ * 			The vector
+ * @param	[in] to_replace
+ * 			The item (element of the vector), not another <b>Vector</b> to be replaced
+ * @param	[in] replacement
+ * 			The item (element of the vector), not another <b>Vector</b> that replaces the item
+ *
+ * @return	Index of the element. NPOS if none were found
+ **************************************************************************************************/
+
 bool CAT(VectorReplace, T)(void* this, T to_replace, T replacement);
 
 /*============================================================================
@@ -505,44 +513,15 @@ CAT(CAT(Vector, T), VFTable) CAT(CAT(vector, T), VFTable);
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @struct	_Vector
+ * @def	DEFINE_VECTOR
  *
- * @brief	The vector struct, which contains necessary fields for implementing a vector\n
- * 			See @ref VectorVFTable for avaliable vector functions
- * 			
- * @var		_Vector::container
- * 			Since the container inherits from the container class,
- * 			it must contain the container's class
- *			@see _Container
- *			
- * @var		_Vector::length
- * 			item that contains the current number of characters in the vector
- *			@note
- *			Includes the NULL terminator
- *			
- * @var		_Vector::capacity
- * 			item that contains that maximum characters that vector can hold.
- *			@note
- *			If the allocated vector is larger than capacity, the vector functions
- *			will try to increase the capacity @ref VectorAdd
- *			
- * @var		_Vector::data
- *			Union that contains an array of chars or a pointer to a
- *			dynamically allocated array of chars depending on the length
- *			of the vector
- *			
- * @var		_Vector::data::buf
- *			Array of chars of length @ref DEFAULT_VECTOR_CAPACITY, which is allocated
- *			directory in the vector struct
- *			
- * @var		_Vector::data::pBuf
- *			Char pointer to a dynamically allocated char array if the size of 
- *			the vector is greater than @ref DEFAULT_VECTOR_CAPACITY
- *			@note
- *			It is not necessary for the coder to manually deallocate this memory.
- *			The coder can assume that the allocated data will be free'd with the destructor
- *			@see
- *			VectorDestruct
+ * @brief	The vector struct, which contains necessary fields for implementing a vector\n See
+ * 			@ref VectorVFTable for avaliable vector functions.\n
+ * 			Class members\n
+ * 			container\n
+ * 			size\n
+ *			capacity\n
+ *			data\n
  **************************************************************************************************/
 
 #define DEFINE_VECTOR                                          \

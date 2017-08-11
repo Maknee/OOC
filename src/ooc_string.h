@@ -83,10 +83,10 @@
  *
  * @brief	Struct that contains the vftable of the string class
  * 			String Methods\n\n
- * 			Overridden Methods\n
+ * 			Overridden Methods\n\n
  * 			@ref Object Methods\n
  *			equals\n
- *			toString\n
+ *			toString\n\n
  *			@ref Container Methods\n
  *			add\n
  *			clear\n
@@ -283,7 +283,6 @@ void StringConstruct(void* this);
  * 			but it is not necessary
  * @note    This is a <b>DEEP</b> copy, which will dynamically allocate memory
  * 			for the pBuf if the current string has dynamically allocated memory
- * @note	Does not memcpy the vtable (just points to the same vtable as the current string)
  **************************************************************************************************/
 
 void* StringCopyConstruct(void* this);
