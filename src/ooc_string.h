@@ -224,7 +224,7 @@ typedef struct _StringVFTable
  * @return	An allocated string object
  **************************************************************************************************/
 
-void* NewString();
+String NewString();
 
 /*============================================================================
 |	Delete Operator
@@ -285,7 +285,7 @@ void StringConstruct(void* this);
  * 			for the pBuf if the current string has dynamically allocated memory
  **************************************************************************************************/
 
-void* StringCopyConstruct(void* this);
+String StringCopyConstruct(void* this);
 
 /*============================================================================
 |	Destructor
@@ -434,7 +434,7 @@ bool StringContains(void* this, void* item);
  * @note	Does not memcpy the vtable (just points to the same vtable as the current string)
  **************************************************************************************************/
 
-void* StringCopy(void* this);
+String StringCopy(void* this);
 
 /**********************************************************************************************//**
  * @fn		bool StringIsEmpty(void* this)
@@ -580,11 +580,11 @@ int StringFind(void* this, void* item);
  * 			The beginning of the substring
  * @param	[in] end
  * 			The end of the substring
- * @return	Returns a new allocated substring
+ * @return	Returns a new substring
  * @warning	Returns NULL if substring could not be found
  **************************************************************************************************/
 
-void* StringSubstring(void* this, int start, int end);
+String StringSubstring(void* this, int start, int end);
 
 /*============================================================================
 |   Container virtual function table instance

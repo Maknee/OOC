@@ -43,6 +43,7 @@
 		if (!ptr)                                               \
 		{                                                       \
 			DEBUG_PRINT("%s\n", "Error! " #ptr " is NULL");     \
+			SetError(NULL_POINTER_ERROR);                       \
 			return;                                             \
 		}                                                       \
 
@@ -50,6 +51,7 @@
 		if (!ptr)                                               \
 		{                                                       \
 			DEBUG_PRINT("%s\n", "Error! " #ptr " is NULL");     \
+			SetError(NULL_POINTER_ERROR);                       \
 			return return_type;                                 \
 		}                                                       \
 
@@ -58,8 +60,15 @@
 		{                                                       \
 			DEBUG_PRINT(fmt, __VA_ARGS__);                      \
 			exit(-1);                                           \
-		}                                                       \
+		}      
 
+#define NO_ERROR 0
+#define OUT_OF_BOUNDS_ERROR 1
+#define NULL_POINTER_ERROR 2
+
+void ClearError();
+void SetError(int error);
+int CheckError();
 
 #else
 #define DEBUG_PRINT(fmt, ...)

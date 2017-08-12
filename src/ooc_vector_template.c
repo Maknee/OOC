@@ -1,5 +1,6 @@
 #include "ooc_vector_template.h"
 
+/*
 #ifdef T
 #undef T
 #endif
@@ -38,3 +39,4 @@
 #undef T
 
 
+*/

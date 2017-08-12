@@ -104,12 +104,11 @@ typedef struct _String* StringPtr;
 #define New(type) NewExpansion(type)
 
 #define DeleteExpansion(type, object)                         \
-		Delete ## type(object);                               \
-		object = NULL                                         \
+		Delete ## type(&object);                              \
 
 #define Delete(type, object) DeleteExpansion(type, object)
 
-#define CallExpansion(type, function, ...) ((type ## VFTable*)((Object*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)
+#define CallExpansion(type, function, ...) ((type ## VFTable*)((Object*)(type*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)
 #define Call(type, function, ...) CallExpansion(type, function, __VA_ARGS__)
 
 //CASTS

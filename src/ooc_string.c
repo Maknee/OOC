@@ -117,16 +117,16 @@ static void StringStrncat(String* this, String* other)
 |	New Operator
 *===========================================================================*/
 
-void* NewString()
+String NewString()
 {
 	//allocate a new string
-	void* string = check_calloc(sizeof(String));
+	String string = { 0 };
 
 	//allocate vftable
-	((String*)string)->container.object.pVFTable = check_calloc(sizeof(StringVFTable));
+	string.container.object.pVFTable = check_calloc(sizeof(StringVFTable));
 
 	//call constructor to set up string
-	StringConstruct(string);
+	StringConstruct(&string);
 	return string;
 }
 
@@ -143,9 +143,6 @@ void DeleteString(void* this)
 
 	//free vftable
 	free(((String*)this)->container.object.pVFTable);
-
-	//free the string's resources
-	free(this);
 
 	//NULL the pointer, so we don't have use after free vulns
 	//... forgot that this is a copy of a pointer on the stack, 
@@ -216,16 +213,16 @@ void StringConstruct(void* this)
 |	Copy Constructor
 *===========================================================================*/
 
-void* StringCopyConstruct(void* this)
+String StringCopyConstruct(void* this)
 {
-	CHECK_NULL(this, NULL);
+	CHECK_NULL(this, (String) { 0 });
 	
 	//allocate a new string
-	void* copy = NewString();
+	String copy = NewString();
 
 	//cast to string
-	String* this_string = (String*)this;
-	String* copy_string = (String*)copy;
+	String* this_string = (String*)&this;
+	String* copy_string = (String*)&copy;
 
 	//copy the contents of the string to the copied string except for vftable (which is contained in Container struct inside the String struct)
 	memcpy(&copy_string->length, &this_string->length, sizeof(this_string->length));
@@ -525,9 +522,9 @@ bool StringContains(void* this, void* item)
 	return (StringFind(this, item) != NPOS) ? true : false;
 }
 
-void* StringCopy(void* this)
+String StringCopy(void* this)
 {
-	CHECK_NULL(this, NULL);
+	CHECK_NULL(this, (String) { 0 });
 
 	return StringCopyConstruct(this);
 }
@@ -640,6 +637,7 @@ bool StringInsert(void* this, void* item, int index)
 	//check if user made mistakes...
 	if (index < 0)
 	{
+		SetError(OUT_OF_BOUNDS_ERROR);
 		return false;
 	}
 
@@ -649,6 +647,7 @@ bool StringInsert(void* this, void* item, int index)
 	//check if indices are in bounds
 	if (index > (int)this_string->length)
 	{
+		SetError(OUT_OF_BOUNDS_ERROR);
 		return false;
 	}
 
@@ -833,8 +832,8 @@ bool StringReplace(void* this, void* item, void* replacement)
 
 int StringFind(void* this, void* item)
 {
-	CHECK_NULL(this, -1);
-	CHECK_NULL(item, -1);
+	CHECK_NULL(this, NPOS);
+	CHECK_NULL(item, NPOS);
 
 	//hey c has a function called strstr :)
 	String* this_string = (String*)this;
@@ -884,14 +883,15 @@ int StringFind(void* this, void* item)
 	}
 }
 
-void* StringSubstring(void* this, int start, int end)
+String StringSubstring(void* this, int start, int end)
 {
-	CHECK_NULL(this, NULL);
+	CHECK_NULL(this, (String) { 0 });
 	
 	//check if user made mistakes...
 	if (start > end || start < 0 || end < 0)
 	{
-		return NULL;
+		SetError(OUT_OF_BOUNDS_ERROR);
+		return (String) { 0 };
 	}
 
 	String* this_string = (String*)this;
@@ -899,7 +899,8 @@ void* StringSubstring(void* this, int start, int end)
 	//check if indices are in bounds
 	if (start > (int)this_string->length || end > (int)this_string->length)
 	{
-		return NULL;
+		SetError(OUT_OF_BOUNDS_ERROR);
+		return (String) { 0 };
 	}
 	
 	size_t start_t = (size_t)start;
@@ -907,7 +908,8 @@ void* StringSubstring(void* this, int start, int end)
 
 	//allocate a copy string using the copy constructor
 	//the copied string will be allocated like the parent string
-	String* copy_string = StringCopyConstruct(this);
+	String copy = StringCopyConstruct(this);
+	String* copy_string = &copy;
 
 	//update the length of copy_string
 	copy_string->length = end_t - start_t;
@@ -928,7 +930,7 @@ void* StringSubstring(void* this, int start, int end)
 		//now zero out the rest
 		memset(copy_string->data.buf + copy_string->length, 0, end_t - copy_string->length);
 	}
-	return copy_string;
+	return copy;
 }
 
 

@@ -47,13 +47,13 @@ void TestStringVFTableInitializedCompleteObjectLocator()
 void TestStringNew()
 {
 	//allocate a new string
-	String string = NewString();
+	void* string = NewString();
 
 	//string should be allocated
-	CU_ASSERT_PTR_NOT_EQUAL(&string, NULL);
+	CU_ASSERT_PTR_NOT_EQUAL(string, NULL);
 
 	//free the string's resources
-	DeleteString(&string);
+	DeleteString(string);
 
 	//manual delete string call does not set string to null :(
 	CU_ASSERT_PTR_NOT_EQUAL(string, NULL);
@@ -62,7 +62,7 @@ void TestStringNew()
 void TestStringDelete()
 {
 	//allocate a new string
-	String string = NewString();
+	void* string = NewString();
 
 	//string should be allocated
 	CU_ASSERT_PTR_NOT_EQUAL(string, NULL);
@@ -107,10 +107,10 @@ void TestStringConstructor()
 void TestStringCopyConstructor()
 {
 	//allocate a new string
-	String s1 = New(String);
+	void* s1 = New(String);
 
 	//string copy
-	String s2 = Call(String, copy, s1);
+	void* s2 = Call(String, copy, s1);
 
 	//check that the objects are allocated in different regions
 	CU_ASSERT_PTR_NOT_EQUAL(s1, s2);

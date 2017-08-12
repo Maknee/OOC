@@ -17,6 +17,7 @@
 
 #pragma once
 
+/*
 #include "template.h"
 
 #ifdef T
@@ -34,3 +35,4 @@
 #include "ooc_vector.h"
 #undef T
 
+*/

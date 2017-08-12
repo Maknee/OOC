@@ -40,19 +40,17 @@ int main()
 	Delete(String, s1);
 	*/
 	
-	String* s1 = New(String);
-
+	/*
 	Vector(int)* vector = New(Vector(int));
 	printf("%s\n", Call(Vector(int), toString, vector));
 
 	Call(Vector(int), set, vector, INITIALIZER_LIST(int, 5, 5, 5, 5, 6));
 
-	/*
 	printf("%d\n", Call(Vector(int), contains, vector, 5));
 
 	printf("%d\n", Call(Vector(int), replace, vector, 5, 8));
 	*/
-	
+	/*	
 	Call(Vector(int), set, vector, INITIALIZER_LIST(int, 1));
 
 	printf("%zu\n", Call(Vector(int), size, vector));
@@ -66,6 +64,18 @@ int main()
 	}
 
 	Delete(Vector(int), vector);
-	
+	*/
+	//allocate a new string
+	String s1 = New(String);
+
+	//string copy
+	Call(String, copy, &s1);
+
+	//check if strings' values are the same
+	//CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), Call(String, c_str, s2));
+
+	//free the string's resources
+	Delete(String, s1);
+
 	return 0;
 }
