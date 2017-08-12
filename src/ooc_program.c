@@ -64,16 +64,16 @@ int main()
 	Vector(StringPtr)* vector = New(Vector(StringPtr));
 	printf("%s\n", Call(Vector(StringPtr), toString, vector));
 
-	Call(Vector(StringPtr), set, vector, INITIALIZER_LIST(StringPtr, "wwww"));
+	Call(Vector(StringPtr), set, vector, INITIALIZER_LIST(StringPtr, New(String)));
 
 	printf("%zu\n", Call(Vector(StringPtr), size, vector));
 
 	int error_no;
 	for (size_t i = 0; i < Call(Vector(StringPtr), size, vector); i++)
 	{
-		StringPtr v = Call(Vector(StringPtr), get, vector, (StringPtr)i, &error_no);
+		StringPtr v = Call(Vector(StringPtr), get, vector, (int)i, &error_no);
 
-		printf("ww - %s - %d\n", v, error_no);
+		printf("ww - %s - %d\n", Call(String, c_str, v), error_no);
 	}
 
 	Delete(Vector(int), vector);

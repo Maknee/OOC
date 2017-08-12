@@ -10,6 +10,7 @@
 
 #pragma once
 #include "ooc_string.h"
+#include <math.h>
 #define EXPAND(x) x
 
 //https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms

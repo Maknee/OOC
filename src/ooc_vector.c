@@ -29,8 +29,8 @@ VectorVFTable vectorVFTable =
 	.replace = NULL
 };
 
-#ifdef Vector(type)
-#undef Vector(type)
+#ifdef Vector
+#undef Vector
 #endif
 
 TypeDescriptor CAT(vectorTypeDescriptor, T) =
@@ -181,7 +181,7 @@ void* CAT(VectorCopyConstruct, T)(void* this)
 	//iterate through each item and copy
 	for (size_t i = 0; i < this_vector->size; i++)
 	{
-		*(copy_vector->data + i) = T_ALLOC(this_vector->data + i);
+		*(copy_vector->data + i) = T_COPY(copy_vector->data + i);
 	}
 
 	return copy;
@@ -328,7 +328,6 @@ bool CAT(VectorRemove, T)(void* this, T item)
 bool CAT(VectorContains, T)(void* this, T item)
 {
 	CHECK_NULL(this, false);
-	CHECK_NULL(item, false);
 
 	//cast to vector
 	VECTOR* this_vector = (VECTOR*)this;
