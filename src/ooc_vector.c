@@ -29,11 +29,17 @@ VectorVFTable vectorVFTable =
 	.replace = NULL
 };
 
+#ifdef Vector(type)
+#undef Vector(type)
+#endif
+
 TypeDescriptor CAT(vectorTypeDescriptor, T) =
 {
 	.pVFTable = &vectorVFTable,
 	.name = STRINGIFY(Vector(T))
 };
+
+#define Vector(type) Vector ## type
 
 BaseClassDescriptor CAT(vectorBaseClassArray, T)[] =
 {

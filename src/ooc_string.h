@@ -194,6 +194,7 @@
  **************************************************************************************************/
 
 typedef struct _String String;
+typedef struct _String* StringPtr;
 
 typedef struct _StringVFTable
 {

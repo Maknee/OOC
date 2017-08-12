@@ -40,19 +40,12 @@ int main()
 	Delete(String, s1);
 	*/
 	
-	String* s1 = New(String);
-
+	/*
 	Vector(int)* vector = New(Vector(int));
 	printf("%s\n", Call(Vector(int), toString, vector));
 
 	Call(Vector(int), set, vector, INITIALIZER_LIST(int, 5, 5, 5, 5, 6));
 
-	/*
-	printf("%d\n", Call(Vector(int), contains, vector, 5));
-
-	printf("%d\n", Call(Vector(int), replace, vector, 5, 8));
-	*/
-	
 	Call(Vector(int), set, vector, INITIALIZER_LIST(int, 1));
 
 	printf("%zu\n", Call(Vector(int), size, vector));
@@ -66,6 +59,24 @@ int main()
 	}
 
 	Delete(Vector(int), vector);
+	*/
 	
+	Vector(StringPtr)* vector = New(Vector(StringPtr));
+	printf("%s\n", Call(Vector(StringPtr), toString, vector));
+
+	Call(Vector(StringPtr), set, vector, INITIALIZER_LIST(StringPtr, "wwww"));
+
+	printf("%zu\n", Call(Vector(StringPtr), size, vector));
+
+	int error_no;
+	for (size_t i = 0; i < Call(Vector(StringPtr), size, vector); i++)
+	{
+		StringPtr v = Call(Vector(StringPtr), get, vector, (StringPtr)i, &error_no);
+
+		printf("ww - %s - %d\n", v, error_no);
+	}
+
+	Delete(Vector(int), vector);
+
 	return 0;
 }

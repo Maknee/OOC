@@ -54,10 +54,9 @@
 
 //INITIALIZER LIST
 
-#define INITIALIZER_LIST(type, ...) (type[]) {__VA_ARGS__, 0}, PP_NARG(__VA_ARGS__)
+#define INITIALIZER_LIST(type, ...) (const type[]) {__VA_ARGS__, 0}, PP_NARG(__VA_ARGS__)
 
 //TEMPLATES
-typedef struct _String* StringPtr;
 
 
 
