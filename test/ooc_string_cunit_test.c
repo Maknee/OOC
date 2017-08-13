@@ -1267,6 +1267,7 @@ void TestStringVFTableStringSubStringAllocated()
 	CU_ASSERT_STRING_EQUAL(Call(String, c_str, substring), "wwwtest");
 
 	//free the string's resources
+	Delete(String, substring);
 	Delete(String, s3);
 	Delete(String, s2);
 	Delete(String, s1);

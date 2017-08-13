@@ -305,6 +305,7 @@ bool StringSet(void* this, const char* item)
 
 			//this string is dynamically allocated, so realloc with twice the length
 			this_string->data.pBuf = realloc(this_string->data.pBuf, this_string->capacity);
+			CHECK_NULL(this_string->data.pBuf, false);
 		}
 
 		//copy the other string's data
@@ -325,7 +326,8 @@ bool StringSet(void* this, const char* item)
 			//overwrite buf's data. We need to copy buf's data and then set 
 			//pBuf to point to a copy of buf's data
 			char* tmp = check_calloc(this_string->capacity);
-
+			CHECK_NULL(tmp, false);
+			
 			//copy the other string's data
 			memmove(tmp, item, new_length);
 			
@@ -375,6 +377,7 @@ bool StringAdd(void* this, void* item)
 
 			//this string is dynamically allocated, so realloc with twice the length
 			this_string->data.pBuf = realloc(this_string->data.pBuf, this_string->capacity);
+			CHECK_NULL(this_string->data.pBuf, false);
 		}
 
 		//copy the other string's data
@@ -586,6 +589,7 @@ bool StringAppend(void* this, const char* item)
 
 			//this string is dynamically allocated, so realloc with twice the length
 			this_string->data.pBuf = realloc(this_string->data.pBuf, this_string->capacity);
+			CHECK_NULL(this_string->data.pBuf, false);
 		}
 
 		//copy the other string's data
@@ -667,6 +671,7 @@ bool StringInsert(void* this, void* item, int index)
 
 			//this string is dynamically allocated, so realloc with twice the length
 			this_string->data.pBuf = realloc(this_string->data.pBuf, this_string->capacity);
+			CHECK_NULL(this_string->data.pBuf, false);
 		}
 		
 		//shift the right side of the string, so that there is enough space
