@@ -909,7 +909,7 @@ void TestStringVFTableStringInsertAlreadyAllocatedInsertionStringAllocated()
 	Call(String, insert, s1, s2, 16);
 
 	//test if substring == "test"
-	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "Test this testtt Test this test Test this test Test this test");
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s2), " Test this test Test this test Test this test");
 
 	//free the string's resources
 	Delete(String, s2);
