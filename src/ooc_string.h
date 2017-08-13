@@ -193,9 +193,6 @@
  *			swapped.
  **************************************************************************************************/
 
-typedef struct _String String;
-typedef struct _String* StringPtr;
-
 typedef struct _StringVFTable
 {
 	struct _ContainerVFTable;
@@ -655,7 +652,7 @@ typedef struct _String
 		char buf[DEFAULT_STRING_LENGTH];
 		char* pBuf;
 	} data;
-} String;
+} *String;
 
 
 /*============================================================================

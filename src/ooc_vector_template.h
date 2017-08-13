@@ -30,7 +30,7 @@
 #include "ooc_vector.h"
 #undef T
 
-#define T StringPtr
+#define T String
 #include "ooc_vector.h"
 #undef T
 
