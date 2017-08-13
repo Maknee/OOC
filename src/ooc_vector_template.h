@@ -19,6 +19,10 @@
 
 #include "template.h"
 
+#ifdef Vector
+#undef Vector
+#endif
+
 #ifdef T
 #undef T
 #endif
@@ -34,3 +38,4 @@
 #include "ooc_vector.h"
 #undef T
 
+#define Vector(type) Vector ## type

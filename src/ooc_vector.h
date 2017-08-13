@@ -98,8 +98,6 @@
  *			
  **************************************************************************************************/
 
-typedef struct CAT(_Vector, T) CAT(Vector, T);
-
 //have to use macro to define vftable because macros can't be
 //used in struct declaration
 
@@ -531,7 +529,7 @@ CAT(CAT(Vector, T), VFTable) CAT(CAT(vector, T), VFTable);
 		size_t size;                                           \
 		size_t capacity;                                       \
 		T* data;                                               \
-	}CAT(Vector, T);                                           \
+	} *CAT(Vector, T);                                           \
 
 DEFINE_VECTOR
 

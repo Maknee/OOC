@@ -1,5 +1,9 @@
 #include "ooc_vector_template.h"
 
+#ifdef Vector
+#undef Vector
+#endif
+
 #ifdef T
 #undef T
 #endif
@@ -44,3 +48,4 @@
 #undef T
 
 
+#define Vector(type) Vector ## type

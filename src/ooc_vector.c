@@ -29,17 +29,11 @@ VectorVFTable vectorVFTable =
 	.replace = NULL
 };
 
-#ifdef Vector
-#undef Vector
-#endif
-
 TypeDescriptor CAT(vectorTypeDescriptor, T) =
 {
 	.pVFTable = &vectorVFTable,
 	.name = STRINGIFY(Vector(T))
 };
-
-#define Vector(type) Vector ## type
 
 BaseClassDescriptor CAT(vectorBaseClassArray, T)[] =
 {
@@ -68,10 +62,10 @@ CompleteObjectLocator CAT(vectorCompleteObjectLocator, T) =
 void* CAT(NewVector, T)()
 {
 	//allocate a new vector
-	void* this = check_calloc(sizeof(VECTOR));
+	void* this = check_calloc(sizeof(struct CAT(_Vector, T)));
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	//allocate vftable
 	this_vector->container.object.pVFTable = check_calloc(sizeof(VectorVFTable));
@@ -91,7 +85,7 @@ void CAT(DeleteVector, T)(void* this)
 	CHECK_NULL_NO_RET(this);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	//call destructor
 	CAT(VectorDestruct, T)(this);
@@ -145,7 +139,7 @@ void CAT(VectorConstruct, T)(void* this)
 	vectorVFTable.replace = &CAT(VectorReplace, T);
 	
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	//Initialize the vtable to a copy of this object's vtable
 	memcpy(this_vector->container.object.pVFTable, &vectorVFTable, sizeof(VectorVFTable));
@@ -165,13 +159,13 @@ void* CAT(VectorCopyConstruct, T)(void* this)
 	CHECK_NULL(this, NULL);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	//allocate a new vector
 	void* copy = CAT(NewVector, T)();
 
 	//cast to vector
-	VECTOR* copy_vector = (VECTOR*)copy;
+	VECTOR copy_vector = (VECTOR)copy;
 
 	//copy the contents of the string to the copied vector except for vftable (which is contained in Container struct inside the String struct)
 	memcpy(&copy_vector->size, &this_vector->size, sizeof(this_vector->size));
@@ -195,7 +189,7 @@ void CAT(VectorDestruct, T)(void* this)
 	ContainerDestruct(this);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	//iterate through each item and delete
 	for (size_t i = 0; i < this_vector->size; i++)
@@ -217,10 +211,10 @@ bool CAT(VectorEquals, T)(void* this, void* other)
 	CHECK_NULL(other, false);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	//cast to vector
-	VECTOR* other_vector = (VECTOR*)other;
+	VECTOR other_vector = (VECTOR)other;
 
 	//compare memory to see if contents are the same
 	return (!memcmp(this_vector->data, other_vector->data, this_vector->size));
@@ -238,7 +232,7 @@ static void CAT(VectorRealloc, T)(void* this, size_t new_size)
 	CHECK_NULL_NO_RET(this);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	if (new_size > this_vector->capacity)
 	{
@@ -253,7 +247,7 @@ bool CAT(VectorAdd, T)(void* this, T item)
 	CHECK_NULL(this, false);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	//create new size variable
 	size_t new_size = this_vector->size + 1;
@@ -276,7 +270,7 @@ void CAT(VectorClear, T)(void* this)
 	CHECK_NULL_NO_RET(this);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	//iterate through each item and delete
 	for (size_t i = 0; i < this_vector->size; i++)
@@ -296,7 +290,7 @@ bool CAT(VectorRemove, T)(void* this, T item)
 	CHECK_NULL(this, false);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 	
 	//iterate through each 
 	for (size_t i = 0; i < sizeof(T) * this_vector->size; i += sizeof(T))
@@ -330,7 +324,7 @@ bool CAT(VectorContains, T)(void* this, T item)
 	CHECK_NULL(this, false);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	//iterate through each 
 	for (size_t i = 0; i < sizeof(T) * this_vector->size; i += sizeof(T))
@@ -359,7 +353,7 @@ bool CAT(VectorIsEmpty, T)(void* this)
 	CHECK_NULL(this, false);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	return this_vector->size > 0;
 }
@@ -369,7 +363,7 @@ size_t CAT(VectorSize, T)(void* this)
 	CHECK_NULL(this, false);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	return this_vector->size;
 }
@@ -379,7 +373,7 @@ bool CAT(VectorSet, T)(void* this, const T* item, size_t num_elements)
 	CHECK_NULL(this, false);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	//get the data
 	T* this_vector_data = this_vector->data;
@@ -420,7 +414,7 @@ T CAT(VectorGet, T)(void* this, int index, int* error_code)
 	CHECK_NULL(this, false);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	//check for out of bounds
 	if (index == NPOS || index < 0 || index > (int)this_vector->size)
@@ -446,7 +440,7 @@ bool CAT(VectorPushFront, T)(void* this, T item)
 	CHECK_NULL(this, false);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	//create new size variable
 	size_t new_size = this_vector->size + 1;
@@ -474,7 +468,7 @@ bool CAT(VectorPushBack, T)(void* this, T item)
 	CHECK_NULL(this, false);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	//create new size variable
 	size_t new_size = this_vector->size + 1;
@@ -499,7 +493,7 @@ bool CAT(VectorInsert, T)(void* this, T item, int index)
 	CHECK_NULL(this, false);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	//create new size variable
 	size_t new_size = this_vector->size + 1;
@@ -530,7 +524,7 @@ int CAT(VectorFind, T) (void* this, T item)
 	CHECK_NULL(this, false);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	//check for out of bounds
 	for (size_t i = 0; i < this_vector->size; i++)
@@ -554,7 +548,7 @@ bool CAT(VectorReplace, T)(void* this, T to_replace, T replacement)
 	CHECK_NULL(this, false);
 
 	//cast to vector
-	VECTOR* this_vector = (VECTOR*)this;
+	VECTOR this_vector = (VECTOR)this;
 
 	//check if any were replaced
 	bool replaced = false;
