@@ -21,10 +21,10 @@ void TestStringVFTableInitializedCompleteObjectLocator()
 	//this should __NOT__ be done in a real program
 	
 	//allocate a new string
-	void* string = calloc(1, sizeof(String));
+	void* string = calloc(1, sizeof(struct _String));
 
 	//allocate vftable
-	((String*)string)->container.object.pVFTable = calloc(1, sizeof(StringVFTable));
+	((String)string)->container.object.pVFTable = calloc(1, sizeof(StringVFTable));
 
 	//call constructor to set up string
 	StringConstruct(string);
@@ -35,7 +35,7 @@ void TestStringVFTableInitializedCompleteObjectLocator()
 	StringDestruct(string);
 
 	//free vftable
-	free(((String*)string)->container.object.pVFTable);
+	free(((String)string)->container.object.pVFTable);
 
 	//free the string's resources
 	free(string);
@@ -80,22 +80,22 @@ void TestStringConstructor()
 	//this should __NOT__ be done in a real program
 
 	//allocate a new string
-	void* string = calloc(1, sizeof(String));
+	void* string = calloc(1, sizeof(struct _String));
 
 	//allocate vftable
-	((String*)string)->container.object.pVFTable = calloc(1, sizeof(StringVFTable));
+	((String)string)->container.object.pVFTable = calloc(1, sizeof(StringVFTable));
 
 	//call constructor to set up string
 	StringConstruct(string);
 
 	//verify that the vftable is pointing in a different memory location
-	CU_ASSERT_PTR_NOT_EQUAL(((String*)string)->container.object.pVFTable, &stringVFTable);
+	CU_ASSERT_PTR_NOT_EQUAL(((String)string)->container.object.pVFTable, &stringVFTable);
 	
 	//call destructor
 	StringDestruct(string);
 
 	//free vftable
-	free(((String*)string)->container.object.pVFTable);
+	free(((String)string)->container.object.pVFTable);
 
 	//free the string's resources
 	free(string);
@@ -133,22 +133,22 @@ void TestStringDestructor()
 	//this should __NOT__ be done in a real program
 	
 	//allocate a new string
-	void* string = calloc(1, sizeof(String));
+	void* string = calloc(1, sizeof(struct _String));
 
 	//allocate vftable
-	((String*)string)->container.object.pVFTable = calloc(1, sizeof(StringVFTable));
+	((String)string)->container.object.pVFTable = calloc(1, sizeof(StringVFTable));
 
 	//call constructor to set up string
 	StringConstruct(string);
 
 	//show that vftable points to different memory region
-	CU_ASSERT_PTR_NOT_EQUAL(((String*)string)->container.object.pVFTable, &stringVFTable);
+	CU_ASSERT_PTR_NOT_EQUAL(((String)string)->container.object.pVFTable, &stringVFTable);
 
 	//call destructor
 	StringDestruct(string);
 
 	//free vftable
-	free(((String*)string)->container.object.pVFTable);
+	free(((String)string)->container.object.pVFTable);
 
 	//free the string's resources
 	free(string);
@@ -202,22 +202,22 @@ void TestStringVFTableStringToString()
 	//since string is an abstract string
 
 	//allocate a new string
-	void* string = calloc(1, sizeof(String));
+	void* string = calloc(1, sizeof(struct _String));
 
 	//allocate vftable
-	((String*)string)->container.object.pVFTable = calloc(1, sizeof(StringVFTable));
+	((String)string)->container.object.pVFTable = calloc(1, sizeof(StringVFTable));
 
 	//call constructor to set up string
 	StringConstruct(string);
 
-	CU_ASSERT_STRING_EQUAL(((StringVFTable*)((String*)string)->container.object.pVFTable)->toString(string), "String");
+	CU_ASSERT_STRING_EQUAL(((StringVFTable*)((String)string)->container.object.pVFTable)->toString(string), "String");
 	CU_ASSERT_STRING_EQUAL(StringToString(string), "String");
 
 	//call destructor
 	StringDestruct(string);
 
 	//free vftable
-	free(((String*)string)->container.object.pVFTable);
+	free(((String)string)->container.object.pVFTable);
 
 	//free the string's resources
 	free(string);
@@ -1217,6 +1217,7 @@ void TestStringVFTableStringSubString()
 	CU_ASSERT_STRING_EQUAL(Call(String, c_str, substring), "wwwtest");
 
 	//free the string's resources
+	Delete(String, substring);
 	Delete(String, s3);
 	Delete(String, s2);
 	Delete(String, s1);
