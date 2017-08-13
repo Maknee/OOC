@@ -112,11 +112,18 @@
 #define CallExpansion(type, function, ...) ((type ## VFTable*)((Object*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)
 #define Call(type, function, ...) CallExpansion(type, function, __VA_ARGS__)
 
+#define CallCheckExpansion(type, function, ...) (Upcast(type, GET_FIRST_ARG((__VA_ARGS__))) ? (((type ## VFTable*)((Object*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)) : 0)
+#define CallCheck(type, function, ...) CallCheckExpansion(type, function, __VA_ARGS__)
+
 //CASTS
 
-#define Upcast(type, object)                                  \
-	((type ## VFTable*)object)->pVFTable)->pCompleteObjectLocator->pClassHierarchyDescriptor->pBaseClassArray
-\
+void* UpcastVFTable(const char* new_type, void* _pVFTable);
+void* UpcastObject(const char* new_type, void* object);
+
+#define UpcastExpansion(new_type, object)                     \
+		UpcastObject(STRINGIFY(new_type), object)             \
+
+#define Upcast(new_type, object) UpcastExpansion(new_type, object)
 
 //TEMPLATES
 

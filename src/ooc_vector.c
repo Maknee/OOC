@@ -32,7 +32,10 @@ VectorVFTable vectorVFTable =
 TypeDescriptor CAT(vectorTypeDescriptor, T) =
 {
 	.pVFTable = &vectorVFTable,
-	.name = STRINGIFY(Vector(T))
+	//necessary for checking type Upcast macro (can't print pretty)
+	.name = STRINGIFY(VECTOR)
+	//print pretty vvvv
+	//.name = STRINGIFY(Vector(T))
 };
 
 BaseClassDescriptor CAT(vectorBaseClassArray, T)[] =

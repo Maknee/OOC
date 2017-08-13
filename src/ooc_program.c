@@ -60,9 +60,9 @@ int main()
 
 	Delete(Vector(int), vector);
 	*/
-	
+
 	Vector(String) vector = New(Vector(String));
-	printf("%s\n", Call(Vector(String), toString, vector));
+	printf("%s\n", CallCheck(Vector(String), toString, vector));
 
 	Call(Vector(String), set, vector, INITIALIZER_LIST(String, New(String)));
 
