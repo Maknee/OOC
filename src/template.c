@@ -31,6 +31,7 @@ void* UpcastVFTable(const char* new_type, void* _pVFTable)
 		//if so, we need to stop recursing
 		if (!strcmp(pBaseClassDescriptor->pTypeDescriptor->name, pVFTable->pCompleteObjectLocator->pTypeDescriptor->name))
 		{
+			DEBUG_PRINT("%s\n", "Upcast failed!");
 			return NULL;
 		}
 
@@ -41,6 +42,7 @@ void* UpcastVFTable(const char* new_type, void* _pVFTable)
 			return recurse_result;
 		}
 	}
+	DEBUG_PRINT("%s\n", "Upcast failed!");
 	return NULL;
 }
 void* UpcastObject(const char* new_type, void* object)

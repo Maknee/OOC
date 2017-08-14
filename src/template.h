@@ -3,6 +3,9 @@
 * @brief Template header file
 *
 * Includes macros for templates
+* Credits to:
+* https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms
+* for preprocesser tricks
 * 
 * @warning
 * @date	8/7/2017
@@ -11,9 +14,94 @@
 #pragma once
 #include "ooc_string.h"
 #include <math.h>
+
+/**********************************************************************************************//**
+ * @def		EXPAND(x)
+ *
+ * @brief	expands a token
+ *
+ * @param	x	Variable to expand
+ * 				
+ * @def		CAT(a, b)
+ *
+ * @brief	appends two token
+ *
+ * @param	a	Variable to append
+ * @param	b	Variable to append
+ * 				
+ * @def		STRINGIFY(x) 
+ *
+ * @brief	makes a token a string
+ *
+ * @param	x	Variable to become a string
+ *
+ * @def		GET_FIRST_ARG(arg, ...)
+ *
+ * @brief	Gets the first argument of a macro
+ *
+ * @param	arg		The first argument
+ * @param	args	The arguments
+ *
+ * @note	bug in VS... https://stackoverflow.com/questions/4750688/how-to-single-out-the-first-parameter-sent-to-a-macro-taking-only-a-variadic-par
+ *
+ * @def		PP_NARG(...)
+ *
+ * @brief	Returns the number of arguments
+ * 
+ * @param	args	The arguments
+ * 
+ * @def		New(type)
+ *
+ * @brief	A macro that calls new for a class and returns an object
+ * @param	type	The class
+ * @return	An object
+ *  
+ * @def		Delete(type, object)
+ *
+ * @brief	A macro that calls new for a class and returns an object
+ * 			
+ * @param	type	The class
+ * @param	object	the object to be deleted
+ * 
+ * @def		Call(type, function, ...)
+ *
+ * @brief	A macro that calls a function in an object
+ * 			
+ * @param	type		The class
+ * @param	function	The object's member method
+ * @param	...			Variable arguments providing additional information.
+ * @note    The first parameter in the variable arguments must be the <b>object</b> because every member
+ * 			function passes <b>this</b> as the first argument
+ * 
+ * @def		SafeCall(type, function, ...)
+ *
+ * @brief	A macro that calls a function in an object and checks the type at runtime
+ * 			
+ * @param	type		The class
+ * @param	function	The object's member method
+ * @param	...			Variable arguments providing additional information.
+ * @note    The first parameter in the variable arguments must be the <b>object</b> because every member
+ * 			function passes <b>this</b> as the first argument
+ * 			
+ * @def		INITIALIZER_LIST(type, ...)
+ *
+ * @brief	A macro that initializes an object
+ *
+ * @param	type		The class's type
+ * @param	...			List of arguements
+ * 			
+ * @def		Upcast(new_type, object)
+ *
+ * @brief	Casts an object to a new_object, returns vftable, NULL if failure
+ *
+ * @param	new_type	The new upcast type
+ * @param	object		The object
+ *
+ *
+ **************************************************************************************************/
+
 #define EXPAND(x) x
 
-//https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms
 #define PRIMITIVE_CAT(a, b) a##b
 #define CAT(a, b) PRIMITIVE_CAT(a, b)
 
@@ -23,9 +111,8 @@
 #define ADD_PARERENTHSIS_EXPANSION(x) (x)
 #define ADD_PARERENTHSIS(x) ADD_PARERENTHSIS_EXPANSION(x)
 
-#define NPOS -1
-
-#define Downcast
+#define GET_FIRST_ARG_(arg, ...) arg
+#define GET_FIRST_ARG(args) GET_FIRST_ARG_ args
 
 //https ://stackoverflow.com/questions/2124339/c-preprocessor-va-args-number-of-arguments
 //doesn't work with empty
@@ -53,52 +140,7 @@
          19,18,17,16,15,14,13,12,11,10, \
          9,8,7,6,5,4,3,2,1,0
 
-//INITIALIZER LIST
-
-#define INITIALIZER_LIST(type, ...) (const type[]) {__VA_ARGS__, 0}, PP_NARG(__VA_ARGS__)
-
 //TEMPLATES
-
-
-
-/**********************************************************************************************//**
- * @def	GET_FIRST_ARG(arg, ...)
- *
- * @brief	Gets the first argument of a macro
- *
- * @param	args	The arguments
- * 
- * @def	New(type)
- *
- * @brief	A macro that calls new for a class and returns an object
- * @param	type	The class
- * @return	An object
- *  
- * @def	Delete(type, object)
- *
- * @brief	A macro that calls new for a class and returns an object
- * 			
- * @param	type	The class
- * @param	object	the object to be deleted
- * 
- * @def	Call(type, function, ...)
- *
- * @brief	A macro that calls a function in an object
- * 			
- * @param	type		The class
- * @param	function	The object's member method
- * @param	...			Variable arguments providing additional information.
- * @note    The first parameter in the variable arguments must be the <b>object</b> because every member
- * 			function passes <b>this</b> as the first argument
- **************************************************************************************************/
-
-#define PRIMITIVE_CAT_VA(a, ...) a ## __VA_ARGS__
-#define CAT_VA(a, ...) PRIMITIVE_CAT_VA(a, __VA_ARGS__)
-
-//bug in VS... //https://stackoverflow.com/questions/4750688/how-to-single-out-the-first-parameter-sent-to-a-macro-taking-only-a-variadic-par
-#define GET_FIRST_ARG_(arg, ...) arg
-#define GET_FIRST_ARG(args) GET_FIRST_ARG_ args
-
 //use NewExpansion to expand New for nested macros
 #define NewExpansion(type) New ## type()
 #define New(type) NewExpansion(type)
@@ -112,8 +154,10 @@
 #define CallExpansion(type, function, ...) ((type ## VFTable*)((Object*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)
 #define Call(type, function, ...) CallExpansion(type, function, __VA_ARGS__)
 
-#define CallCheckExpansion(type, function, ...) (Upcast(type, GET_FIRST_ARG((__VA_ARGS__))) ? (((type ## VFTable*)((Object*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)) : 0)
-#define CallCheck(type, function, ...) CallCheckExpansion(type, function, __VA_ARGS__)
+#define SafeCallExpansion(type, function, ...) (Upcast(type, GET_FIRST_ARG((__VA_ARGS__))) ? (((type ## VFTable*)((Object*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)) : 0)
+#define SafeCall(type, function, ...) SafeCallExpansion(type, function, __VA_ARGS__)
+
+#define INITIALIZER_LIST(type, ...) (const type[]) {__VA_ARGS__, 0}, PP_NARG(__VA_ARGS__)
 
 //CASTS
 
@@ -130,8 +174,12 @@ void* UpcastObject(const char* new_type, void* object);
 #define Vector(type) Vector ## type
 
 
+//GLOBAL DEFINES
+#define NPOS -1
 
 
+
+//GCC
 
 #define GCC_VERSION (__GNUC__ * 10000 \
                                + __GNUC_MINOR__ * 100 \

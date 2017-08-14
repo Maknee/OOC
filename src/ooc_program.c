@@ -62,7 +62,7 @@ int main()
 	*/
 
 	Vector(String) vector = New(Vector(String));
-	printf("%s\n", CallCheck(Vector(String), toString, vector));
+	printf("%s\n", SafeCall(Vector(String), toString, vector));
 
 	Call(Vector(String), set, vector, INITIALIZER_LIST(String, New(String)));
 

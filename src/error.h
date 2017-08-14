@@ -25,10 +25,6 @@
  * @note * <a href="https://stackoverflow.com/questions/1644868/c-define-macro-for-debug-printing">Entire debug macro</a>
  **************************************************************************************************/
 
-#define GCC_VERSION (__GNUC__ * 10000 \
-                     + __GNUC_MINOR__ * 100 \
-                     + __GNUC_PATCHLEVEL__)
-
 #ifdef OUTPUT_ERRORS
 
 #define DEBUG_PRINT(fmt, ...)                                   \
@@ -38,13 +34,6 @@
 #define DEBUG_PRINT_AND_EXIT(fmt, ...)                          \
 		DEBUG_PRINT(fmt, __VA_ARGS__);                          \
 		exit(-1);                                               \
-
-#define CHECK_NULL_NO_RET(ptr)                                  \
-		if (!ptr)                                               \
-		{                                                       \
-			DEBUG_PRINT("%s\n", "Error! " #ptr " is NULL");     \
-			return;                                             \
-		}                                                       \
 
 #define CHECK_NULL(ptr, return_type)                            \
 		if (!ptr)                                               \
@@ -60,9 +49,18 @@
 			exit(-1);                                           \
 		}                                                       \
 
+#define CHECK_NULL_NO_RET(ptr)                                  \
+		if (!ptr)                                               \
+		{                                                       \
+			DEBUG_PRINT("%s\n", "Error! " #ptr " is NULL");     \
+			return;                                             \
+		}                                                       \
+
 
 #else
 #define DEBUG_PRINT(fmt, ...)
 #define DEBUG_PRINT_AND_EXIT(fmt, ...)
-#define CHECK_NULL(ptr)
+#define CHECK_NULL(ptr, return_type)
+#define CHECK_NULL_EXIT(ptr, fmt, ...) 
+#define CHECK_NULL_NO_RET(ptr)
 #endif
