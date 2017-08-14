@@ -66,7 +66,7 @@ void* UpcastVFTable(const char* new_type, void* _pVFTable, void* _basepVFTable)
 	}
 
 	//only called if the object could not be casted
-	DEBUG_PRINT("%s\n", "Upcast failed!");
+	DEBUG_PRINT("%s\n%s%s%s%s\n", "Cast failed!", "Attempted to cast to ", new_type, ", but object type is ", basepCompleteObjectLocator->pTypeDescriptor->name);
 	return NULL;
 }
 

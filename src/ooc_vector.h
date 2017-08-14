@@ -3,28 +3,7 @@
 * @brief Vector class header
 *
 * Vector class implementation\n
-* Unfortunately, documentation won't generate from this
-* vector methods\n
-* overridden methods\n
-* @ref object methods\n
-* equals\n
-* tostring\n
-* @ref container methods\n
-* add\n
-* clear\n
-* remove\n
-* contains\n
-* copy\n
-* isempty\n
-* size\n
-* class member methods\n
-* set\n
-* get\n
-* push_front\n
-* push_back\n
-* replace\n
-* find\n
-* replace\n
+* Unfortunately, documentation won't generate from this... :( Look at source code for info.
 *			
 * @author Henry Zhu (Maknee)
 * @bug No know bugs.
@@ -93,11 +72,11 @@
  * @def	DEFINE_VECTOR_VFTABLE
  *
  * @brief	Macro contain templated vftable of the vector class
- * 			Vector Methods\n\n
+ * 			Vector Methods\n
  * 			Overridden Methods\n
  * 			@ref Object Methods\n
  *			equals\n
- *			toString\n\n
+ *			toString\n
  *			@ref Container Methods\n
  *			add\n
  *			clear\n
@@ -105,7 +84,7 @@
  *			contains\n
  *			copy\n
  *			isEmpty\n
- *			size\n\n
+ *			size\n
  *			Class member methods\n
  *			set\n
  *			get\n
@@ -115,15 +94,6 @@
  *			find\n
  *			replace\n
  **************************************************************************************************/
-
- /**
- * @brief   Global string vftable
- * @relates StringVFTable
- * @note	Cannot make this const since there is a circular reference with RTTI structs
- * @note	containerVFTable will be set in constructor
- * @note Downcast results in changing to this weird naming convention
- */
-
 
 //have to use macro to define vftable because macros can't be
 //used in struct declaration

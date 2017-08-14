@@ -1,5 +1,10 @@
 #include "ooc.h"
 
+#ifdef _MSC_VER
+	#define _CRTDBG_MAP_ALLOC  
+	#include <stdlib.h>  
+	#include <crtdbg.h> 
+#endif
 int main()
 {	
 	/*
@@ -60,7 +65,7 @@ int main()
 
 	Delete(Vector(int), vector);
 	*/
-
+	/*
 	Vector(String) vector = New(Vector(String));
 	printf("%s\n", SafeCall(Vector(String), toString, vector));
 
@@ -79,6 +84,13 @@ int main()
 	}
 
 	Delete(Vector(String), vector);
+	*/
 	
+	Vector(Vector(int)) ints = New(Vector(Vector(int)));
+	SafeCall(Vector(Vector(int)), push_back, ints, New(Vector(int)));
+	Delete(Vector(Vector(int)), ints);
+#ifdef _MSC_VER
+	_CrtDumpMemoryLeaks();
+#endif
 	return 0;
 }

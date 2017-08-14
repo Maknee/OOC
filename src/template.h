@@ -100,7 +100,9 @@
  *
  **************************************************************************************************/
 
-#define EXPAND(x) x
+#define EMPTY(...)
+#define DEFER(...) __VA_ARGS__ EMPTY()
+#define EXPAND(...) __VA_ARGS__
 
 #define PRIMITIVE_CAT(a, b) a##b
 #define CAT(a, b) PRIMITIVE_CAT(a, b)
@@ -159,8 +161,7 @@
 #define INITIALIZER_LIST(type, ...) (const type[]) {__VA_ARGS__, 0}, PP_NARG(__VA_ARGS__)
 
 //TEMPLATES
-
-#define VectorExpansion(type) Vector ## type
+#define VectorExpansion(type) CAT(Vector, type)
 #define Vector(type) VectorExpansion(type)
 
 

@@ -26,7 +26,12 @@
 #ifdef T
 #undef T
 #endif
+
 #define T int
+#include "ooc_vector.h"
+#undef T
+
+#define T Vectorint
 #include "ooc_vector.h"
 #undef T
 
@@ -38,4 +43,4 @@
 #include "ooc_vector.h"
 #undef T
 
-#define Vector(type) Vector ## type
+#define Vector(type) VectorExpansion(type)
