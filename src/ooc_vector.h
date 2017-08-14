@@ -4,7 +4,28 @@
 *
 * Vector class implementation\n
 * Unfortunately, documentation won't generate from this
-* 
+* vector methods\n\n
+* overridden methods\n
+* @ref object methods\n
+* equals\n
+* tostring\n\n
+* @ref container methods\n
+* add\n
+* clear\n
+* remove\n
+* contains\n
+* copy\n
+* isempty\n
+* size\n\n
+* class member methods\n
+* set\n
+* get\n
+* push_front\n
+* push_back\n
+* replace\n
+* find\n
+* replace\n
+*			
 * @author Henry Zhu (Maknee)
 * @bug No know bugs.
 * @note A vector holds up to 16 characters including the NULL terminator
