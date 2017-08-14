@@ -79,9 +79,9 @@ void TestVectorStringVFTableEquals()
 	Call(Vector(String), push_back, vector1, random_string1);
 
 	//Add a new string to vector 2
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Vector(String), push_back, vector2, random_string1);
+	String random_string2 = New(String);
+	Call(String, set, random_string2, "Testing");
+	Call(Vector(String), add, vector2, random_string2);
 
 	//Check if two vectors are equal
 	Call(Vector(String), equals, vector1, vector2);
@@ -119,9 +119,9 @@ void TestVectorStringVFTableAdd()
 	Call(Vector(String), add, vector1, random_string1);
 
 	//Add a new string to vector 2
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Vector(String), add, vector2, random_string1);
+	String random_string2 = New(String);
+	Call(String, set, random_string2, "Testing");
+	Call(Vector(String), add, vector2, random_string2);
 
 	//Check if two vectors are equal
 	Call(Vector(String), equals, vector1, vector2);
