@@ -6,7 +6,7 @@
 #define VECTOR CAT(Vector, T)
 
 #define VectorVFTable CAT(VECTOR, VFTable)
-#define vectorVFTable CAT(CAT(vector, T), VFTable)
+#define vectorVFTable CAT(CAT(Vector, T), vfTable)
 
 VectorVFTable vectorVFTable =
 {

@@ -304,7 +304,7 @@ char* ContainerToString(void* this);
  * @note	objectVFTable will be set in constructor
  */
 
-ContainerVFTable containerVFTable;
+ContainerVFTable ContainervfTable;
 
 /*============================================================================
 |   Container class definition

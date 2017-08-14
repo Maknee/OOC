@@ -250,10 +250,10 @@ char* ObjectToString(void* this);
 * @brief   Global object vftable
 * @relates ObjectVFTable
 * @note	Cannot make this const since there is a circular reference with RTTI structs
-* @note	objectVFTable will be set in constructor
+* @note	ObjectvfTable will be set in constructor
 */
 
-ObjectVFTable objectVFTable;
+ObjectVFTable ObjectvfTable;
 
 /*============================================================================
 |   Object class definition

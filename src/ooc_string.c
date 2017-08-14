@@ -10,7 +10,7 @@
 
 #include "ooc_string.h"
 
-StringVFTable stringVFTable =
+StringVFTable StringvfTable =
 {
 	NULL_CONTAINER_VFTABLE,
 	.c_str = NULL,
@@ -21,7 +21,7 @@ StringVFTable stringVFTable =
 
 TypeDescriptor stringTypeDescriptor =
 {
-	.pVFTable = &stringVFTable,
+	.pVFTable = &StringvfTable,
 	.name = "String"
 };
 
@@ -169,38 +169,38 @@ void StringConstruct(void* this)
 	//=========================
 
 	//Set the vtable's complete object locator to complete the RTTI circle
-	stringVFTable.pCompleteObjectLocator = &stringCompleteObjectLocator;
+	StringvfTable.pCompleteObjectLocator = &stringCompleteObjectLocator;
 
 	//Set the equals function
-	stringVFTable.equals = &StringEquals;
+	StringvfTable.equals = &StringEquals;
 
 	//Set the toString
-	stringVFTable.toString = &StringToString;
+	StringvfTable.toString = &StringToString;
 
 	//Override Container's methods
 	//==========================
 
-	stringVFTable.add = &StringAdd;
-	stringVFTable.clear = &StringClear;
-	stringVFTable.remove = &StringRemove;
-	stringVFTable.contains = &StringContains;
-	stringVFTable.copy = &StringCopy;
-	stringVFTable.isEmpty = &StringIsEmpty;
-	stringVFTable.size = &StringSize;
+	StringvfTable.add = &StringAdd;
+	StringvfTable.clear = &StringClear;
+	StringvfTable.remove = &StringRemove;
+	StringvfTable.contains = &StringContains;
+	StringvfTable.copy = &StringCopy;
+	StringvfTable.isEmpty = &StringIsEmpty;
+	StringvfTable.size = &StringSize;
 
 	//Initialize class member methods
 	//==========================
 
-	stringVFTable.set = &StringSet;
-	stringVFTable.c_str = &StringC_Str;
-	stringVFTable.append = &StringAppend;
-	stringVFTable.insert = &StringInsert;
-	stringVFTable.replace = &StringReplace;
-	stringVFTable.find = &StringFind;
-	stringVFTable.substring = &StringSubstring;
+	StringvfTable.set = &StringSet;
+	StringvfTable.c_str = &StringC_Str;
+	StringvfTable.append = &StringAppend;
+	StringvfTable.insert = &StringInsert;
+	StringvfTable.replace = &StringReplace;
+	StringvfTable.find = &StringFind;
+	StringvfTable.substring = &StringSubstring;
 
 	//Initialize the vtable to a copy of this object's vtable
-	memcpy(((String)this)->container.object.pVFTable, &stringVFTable, sizeof(StringVFTable));
+	memcpy(((String)this)->container.object.pVFTable, &StringvfTable, sizeof(StringVFTable));
 
 	//Initialize member variables
 

@@ -2,63 +2,9 @@
 * @file ooc_vector.h
 * @brief Vector class header
 *
-* Vector class implementation
+* Vector class implementation\n
+* Unfortunately, documentation won't generate from this
 * 
-* 			Vector Methods\n\n
-* 			Overridden Methods\n
-* 			@ref Object Methods\n
-*			equals\n
-*			toString\n\n
-*			@ref Container Methods\n
-*			add\n
-*			clear\n
-*			remove\n
-*			contains\n
-*			copy\n
-*			isEmpty\n
-*			size\n\n
-*			Class member methods\n
-*			set\n
-*			get\n
-*			push_front\n
-*			push_back\n
-*			replace\n
-*			find\n
-*			replace\n
-*			
-*			Since this uses a weird case of macros, doxygen will not document the functions :(\n
-*			Here is a list of the functions\n
-*			void* CAT(NewVector, T)()\n
-*			Vector's new operator\n\n
-* 			
-*			Returns an allocated new vector\n\n
-*			
-*			void CAT(VectorConstruct, T)(void* this)\n
-*			Vector's constructor\n\n
-*
-*			Setups the vftable by completing the RTTI dependency\n
-*			and memcpys the table into the object's vftable\n\n
-*			
-* @fn	void* CAT(VectorCopyConstruct, T)(void* this);
-* @brief	Vector's copy constructor
-*
-*			Returns a copy of the vector
-*
-* @param	[in] this
-* 			Vector to be used for copying
-*
-* @return	The copied vector
-* @note	Derived classes may implement a copy constructor,
-* 			but it is not necessary
-* @note    This is a <b>DEEP</b> copy, which will dynamically allocate memory
-* 			for the vector and copy every element
-*
-*
-*
-*
-*
-*
-*
 * @author Henry Zhu (Maknee)
 * @bug No know bugs.
 * @note A vector holds up to 16 characters including the NULL terminator
@@ -148,6 +94,15 @@
  *			find\n
  *			replace\n
  **************************************************************************************************/
+
+ /**
+ * @brief   Global string vftable
+ * @relates StringVFTable
+ * @note	Cannot make this const since there is a circular reference with RTTI structs
+ * @note	containerVFTable will be set in constructor
+ * @note Downcast results in changing to this weird naming convention
+ */
+
 
 //have to use macro to define vftable because macros can't be
 //used in struct declaration
@@ -555,7 +510,7 @@ bool CAT(VectorReplace, T)(void* this, T to_replace, T replacement);
 * @note	containerVFTable will be set in constructor
 */
 
-CAT(CAT(Vector, T), VFTable) CAT(CAT(vector, T), VFTable);
+CAT(CAT(Vector, T), VFTable) CAT(CAT(Vector, T), vfTable);
 
 /*============================================================================
 |   Container class definition

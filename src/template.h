@@ -140,8 +140,7 @@
          19,18,17,16,15,14,13,12,11,10, \
          9,8,7,6,5,4,3,2,1,0
 
-//TEMPLATES
-//use NewExpansion to expand New for nested macros
+//Macros for calling 
 #define NewExpansion(type) New ## type()
 #define New(type) NewExpansion(type)
 
@@ -159,20 +158,28 @@
 
 #define INITIALIZER_LIST(type, ...) (const type[]) {__VA_ARGS__, 0}, PP_NARG(__VA_ARGS__)
 
+//TEMPLATES
+
+#define VectorExpansion(type) Vector ## type
+#define Vector(type) VectorExpansion(type)
+
+
 //CASTS
 
-void* UpcastVFTable(const char* new_type, void* _pVFTable);
+void* UpcastVFTable(const char* new_type, void* _pVFTable, void* _basepVFTable);
 void* UpcastObject(const char* new_type, void* object);
 
-#define UpcastExpansion(new_type, object)                     \
-		UpcastObject(STRINGIFY(new_type), object)             \
+#define UpcastExpansion(new_type, object)                      \
+		UpcastObject(STRINGIFY(new_type), object)              \
 
 #define Upcast(new_type, object) UpcastExpansion(new_type, object)
 
-//TEMPLATES
+void* DowncastObject(void* _newTypeVFTable, void* object);
 
-#define Vector(type) Vector ## type
+#define DowncastExpansion(new_type, object)                    \
+		DowncastObject(&CAT(new_type, vfTable), object)        \
 
+#define Downcast(new_type, object) DowncastExpansion(new_type, object)
 
 //GLOBAL DEFINES
 #define NPOS -1

@@ -10,7 +10,7 @@
 
 #include "container.h"
 
-ContainerVFTable containerVFTable =
+ContainerVFTable ContainervfTable =
 {
 	NULL_OBJECT_VFTABLE,
 	.add = NULL,
@@ -23,7 +23,7 @@ ContainerVFTable containerVFTable =
 
 TypeDescriptor containerTypeDescriptor =
 {
-	.pVFTable = &containerVFTable,
+	.pVFTable = &ContainervfTable,
 	.name = "Container"
 };
 
@@ -80,16 +80,16 @@ void ContainerConstruct(void* this)
 	//Override super's methods
 
 	//Set the vtable's complete object locator to complete the RTTI circle
-	containerVFTable.pCompleteObjectLocator = &containerCompleteObjectLocator;
+	ContainervfTable.pCompleteObjectLocator = &containerCompleteObjectLocator;
 
 	//Set the equals function
-	containerVFTable.equals = &ContainerEquals;
+	ContainervfTable.equals = &ContainerEquals;
 
 	//Set the toString
-	containerVFTable.toString = &ContainerToString;
+	ContainervfTable.toString = &ContainerToString;
 
 	//Initialize the vtable to point to this object's vtable
-	memcpy(((Container*)this)->object.pVFTable, &containerVFTable, sizeof(ContainerVFTable));
+	memcpy(((Container*)this)->object.pVFTable, &ContainervfTable, sizeof(ContainerVFTable));
 }
 
 /*============================================================================

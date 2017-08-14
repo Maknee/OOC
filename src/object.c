@@ -17,7 +17,7 @@ void* check_calloc(size_t size)
 	return result;
 }
 
-ObjectVFTable objectVFTable =
+ObjectVFTable ObjectvfTable =
 {
 	.pCompleteObjectLocator = NULL,
 	.equals = &ObjectEquals,
@@ -26,7 +26,7 @@ ObjectVFTable objectVFTable =
 
 TypeDescriptor objectTypeDescriptor =
 {
-	.pVFTable = &objectVFTable,
+	.pVFTable = &ObjectvfTable,
 	.name = "Object"
 };
 
@@ -77,7 +77,7 @@ void DeleteObject(void* this)
 void ObjectConstruct(void* this)
 {
 	//Set the vtable's complete object locator to complete the RTTI circle
-	objectVFTable.pCompleteObjectLocator = &objectCompleteObjectLocator;
+	ObjectvfTable.pCompleteObjectLocator = &objectCompleteObjectLocator;
 
 	//(Actual C++)Initialize the vtable to point to this object's vtable
 	//(OOC)Memcpy the entire VFTable into the table pointed by pVFTable
@@ -87,8 +87,8 @@ void ObjectConstruct(void* this)
 	//Reason 2: No need to malloc vftables :)
 	//Why? because this will set the derived's global vtable
 	//The C++ way:
-	//((Object*)this)->pVFTable = &objectVFTable;
-	memcpy(((Object*)this)->pVFTable, &objectVFTable, sizeof(ObjectVFTable));
+	//((Object*)this)->pVFTable = &ObjectvfTable;
+	memcpy(((Object*)this)->pVFTable, &ObjectvfTable, sizeof(ObjectVFTable));
 }
 
 

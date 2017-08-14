@@ -64,6 +64,8 @@ int main()
 	Vector(String) vector = New(Vector(String));
 	printf("%s\n", SafeCall(Vector(String), toString, vector));
 
+	printf("%p\n", Downcast(Vector(String), vector));
+
 	Call(Vector(String), set, vector, INITIALIZER_LIST(String, New(String)));
 
 	printf("%zu\n", Call(Vector(String), size, vector));

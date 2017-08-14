@@ -593,9 +593,10 @@ void* StringSubstring(void* this, int start, int end);
 * @relates StringVFTable
 * @note	Cannot make this const since there is a circular reference with RTTI structs
 * @note	containerVFTable will be set in constructor
+* @note Downcast results in changing to this weird naming convention
 */
 
-StringVFTable stringVFTable;
+StringVFTable StringvfTable;
 
 /*============================================================================
 |   Container class definition
