@@ -12,7 +12,7 @@ int StringCleanUpSuite()
 
 void TestStringVFTableUninitializedCompleteObjectLocator()
 {
-	CU_ASSERT_PTR_EQUAL(stringVFTable.pCompleteObjectLocator, NULL);
+	CU_ASSERT_PTR_EQUAL(StringvfTable.pCompleteObjectLocator, NULL);
 }
 
 void TestStringVFTableInitializedCompleteObjectLocator()
@@ -29,7 +29,7 @@ void TestStringVFTableInitializedCompleteObjectLocator()
 	//call constructor to set up string
 	StringConstruct(string);
 
-	CU_ASSERT_PTR_EQUAL(stringVFTable.pCompleteObjectLocator, &stringCompleteObjectLocator);
+	CU_ASSERT_PTR_EQUAL(StringvfTable.pCompleteObjectLocator, &stringCompleteObjectLocator);
 
 	//call destructor
 	StringDestruct(string);
@@ -89,7 +89,7 @@ void TestStringConstructor()
 	StringConstruct(string);
 
 	//verify that the vftable is pointing in a different memory location
-	CU_ASSERT_PTR_NOT_EQUAL(((String)string)->container.object.pVFTable, &stringVFTable);
+	CU_ASSERT_PTR_NOT_EQUAL(((String)string)->container.object.pVFTable, &StringvfTable);
 	
 	//call destructor
 	StringDestruct(string);
@@ -142,7 +142,7 @@ void TestStringDestructor()
 	StringConstruct(string);
 
 	//show that vftable points to different memory region
-	CU_ASSERT_PTR_NOT_EQUAL(((String)string)->container.object.pVFTable, &stringVFTable);
+	CU_ASSERT_PTR_NOT_EQUAL(((String)string)->container.object.pVFTable, &StringvfTable);
 
 	//call destructor
 	StringDestruct(string);
@@ -160,7 +160,7 @@ void TestStringDestructor()
 void TestStringVFTableEquals()
 {
 	//compile time check
-	CU_ASSERT_PTR_EQUAL(stringVFTable.equals, StringEquals);
+	CU_ASSERT_PTR_EQUAL(StringvfTable.equals, StringEquals);
 
 	//allocate a new string
 	void* s1 = New(String);
@@ -195,7 +195,7 @@ void TestStringVFTableEquals()
 void TestStringVFTableStringToString()
 {
 	//compile time check
-	CU_ASSERT_PTR_EQUAL(stringVFTable.toString, StringToString);
+	CU_ASSERT_PTR_EQUAL(StringvfTable.toString, StringToString);
 
 	//manually allocates and deallocates an string
 	//this should __NOT__ be done in a real program

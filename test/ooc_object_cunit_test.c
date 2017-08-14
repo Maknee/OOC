@@ -12,7 +12,7 @@ int ObjectCleanUpSuite()
 
 void TestObjectVFTableUninitializedCompleteObjectLocator()
 {
-	CU_ASSERT_PTR_EQUAL(objectVFTable.pCompleteObjectLocator, NULL);
+	CU_ASSERT_PTR_EQUAL(ObjectvfTable.pCompleteObjectLocator, NULL);
 }
 
 void TestObjectVFTableInitializedCompleteObjectLocator()
@@ -30,7 +30,7 @@ void TestObjectVFTableInitializedCompleteObjectLocator()
 	//call constructor to set up object
 	ObjectConstruct(object);
 
-	CU_ASSERT_PTR_EQUAL(objectVFTable.pCompleteObjectLocator, &objectCompleteObjectLocator);
+	CU_ASSERT_PTR_EQUAL(ObjectvfTable.pCompleteObjectLocator, &objectCompleteObjectLocator);
 
 	//call destructor
 	ObjectDestruct(object);
@@ -75,7 +75,7 @@ void TestObjectConstructor()
 	ObjectConstruct(object);
 
 	//verify that the vftable is pointing in a different memory location
-	CU_ASSERT_PTR_NOT_EQUAL(((Object*)object)->pVFTable, &objectVFTable);
+	CU_ASSERT_PTR_NOT_EQUAL(((Object*)object)->pVFTable, &ObjectvfTable);
 
 	//call destructor
 	ObjectDestruct(object);
@@ -118,7 +118,7 @@ void TestObjectDestructor()
 	ObjectDestruct(object);
 
 	//Show that nothing happens after destructor is called since the destructor does not do anything
-	CU_ASSERT_PTR_NOT_EQUAL(((Object*)object)->pVFTable, &objectVFTable);
+	CU_ASSERT_PTR_NOT_EQUAL(((Object*)object)->pVFTable, &ObjectvfTable);
 
 	//free vftable
 	free(((Object*)object)->pVFTable);
@@ -133,7 +133,7 @@ void TestObjectDestructor()
 void TestObjectVFTableEquals()
 {
 	//compile time check
-	CU_ASSERT_PTR_EQUAL(objectVFTable.equals, ObjectEquals);
+	CU_ASSERT_PTR_EQUAL(ObjectvfTable.equals, ObjectEquals);
 
 	//manually allocates and deallocates an object
 	//this should __NOT__ be done in a real program
@@ -187,7 +187,7 @@ void TestObjectVFTableEquals()
 void TestObjectVFTableObjectToString()
 {
 	//compile time check
-	CU_ASSERT_PTR_EQUAL(objectVFTable.toString, ObjectToString);
+	CU_ASSERT_PTR_EQUAL(ObjectvfTable.toString, ObjectToString);
 
 	//manually allocates and deallocates an object
 	//this should __NOT__ be done in a real program

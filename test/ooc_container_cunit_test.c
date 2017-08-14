@@ -12,7 +12,7 @@ int ContainerCleanUpSuite()
 
 void TestContainerVFTableUninitializedCompleteObjectLocator()
 {
-	CU_ASSERT_PTR_EQUAL(containerVFTable.pCompleteObjectLocator, NULL);
+	CU_ASSERT_PTR_EQUAL(ContainervfTable.pCompleteObjectLocator, NULL);
 }
 
 void TestContainerVFTableInitializedCompleteObjectLocator()
@@ -30,7 +30,7 @@ void TestContainerVFTableInitializedCompleteObjectLocator()
 	//call constructor to set up container
 	ContainerConstruct(container);
 
-	CU_ASSERT_PTR_EQUAL(containerVFTable.pCompleteObjectLocator, &containerCompleteObjectLocator);
+	CU_ASSERT_PTR_EQUAL(ContainervfTable.pCompleteObjectLocator, &containerCompleteObjectLocator);
 
 	//call destructor
 	ContainerDestruct(container);
@@ -75,7 +75,7 @@ void TestContainerConstructor()
 	ContainerConstruct(container);
 
 	//verify that the vftable is pointing in a different memory location
-	CU_ASSERT_PTR_NOT_EQUAL(((Container*)container)->object.pVFTable, &containerVFTable);
+	CU_ASSERT_PTR_NOT_EQUAL(((Container*)container)->object.pVFTable, &ContainervfTable);
 
 	//call destructor
 	ContainerDestruct(container);
@@ -118,7 +118,7 @@ void TestContainerDestructor()
 	ContainerDestruct(container);
 
 	//Show that nothing happens after destructor is called since the destructor does not do anything
-	CU_ASSERT_PTR_NOT_EQUAL(((Container*)container)->object.pVFTable, &containerVFTable);
+	CU_ASSERT_PTR_NOT_EQUAL(((Container*)container)->object.pVFTable, &ContainervfTable);
 
 	//free vftable
 	free(((Container*)container)->object.pVFTable);
@@ -133,7 +133,7 @@ void TestContainerDestructor()
 void TestContainerVFTableEquals()
 {
 	//compile time check
-	CU_ASSERT_PTR_EQUAL(containerVFTable.equals, ContainerEquals);
+	CU_ASSERT_PTR_EQUAL(ContainervfTable.equals, ContainerEquals);
 
 	//manually allocates and deallocates an container
 	//this should __NOT__ be done in a real program
@@ -187,7 +187,7 @@ void TestContainerVFTableEquals()
 void TestContainerVFTableContainerToString()
 {
 	//compile time check
-	CU_ASSERT_PTR_EQUAL(containerVFTable.toString, ContainerToString);
+	CU_ASSERT_PTR_EQUAL(ContainervfTable.toString, ContainerToString);
 
 	//manually allocates and deallocates an container
 	//this should __NOT__ be done in a real program
