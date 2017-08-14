@@ -4,11 +4,11 @@
 *
 * Vector class implementation\n
 * Unfortunately, documentation won't generate from this
-* vector methods\n\n
+* vector methods\n
 * overridden methods\n
 * @ref object methods\n
 * equals\n
-* tostring\n\n
+* tostring\n
 * @ref container methods\n
 * add\n
 * clear\n
@@ -16,7 +16,7 @@
 * contains\n
 * copy\n
 * isempty\n
-* size\n\n
+* size\n
 * class member methods\n
 * set\n
 * get\n
