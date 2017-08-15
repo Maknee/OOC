@@ -250,7 +250,30 @@ static void CAT(VectorRealloc, T)(void* this, size_t new_size)
 
 bool CAT(VectorAdd, T)(void* this, T item)
 {
-	return CAT(VectorPushBack, T);
+	CHECK_NULL(this, false);
+
+	//cast to vector
+	VECTOR this_vector = (VECTOR)this;
+
+	//create new size variable
+	size_t new_size = this_vector->size + 1;
+
+	//realloc vector if necessary
+	CAT(VectorRealloc, T)(this, new_size);
+
+	//get the beginning of vector
+	T* begin_of_vector = this_vector->data;
+
+	//get the end of the vector
+	T* end_of_vector = begin_of_vector + this_vector->size;
+
+	//insert element into end
+	memcpy(end_of_vector, &item, sizeof(T));
+
+	//update size
+	this_vector->size++;
+
+	return true;
 }
 
 void CAT(VectorClear, T)(void* this)
@@ -293,7 +316,7 @@ bool CAT(VectorRemove, T)(void* this, T item)
 			T* begin_of_vector = this_vector->data;
 
 			//get the end of vector
-			T* end_of_vector = this_vector->data + this_vector->size;
+			T* end_of_vector = begin_of_vector + this_vector->size;
 
 			//delete the item
 			T_DELETE(this_t);
@@ -444,7 +467,7 @@ bool CAT(VectorPushFront, T)(void* this, T item)
 	T* begin_of_vector = this_vector->data;
 
 	//shift everything to the left by one element
-	memmove(begin_of_vector + sizeof(T), begin_of_vector, this_vector->size * sizeof(T));
+	memmove(begin_of_vector + 1, begin_of_vector, this_vector->size * sizeof(T));
 
 	//insert element into beginning
 	memcpy(begin_of_vector, &item, sizeof(T));

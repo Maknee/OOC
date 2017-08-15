@@ -120,8 +120,8 @@ int main()
 	Call(Vector(String), insert, vector1, random_string3, 1);
 
 	//Get the second index
-	int error = 0;
-	String equal_random_string3 = Call(Vector(String), get, vector1, 1, &error);
+	//int error = 0;
+	//String equal_random_string3 = Call(Vector(String), get, vector1, 1, &error);
 
 	printf("%zu -- \n", Call(Vector(String), size, vector1));
 
