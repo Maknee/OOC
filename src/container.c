@@ -90,6 +90,9 @@ void ContainerConstruct(void* this)
 
 	//Initialize the vtable to point to this object's vtable
 	memcpy(((Container*)this)->object.pVFTable, &ContainervfTable, sizeof(ContainerVFTable));
+
+	//Make the objectpVFTable point to the same table initially
+	((Container*)this)->object.objectpVFTable = ((Container*)this)->object.pVFTable;
 }
 
 /*============================================================================

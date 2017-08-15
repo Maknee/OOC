@@ -93,12 +93,19 @@ void CAT(DeleteVector, T)(void* this)
 	//call destructor
 	CAT(VectorDestruct, T)(this);
 
+	//null the (casted) vftable
+	this_vector->container.object.pVFTable = NULL;
+
 	//free vftable
-	free(this_vector->container.object.pVFTable);
+	free(this_vector->container.object.objectpVFTable);
 
 	//free the string's resources
 	free(this);
 }
+
+/*============================================================================
+|	Constructor
+*===========================================================================*/
 
 void CAT(VectorConstruct, T)(void* this)
 {
@@ -150,6 +157,9 @@ void CAT(VectorConstruct, T)(void* this)
 	//Initialize the vtable to a copy of this object's vtable
 	memcpy(this_vector->container.object.pVFTable, &vectorVFTable, sizeof(VectorVFTable));
 
+	//Make the objectpVFTable point to the same table initially
+	this_vector->container.object.objectpVFTable = this_vector->container.object.pVFTable;
+
 	//Initialize member variables
 
 	//capacity excludes Null terminator
@@ -159,6 +169,10 @@ void CAT(VectorConstruct, T)(void* this)
 	//allocate buffer of DEFAULT_VECTOR_CAPACITY elements
 	this_vector->data = calloc(1, sizeof(T) * this_vector->capacity);
 }
+
+/*============================================================================
+|	Copy Constructor
+*===========================================================================*/
 
 void* CAT(VectorCopyConstruct, T)(void* this)
 {
@@ -198,6 +212,10 @@ void* CAT(VectorCopyConstruct, T)(void* this)
 
 	return copy;
 }
+
+/*============================================================================
+|	Destructor
+*===========================================================================*/
 
 void CAT(VectorDestruct, T)(void* this)
 {

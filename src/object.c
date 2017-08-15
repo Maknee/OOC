@@ -89,6 +89,9 @@ void ObjectConstruct(void* this)
 	//The C++ way:
 	//((Object*)this)->pVFTable = &ObjectvfTable;
 	memcpy(((Object*)this)->pVFTable, &ObjectvfTable, sizeof(ObjectVFTable));
+
+	//Make the objectpVFTable point to the same table initially
+	((Object*)this)->objectpVFTable = ((Object*)this)->pVFTable;
 }
 
 

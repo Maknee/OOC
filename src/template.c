@@ -1,6 +1,12 @@
 #include "template.h"
 
-void* UpcastVFTable(const char* new_type, void* _pVFTable, void* _basepVFTable)
+void* SetVFTable(void* object, void* new_vftable)
+{
+	((Object*)object)->pVFTable = new_vftable;
+	return object;
+}
+
+void* UpcastVFTableRecurse(const char* new_type, void* _pVFTable, void* _basepVFTable)
 {
 	ObjectVFTable* pVFTable = (ObjectVFTable*)_pVFTable;
 	CHECK_NULL(pVFTable, NULL);
@@ -20,22 +26,24 @@ void* UpcastVFTable(const char* new_type, void* _pVFTable, void* _basepVFTable)
 	ClassHierarchyDescriptor* basepClassHierarchyDescriptor = basepCompleteObjectLocator->pClassHierarchyDescriptor;
 	CHECK_NULL(basepClassHierarchyDescriptor, NULL);
 
+	//WRONG WHAT HAPPENS IF THE CURRENT VFTABLE IS OBJECT? THIS WILL RETURN NULL
 	//check if numBaseClasses == 1 (means class only contains itself)
-	if (pClassHierarchyDescriptor->numBaseClasses == 1)
-	{
-		return NULL;
-	}
+	//if (pClassHierarchyDescriptor->numBaseClasses == 1)
+	//{
+	//	return NULL;
+	//}
 
 	for (size_t i = 0; i < pClassHierarchyDescriptor->numBaseClasses; i++)
 	{
 		BaseClassDescriptor* pBaseClassDescriptor = &pClassHierarchyDescriptor->pBaseClassArray[i];
 
-		//printf("Want type %s - Current iter type - %s - base obj type %s\n", new_type, pBaseClassDescriptor->pTypeDescriptor->name, basepCompleteObjectLocator->pTypeDescriptor->name);
+		printf("Want type %s - Current object %s - Current iter type - %s - base obj type %s\n", new_type, pCompleteObjectLocator->pTypeDescriptor->name, pBaseClassDescriptor->pTypeDescriptor->name, basepCompleteObjectLocator->pTypeDescriptor->name);
 
 		//case when the object is casted to the same object type
 		if (!strcmp(pBaseClassDescriptor->pTypeDescriptor->name, new_type) &&
 			!strcmp(pBaseClassDescriptor->pTypeDescriptor->name, basepCompleteObjectLocator->pTypeDescriptor->name))
 		{
+			//return original vftable
 			return (void*)pVFTable;
 		}
 
@@ -53,16 +61,17 @@ void* UpcastVFTable(const char* new_type, void* _pVFTable, void* _basepVFTable)
 		//check if the name is the same
 		if (!strcmp(pBaseClassDescriptor->pTypeDescriptor->name, new_type))
 		{
-			return (void*)pVFTable;
+			//return the index of the vftable
+			return (void*)pBaseClassDescriptor->pTypeDescriptor->pVFTable;
 		}
 
 		//recurse structure to find name
-		ObjectVFTable* recurse_result = UpcastVFTable(new_type, pBaseClassDescriptor->pTypeDescriptor->pVFTable, basepVFTable);
+		ObjectVFTable* recurse_result = UpcastVFTableRecurse(new_type, pBaseClassDescriptor->pTypeDescriptor->pVFTable, basepVFTable);
 		if (recurse_result != NULL)
 		{
+			printf("Result %s\n", recurse_result->pCompleteObjectLocator->pTypeDescriptor->name);
 			return recurse_result;
 		}
-
 	}
 
 	//only called if the object could not be casted
@@ -70,17 +79,17 @@ void* UpcastVFTable(const char* new_type, void* _pVFTable, void* _basepVFTable)
 	return NULL;
 }
 
-void* UpcastObject(const char* new_type, void* object)
+void* UpcastVFTable(const char* new_type, void* object)
 {
 	CHECK_NULL(object, NULL);
 
 	void* pVFTable = ((Object*)object)->pVFTable;
 	CHECK_NULL(pVFTable, NULL);
 
-	return UpcastVFTable(new_type, pVFTable, pVFTable);
+	return UpcastVFTableRecurse(new_type, pVFTable, pVFTable);
 }
 
-void* DowncastObject(void* _newTypeVFTable, void* object)
+void* DowncastVFTable(void* _newTypeVFTable, void* object)
 {
 	CHECK_NULL(object, NULL);
 
@@ -94,7 +103,7 @@ void* DowncastObject(void* _newTypeVFTable, void* object)
 	CHECK_NULL(newTypeVFTable, NULL);
 
 	//find the current object type starting from the down casted vftable
-	void* castedObject = UpcastVFTable(pCompleteObjectLocator->pTypeDescriptor->name, newTypeVFTable, newTypeVFTable);
+	void* castedObject = UpcastVFTableRecurse(pCompleteObjectLocator->pTypeDescriptor->name, newTypeVFTable, newTypeVFTable);
 
 	//if we find the result, we want to return the casted vftable
 	if (castedObject)

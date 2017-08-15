@@ -265,12 +265,15 @@ ObjectVFTable ObjectvfTable;
  * @brief	The object struct which contains the base vftable
  * 			
  * @var		_Object::pVFTable
- * 			Only contains the vftable
+ * 			The vftable (may be casted vftable)
+ * @var		_Object::objectpVFTable
+ * 			The actual aftable (will never be casted)
  **************************************************************************************************/
 
 typedef struct _Object
 {
 	void* pVFTable;
+	void* objectpVFTable;
 } Object;
 
 /*============================================================================

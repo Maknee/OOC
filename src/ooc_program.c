@@ -65,26 +65,15 @@ int main()
 
 	Delete(Vector(int), vector);
 	*/
-	/*
+	
 	Vector(String) vector = New(Vector(String));
-	printf("%s\n", SafeCall(Vector(String), toString, vector));
 
-	printf("%p\n", Downcast(Vector(String), vector));
+	printf("%p\n", DynamicCast(Object, vector));
 
-	Call(Vector(String), set, vector, INITIALIZER_LIST(String, New(String)));
-
-	printf("%zu\n", Call(Vector(String), size, vector));
-
-	int error_no;
-	for (size_t i = 0; i < Call(Vector(String), size, vector); i++)
-	{
-		String v = Call(Vector(String), get, vector, (int)i, &error_no);
-
-		printf("ww - %s - %d\n", Call(String, c_str, v), error_no);
-	}
+	printf("%s\n", SafeCall(Object, toString, vector));
 
 	Delete(Vector(String), vector);
-	*/
+	
 	/*
 	Vector(Vector(int)) ints = New(Vector(Vector(int)));
 	SafeCall(Vector(Vector(int)), push_back, ints, New(Vector(int)));
@@ -101,6 +90,7 @@ int main()
 	*/
 	//Allocate a new vector of strings
 	
+	/*
 	//Allocate a new vector of strings
 	Vector(String) vector1 = New(Vector(String));
 
@@ -127,7 +117,7 @@ int main()
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
-
+	*/
 #ifdef _MSC_VER
 	_CrtDumpMemoryLeaks();
 #endif

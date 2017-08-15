@@ -141,8 +141,11 @@ void DeleteString(void* this)
 	//call destructor
 	StringDestruct(this);
 
-	//free vftable
-	free(((String)this)->container.object.pVFTable);
+	//null the (casted) vftable
+	((String)this)->container.object.pVFTable = NULL;
+
+	//free vftable (the actual one)
+	free(((String)this)->container.object.objectpVFTable);
 
 	//free the string's resources
 	free(this);
@@ -201,6 +204,9 @@ void StringConstruct(void* this)
 
 	//Initialize the vtable to a copy of this object's vtable
 	memcpy(((String)this)->container.object.pVFTable, &StringvfTable, sizeof(StringVFTable));
+
+	//Make the objectpVFTable point to the same table initially
+	((String)this)->container.object.objectpVFTable = ((String)this)->container.object.pVFTable;
 
 	//Initialize member variables
 

@@ -155,7 +155,7 @@
 #define CallExpansion(type, function, ...) ((type ## VFTable*)((Object*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)
 #define Call(type, function, ...) CallExpansion(type, function, __VA_ARGS__)
 
-#define SafeCallExpansion(type, function, ...) (Upcast(type, GET_FIRST_ARG((__VA_ARGS__))) ? (((type ## VFTable*)((Object*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)) : 0)
+#define SafeCallExpansion(type, function, ...) (DynamicCast(type, GET_FIRST_ARG((__VA_ARGS__))) ? (((type ## VFTable*)((Object*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)) : 0)
 #define SafeCall(type, function, ...) SafeCallExpansion(type, function, __VA_ARGS__)
 
 #define INITIALIZER_LIST(type, ...) (const type[]) {__VA_ARGS__, 0}, PP_NARG(__VA_ARGS__)
@@ -167,20 +167,32 @@
 
 //CASTS
 
-void* UpcastVFTable(const char* new_type, void* _pVFTable, void* _basepVFTable);
-void* UpcastObject(const char* new_type, void* object);
+void* SetVFTable(void* object, void* new_vftable);
 
-#define UpcastExpansion(new_type, object)                      \
-		UpcastObject(STRINGIFY(new_type), object)              \
+void* UpcastVFTableRecurse(const char* new_type, void* _pVFTable, void* _basepVFTable);
+void* UpcastVFTable(const char* new_type, void* object);
 
-#define Upcast(new_type, object) UpcastExpansion(new_type, object)
+//only casts table
+#define UpcastTableExpansion(new_type, object)                 \
+		UpcastVFTable(STRINGIFY(new_type), object)             \
 
-void* DowncastObject(void* _newTypeVFTable, void* object);
+#define UpcastTable(new_type, object) UpcastTableExpansion(new_type, object)
 
-#define DowncastExpansion(new_type, object)                    \
-		DowncastObject(&CAT(new_type, vfTable), object)        \
+//casts object (changes vftable)
+#define Upcast(new_type, object) ((UpcastTable(new_type, object)) ? (SetVFTable(object, UpcastTable(new_type, object))) : (NULL))
 
-#define Downcast(new_type, object) DowncastExpansion(new_type, object)
+void* DowncastVFTable(void* _newTypeVFTable, void* object);
+
+//only casts table
+#define DowncastTableExpansion(new_type, object)               \
+		DowncastVFTable(&CAT(new_type, vfTable), object)       \
+
+#define DowncastTable(new_type, object) DowncastTableExpansion(new_type, object)
+
+#define Downcast(new_type, object) ((DowncastTable(new_type, object)) ? (SetVFTable(object, DowncastTable(new_type, object))) : (NULL))
+
+//attempts upcast and downcast
+#define DynamicCast(new_type, object) ((UpcastTable(new_type, object)) ? (Upcast(new_type, object)) : ((DowncastTable(new_type, object)) ? (Downcast(new_type, object)) : (NULL)))
 
 //Move semantics =/
 //#define Move(object) object 
