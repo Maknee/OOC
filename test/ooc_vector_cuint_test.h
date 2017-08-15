@@ -260,6 +260,14 @@ void TestVectorStringVFTableInsertOutOfBounds();
 void TestVectorStringVFTableFind();
 
 /**********************************************************************************************//**
+ * @fn	void TestVectorStringVFTableNPOSFind();
+ *
+ * @brief	Tests string vf table string empty.
+ **************************************************************************************************/
+
+void TestVectorStringVFTableNPOSFind();
+
+/**********************************************************************************************//**
  * @fn	void TestVectorStringVFTableReplace();
  *	
  * @brief	Tests string vf table string size.

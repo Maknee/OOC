@@ -710,6 +710,34 @@ void TestVectorStringVFTableFind()
 	Delete(Vector(String), vector1);
 }
 
+void TestVectorStringVFTableFind()
+{
+	//Allocate a new vector of strings
+	Vector(String) vector1 = New(Vector(String));
+
+	//Add a new string to vector 1
+	String random_string1 = New(String);
+	Call(String, set, random_string1, "a");
+	Call(Vector(String), move_push_back, vector1, random_string1);
+
+	//Add a new string to vector 2
+	String random_string2 = New(String);
+	Call(String, set, random_string2, "b");
+	Call(Vector(String), move_push_back, vector1, random_string2);
+
+	//Add a new string to vector 3
+	String random_string3 = New(String);
+	Call(String, set, random_string3, "wwww");
+
+	//Find random_string2
+	CU_ASSERT_EQUAL(Call(Vector(String), find, vector1, random_string3), NPOS);
+
+	Delete(String, random_string3);
+
+	//Delete vector of strings
+	Delete(Vector(String), vector1);
+}
+
 void TestVectorStringVFTableReplace()
 {
 	//Allocate a new vector of strings
