@@ -85,7 +85,7 @@ int main()
 
 	Delete(Vector(String), vector);
 	*/
-	
+	/*
 	Vector(Vector(int)) ints = New(Vector(Vector(int)));
 	SafeCall(Vector(Vector(int)), push_back, ints, New(Vector(int)));
 	Delete(Vector(Vector(int)), ints);
@@ -98,7 +98,24 @@ int main()
 
 	//Delete vector of strings
 	Delete(Vector(String), vector);
+	*/
+	//Allocate a new vector of strings
+	Vector(String) vector1 = New(Vector(String));
 
+	//Add a new string to vector 1
+	String random_string1 = New(String);
+	Call(String, set, random_string1, "Testing");
+	Call(Vector(String), add, vector1, random_string1);
+
+	//Add a new string to vector 2
+	String random_string2 = New(String);
+	Call(String, set, random_string2, "Testing");
+	Call(Vector(String), add, vector1, random_string2);
+
+	printf("%zu -- \n", Call(Vector(String), size, vector1));
+
+	//Delete vector of strings
+	Delete(Vector(String), vector1);
 
 #ifdef _MSC_VER
 	_CrtDumpMemoryLeaks();
