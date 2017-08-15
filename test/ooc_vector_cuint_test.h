@@ -68,6 +68,23 @@ void TestVectorStringCopyConstructor();
 void TestVectorStringVFTableEquals();
 
 /**********************************************************************************************//**
+ * @fn	void TestVectorStringVFTableNotSameSizeEquals();
+ *
+ * @brief	Tests string vf table equals() is pointing to the correct function
+ **************************************************************************************************/
+
+void TestVectorStringVFTableNotSameSizeEquals();
+
+
+/**********************************************************************************************//**
+ * @fn	void TestVectorStringVFTableNotEquals();
+ *
+ * @brief	Tests string vf table equals() is pointing to the correct function
+ **************************************************************************************************/
+
+void TestVectorStringVFTableNotEquals();
+
+/**********************************************************************************************//**
  * @fn	void TestVectorStringVFTableToString();
  *
  * @brief	Tests string vf table VectorStringToVectorString  is pointing to the correct function

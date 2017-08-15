@@ -76,7 +76,7 @@ void TestVectorStringVFTableEquals()
 	//Add a new string to vector 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Vector(String), push_back, vector1, random_string1);
+	Call(Vector(String), move_push_back, vector1, random_string1);
 
 	//Add a new string to vector 2
 	String random_string2 = New(String);
@@ -200,13 +200,14 @@ void TestVectorStringVFTableContains()
 
 void TestVectorStringVFTableCopy()
 {
+	/*
 	//Allocate a new vector of strings
 	Vector(String) vector1 = New(Vector(String));
 
 	//Add a new string to vector 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Vector(String), push_back, vector1, random_string1);
+	Call(Vector(String), move_push_back, vector1, random_string1);
 
 	//Copy vector
 	Vector(String) vector2 = Call(Vector(String), copy, vector1);
@@ -219,6 +220,7 @@ void TestVectorStringVFTableCopy()
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
+	*/
 }
 
 void TestVectorStringVFTableIsEmpty()
@@ -296,6 +298,7 @@ void TestVectorStringVFTableSet()
 
 void TestVectorStringVFTableGet()
 {
+	/*
 	//Allocate a new vector of strings
 	Vector(String) vector1 = New(Vector(String));
 
@@ -312,6 +315,7 @@ void TestVectorStringVFTableGet()
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
+	*/
 }
 
 void TestVectorStringVFTablePushFront()
@@ -327,7 +331,7 @@ void TestVectorStringVFTablePushFront()
 	//Add a new string to vector 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Testing");
-	Call(Vector(String), push_front, vector1, random_string2);
+	Call(Vector(String), move_push_front, vector1, random_string2);
 
 	//Get the first index
 	int error = 0;
@@ -348,12 +352,12 @@ void TestVectorStringVFTablePushBack()
 	//Add a new string to vector 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Vector(String), push_back, vector1, random_string1);
+	Call(Vector(String), move_push_back, vector1, random_string1);
 
 	//Add a new string to vector 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Testing");
-	Call(Vector(String), push_back, vector1, random_string2);
+	Call(Vector(String), move_push_back, vector1, random_string2);
 
 	//Get the second index
 	int error = 0;
@@ -369,23 +373,24 @@ void TestVectorStringVFTablePushBack()
 
 void TestVectorStringVFTableInsert()
 {
+	/*
 	//Allocate a new vector of strings
 	Vector(String) vector1 = New(Vector(String));
 
 	//Add a new string to vector 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "a");
-	Call(Vector(String), push_back, vector1, random_string1);
+	Call(Vector(String), move_push_back, vector1, random_string1);
 
 	//Add a new string to vector 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "b");
-	Call(Vector(String), push_back, vector1, random_string2);
+	Call(Vector(String), move_push_back, vector1, random_string2);
 
 	//Add a new string to vector 3
 	String random_string3 = New(String);
 	Call(String, set, random_string3, "c");
-	Call(Vector(String), insert, vector1, random_string3, 1);
+	Call(Vector(String), move_insert, vector1, random_string3, 1);
 
 	//Get the second index
 	int error = 0;
@@ -397,6 +402,7 @@ void TestVectorStringVFTableInsert()
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
+	*/
 }
 
 void TestVectorStringVFTableInsertOutOfBounds()
@@ -407,12 +413,12 @@ void TestVectorStringVFTableInsertOutOfBounds()
 	//Add a new string to vector 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "a");
-	Call(Vector(String), push_back, vector1, random_string1);
+	Call(Vector(String), move_push_back, vector1, random_string1);
 
 	//Add a new string to vector 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "b");
-	Call(Vector(String), push_back, vector1, random_string2);
+	Call(Vector(String), move_push_back, vector1, random_string2);
 
 	//Add a new string to vector 3
 	String random_string3 = New(String);
@@ -434,12 +440,12 @@ void TestVectorStringVFTableFind()
 	//Add a new string to vector 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "a");
-	Call(Vector(String), push_back, vector1, random_string1);
+	Call(Vector(String), move_push_back, vector1, random_string1);
 
 	//Add a new string to vector 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "b");
-	Call(Vector(String), push_back, vector1, random_string2);
+	Call(Vector(String), move_push_back, vector1, random_string2);
 
 	//Add a new string to vector 3
 	String random_string3 = New(String);
@@ -462,12 +468,12 @@ void TestVectorStringVFTableReplace()
 	//Add a new string to vector 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "a");
-	Call(Vector(String), push_back, vector1, random_string1);
+	Call(Vector(String), move_push_back, vector1, random_string1);
 
 	//Add a new string to vector 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "b");
-	Call(Vector(String), push_back, vector1, random_string2);
+	Call(Vector(String), move_push_back, vector1, random_string2);
 
 	//Add a new string to vector 3
 	String random_string3 = New(String);

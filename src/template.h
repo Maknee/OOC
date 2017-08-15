@@ -197,7 +197,7 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object);
 //attempts upcast and downcast vftable
 #define DynamicCast(new_type, object) ((UpcastTable(new_type, object)) ? (Upcast(new_type, object)) : ((DowncastTable(new_type, object)) ? (Downcast(new_type, object)) : (NULL)))
 
-
+//TOTAL UNSAFE... :(
 //MOVE SEMANTICS 
 // =/ in C LUL?
 

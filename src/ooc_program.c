@@ -65,15 +65,6 @@ int main()
 
 	Delete(Vector(int), vector);
 	*/
-	
-	Vector(String) vector = New(Vector(String));
-
-	printf("%s\n", Moo(Vector(String), push_back, Move(vector), New(String)));
-
-	MoveCallExpansion(Vector(String), push_back, Move(vector), New(String));
-
-	Delete(Vector(String), vector);
-	
 	/*
 	Vector(Vector(int)) ints = New(Vector(Vector(int)));
 	SafeCall(Vector(Vector(int)), push_back, ints, New(Vector(int)));
@@ -90,7 +81,6 @@ int main()
 	*/
 	//Allocate a new vector of strings
 	
-	/*
 	//Allocate a new vector of strings
 	Vector(String) vector1 = New(Vector(String));
 
@@ -117,7 +107,7 @@ int main()
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
-	*/
+	
 #ifdef _MSC_VER
 	_CrtDumpMemoryLeaks();
 #endif

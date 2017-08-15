@@ -541,8 +541,11 @@ bool CAT(VectorPushFront, T)(void* this, T item)
 	//shift everything to the left by one element
 	memmove(begin_of_vector + 1, begin_of_vector, this_vector->size * sizeof(T));
 
+	//make a copy of the item
+	T copy_item = T_COPY(&item);
+
 	//insert element into beginning
-	memcpy(begin_of_vector, &item, sizeof(T));
+	memcpy(begin_of_vector, &copy_item, sizeof(T));
 
 	//update size
 	this_vector->size++;
@@ -597,8 +600,11 @@ bool CAT(VectorPushBack, T)(void* this, T item)
 	//get the end of the vector
 	T* end_of_vector = begin_of_vector + this_vector->size;
 
+	//make a copy of the item
+	T copy_item = T_COPY(&item);
+
 	//insert element into end
-	memcpy(end_of_vector, &item, sizeof(T));
+	memcpy(end_of_vector, &copy_item, sizeof(T));
 
 	//update size
 	this_vector->size++;
@@ -677,8 +683,11 @@ bool CAT(VectorInsert, T)(void* this, T item, int index)
 	//shift everything to the left by one element
 	memmove(index_of_vector + 1, index_of_vector, sizeof(T) * (size_t)(end_of_vector - index_of_vector));
 
+	//make a copy of the item
+	T copy_item = T_COPY(&item);
+
 	//insert element into beginning
-	memcpy(index_of_vector, &item, sizeof(T));
+	memcpy(index_of_vector, &copy_item, sizeof(T));
 
 	//update size
 	this_vector->size++;
