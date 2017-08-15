@@ -16,7 +16,7 @@ void TestValidUpcast()
 
 	Call(Vector(int), set, vector, INITIALIZER_LIST(int, 5, 5, 5, 5, 6));
 
-	Object vObject = (Object)Upcast(Object, vector);
+	void* vObject = Upcast(Object, vector);
 
 	CU_ASSERT_STRING_EQUAL(Call(Object, toString, vObject), "Object");
 	CU_ASSERT_STRING_EQUAL(Call(Object, toString, vector), "Object");
@@ -30,7 +30,7 @@ void TestValidDowncast()
 
 	Call(Vector(int), set, vector, INITIALIZER_LIST(int, 5, 5, 5, 5, 6));
 
-	Object vObject = (Object)Upcast(Object, vector);
+	void* vObject = Upcast(Object, vector);
 
 	CU_ASSERT_STRING_EQUAL(Call(Object, toString, vObject), "Object");
 	CU_ASSERT_STRING_EQUAL(Call(Object, toString, vector), "Object");
