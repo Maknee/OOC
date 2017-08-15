@@ -46,26 +46,6 @@ int main()
 	*/
 	
 	/*
-	Vector(int)* vector = New(Vector(int));
-	printf("%s\n", Call(Vector(int), toString, vector));
-
-	Call(Vector(int), set, vector, INITIALIZER_LIST(int, 5, 5, 5, 5, 6));
-
-	Call(Vector(int), set, vector, INITIALIZER_LIST(int, 1));
-
-	printf("%zu\n", Call(Vector(int), size, vector));
-	
-	int error_no;
-	for (size_t i = 0; i < Call(Vector(int), size, vector); i++)
-	{
-		int v = Call(Vector(int), get, vector, (int)i, &error_no);
-
-		printf("ww - %d - %d\n", v, error_no);
-	}
-
-	Delete(Vector(int), vector);
-	*/
-	/*
 	Vector(Vector(int)) ints = New(Vector(Vector(int)));
 	SafeCall(Vector(Vector(int)), push_back, ints, New(Vector(int)));
 	Delete(Vector(Vector(int)), ints);

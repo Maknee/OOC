@@ -710,7 +710,7 @@ void TestVectorStringVFTableFind()
 	Delete(Vector(String), vector1);
 }
 
-void TestVectorStringVFTableFind()
+void TestVectorStringVFTableNPOSFind()
 {
 	//Allocate a new vector of strings
 	Vector(String) vector1 = New(Vector(String));

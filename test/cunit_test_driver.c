@@ -11,6 +11,7 @@
 #include "ooc_container_cunit_test.h"
 #include "ooc_string_cunit_test.h"
 #include "ooc_vector_cuint_test.h"
+#include "ooc_casts_cuint_test.h"
 
 /*
  * Set up and run tests.
@@ -194,6 +195,25 @@ int main()
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableFind", TestVectorStringVFTableFind) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableNPOSFind", TestVectorStringVFTableNPOSFind) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableReplace", TestVectorStringVFTableReplace))
+	{
+		printf("%s\n", CU_get_error_msg());
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	CU_pSuite castsSuite = CU_add_suite("Casting Testing Suite",
+		CastsInitializeSuite,
+		CastsCleanUpSuite);
+
+	if (castsSuite == NULL)
+	{
+		printf("%s\n", CU_get_error_msg());
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	if (!CU_add_test(castsSuite, "TestValidUpcast", TestValidUpcast) ||
+		!CU_add_test(castsSuite, "TestValidDowncast", TestValidDowncast))
 	{
 		printf("%s\n", CU_get_error_msg());
 		CU_cleanup_registry();
