@@ -566,7 +566,7 @@ CAT(CAT(Vector, T), VFTable) CAT(CAT(Vector, T), vfTable);
 #define DEFINE_VECTOR                                          \
 	typedef struct CAT(_Vector, T)                             \
 	{                                                          \
-		Container container;                                   \
+		struct _Container container;                           \
 		size_t size;                                           \
 		size_t capacity;                                       \
 		T* data;                                               \

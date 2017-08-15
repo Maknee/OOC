@@ -274,7 +274,7 @@ typedef struct _Object
 {
 	void* pVFTable;
 	void* objectpVFTable;
-} Object;
+} *Object;
 
 /*============================================================================
 |   RTTI (Have to declare in reverse order, so compiler knows that structs are defined already)

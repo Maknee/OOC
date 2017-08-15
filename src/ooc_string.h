@@ -645,7 +645,7 @@ StringVFTable StringvfTable;
 
 typedef struct _String
 {
-	Container container;
+	struct _Container container;
 	size_t length;
 	size_t capacity;
 	union

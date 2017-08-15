@@ -152,10 +152,10 @@
 
 #define Delete(type, object) DeleteExpansion(type, object)
 
-#define CallExpansion(type, function, ...) ((type ## VFTable*)((Object*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)
+#define CallExpansion(type, function, ...) ((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)
 #define Call(type, function, ...) CallExpansion(type, function, __VA_ARGS__)
 
-#define SafeCallExpansion(type, function, ...) (CheckDynamicCast(type, GET_FIRST_ARG((__VA_ARGS__))) ? (((type ## VFTable*)((Object*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)) : 0)
+#define SafeCallExpansion(type, function, ...) (CheckDynamicCast(type, GET_FIRST_ARG((__VA_ARGS__))) ? (((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)) : 0)
 #define SafeCall(type, function, ...) SafeCallExpansion(type, function, __VA_ARGS__)
 
 #define INITIALIZER_LIST(type, ...) (const type[]) {__VA_ARGS__, 0}, PP_NARG(__VA_ARGS__)

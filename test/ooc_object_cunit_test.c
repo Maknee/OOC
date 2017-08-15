@@ -25,7 +25,7 @@ void TestObjectVFTableInitializedCompleteObjectLocator()
 	void* object = calloc(1, sizeof(Object));
 
 	//allocate vftable
-	((Object*)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
+	((Object)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
 
 	//call constructor to set up object
 	ObjectConstruct(object);
@@ -36,7 +36,7 @@ void TestObjectVFTableInitializedCompleteObjectLocator()
 	ObjectDestruct(object);
 
 	//free vftable
-	free(((Object*)object)->pVFTable);
+	free(((Object)object)->pVFTable);
 
 	//free the string's resources
 	free(object);
@@ -69,19 +69,19 @@ void TestObjectConstructor()
 	void* object = calloc(1, sizeof(Object));
 
 	//allocate vftable
-	((Object*)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
+	((Object)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
 
 	//call constructor to set up object
 	ObjectConstruct(object);
 
 	//verify that the vftable is pointing in a different memory location
-	CU_ASSERT_PTR_NOT_EQUAL(((Object*)object)->pVFTable, &ObjectvfTable);
+	CU_ASSERT_PTR_NOT_EQUAL(((Object)object)->pVFTable, &ObjectvfTable);
 
 	//call destructor
 	ObjectDestruct(object);
 
 	//free vftable
-	free(((Object*)object)->pVFTable);
+	free(((Object)object)->pVFTable);
 
 	//free the string's resources
 	free(object);
@@ -109,7 +109,7 @@ void TestObjectDestructor()
 	void* object = calloc(1, sizeof(Object));
 
 	//allocate vftable
-	((Object*)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
+	((Object)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
 
 	//call constructor to set up object
 	ObjectConstruct(object);
@@ -118,10 +118,10 @@ void TestObjectDestructor()
 	ObjectDestruct(object);
 
 	//Show that nothing happens after destructor is called since the destructor does not do anything
-	CU_ASSERT_PTR_NOT_EQUAL(((Object*)object)->pVFTable, &ObjectvfTable);
+	CU_ASSERT_PTR_NOT_EQUAL(((Object)object)->pVFTable, &ObjectvfTable);
 
 	//free vftable
-	free(((Object*)object)->pVFTable);
+	free(((Object)object)->pVFTable);
 
 	//free the string's resources
 	free(object);
@@ -143,7 +143,7 @@ void TestObjectVFTableEquals()
 	void* object = calloc(1, sizeof(Object));
 
 	//allocate vftable
-	((Object*)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
+	((Object)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
 
 	//call constructor to set up object
 	ObjectConstruct(object);
@@ -152,21 +152,21 @@ void TestObjectVFTableEquals()
 	void* other_object = calloc(1, sizeof(Object));
 
 	//allocate vftable
-	((Object*)other_object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
+	((Object)other_object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
 
 	//call constructor to set up object
 	ObjectConstruct(other_object);
 
 	//test for equals
-	CU_ASSERT_TRUE(((ObjectVFTable*)((Object*)object)->pVFTable)->equals(object, other_object));
-	CU_ASSERT_TRUE(((ObjectVFTable*)((Object*)other_object)->pVFTable)->equals(other_object, object));
+	CU_ASSERT_TRUE(((ObjectVFTable*)((Object)object)->pVFTable)->equals(object, other_object));
+	CU_ASSERT_TRUE(((ObjectVFTable*)((Object)other_object)->pVFTable)->equals(other_object, object));
 	CU_ASSERT_TRUE(ObjectEquals(other_object, object));
 
 	//call destructor
 	ObjectDestruct(other_object);
 
 	//free vftable
-	free(((Object*)other_object)->pVFTable);
+	free(((Object)other_object)->pVFTable);
 
 	//free the string's resources
 	free(other_object);
@@ -175,7 +175,7 @@ void TestObjectVFTableEquals()
 	ObjectDestruct(object);
 
 	//free vftable
-	free(((Object*)object)->pVFTable);
+	free(((Object)object)->pVFTable);
 
 	//free the string's resources
 	free(object);
@@ -197,19 +197,19 @@ void TestObjectVFTableObjectToString()
 	void* object = calloc(1, sizeof(Object));
 
 	//allocate vftable
-	((Object*)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
+	((Object)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
 
 	//call constructor to set up object
 	ObjectConstruct(object);
 
-	CU_ASSERT_STRING_EQUAL(((ObjectVFTable*)((Object*)object)->pVFTable)->toString(object), "Object");
+	CU_ASSERT_STRING_EQUAL(((ObjectVFTable*)((Object)object)->pVFTable)->toString(object), "Object");
 	CU_ASSERT_STRING_EQUAL(ObjectToString(object), "Object");
 
 	//call destructor
 	ObjectDestruct(object);
 
 	//free vftable
-	free(((Object*)object)->pVFTable);
+	free(((Object)object)->pVFTable);
 
 	//free the string's resources
 	free(object);

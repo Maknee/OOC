@@ -87,11 +87,11 @@ void ObjectConstruct(void* this)
 	//Reason 2: No need to malloc vftables :)
 	//Why? because this will set the derived's global vtable
 	//The C++ way:
-	//((Object*)this)->pVFTable = &ObjectvfTable;
-	memcpy(((Object*)this)->pVFTable, &ObjectvfTable, sizeof(ObjectVFTable));
+	//((Object)this)->pVFTable = &ObjectvfTable;
+	memcpy(((Object)this)->pVFTable, &ObjectvfTable, sizeof(ObjectVFTable));
 
 	//Make the objectpVFTable point to the same table initially
-	((Object*)this)->objectpVFTable = ((Object*)this)->pVFTable;
+	((Object)this)->objectpVFTable = ((Object)this)->pVFTable;
 }
 
 
@@ -135,7 +135,7 @@ char* ObjectToString(void* this)
 {
 	CHECK_NULL(this, NULL);
 
-	ObjectVFTable* pThisObjectVFTable = (ObjectVFTable*)((Object*)this)->pVFTable;
+	ObjectVFTable* pThisObjectVFTable = (ObjectVFTable*)((Object)this)->pVFTable;
 	return pThisObjectVFTable->pCompleteObjectLocator->pTypeDescriptor->name;
 }
 

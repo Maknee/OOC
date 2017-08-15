@@ -2,7 +2,7 @@
 
 void* SetVFTable(void* object, void* new_vftable)
 {
-	((Object*)object)->pVFTable = new_vftable;
+	((Object)object)->pVFTable = new_vftable;
 	return object;
 }
 
@@ -83,10 +83,10 @@ void* UpcastVFTable(const char* new_type, void* object)
 {
 	CHECK_NULL(object, NULL);
 
-	//void* pVFTable = ((Object*)object)->pVFTable;
+	//void* pVFTable = ((Object)object)->pVFTable;
 	//CHECK_NULL(pVFTable, NULL);
 
-	void* objectpVFTable = ((Object*)object)->objectpVFTable;
+	void* objectpVFTable = ((Object)object)->objectpVFTable;
 	CHECK_NULL(objectpVFTable, NULL);
 
 	return UpcastVFTableRecurse(new_type, objectpVFTable, objectpVFTable);
@@ -96,7 +96,7 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object)
 {
 	CHECK_NULL(object, NULL);
 
-	ObjectVFTable* objectpVFTable = ((Object*)object)->objectpVFTable;
+	ObjectVFTable* objectpVFTable = ((Object)object)->objectpVFTable;
 	CHECK_NULL(objectpVFTable, NULL);
 
 	CompleteObjectLocator* pCompleteObjectLocator = objectpVFTable->pCompleteObjectLocator;

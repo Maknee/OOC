@@ -323,8 +323,8 @@ ContainerVFTable ContainervfTable;
 
 typedef struct _Container
 {
-	Object object;
-} Container;
+	struct _Object object;
+} *Container;
 
 /*============================================================================
 |   RTTI (Have to declare in reverse order, so compiler knows that structs are defined already)

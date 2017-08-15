@@ -25,7 +25,7 @@ void TestContainerVFTableInitializedCompleteObjectLocator()
 	void* container = calloc(1, sizeof(Container));
 
 	//allocate vftable
-	((Container*)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
+	((Container)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
 
 	//call constructor to set up container
 	ContainerConstruct(container);
@@ -36,7 +36,7 @@ void TestContainerVFTableInitializedCompleteObjectLocator()
 	ContainerDestruct(container);
 
 	//free vftable
-	free(((Container*)container)->object.pVFTable);
+	free(((Container)container)->object.pVFTable);
 
 	//free the string's resources
 	free(container);
@@ -69,19 +69,19 @@ void TestContainerConstructor()
 	void* container = calloc(1, sizeof(Container));
 
 	//allocate vftable
-	((Container*)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
+	((Container)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
 
 	//call constructor to set up container
 	ContainerConstruct(container);
 
 	//verify that the vftable is pointing in a different memory location
-	CU_ASSERT_PTR_NOT_EQUAL(((Container*)container)->object.pVFTable, &ContainervfTable);
+	CU_ASSERT_PTR_NOT_EQUAL(((Container)container)->object.pVFTable, &ContainervfTable);
 
 	//call destructor
 	ContainerDestruct(container);
 
 	//free vftable
-	free(((Container*)container)->object.pVFTable);
+	free(((Container)container)->object.pVFTable);
 
 	//free the string's resources
 	free(container);
@@ -109,7 +109,7 @@ void TestContainerDestructor()
 	void* container = calloc(1, sizeof(Container));
 
 	//allocate vftable
-	((Container*)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
+	((Container)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
 
 	//call constructor to set up container
 	ContainerConstruct(container);
@@ -118,10 +118,10 @@ void TestContainerDestructor()
 	ContainerDestruct(container);
 
 	//Show that nothing happens after destructor is called since the destructor does not do anything
-	CU_ASSERT_PTR_NOT_EQUAL(((Container*)container)->object.pVFTable, &ContainervfTable);
+	CU_ASSERT_PTR_NOT_EQUAL(((Container)container)->object.pVFTable, &ContainervfTable);
 
 	//free vftable
-	free(((Container*)container)->object.pVFTable);
+	free(((Container)container)->object.pVFTable);
 
 	//free the string's resources
 	free(container);
@@ -143,7 +143,7 @@ void TestContainerVFTableEquals()
 	void* container = calloc(1, sizeof(Container));
 
 	//allocate vftable
-	((Container*)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
+	((Container)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
 
 	//call constructor to set up container
 	ContainerConstruct(container);
@@ -152,21 +152,21 @@ void TestContainerVFTableEquals()
 	void* other_container = calloc(1, sizeof(Container));
 
 	//allocate vftable
-	((Container*)other_container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
+	((Container)other_container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
 
 	//call constructor to set up container
 	ContainerConstruct(other_container);
 
 	//test for equals
-	CU_ASSERT_TRUE(((ContainerVFTable*)((Container*)container)->object.pVFTable)->equals(container, other_container));
-	CU_ASSERT_TRUE(((ContainerVFTable*)((Container*)other_container)->object.pVFTable)->equals(other_container, container));
+	CU_ASSERT_TRUE(((ContainerVFTable*)((Container)container)->object.pVFTable)->equals(container, other_container));
+	CU_ASSERT_TRUE(((ContainerVFTable*)((Container)other_container)->object.pVFTable)->equals(other_container, container));
 	CU_ASSERT_TRUE(ContainerEquals(other_container, container));
 
 	//call destructor
 	ContainerDestruct(other_container);
 
 	//free vftable
-	free(((Container*)other_container)->object.pVFTable);
+	free(((Container)other_container)->object.pVFTable);
 
 	//free the string's resources
 	free(other_container);
@@ -175,7 +175,7 @@ void TestContainerVFTableEquals()
 	ContainerDestruct(container);
 
 	//free vftable
-	free(((Container*)container)->object.pVFTable);
+	free(((Container)container)->object.pVFTable);
 
 	//free the string's resources
 	free(container);
@@ -197,19 +197,19 @@ void TestContainerVFTableContainerToString()
 	void* container = calloc(1, sizeof(Container));
 
 	//allocate vftable
-	((Container*)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
+	((Container)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
 
 	//call constructor to set up container
 	ContainerConstruct(container);
 
-	CU_ASSERT_STRING_EQUAL(((ContainerVFTable*)((Container*)container)->object.pVFTable)->toString(container), "Container");
+	CU_ASSERT_STRING_EQUAL(((ContainerVFTable*)((Container)container)->object.pVFTable)->toString(container), "Container");
 	CU_ASSERT_STRING_EQUAL(ContainerToString(container), "Container");
 
 	//call destructor
 	ContainerDestruct(container);
 
 	//free vftable
-	free(((Container*)container)->object.pVFTable);
+	free(((Container)container)->object.pVFTable);
 
 	//free the string's resources
 	free(container);
