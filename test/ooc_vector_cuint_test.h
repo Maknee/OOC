@@ -84,12 +84,12 @@ void TestVectorStringVFTableToString();
 void TestVectorStringVFTableAdd();
 
 /**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringAddFirstAllocatedSecondNot();
+ * @fn	void TestVectorStringVFTableClear();
  *
  * @brief	Tests string vf table string add statically allocated.
  **************************************************************************************************/
 
-void TestVectorStringVFTableVectorStringAddFirstAllocatedSecondNot();
+void TestVectorStringVFTableClear();
 
 /**********************************************************************************************//**
  * @fn	void TestVectorStringVFTableVectorStringAddSecondAllocatedFirstNot();

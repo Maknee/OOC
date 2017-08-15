@@ -99,7 +99,7 @@ void TestVectorStringVFTableToString()
 	Vector(String) vector = New(Vector(String));
 
 	//Check if toString works
-	CU_ASSERT_STRING_EQUAL(SafeCall(Vector(String), toString, vector), "VectorString");
+	CU_ASSERT_STRING_EQUAL(Call(Vector(String), toString, vector), "VectorString");
 
 	//Delete vector of strings
 	Delete(Vector(String), vector);
@@ -124,7 +124,95 @@ void TestVectorStringVFTableAdd()
 	Call(Vector(String), add, vector2, random_string2);
 
 	//Check if two vectors are equal
-	Call(Vector(String), equals, vector1, vector2);
+	CU_ASSERT_TRUE(Call(Vector(String), equals, vector1, vector2));
+
+	//Delete vector of strings
+	Delete(Vector(String), vector2);
+
+	//Delete vector of strings
+	Delete(Vector(String), vector1);
+}
+
+void TestVectorStringVFTableClear()
+{
+	//Allocate a new vector of strings
+	Vector(String) vector1 = New(Vector(String));
+
+	//Add a new string to vector 1
+	String random_string1 = New(String);
+	Call(String, set, random_string1, "Testing");
+	Call(Vector(String), add, vector1, random_string1);
+
+	//Clear vector
+	Call(Vector(String), clear, vector1);
+
+	//Check if vector is empty
+	CU_ASSERT_TRUE(Call(Vector(String), isEmpty, vector1));
+
+	//Delete vector of strings
+	Delete(Vector(String), vector1);
+}
+
+void TestVectorStringVFTableRemove()
+{
+	//Allocate a new vector of strings
+	Vector(String) vector1 = New(Vector(String));
+
+	//Add a new string to vector 1
+	String random_string1 = New(String);
+	Call(String, set, random_string1, "Testing");
+	Call(Vector(String), add, vector1, random_string1);
+
+	//Test if thie string exists in vector and remove
+	String random_string2 = New(String);
+	Call(String, set, random_string2, "Testing");
+	Call(Vector(String), remove, vector1, random_string2);
+
+	//Check if vector is empty
+	CU_ASSERT_TRUE(Call(Vector(String), isEmpty, vector1));
+
+	Delete(String, random_string2);
+
+	//Delete vector of strings
+	Delete(Vector(String), vector1);
+}
+
+void TestVectorStringVFTableContains()
+{
+	//Allocate a new vector of strings
+	Vector(String) vector1 = New(Vector(String));
+
+	//Add a new string to vector 1
+	String random_string1 = New(String);
+	Call(String, set, random_string1, "Testing");
+	Call(Vector(String), add, vector1, random_string1);
+
+	//Test if thie string exists in vector and remove
+	String random_string2 = New(String);
+	Call(String, set, random_string2, "Testing");
+	CU_ASSERT_TRUE(Call(Vector(String), contains, vector1, random_string2));
+
+	Delete(String, random_string2);
+
+	//Delete vector of strings
+	Delete(Vector(String), vector1);
+}
+
+void TestVectorStringVFTableCopy()
+{
+	//Allocate a new vector of strings
+	Vector(String) vector1 = New(Vector(String));
+
+	//Add a new string to vector 1
+	String random_string1 = New(String);
+	Call(String, set, random_string1, "Testing");
+	Call(Vector(String), push_back, vector1, random_string1);
+
+	//Copy vector
+	Vector(String) vector2 = Call(Vector(String), copy, vector1);
+	
+	//Check if two vectors are equal
+	CU_ASSERT_TRUE(Call(Vector(String), equals, vector1, vector2));
 
 	//Delete vector of strings
 	Delete(Vector(String), vector2);

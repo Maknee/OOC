@@ -89,6 +89,17 @@ int main()
 	Vector(Vector(int)) ints = New(Vector(Vector(int)));
 	SafeCall(Vector(Vector(int)), push_back, ints, New(Vector(int)));
 	Delete(Vector(Vector(int)), ints);
+
+	//Allocate a new vector of strings
+	Vector(String) vector = New(Vector(String));
+
+	//Check if toString works
+	printf("%s\n", SafeCall(Vector(String), toString, vector));
+
+	//Delete vector of strings
+	Delete(Vector(String), vector);
+
+
 #ifdef _MSC_VER
 	_CrtDumpMemoryLeaks();
 #endif
