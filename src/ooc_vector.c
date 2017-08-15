@@ -174,21 +174,22 @@ void* CAT(VectorCopyConstruct, T)(void* this)
 	copy_vector->size = this_vector->size;
 	copy_vector->capacity = this_vector->capacity;
 
+	//get beginning of vector
+	T* begin_of_vector = this_vector->data;
+
+	//get beginning of copy vector
+	T* begin_of_copy_vector = copy_vector->data;
+
 	//iterate through each item and copy
 	for (size_t i = 0; i < this_vector->size; i++)
 	{
-		//get beginning of vector
-		T* begin_of_vector = this_vector->data;
-
 		//get pointer to the data
 		T* index_of_vector = begin_of_vector + i;
-
-		//get beginning of copy vector
-		T* begin_of_copy_vector = copy_vector->data;
 
 		//get pointer to the data
 		T* index_of_copy_vector = begin_of_copy_vector + i;
 
+		//copy the object to the copy vector
 		*(index_of_copy_vector) = T_COPY(index_of_vector);
 	}
 
@@ -244,17 +245,17 @@ bool CAT(VectorEquals, T)(void* this, void* other)
 		return false;
 	}
 
+	//get beginning of vector
+	T* begin_of_vector = this_vector->data;
+
+	//get beginning of other vector
+	T* begin_of_other_vector = other_vector->data;
+
 	//iterate through each 
 	for (size_t i = 0; i < this_vector->size; i++)
 	{
-		//get beginning of vector
-		T* begin_of_vector = this_vector->data;
-
 		//get pointer to the data
 		T* index_of_vector = begin_of_vector + i;
-
-		//get beginning of other vector
-		T* begin_of_other_vector = other_vector->data;
 
 		//get pointer to the data
 		T* index_of_other_vector = begin_of_other_vector + i;
@@ -345,15 +346,15 @@ bool CAT(VectorRemove, T)(void* this, T item)
 	//cast to vector
 	VECTOR this_vector = (VECTOR)this;
 	
+	//get beginning of vector
+	T* begin_of_vector = this_vector->data;
+
+	//get the end of vector
+	T* end_of_vector = begin_of_vector + this_vector->size;
+
 	//iterate through each 
 	for (size_t i = 0; i < this_vector->size; i++)
 	{
-		//get beginning of vector
-		T* begin_of_vector = this_vector->data;
-
-		//get the end of vector
-		T* end_of_vector = begin_of_vector + this_vector->size;
-		
 		//get pointer to the data
 		T* index_of_vector = begin_of_vector + i;
 
@@ -383,12 +384,12 @@ bool CAT(VectorContains, T)(void* this, T item)
 	//cast to vector
 	VECTOR this_vector = (VECTOR)this;
 
+	//get beginning of vector
+	T* begin_of_vector = this_vector->data;
+
 	//iterate through each 
 	for (size_t i = 0; i < this_vector->size; i++)
 	{
-		//get beginning of vector
-		T* begin_of_vector = this_vector->data;
-
 		//get pointer to the data
 		T* index_of_vector = begin_of_vector + i;
 
@@ -625,12 +626,12 @@ bool CAT(VectorReplace, T)(void* this, T to_replace, T replacement)
 	//check if any were replaced
 	bool replaced = false;
 
+	//get beginning of vector
+	T* begin_of_vector = this_vector->data;
+
 	//iterate through each 
 	for (size_t i = 0; i < this_vector->size; i++)
 	{
-		//get beginning of vector
-		T* begin_of_vector = this_vector->data;
-
 		//get pointer to the data
 		T* index_of_vector = begin_of_vector + i;
 

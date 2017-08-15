@@ -107,12 +107,12 @@ int main()
 	//Add a new string to vector 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "a");
-	Call(Vector(String), push_back, vector1, random_string1);
+	Call(Vector(String), add, vector1, random_string1);
 
 	//Add a new string to vector 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "b");
-	Call(Vector(String), push_back, vector1, random_string2);
+	Call(Vector(String), push_front, vector1, random_string2);
 
 	//Add a new string to vector 3
 	String random_string3 = New(String);
