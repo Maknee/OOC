@@ -155,7 +155,7 @@
 #define CallExpansion(type, function, ...) ((type ## VFTable*)((Object*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)
 #define Call(type, function, ...) CallExpansion(type, function, __VA_ARGS__)
 
-#define SafeCallExpansion(type, function, ...) (DynamicCast(type, GET_FIRST_ARG((__VA_ARGS__))) ? (((type ## VFTable*)((Object*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)) : 0)
+#define SafeCallExpansion(type, function, ...) (CheckDynamicCast(type, GET_FIRST_ARG((__VA_ARGS__))) ? (((type ## VFTable*)((Object*)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)) : 0)
 #define SafeCall(type, function, ...) SafeCallExpansion(type, function, __VA_ARGS__)
 
 #define INITIALIZER_LIST(type, ...) (const type[]) {__VA_ARGS__, 0}, PP_NARG(__VA_ARGS__)
@@ -191,11 +191,36 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object);
 
 #define Downcast(new_type, object) ((DowncastTable(new_type, object)) ? (SetVFTable(object, DowncastTable(new_type, object))) : (NULL))
 
-//attempts upcast and downcast
+//used for SafeCall -- we don't want to change the vftable, only checks if cast is allowed
+#define CheckDynamicCast(new_type, object) ((UpcastTable(new_type, object)) ? (true) : ((DowncastTable(new_type, object)) ? (true) : (false)))
+
+//attempts upcast and downcast vftable
 #define DynamicCast(new_type, object) ((UpcastTable(new_type, object)) ? (Upcast(new_type, object)) : ((DowncastTable(new_type, object)) ? (Downcast(new_type, object)) : (NULL)))
 
-//Move semantics =/
-//#define Move(object) object 
+
+//MOVE SEMANTICS 
+// =/ in C LUL?
+
+//ugh not perfect, we convert the macro to a string and check if it is a move
+char* CheckForMove(char* macro);
+
+#define Moo(type, function, ...) CheckForMove(GET_FIRST_ARG((#__VA_ARGS__)))
+
+#define CheckMove(...) CheckForMove(GET_FIRST_ARG((#__VA_ARGS__)))
+
+#define MoveCallExpansion(type, function, ...)                 \
+		(CheckForMove(GET_FIRST_ARG((#__VA_ARGS__)))           \
+		?                                                      \
+		(Call(type, CAT(move_, function), __VA_ARGS__))        \
+		:                                                      \
+		(Call(type, function, __VA_ARGS__))                    \
+		)                                                      \
+
+#define MoveCall(type, function, ...) MoveCallExpansion(type, function, __VA_ARGS__)
+
+
+#define Move(object) object
+
 
 //GLOBAL DEFINES
 #define NPOS -1

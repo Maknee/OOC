@@ -37,7 +37,7 @@ void* UpcastVFTableRecurse(const char* new_type, void* _pVFTable, void* _basepVF
 	{
 		BaseClassDescriptor* pBaseClassDescriptor = &pClassHierarchyDescriptor->pBaseClassArray[i];
 
-		printf("Want type %s - Current object %s - Current iter type - %s - base obj type %s\n", new_type, pCompleteObjectLocator->pTypeDescriptor->name, pBaseClassDescriptor->pTypeDescriptor->name, basepCompleteObjectLocator->pTypeDescriptor->name);
+		//printf("Want type %s - Current object %s - Current iter type - %s - base obj type %s\n", new_type, pCompleteObjectLocator->pTypeDescriptor->name, pBaseClassDescriptor->pTypeDescriptor->name, basepCompleteObjectLocator->pTypeDescriptor->name);
 
 		//case when the object is casted to the same object type
 		if (!strcmp(pBaseClassDescriptor->pTypeDescriptor->name, new_type) &&
@@ -83,20 +83,23 @@ void* UpcastVFTable(const char* new_type, void* object)
 {
 	CHECK_NULL(object, NULL);
 
-	void* pVFTable = ((Object*)object)->pVFTable;
-	CHECK_NULL(pVFTable, NULL);
+	//void* pVFTable = ((Object*)object)->pVFTable;
+	//CHECK_NULL(pVFTable, NULL);
 
-	return UpcastVFTableRecurse(new_type, pVFTable, pVFTable);
+	void* objectpVFTable = ((Object*)object)->objectpVFTable;
+	CHECK_NULL(objectpVFTable, NULL);
+
+	return UpcastVFTableRecurse(new_type, objectpVFTable, objectpVFTable);
 }
 
 void* DowncastVFTable(void* _newTypeVFTable, void* object)
 {
 	CHECK_NULL(object, NULL);
 
-	ObjectVFTable* pVFTable = ((Object*)object)->pVFTable;
-	CHECK_NULL(pVFTable, NULL);
+	ObjectVFTable* objectpVFTable = ((Object*)object)->objectpVFTable;
+	CHECK_NULL(objectpVFTable, NULL);
 
-	CompleteObjectLocator* pCompleteObjectLocator = pVFTable->pCompleteObjectLocator;
+	CompleteObjectLocator* pCompleteObjectLocator = objectpVFTable->pCompleteObjectLocator;
 	CHECK_NULL(pCompleteObjectLocator, NULL);
 
 	ObjectVFTable* newTypeVFTable = (ObjectVFTable*)_newTypeVFTable;
@@ -114,4 +117,16 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object)
 	{
 		return NULL;
 	}
+}
+
+char* CheckForMove(char* macro)
+{
+	printf("%s\n", macro);
+
+	if (strstr(macro, "Move"))
+	{
+		printf("%s\n", "YUP");
+		return macro;
+	}
+	return NULL;
 }

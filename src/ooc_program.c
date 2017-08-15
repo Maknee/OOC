@@ -68,9 +68,9 @@ int main()
 	
 	Vector(String) vector = New(Vector(String));
 
-	printf("%p\n", DynamicCast(Object, vector));
+	printf("%s\n", Moo(Vector(String), push_back, Move(vector), New(String)));
 
-	printf("%s\n", SafeCall(Object, toString, vector));
+	MoveCallExpansion(Vector(String), push_back, Move(vector), New(String));
 
 	Delete(Vector(String), vector);
 	
