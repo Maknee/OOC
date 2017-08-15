@@ -81,7 +81,7 @@ void TestVectorStringVFTableEquals()
 	//Add a new string to vector 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Testing");
-	Call(Vector(String), add, vector2, random_string2);
+	Call(Vector(String), move_push_back, vector2, random_string2);
 
 	//Check if two vectors are equal
 	Call(Vector(String), equals, vector1, vector2);
@@ -126,6 +126,10 @@ void TestVectorStringVFTableAdd()
 	//Check if two vectors are equal
 	CU_ASSERT_TRUE(Call(Vector(String), equals, vector1, vector2));
 
+	//Have to delete strings since they are copied
+	Delete(String, random_string1);
+	Delete(String, random_string2);
+
 	//Delete vector of strings
 	Delete(Vector(String), vector2);
 
@@ -141,7 +145,7 @@ void TestVectorStringVFTableClear()
 	//Add a new string to vector 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Vector(String), add, vector1, random_string1);
+	Call(Vector(String), move_push_back, vector1, random_string1);
 
 	//Clear vector
 	Call(Vector(String), clear, vector1);
@@ -161,7 +165,7 @@ void TestVectorStringVFTableRemove()
 	//Add a new string to vector 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Vector(String), add, vector1, random_string1);
+	Call(Vector(String), move_push_back, vector1, random_string1);
 
 	//Test if thie string exists in vector and remove
 	String random_string2 = New(String);
@@ -185,7 +189,7 @@ void TestVectorStringVFTableContains()
 	//Add a new string to vector 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Vector(String), add, vector1, random_string1);
+	Call(Vector(String), move_push_back, vector1, random_string1);
 
 	//Test if thie string exists in vector and remove
 	String random_string2 = New(String);
@@ -200,7 +204,6 @@ void TestVectorStringVFTableContains()
 
 void TestVectorStringVFTableCopy()
 {
-	/*
 	//Allocate a new vector of strings
 	Vector(String) vector1 = New(Vector(String));
 
@@ -220,7 +223,6 @@ void TestVectorStringVFTableCopy()
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
-	*/
 }
 
 void TestVectorStringVFTableIsEmpty()
@@ -231,7 +233,7 @@ void TestVectorStringVFTableIsEmpty()
 	//Add a new string to vector 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Vector(String), add, vector1, random_string1);
+	Call(Vector(String), move_push_back, vector1, random_string1);
 
 	//Test if thie string exists in vector and remove
 	String random_string2 = New(String);
@@ -255,12 +257,12 @@ void TestVectorStringVFTableSize()
 	//Add a new string to vector 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Vector(String), add, vector1, random_string1);
+	Call(Vector(String), move_push_back, vector1, random_string1);
 
 	//Add a new string to vector 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Testing");
-	Call(Vector(String), add, vector1, random_string2);
+	Call(Vector(String), move_push_back, vector1, random_string2);
 
 	//Check if two vectors are equal
 	CU_ASSERT_EQUAL(Call(Vector(String), size, vector1), 2);
@@ -277,12 +279,12 @@ void TestVectorStringVFTableSet()
 	//Add a new string to vector 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Vector(String), add, vector1, random_string1);
+	Call(Vector(String), move_push_back, vector1, random_string1);
 
 	//Add a new string to vector 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Testing");
-	Call(Vector(String), add, vector1, random_string2);
+	Call(Vector(String), move_push_back, vector1, random_string2);
 
 	//Get the second index
 	int error = 0;
@@ -298,7 +300,6 @@ void TestVectorStringVFTableSet()
 
 void TestVectorStringVFTableGet()
 {
-	/*
 	//Allocate a new vector of strings
 	Vector(String) vector1 = New(Vector(String));
 
@@ -315,7 +316,6 @@ void TestVectorStringVFTableGet()
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
-	*/
 }
 
 void TestVectorStringVFTablePushFront()
@@ -326,7 +326,7 @@ void TestVectorStringVFTablePushFront()
 	//Add a new string to vector 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Vector(String), add, vector1, random_string1);
+	Call(Vector(String), move_push_back, vector1, random_string1);
 
 	//Add a new string to vector 2
 	String random_string2 = New(String);
