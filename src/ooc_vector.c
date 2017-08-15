@@ -197,7 +197,7 @@ void CAT(VectorDestruct, T)(void* this)
 	//iterate through each item and delete
 	for (size_t i = 0; i < this_vector->size; i++)
 	{
-		T_DELETE(this_vector->data + sizeof(T) * i);
+		T_DELETE(this_vector->data + (sizeof(T) * i));
 	}
 
 	//free dynamically allocated memory
@@ -455,7 +455,7 @@ bool CAT(VectorPushFront, T)(void* this, T item)
 	T* begin_of_vector = this_vector->data;
 
 	//shift everything to the left by one element
-	memmove(begin_of_vector + 1, begin_of_vector, this_vector->size);
+	memmove(begin_of_vector + 1, begin_of_vector, this_vector->size * sizeof(T));
 
 	//insert element into beginning
 	memcpy(begin_of_vector, &item, sizeof(T));

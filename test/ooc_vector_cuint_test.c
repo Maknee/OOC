@@ -298,6 +298,7 @@ void TestVectorStringVFTableSet()
 
 void TestVectorStringVFTableGet()
 {
+	/*
 	//Allocate a new vector of strings
 	Vector(String) vector1 = New(Vector(String));
 
@@ -314,6 +315,7 @@ void TestVectorStringVFTableGet()
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
+	*/
 }
 
 void TestVectorStringVFTablePushFront()
@@ -371,6 +373,7 @@ void TestVectorStringVFTablePushBack()
 
 void TestVectorStringVFTableInsert()
 {
+	/*
 	//Allocate a new vector of strings
 	Vector(String) vector1 = New(Vector(String));
 
@@ -399,6 +402,7 @@ void TestVectorStringVFTableInsert()
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
+	*/
 }
 
 void TestVectorStringVFTableInsertOutOfBounds()
