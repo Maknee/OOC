@@ -167,19 +167,28 @@ int main()
 		!CU_add_test(vectorSuite, "TestVectorStringNew", TestVectorStringNew) ||
 		!CU_add_test(vectorSuite, "TestVectorStringDelete", TestVectorStringDelete) ||
 		!CU_add_test(vectorSuite, "TestVectorStringCopyConstructor", TestVectorStringCopyConstructor) ||
+		!CU_add_test(vectorSuite, "TestVectorStringRealloc", TestVectorStringRealloc) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableEquals", TestVectorStringVFTableEquals) ||
+		!CU_add_test(vectorSuite, "TestVectorStringVFTableNotSameSizeEquals", TestVectorStringVFTableNotSameSizeEquals) ||
+		!CU_add_test(vectorSuite, "TestVectorStringVFTableNotEquals", TestVectorStringVFTableNotEquals) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableToString", TestVectorStringVFTableToString) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableAdd", TestVectorStringVFTableAdd) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableClear", TestVectorStringVFTableClear) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableRemove", TestVectorStringVFTableRemove) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableContains", TestVectorStringVFTableContains) ||
+		!CU_add_test(vectorSuite, "TestVectorStringVFTableNotContains", TestVectorStringVFTableNotContains) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableCopy", TestVectorStringVFTableCopy) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableIsEmpty", TestVectorStringVFTableIsEmpty) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableSize", TestVectorStringVFTableSize) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableSet", TestVectorStringVFTableSet) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableGet", TestVectorStringVFTableGet) ||
+		!CU_add_test(vectorSuite, "TestVectorStringVFTableOutOfBoundsGet", TestVectorStringVFTableOutOfBoundsGet) ||
+		!CU_add_test(vectorSuite, "TestVectorStringVFTableMovePushFront", TestVectorStringVFTableMovePushFront) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTablePushFront", TestVectorStringVFTablePushFront) ||
+		!CU_add_test(vectorSuite, "TestVectorStringVFTableMovePushBack", TestVectorStringVFTableMovePushBack) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTablePushBack", TestVectorStringVFTablePushBack) ||
+		!CU_add_test(vectorSuite, "TestVectorStringVFTableMoveInsert", TestVectorStringVFTableMoveInsert) ||
+		!CU_add_test(vectorSuite, "TestVectorStringVFTableMoveInsertOutOfBounds", TestVectorStringVFTableMoveInsertOutOfBounds) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableInsert", TestVectorStringVFTableInsert) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableInsertOutOfBounds", TestVectorStringVFTableInsertOutOfBounds) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableFind", TestVectorStringVFTableFind) ||

@@ -60,6 +60,14 @@ void TestVectorStringDelete();
 void TestVectorStringCopyConstructor();
 
 /**********************************************************************************************//**
+ * @fn	void TestVectorStringRealloc();
+ *
+ * @brief	Tests string vf table equals() is pointing to the correct function
+ **************************************************************************************************/
+
+void TestVectorStringRealloc();
+
+/**********************************************************************************************//**
  * @fn	void TestVectorStringVFTableEquals();
  *
  * @brief	Tests string vf table equals() is pointing to the correct function
@@ -74,7 +82,6 @@ void TestVectorStringVFTableEquals();
  **************************************************************************************************/
 
 void TestVectorStringVFTableNotSameSizeEquals();
-
 
 /**********************************************************************************************//**
  * @fn	void TestVectorStringVFTableNotEquals();
@@ -125,6 +132,14 @@ void TestVectorStringVFTableRemove();
 void TestVectorStringVFTableContains();
 
 /**********************************************************************************************//**
+ * @fn	void TestVectorStringVFTableNotContains();
+ *
+ * @brief	Tests string vf table string add newly allocated.
+ **************************************************************************************************/
+
+void TestVectorStringVFTableNotContains();
+
+/**********************************************************************************************//**
  * @fn	void TestVectorStringVFTableVectorStringAddAlreadyAllocated();
  *
  * @brief	Tests string vf table string add already allocated.
@@ -159,10 +174,26 @@ void TestVectorStringVFTableSet();
 /**********************************************************************************************//**
  * @fn	void TestVectorStringVFTableGet();
  *
- * @brief	Tests string vf table string remove allocated
+ * @brief	Tests string vf table string remove.
  **************************************************************************************************/
 
 void TestVectorStringVFTableGet();
+
+/**********************************************************************************************//**
+ * @fn	void TestVectorStringVFTableOutOfBoundsGet();
+ *
+ * @brief	Tests string vf table string remove allocated
+ **************************************************************************************************/
+
+void TestVectorStringVFTableOutOfBoundsGet();
+
+/**********************************************************************************************//**
+ * @fn	void TestVectorStringVFTableMovePushFront();
+ *
+ * @brief	Tests string vf table string remove npos
+ **************************************************************************************************/
+
+void TestVectorStringVFTableMovePushFront();
 
 /**********************************************************************************************//**
  * @fn	void TestVectorStringVFTablePushFront();
@@ -173,12 +204,36 @@ void TestVectorStringVFTableGet();
 void TestVectorStringVFTablePushFront();
 
 /**********************************************************************************************//**
+ * @fn	void TestVectorStringVFTableMovePushBack();
+ *
+ * @brief	Tests string vf table string contains.
+ **************************************************************************************************/
+
+void TestVectorStringVFTableMovePushBack();
+
+/**********************************************************************************************//**
  * @fn	void TestVectorStringVFTablePushBack();
  *
  * @brief	Tests string vf table string contains.
  **************************************************************************************************/
 
 void TestVectorStringVFTablePushBack();
+
+/**********************************************************************************************//**
+ * @fn	void TestVectorStringVFTableMoveInsert();
+ *
+ * @brief	Tests string vf table string copy.
+ **************************************************************************************************/
+
+void TestVectorStringVFTableMoveInsert();
+
+/**********************************************************************************************//**
+ * @fn	void TestVectorStringVFTableMoveInsertOutOfBounds();
+ *
+ * @brief	Tests string vf table string copy.
+ **************************************************************************************************/
+
+void TestVectorStringVFTableMoveInsertOutOfBounds();
 
 /**********************************************************************************************//**
  * @fn	void TestVectorStringVFTableInsert();
