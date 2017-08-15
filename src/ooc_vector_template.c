@@ -24,7 +24,7 @@
 
 //Vector(Vector(int))
 #define T Vectorint
-#define T_EQUALS(element, other_element) (!Call(Vectorint, equals, element, other_element) ? (true) : (false))
+#define T_EQUALS(element, other_element) (Call(Vectorint, equals, element, other_element) ? (true) : (false))
 #define T_ALLOC(T_Ptr) *(T_Ptr) = NewVectorint()
 #define T_COPY(T_Ptr) Call(Vectorint, copy, *(T_Ptr))
 #define T_DELETE(T_Ptr) Delete(Vectorint, *(T_Ptr))

@@ -296,7 +296,7 @@ void TestVectorStringVFTableNotContains()
 	//Test if thie string exists in vector and remove
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Testinwwwwwwwwg");
-	CU_ASSERT_TRUE(Call(Vector(String), contains, vector1, random_string2));
+	CU_ASSERT_FALSE(Call(Vector(String), contains, vector1, random_string2));
 
 	Delete(String, random_string2);
 
@@ -493,7 +493,7 @@ void TestVectorStringVFTablePushFront()
 	String equal_random_string2 = Call(Vector(String), get, vector1, 0, &error);
 	//Check if they are equal
 	CU_ASSERT_EQUAL(error, 0);
-	CU_ASSERT_PTR_EQUAL(random_string2, equal_random_string2);
+	CU_ASSERT_PTR_NOT_EQUAL(random_string2, equal_random_string2);
 
 	//Delete strings
 	Delete(String, random_string1);
@@ -551,7 +551,7 @@ void TestVectorStringVFTablePushBack()
 
 	//Check if they are equal
 	CU_ASSERT_EQUAL(error, 0);
-	CU_ASSERT_PTR_EQUAL(random_string2, equal_random_string2);
+	CU_ASSERT_PTR_NOT_EQUAL(random_string2, equal_random_string2);
 
 	//Delete strings
 	Delete(String, random_string1);
@@ -619,7 +619,7 @@ void TestVectorStringVFTableInsert()
 
 	//Check if they are equal
 	CU_ASSERT_EQUAL(error, 0);
-	CU_ASSERT_PTR_EQUAL(random_string3, equal_random_string3);
+	CU_ASSERT_PTR_NOT_EQUAL(random_string3, equal_random_string3);
 
 	//Delete String
 	Delete(String, random_string3);
