@@ -135,8 +135,11 @@ void CAT(VectorConstruct, T)(void* this)
 
 	vectorVFTable.set = &CAT(VectorSet, T);
 	vectorVFTable.get = &CAT(VectorGet, T);
+	vectorVFTable.move_push_front = &CAT(VectorMovePushFront, T);
 	vectorVFTable.push_front = &CAT(VectorPushFront, T);
+	vectorVFTable.move_push_back = &CAT(VectorMovePushBack, T);
 	vectorVFTable.push_back = &CAT(VectorPushBack, T);
+	vectorVFTable.move_insert = &CAT(VectorMoveInsert, T);
 	vectorVFTable.insert = &CAT(VectorInsert, T);
 	vectorVFTable.find = &CAT(VectorFind, T);
 	vectorVFTable.replace = &CAT(VectorReplace, T);
@@ -293,30 +296,7 @@ static void CAT(VectorRealloc, T)(void* this, size_t new_size)
 
 bool CAT(VectorAdd, T)(void* this, T item)
 {
-	CHECK_NULL(this, false);
-
-	//cast to vector
-	VECTOR this_vector = (VECTOR)this;
-
-	//create new size variable
-	size_t new_size = this_vector->size + 1;
-
-	//realloc vector if necessary
-	CAT(VectorRealloc, T)(this, new_size);
-
-	//get the beginning of vector
-	T* begin_of_vector = this_vector->data;
-
-	//get the end of the vector
-	T* end_of_vector = begin_of_vector + this_vector->size;
-
-	//insert element into end
-	memcpy(end_of_vector, &item, sizeof(T));
-
-	//update size
-	this_vector->size++;
-
-	return true;
+	return CAT(VectorPushBack, T)(this, item);
 }
 
 void CAT(VectorClear, T)(void* this)
@@ -496,6 +476,34 @@ T CAT(VectorGet, T)(void* this, int index, int* error_code)
 	return *(this_vector_data + index);
 }
 
+bool CAT(VectorMovePushFront, T)(void* this, T item)
+{
+	CHECK_NULL(this, false);
+
+	//cast to vector
+	VECTOR this_vector = (VECTOR)this;
+
+	//create new size variable
+	size_t new_size = this_vector->size + 1;
+
+	//realloc vector if necessary
+	CAT(VectorRealloc, T)(this, new_size);
+
+	//get the beginning of the vector
+	T* begin_of_vector = this_vector->data;
+
+	//shift everything to the left by one element
+	memmove(begin_of_vector + 1, begin_of_vector, this_vector->size * sizeof(T));
+
+	//insert element into beginning
+	memcpy(begin_of_vector, &item, sizeof(T));
+
+	//update size
+	this_vector->size++;
+
+	return true;
+}
+
 bool CAT(VectorPushFront, T)(void* this, T item)
 {
 	CHECK_NULL(this, false);
@@ -524,6 +532,34 @@ bool CAT(VectorPushFront, T)(void* this, T item)
 	return true;
 }
 
+bool CAT(VectorMovePushBack, T)(void* this, T item)
+{
+	CHECK_NULL(this, false);
+
+	//cast to vector
+	VECTOR this_vector = (VECTOR)this;
+
+	//create new size variable
+	size_t new_size = this_vector->size + 1;
+
+	//realloc vector if necessary
+	CAT(VectorRealloc, T)(this, new_size);
+
+	//get the beginning of vector
+	T* begin_of_vector = this_vector->data;
+
+	//get the end of the vector
+	T* end_of_vector = begin_of_vector + this_vector->size;
+
+	//insert element into end
+	memcpy(end_of_vector, &item, sizeof(T));
+
+	//update size
+	this_vector->size++;
+
+	return true;
+}
+
 bool CAT(VectorPushBack, T)(void* this, T item)
 {
 	CHECK_NULL(this, false);
@@ -545,6 +581,46 @@ bool CAT(VectorPushBack, T)(void* this, T item)
 
 	//insert element into end
 	memcpy(end_of_vector, &item, sizeof(T));
+
+	//update size
+	this_vector->size++;
+
+	return true;
+}
+
+bool CAT(VectorMoveInsert, T)(void* this, T item, int index)
+{
+	CHECK_NULL(this, false);
+
+	//cast to vector
+	VECTOR this_vector = (VECTOR)this;
+
+	//check if the index is out of bounds
+	if (index == NPOS || index < 0 || index >(int)this_vector->size)
+	{
+		return false;
+	}
+
+	//create new size variable
+	size_t new_size = this_vector->size + 1;
+
+	//realloc vector if necessary
+	CAT(VectorRealloc, T)(this, new_size);
+
+	//get the beginning of vetor
+	T* begin_of_vector = this_vector->data;
+
+	//get the insertion index of the vector
+	T* index_of_vector = begin_of_vector + index;
+
+	//get the end of the vector
+	T* end_of_vector = begin_of_vector + this_vector->size;
+
+	//shift everything to the left by one element
+	memmove(index_of_vector + 1, index_of_vector, sizeof(T) * (size_t)(end_of_vector - index_of_vector));
+
+	//insert element into beginning
+	memcpy(index_of_vector, &item, sizeof(T));
 
 	//update size
 	this_vector->size++;

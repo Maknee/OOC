@@ -117,11 +117,11 @@
 		                                                       \
 		bool(*set)(void* this, const T* item, size_t num_elements); \
 		T(*get)(void* this, int index, int* error_code);       \
-		bool(*copy_push_front)(void* this, T item);            \
+		bool(*move_push_front)(void* this, T item);            \
 		bool(*push_front)(void* this, T item);                 \
-		bool(*copy_push_back)(void* this, T item);             \
+		bool(*move_push_back)(void* this, T item);             \
 		bool(*push_back)(void* this, T item);                  \
-		bool(*copy_insert)(void* this, T item, int index);     \
+		bool(*move_insert)(void* this, T item, int index);     \
 		bool(*insert)(void* this, T item, int index);          \
 		int(*find) (void* this, T item);                       \
 		bool(*replace)(void* this, T to_replace, T replacement); \
@@ -262,22 +262,12 @@ char* CAT(VectorToString, T)(void* this);
 /**********************************************************************************************//**
  * @fn		bool CAT(VectorAdd, T)(void* this, T item);
  *
- * @brief	Concatenates the two vectors
- * 			
- *			The vectors are concatenated by:
- *			Checking the new length
- *			Checking whether or not the current vector was dynamically allocated
- *			If so, just call realloc and append
+ * @brief	Does the same as VectorPushBack
  *
  * @param	[in] this 
  * 			The vector
  * @param	[in] item
  * 			The item (element of the vector), not another <b>Vector</b>
- * @return	Returns true if the vector was added correctly, 
- * 			returns false if the vector was not added correctly
- * @note	Function only appends an object vector to another object vector,
- * 			<b>NOT</b> a vector object to a char pointer. @ref VectorAppend
- * @todo	{find a case when the function should fail}
  **************************************************************************************************/
 
 bool CAT(VectorAdd, T)(void* this, T item);
@@ -414,9 +404,25 @@ bool CAT(VectorSet, T)(void* this, const T* item, size_t num_elements);
 T CAT(VectorGet, T)(void* this, int index, int* error_code);
 
 /**********************************************************************************************//**
+ * @fn	bool CAT(VectorMovePushFront, T)(void* this, T item);
+ *
+ * @brief	Pushes the item in front of the vector by moving the item
+ *
+ * @param	[in] this
+ * 			The vector
+ * @param	[in] item
+ * 			The item (element of the vector), not another <b>Vector</b>
+ *
+ * @return	True if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool CAT(VectorMovePushFront, T)(void* this, T item);
+
+
+/**********************************************************************************************//**
  * @fn	bool CAT(VectorPushFront, T)(void* this, T item);
  *
- * @brief	Pushes the item in front of the vector
+ * @brief	Pushes a copy of the item in front of the vector
  *
  * @param	[in] this
  * 			The vector
@@ -428,10 +434,26 @@ T CAT(VectorGet, T)(void* this, int index, int* error_code);
 
 bool CAT(VectorPushFront, T)(void* this, T item);
 
+
+/**********************************************************************************************//**
+ * @fn	bool CAT(VectorMovePushBack, T)(void* this, T item);
+ *
+ * @brief	Pushes the item in front of the vector by moving the item
+ *
+ * @param	[in] this
+ * 			The vector
+ * @param	[in] item
+ * 			The item (element of the vector), not another <b>Vector</b>
+ *
+ * @return	True if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool CAT(VectorMovePushBack, T)(void* this, T item);
+
 /**********************************************************************************************//**
  * @fn	bool CAT(VectorPushBack, T)(void* this, T item);
  *
- * @brief	Pushes the item in back of the vector
+ * @brief	Pushes a copy of the item in back of the vector
  *
  * @param	[in] this
  * 			The vector
@@ -444,9 +466,27 @@ bool CAT(VectorPushFront, T)(void* this, T item);
 bool CAT(VectorPushBack, T)(void* this, T item);
 
 /**********************************************************************************************//**
+ * @fn	bool CAT(VectorMoveInsert, T)(void* this, T item, int index);
+ *
+ * @brief	Inserts the item at the index in the vector by moving the item.\n
+ * 			Everything after the index will be shifted to the right
+ * 			
+ * @param	[in] this
+ * 			The vector
+ * @param	[in] item
+ * 			The item (element of the vector), not another <b>Vector</b>
+ * @param	[in] index
+ * 			The index to be index
+ *
+ * @return	True if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool CAT(VectorMoveInsert, T)(void* this, T item, int index);
+
+/**********************************************************************************************//**
  * @fn	bool CAT(VectorInsert, T)(void* this, T item, int index);
  *
- * @brief	Inserts the item at the index in the vector.\n
+ * @brief	Inserts a copy of the item at the index in the vector.\n
  * 			Everything after the index will be shifted to the right
  * 			
  * @param	[in] this
@@ -480,6 +520,7 @@ int CAT(VectorFind, T) (void* this, T item);
  * @fn	bool CAT(VectorReplace, T)(void* this, T to_replace, T replacement);
  *
  * @brief	Replaces the elements with another element
+ * 			Deallocates previous element, and allocates a copy of the replacement element
  * 			
  * @param	[in] this
  * 			The vector
