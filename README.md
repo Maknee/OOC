@@ -63,12 +63,25 @@ int main()
 
 ## To Do
 
-Document specifications
-Finish string class
-Test string class
-Test on linux and create makefile
-Implement Dynamic cast (upcast/downcast)
-Provide Examples
+[never] Document specifications
+
+[x] Finish string class 
+
+[x] Test string class
+
+[x] Test on linux and create makefile
+
+[x] Implement Dynamic cast (upcast/downcast)
+
+[ URGENT ] Provide Examples
+
+[ Not sure ] Move semantics
+
+[80%] Vector class
+
+[60%] Test Vector class
+
+[ :( ] Map class
 
 ## ?Wonderings, pondering, design decisions?
 
