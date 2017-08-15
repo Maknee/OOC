@@ -182,6 +182,9 @@ void* DowncastObject(void* _newTypeVFTable, void* object);
 
 #define Downcast(new_type, object) DowncastExpansion(new_type, object)
 
+//Move semantics =/
+//#define Move(object) object 
+
 //GLOBAL DEFINES
 #define NPOS -1
 

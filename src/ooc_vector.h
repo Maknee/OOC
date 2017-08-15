@@ -117,11 +117,14 @@
 		                                                       \
 		bool(*set)(void* this, const T* item, size_t num_elements); \
 		T(*get)(void* this, int index, int* error_code);       \
+		bool(*copy_push_front)(void* this, T item);            \
 		bool(*push_front)(void* this, T item);                 \
+		bool(*copy_push_back)(void* this, T item);             \
 		bool(*push_back)(void* this, T item);                  \
+		bool(*copy_insert)(void* this, T item, int index);     \
 		bool(*insert)(void* this, T item, int index);          \
 		int(*find) (void* this, T item);                       \
-		bool (*replace)(void* this, T to_replace, T replacement); \
+		bool(*replace)(void* this, T to_replace, T replacement); \
 	} CAT(CAT(Vector, T), VFTable);                            \
 
 DEFINE_VECTOR_VFTABLE
