@@ -119,7 +119,7 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object)
 	}
 }
 
-char* CheckForMove(char* macro)
+const char* CheckForMove(const char* macro)
 {
 	printf("%s\n", macro);
 

@@ -202,7 +202,7 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object);
 // =/ in C LUL?
 
 //ugh not perfect, we convert the macro to a string and check if it is a move
-char* CheckForMove(char* macro);
+const char* CheckForMove(const char* macro);
 
 #define Moo(type, function, ...) CheckForMove(GET_FIRST_ARG((#__VA_ARGS__)))
 
