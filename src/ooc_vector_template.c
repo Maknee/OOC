@@ -55,7 +55,7 @@
 
 //Vector(String)
 #define T String
-#define T_EQUALS(element, other_element) ((!Call(String, equals, element, other_element)) ? (true) : (false))
+#define T_EQUALS(element, other_element) ((Call(String, equals, element, other_element)) ? (true) : (false))
 #define T_ALLOC(T_Ptr) *(T_Ptr) = New(String)
 #define T_COPY(T_Ptr) Call(String, copy, *(T_Ptr))
 #define T_DELETE(T_Ptr) Delete(String, *(T_Ptr))

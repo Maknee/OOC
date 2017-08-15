@@ -171,14 +171,25 @@ void* CAT(VectorCopyConstruct, T)(void* this)
 	VECTOR copy_vector = (VECTOR)copy;
 
 	//copy the contents of the string to the copied vector except for vftable (which is contained in Container struct inside the String struct)
-	memcpy(&copy_vector->size, &this_vector->size, sizeof(this_vector->size));
-	memcpy(&copy_vector->capacity, &this_vector->capacity, sizeof(this_vector->capacity));
-	//memcpy(copy_vector->data, this_vector->data, this_vector->capacity);
+	copy_vector->size = this_vector->size;
+	copy_vector->capacity = this_vector->capacity;
 
 	//iterate through each item and copy
 	for (size_t i = 0; i < this_vector->size; i++)
 	{
-		*(copy_vector->data + i) = T_COPY(copy_vector->data + i);
+		//get beginning of vector
+		T* begin_of_vector = this_vector->data;
+
+		//get pointer to the data
+		T* index_of_vector = begin_of_vector + i;
+
+		//get beginning of copy vector
+		T* begin_of_copy_vector = copy_vector->data;
+
+		//get pointer to the data
+		T* index_of_copy_vector = begin_of_copy_vector + i;
+
+		*(index_of_copy_vector) = T_COPY(index_of_vector);
 	}
 
 	return copy;
@@ -222,8 +233,39 @@ bool CAT(VectorEquals, T)(void* this, void* other)
 	//cast to vector
 	VECTOR other_vector = (VECTOR)other;
 
-	//compare memory to see if contents are the same
-	return (!memcmp(this_vector->data, other_vector->data, this_vector->size));
+	//DO NOT compare memory to see if contents are the same
+	//return (!memcmp(this_vector->data, other_vector->data, this_vector->size * sizeof(T)));
+
+	//Check if each element is equal... because objects exist
+
+	//Check if the sizes are the same
+	if (this_vector->size != other_vector->size)
+	{
+		return false;
+	}
+
+	//iterate through each 
+	for (size_t i = 0; i < this_vector->size; i++)
+	{
+		//get beginning of vector
+		T* begin_of_vector = this_vector->data;
+
+		//get pointer to the data
+		T* index_of_vector = begin_of_vector + i;
+
+		//get beginning of other vector
+		T* begin_of_other_vector = other_vector->data;
+
+		//get pointer to the data
+		T* index_of_other_vector = begin_of_other_vector + i;
+		
+		//check if the values are the same
+		if (!T_EQUALS(*index_of_vector, *index_of_other_vector))
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 char* CAT(VectorToString, T)(void* this)
@@ -304,25 +346,25 @@ bool CAT(VectorRemove, T)(void* this, T item)
 	VECTOR this_vector = (VECTOR)this;
 	
 	//iterate through each 
-	for (size_t i = 0; i < sizeof(T) * this_vector->size; i += sizeof(T))
+	for (size_t i = 0; i < this_vector->size; i++)
 	{
+		//get beginning of vector
+		T* begin_of_vector = this_vector->data;
+
+		//get the end of vector
+		T* end_of_vector = begin_of_vector + this_vector->size;
+		
 		//get pointer to the data
-		T* this_t = this_vector->data + i;
+		T* index_of_vector = begin_of_vector + i;
 
 		//check if the values are the same
-		if (T_EQUALS(*this_t, item))
+		if (T_EQUALS(*index_of_vector, item))
 		{
-			//get beginning of vector
-			T* begin_of_vector = this_vector->data;
-
-			//get the end of vector
-			T* end_of_vector = begin_of_vector + this_vector->size;
-
 			//delete the item
-			T_DELETE(this_t);
+			T_DELETE(index_of_vector);
 
 			//remove the current item and shift everything to the left
-			memmove(this_t, this_t + 1, (size_t)(end_of_vector - (this_t + 1)));
+			memmove(index_of_vector, index_of_vector + 1, (size_t)(end_of_vector - (index_of_vector + 1)));
 
 			//zero out the remaining one
 			memset(end_of_vector - 1, 0, sizeof(T));
@@ -342,17 +384,20 @@ bool CAT(VectorContains, T)(void* this, T item)
 	VECTOR this_vector = (VECTOR)this;
 
 	//iterate through each 
-	for (size_t i = 0; i < sizeof(T) * this_vector->size; i += sizeof(T))
+	for (size_t i = 0; i < this_vector->size; i++)
 	{
-		T* this_t = this_vector->data + i;
+		//get beginning of vector
+		T* begin_of_vector = this_vector->data;
+
+		//get pointer to the data
+		T* index_of_vector = begin_of_vector + i;
 
 		//check if the values are the same
-		if (T_EQUALS(*this_t, item))
+		if (T_EQUALS(*index_of_vector, item))
 		{
 			return true;
 		}
 	}
-
 	return false;
 }
 
@@ -370,7 +415,7 @@ bool CAT(VectorIsEmpty, T)(void* this)
 	//cast to vector
 	VECTOR this_vector = (VECTOR)this;
 
-	return this_vector->size > 0;
+	return this_vector->size == 0;
 }
 
 size_t CAT(VectorSize, T)(void* this)
@@ -580,22 +625,25 @@ bool CAT(VectorReplace, T)(void* this, T to_replace, T replacement)
 	//check if any were replaced
 	bool replaced = false;
 
-	//check for out of bounds
+	//iterate through each 
 	for (size_t i = 0; i < this_vector->size; i++)
 	{
-		//get pointer to the data
-		T* this_t = this_vector->data + i;
+		//get beginning of vector
+		T* begin_of_vector = this_vector->data;
 
-		//check for equality
-		if (T_EQUALS(*this_t, to_replace))
+		//get pointer to the data
+		T* index_of_vector = begin_of_vector + i;
+
+		//check if the values are the same
+		if (T_EQUALS(*index_of_vector, to_replace))
 		{
 			replaced = true;
 
 			//delete the item
-			T_DELETE(this_t);
+			T_DELETE(index_of_vector);
 
 			//replace the element
-			memcpy(this_t, &replacement, sizeof(T));
+			memcpy(index_of_vector, &replacement, sizeof(T));
 		}
 	}
 
