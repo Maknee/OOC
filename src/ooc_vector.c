@@ -194,10 +194,13 @@ void CAT(VectorDestruct, T)(void* this)
 	//cast to vector
 	VECTOR this_vector = (VECTOR)this;
 
+	//get the beginning of vector
+	T* begin_of_vector = this_vector->data;
+
 	//iterate through each item and delete
 	for (size_t i = 0; i < this_vector->size; i++)
 	{
-		T_DELETE(this_vector->data + (sizeof(T) * i));
+		T_DELETE(begin_of_vector + i);
 	}
 
 	//free dynamically allocated memory
@@ -247,25 +250,7 @@ static void CAT(VectorRealloc, T)(void* this, size_t new_size)
 
 bool CAT(VectorAdd, T)(void* this, T item)
 {
-	CHECK_NULL(this, false);
-
-	//cast to vector
-	VECTOR this_vector = (VECTOR)this;
-
-	//create new size variable
-	size_t new_size = this_vector->size + 1;
-
-	//realloc vector if necessary
-	CAT(VectorRealloc, T)(this, new_size);
-
-	//append the new vector's data to the end of the old vector's data
-	T* end_of_vector_data = this_vector->data + sizeof(T) * this_vector->size;
-	memcpy(end_of_vector_data, &item, sizeof(T));
-
-	//update the size
-	this_vector->size = new_size;
-
-	return true;
+	return CAT(VectorPushBack, T);
 }
 
 void CAT(VectorClear, T)(void* this)
@@ -304,7 +289,11 @@ bool CAT(VectorRemove, T)(void* this, T item)
 		//check if the values are the same
 		if (T_EQUALS(*this_t, item))
 		{
-			T* end_of_vector = this_vector->data + (sizeof(T) * this_vector->size);
+			//get beginning of vector
+			T* begin_of_vector = this_vector->data;
+
+			//get the end of vector
+			T* end_of_vector = this_vector->data + this_vector->size;
 
 			//delete the item
 			T_DELETE(this_t);
@@ -313,7 +302,7 @@ bool CAT(VectorRemove, T)(void* this, T item)
 			memmove(this_t, this_t + 1, (size_t)(end_of_vector - (this_t + 1)));
 
 			//zero out the remaining one
-			memset(end_of_vector - sizeof(T), 0, sizeof(T));
+			memset(end_of_vector - 1, 0, sizeof(T));
 
 			//update size
 			this_vector->size--;
@@ -479,8 +468,11 @@ bool CAT(VectorPushBack, T)(void* this, T item)
 	//realloc vector if necessary
 	CAT(VectorRealloc, T)(this, new_size);
 
+	//get the beginning of vector
+	T* begin_of_vector = this_vector->data;
+
 	//get the end of the vector
-	T* end_of_vector = this_vector->data + (sizeof(T) * this_vector->size);
+	T* end_of_vector = begin_of_vector + this_vector->size;
 
 	//insert element into end
 	memcpy(end_of_vector, &item, sizeof(T));
@@ -510,14 +502,17 @@ bool CAT(VectorInsert, T)(void* this, T item, int index)
 	//realloc vector if necessary
 	CAT(VectorRealloc, T)(this, new_size);
 
+	//get the beginning of vetor
+	T* begin_of_vector = this_vector->data;
+
 	//get the insertion index of the vector
-	T* index_of_vector = this_vector->data;
+	T* index_of_vector = begin_of_vector + index;
 
 	//get the end of the vector
-	T* end_of_vector = this_vector->data;
+	T* end_of_vector = begin_of_vector + this_vector->size;
 
 	//shift everything to the left by one element
-	memmove(index_of_vector + sizeof(T), index_of_vector, (size_t)(end_of_vector - index_of_vector));
+	memmove(index_of_vector + 1, index_of_vector, sizeof(T) * (size_t)(end_of_vector - index_of_vector));
 
 	//insert element into beginning
 	memcpy(index_of_vector, &item, sizeof(T));
