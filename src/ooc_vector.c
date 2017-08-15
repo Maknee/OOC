@@ -197,7 +197,7 @@ void CAT(VectorDestruct, T)(void* this)
 	//iterate through each item and delete
 	for (size_t i = 0; i < this_vector->size; i++)
 	{
-		T_DELETE(this_vector->data);
+		T_DELETE(this_vector->data + sizeof(T) * i);
 	}
 
 	//free dynamically allocated memory

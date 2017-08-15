@@ -189,7 +189,7 @@ void TestVectorStringVFTableFind();
 
 /**********************************************************************************************//**
  * @fn	void TestVectorStringVFTableReplace();
- *
+ *	
  * @brief	Tests string vf table string size.
  **************************************************************************************************/
 
