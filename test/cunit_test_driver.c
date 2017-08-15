@@ -10,6 +10,7 @@
 #include "ooc_object_cunit_test.h"
 #include "ooc_container_cunit_test.h"
 #include "ooc_string_cunit_test.h"
+#include "ooc_vector_cuint_test.h"
 
 /*
  * Set up and run tests.
@@ -145,6 +146,44 @@ int main()
 		!CU_add_test(stringSuite, "TestStringVFTableStringSubStringAllocated", TestStringVFTableStringSubStringAllocated) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringSubStringLessThanZero", TestStringVFTableStringSubStringLessThanZero) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringSubStringOutOfBounds", TestStringVFTableStringSubStringOutOfBounds))
+	{
+		printf("%s\n", CU_get_error_msg());
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	CU_pSuite vectorSuite = CU_add_suite("Vector Testing Suite",
+		VectorInitializeSuite,
+		VectorCleanUpSuite);
+
+	if (stringSuite == NULL)
+	{
+		printf("%s\n", CU_get_error_msg());
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	if (!CU_add_test(stringSuite, "TestVectorStringVFTableUninitializedCompleteObjectLocator", TestVectorStringVFTableUninitializedCompleteObjectLocator) ||
+		!CU_add_test(stringSuite, "TestVectorStringNew", TestVectorStringNew) ||
+		!CU_add_test(stringSuite, "TestVectorStringDelete", TestVectorStringDelete) ||
+		!CU_add_test(stringSuite, "TestVectorStringCopyConstructor", TestVectorStringCopyConstructor) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTableEquals", TestVectorStringVFTableEquals) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTableToString", TestVectorStringVFTableToString) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTableAdd", TestVectorStringVFTableAdd) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTableClear", TestVectorStringVFTableClear) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTableRemove", TestVectorStringVFTableRemove) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTableContains", TestVectorStringVFTableContains) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTableCopy", TestVectorStringVFTableCopy) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTableIsEmpty", TestVectorStringVFTableIsEmpty) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTableSize", TestVectorStringVFTableSize) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTableSet", TestVectorStringVFTableSet) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTableGet", TestVectorStringVFTableGet) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTablePushFront", TestVectorStringVFTablePushFront) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTablePushBack", TestVectorStringVFTablePushBack) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTableInsert", TestVectorStringVFTableInsert) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTableInsertOutOfBounds", TestVectorStringVFTableInsertOutOfBounds) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTableFind", TestVectorStringVFTableFind) ||
+		!CU_add_test(stringSuite, "TestVectorStringVFTableReplace", TestVectorStringVFTableReplace))
 	{
 		printf("%s\n", CU_get_error_msg());
 		CU_cleanup_registry();

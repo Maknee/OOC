@@ -15,13 +15,13 @@
  * Initialise test suite.
  * @return zero on success, non-zero otherwise.
  */
-int VectorStringInitializeSuite();
+int VectorInitializeSuite();
 
 /* 
  * Clean up test suite.
  * @return zero on success, non-zero otherwise.
  */
-int VectorStringCleanUpSuite();
+int VectorCleanUpSuite();
 
 /**********************************************************************************************//**
  * @fn	void TestVectorStringVFTableUninitializedCompleteObjectLocator();
@@ -92,20 +92,20 @@ void TestVectorStringVFTableAdd();
 void TestVectorStringVFTableClear();
 
 /**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringAddSecondAllocatedFirstNot();
+ * @fn	void TestVectorStringVFTableRemove();
  *
  * @brief	Tests string vf table string add statically allocated.
  **************************************************************************************************/
 
-void TestVectorStringVFTableVectorStringAddSecondAllocatedFirstNot();
+void TestVectorStringVFTableRemove();
 
 /**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringAddAllocated();
+ * @fn	void TestVectorStringVFTableContains();
  *
  * @brief	Tests string vf table string add newly allocated.
  **************************************************************************************************/
 
-void TestVectorStringVFTableVectorStringAddAllocated();
+void TestVectorStringVFTableContains();
 
 /**********************************************************************************************//**
  * @fn	void TestVectorStringVFTableVectorStringAddAlreadyAllocated();
@@ -113,7 +113,7 @@ void TestVectorStringVFTableVectorStringAddAllocated();
  * @brief	Tests string vf table string add already allocated.
  **************************************************************************************************/
 
-void TestVectorStringVFTableVectorStringAddAlreadyAllocated();
+void TestVectorStringVFTableCopy();
 
 /**********************************************************************************************//**
  * @fn	void TestVectorStringVFTableVectorStringClear();
@@ -121,293 +121,77 @@ void TestVectorStringVFTableVectorStringAddAlreadyAllocated();
  * @brief	Tests string vf table string clear statically allocated.
  **************************************************************************************************/
 
-void TestVectorStringVFTableVectorStringClear();
+void TestVectorStringVFTableIsEmpty();
 
 /**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringClearAllocated();
+ * @fn	void TestVectorStringVFTableSize();
  *
  * @brief	Tests string vf table string clear dynamically allocated.
  **************************************************************************************************/
 
-void TestVectorStringVFTableVectorStringClearAllocated();
+void TestVectorStringVFTableSize();
 
 /**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringRemove();
+ * @fn	void TestVectorStringVFTableSet();
  *
  * @brief	Tests string vf table string remove.
  **************************************************************************************************/
 
-void TestVectorStringVFTableVectorStringRemove();
+void TestVectorStringVFTableSet();
 
 /**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringRemoveAllocated();
+ * @fn	void TestVectorStringVFTableGet();
  *
  * @brief	Tests string vf table string remove allocated
  **************************************************************************************************/
 
-void TestVectorStringVFTableVectorStringRemoveAllocated();
+void TestVectorStringVFTableGet();
 
 /**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringRemoveNPOS();
+ * @fn	void TestVectorStringVFTablePushFront();
  *
  * @brief	Tests string vf table string remove npos
  **************************************************************************************************/
 
-void TestVectorStringVFTableVectorStringRemoveNPOS();
+void TestVectorStringVFTablePushFront();
 
 /**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringContains();
+ * @fn	void TestVectorStringVFTablePushBack();
  *
  * @brief	Tests string vf table string contains.
  **************************************************************************************************/
 
-void TestVectorStringVFTableVectorStringContains();
+void TestVectorStringVFTablePushBack();
 
 /**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringCopy();
+ * @fn	void TestVectorStringVFTableInsert();
  *
  * @brief	Tests string vf table string copy.
  **************************************************************************************************/
 
-void TestVectorStringVFTableVectorStringCopy();
+void TestVectorStringVFTableInsert();
 
 /**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringCopyAllocated();
+ * @fn	void TestVectorStringVFTableInsertOutOfBounds();
  *
  * @brief	Tests string vf table string copy.
  **************************************************************************************************/
 
-void TestVectorStringVFTableVectorStringCopyAllocated();
+void TestVectorStringVFTableInsertOutOfBounds();
 
 /**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringIsEmpty();
+ * @fn	void TestVectorStringVFTableFind();
  *
  * @brief	Tests string vf table string empty.
  **************************************************************************************************/
 
-void TestVectorStringVFTableVectorStringIsEmpty();
+void TestVectorStringVFTableFind();
 
 /**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringSize();
+ * @fn	void TestVectorStringVFTableReplace();
  *
  * @brief	Tests string vf table string size.
  **************************************************************************************************/
 
-void TestVectorStringVFTableVectorStringSize();
+void TestVectorStringVFTableReplace();
 
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringSet();
- *
- * @brief	Tests string vf table VectorStringSet with statically allocated string
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringSet();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringSetAllocated();
- *
- * @brief	Tests string vf table VectorStringSet with newly allocated string
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringSetAllocated();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringSetAlreadyAllocated();
- *
- * @brief	Tests string vf table VectorStringSet with newly allocated string
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringSetAlreadyAllocated();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringC_Str();
- *
- * @brief	Tests string vf table VectorStringC_Str is pointing to the correct function
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringC_Str();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringAppend();
- *
- * @brief	Tests string vf table VectorStringAppend static
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringAppend();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringAppendAllocated();
- *
- * @brief	Tests string vf table VectorStringAppend newly allocated
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringAppendAllocated();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringAppendAlreadyAllocated();
- *
- * @brief	Tests string vf table VectorStringAppend already allocated
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringAppendAlreadyAllocated();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringInsert();
- *
- * @brief	Tests string vf table VectorStringInsert static
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringInsert();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringInsert();
- *
- * @brief	Tests string vf table VectorStringInsert static
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringInsert();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringInsertAllocated();
- *
- * @brief	Tests string vf table VectorStringInsert newly allocated
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringInsertAllocated();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringInsertOtherVectorStringAllocated();
- *
- * @brief	Tests string vf table VectorStringInsert newly allocated other string
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringInsertOtherVectorStringAllocated();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringInsertOtherVectorStringAllocatedNewlyAllocated();
- *
- * @brief	Tests string vf table VectorStringInsert newly allocated other string
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringInsertOtherVectorStringAllocatedNewlyAllocated();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringInsertAlreadyAllocated();
- *
- * @brief	Tests string vf table VectorStringInsert already allocated
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringInsertAlreadyAllocated();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringInsertAlreadyAllocatedInsertionVectorStringAllocated();
- *
- * @brief	Tests string vf table VectorStringInsert already allocated
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringInsertAlreadyAllocatedInsertionVectorStringAllocated();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringInsertOutOfBounds();
- *
- * @brief	Tests string vf table VectorStringInsert out of bounds
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringInsertOutOfBounds();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringInsertNPOS();
- *
- * @brief	Tests string vf table VectorStringInsert npos
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringInsertNPOS();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringReplace();
- *
- * @brief	Tests string vf table string replace.
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringReplace();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringReplaceAllocated();
- *
- * @brief	Tests string vf table string replace.
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringReplaceAllocated();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringFind();
- *
- * @brief	Tests string vf table VectorStringFind haystack - static | needle - static
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringFind();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringFindHayStackAllocated();
- *
- * @brief	Tests string vf table VectorStringFind haystack - allocated | needle - static
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringFindHayStackAllocated();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringFindNeedleAllocated();
- *
- * @brief	Tests string vf table VectorStringFind haystack - static | needle - allocated
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringFindNeedleAllocated();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringFindHayStackAllocatedNeedleAllocated();
- *
- * @brief	Tests string vf table VectorStringFind haystack - allocated | needle - allocated
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringFindHayStackAllocatedNeedleAllocated();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringFindNull();
- *
- * @brief	Tests string vf table VectorStringFind with a not found string
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringFindNull();
-
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringSubVectorString();
- *
- * @brief	Tests string vf table SubVectorString is pointing to the correct function
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringSubVectorString();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringSubVectorStringAllocated();
- *
- * @brief	Tests string vf table SubVectorString is pointing to the correct function
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringSubVectorStringAllocated();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringSubVectorStringLessThanZero();
- *
- * @brief	Tests string vf table SubVectorString for user mistakes like < 0
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringSubVectorStringLessThanZero();
-
-/**********************************************************************************************//**
- * @fn	void TestVectorStringVFTableVectorStringSubVectorStringOutOfBounds();
- *
- * @brief	Tests string vf table SubVectorString for user mistakes like out of bounds
- **************************************************************************************************/
-
-void TestVectorStringVFTableVectorStringSubVectorStringOutOfBounds();

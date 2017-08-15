@@ -498,6 +498,12 @@ bool CAT(VectorInsert, T)(void* this, T item, int index)
 	//cast to vector
 	VECTOR this_vector = (VECTOR)this;
 
+	//check if the index is out of bounds
+	if (index == NPOS || index < 0 || index > (int)this_vector->size)
+	{
+		return false;
+	}
+
 	//create new size variable
 	size_t new_size = this_vector->size + 1;
 
