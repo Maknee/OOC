@@ -83,7 +83,7 @@
  * @note    The first parameter in the variable arguments must be the <b>object</b> because every member
  * 			function passes <b>this</b> as the first argument
  * 			
- * @def		INITIALIZER_LIST(type, ...)
+ * @def		Initializer_List(type, ...)
  *
  * @brief	A macro that initializes an object
  *
@@ -158,12 +158,25 @@
 #define SafeCallExpansion(type, function, ...) (CheckDynamicCast(type, GET_FIRST_ARG((__VA_ARGS__))) ? (((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)) : 0)
 #define SafeCall(type, function, ...) SafeCallExpansion(type, function, __VA_ARGS__)
 
-#define INITIALIZER_LIST(type, ...) (const type[]) {__VA_ARGS__, 0}, PP_NARG(__VA_ARGS__)
+#define Initializer_List(type, ...) (const type[]) {__VA_ARGS__, 0}, PP_NARG(__VA_ARGS__)
+
+#define ForEach(element, container_type, container, ...)      \
+		for(                                                  \
+			Iterator(container_type) CAT(container, Iterator) = Call(container_type, begin, container); \
+			CAT(container, Iterator).index < Call(container_type, end, container).index;                \
+			Call(container_type, next, container, (&CAT(container, Iterator)))                             \
+		   )                                                  \
+        {                                                     \
+			element = CAT(container, Iterator).data;          \
+			__VA_ARGS__                                       \
+		}                                                     \
 
 //TEMPLATES
 #define VectorExpansion(type) CAT(Vector, type)
 #define Vector(type) VectorExpansion(type)
 
+#define IteratorExpansion(type) CAT(type, Iterator)
+#define Iterator(type) IteratorExpansion(type)
 
 //CASTS
 

@@ -6,7 +6,23 @@
 	#include <crtdbg.h> 
 #endif
 int main()
-{	
+{
+	void* s1 = New(String);
+
+	Call(String, set, s1, "Much w0w");
+
+	ForEach(char* c, String, s1, 
+	{
+		*c = 'w';
+	});
+
+	Iterator(String) s = Call(String, end, s1);
+	printf("111 %s 111\n", s.data - 1);
+
+	printf("%s\n", Call(String, c_str, s1));
+
+	Delete(String, s1);
+
 	/*
 	//allocate a new string
 	void* s1 = New(String);
@@ -60,6 +76,7 @@ int main()
 	Delete(Vector(String), vector);
 	*/
 	
+	/*
 	//Allocate a new vector of strings
 	Vector(String) vector1 = New(Vector(String));
 
@@ -86,7 +103,7 @@ int main()
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
-	
+	*/
 #ifdef _MSC_VER
 	_CrtDumpMemoryLeaks();
 #endif

@@ -75,6 +75,16 @@
 		}                                                        \
 
 /*============================================================================
+|   String Iterator
+*===========================================================================*/
+
+typedef struct _StringIterator
+{
+	int index;
+	char* data;
+} StringIterator;
+
+/*============================================================================
 |   Object virtual function table definition
 *===========================================================================*/
 
@@ -103,6 +113,9 @@
  *			replace\n
  *			find\n
  *			substring\n
+ *			begin\n
+ *			next\n
+ *			end\n
  *			
  * @var		_StringVFTable::containerVFTable
  * 			Pointer to the inherited container's virtual function table
@@ -191,6 +204,32 @@
  *			@warning
  *			Returns NULL if the indices are not within the string's boundaries or the indices are
  *			swapped.
+ *			
+ * @var		_StringVFTable::begin
+ * 			Pointer to a function that returns an iterator starting at the beginning of a string
+ *
+ *			@param [in] this
+ *			The object
+ *			@return
+ *			Returns a string iterator
+ *			
+ * @var		_StringVFTable::next
+ * 			Pointer to a function that advances an iterator
+ *
+ *			@param [in] this
+ *			The object
+ *			@param [in] iterator
+ *			A pointer to an iterator
+ *			@return
+ *			True if successful, false if not
+ *			
+ * @var		_StringVFTable::end
+ * 			Pointer to a function that returns an iterator starting at end of the string
+ *
+ *			@param [in] this
+ *			The object
+ *			@return
+ *			Returns a string iterator
  **************************************************************************************************/
 
 typedef struct _StringVFTable
@@ -203,6 +242,10 @@ typedef struct _StringVFTable
 	bool (*replace)(void* this, void* item, void* replacement);
 	int (*find) (void* this, void* item);
 	void* (*substring)(void* this, int start, int end);
+
+	StringIterator (*begin)(void* this);
+	bool (*next)(void* this, StringIterator* iterator);
+	StringIterator (*end)(void* this);
 } StringVFTable;
 
 /*============================================================================
@@ -598,6 +641,45 @@ int StringFind(void* this, void* item);
  **************************************************************************************************/
 
 void* StringSubstring(void* this, int start, int end);
+
+/**********************************************************************************************//**
+ * @fn		StringIterator StringBegin(void* this)
+ *
+ * @brief   Returns an iterator starting at the beginning of a string
+ *
+ *			@param[in] this
+ *			The object
+ *			@return
+ *			Returns a string iterator
+ **************************************************************************************************/
+
+StringIterator StringBegin(void* this);
+
+/**********************************************************************************************//**
+ * @fn		bool StringNext(void* this, StringIterator* iterator)
+ *
+ * @brief   Advances string iterator
+ *
+ *			@param[in] this
+ *			The object
+ *			@return
+ *			Returns a string iterator
+ **************************************************************************************************/
+
+bool StringNext(void* this, StringIterator* iterator);
+
+/**********************************************************************************************//**
+ * @fn		StringIterator StringEnd(void* this)
+ *
+ * @brief   Returns an iterator starting at end of the string
+ *
+ *			@param[in] this
+ *			The object
+ *			@return
+ *			Returns a string iterator
+ **************************************************************************************************/
+
+StringIterator StringEnd(void* this);
 
 /*============================================================================
 |   Container virtual function table instance

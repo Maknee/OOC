@@ -204,6 +204,9 @@ void StringConstruct(void* this)
 	StringvfTable.replace = &StringReplace;
 	StringvfTable.find = &StringFind;
 	StringvfTable.substring = &StringSubstring;
+	StringvfTable.begin = &StringBegin;
+	StringvfTable.next = &StringNext;
+	StringvfTable.end = &StringEnd;
 
 	//Initialize the vtable to a copy of this object's vtable
 	memcpy(((String)this)->container.object.pVFTable, &StringvfTable, sizeof(StringVFTable));
@@ -953,4 +956,52 @@ void* StringSubstring(void* this, int start, int end)
 	return copy_string;
 }
 
+StringIterator StringBegin(void* this)
+{
+	CHECK_NULL(this, ((StringIterator) {.index = NPOS, .data = NULL }));
 
+	String this_string = (String)this;
+	if (CheckIfStringIsAllocated(this))
+	{
+		return ((StringIterator) { .index = 0, .data = this_string->data.pBuf });
+	}
+	else
+	{
+		return ((StringIterator) { .index = 0, .data = this_string->data.buf });
+	}
+}
+
+bool StringNext(void* this, StringIterator* iterator)
+{
+	CHECK_NULL(this, false);
+
+	String this_string = (String)this;
+
+	//move iterator to next
+	iterator->index++;
+
+	if (CheckIfStringIsAllocated(this))
+	{
+		iterator->data = (char*)this_string->data.pBuf + iterator->index;
+	}
+	else
+	{
+		iterator->data = (char*)this_string->data.buf + iterator->index;
+	}
+	return true;
+}
+
+StringIterator StringEnd(void* this)
+{
+	CHECK_NULL(this, ((StringIterator) {.index = NPOS, .data = NULL }));
+
+	String this_string = (String)this;
+	if (CheckIfStringIsAllocated(this))
+	{
+		return ((StringIterator) { .index = this_string->length, .data = (char*)this_string->data.pBuf + this_string->length });
+	}
+	else
+	{
+		return ((StringIterator) { .index = this_string->length, .data = (char*)this_string->data.buf + this_string->length });
+	}
+}

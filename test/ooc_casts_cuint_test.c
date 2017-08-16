@@ -14,7 +14,7 @@ void TestValidUpcast()
 {
 	Vector(int) vector = New(Vector(int));
 
-	Call(Vector(int), set, vector, INITIALIZER_LIST(int, 5, 5, 5, 5, 6));
+	Call(Vector(int), set, vector, Initializer_List(int, 5, 5, 5, 5, 6));
 
 	Object vObject = Upcast(Object, vector);
 
@@ -28,7 +28,7 @@ void TestValidDowncast()
 {
 	Vector(int) vector = New(Vector(int));
 
-	Call(Vector(int), set, vector, INITIALIZER_LIST(int, 5, 5, 5, 5, 6));
+	Call(Vector(int), set, vector, Initializer_List(int, 5, 5, 5, 5, 6));
 
 	Object vObject = Upcast(Object, vector);
 
@@ -46,7 +46,7 @@ void TestInvalidDowncast()
 {
 	Vector(int) vector = New(Vector(int));
 
-	Call(Vector(int), set, vector, INITIALIZER_LIST(int, 5, 5, 5, 5, 6));
+	Call(Vector(int), set, vector, Initializer_List(int, 5, 5, 5, 5, 6));
 
 	Object vObject = Upcast(Object, vector);
 
