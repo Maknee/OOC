@@ -958,22 +958,29 @@ void* StringSubstring(void* this, int start, int end)
 
 StringIterator StringBegin(void* this)
 {
-	CHECK_NULL(this, ((StringIterator) {.index = NPOS, .data = NULL }));
+	CHECK_NULL(this, NULL);
 
 	String this_string = (String)this;
+
+	//allocate a string iterator
+	StringIterator iterator = check_calloc(sizeof(struct _StringIterator));
+	iterator->index = 0;
+
 	if (CheckIfStringIsAllocated(this))
 	{
-		return ((StringIterator) { .index = 0, .data = this_string->data.pBuf });
+		iterator->data = this_string->data.pBuf;
 	}
 	else
 	{
-		return ((StringIterator) { .index = 0, .data = this_string->data.buf });
+		iterator->data = this_string->data.buf;
 	}
+	return iterator;
 }
 
-bool StringNext(void* this, StringIterator* iterator)
+bool StringNext(void* this, StringIterator iterator)
 {
 	CHECK_NULL(this, false);
+	CHECK_NULL(iterator, false);
 
 	String this_string = (String)this;
 
@@ -982,26 +989,29 @@ bool StringNext(void* this, StringIterator* iterator)
 
 	if (CheckIfStringIsAllocated(this))
 	{
-		iterator->data = (char*)this_string->data.pBuf + iterator->index;
+		iterator->data = this_string->data.pBuf + iterator->index;
 	}
 	else
 	{
-		iterator->data = (char*)this_string->data.buf + iterator->index;
+		iterator->data = this_string->data.buf + iterator->index;
 	}
 	return true;
 }
 
-StringIterator StringEnd(void* this)
+StringIterator StringEnd(void* this, StringIterator iterator)
 {
-	CHECK_NULL(this, ((StringIterator) {.index = NPOS, .data = NULL }));
+	CHECK_NULL(this, NULL);
+	CHECK_NULL(iterator, NULL);
 
 	String this_string = (String)this;
-	if (CheckIfStringIsAllocated(this))
+
+	//check if iterator is at the end
+	if (iterator->index == (int)this_string->length)
 	{
-		return ((StringIterator) { .index = this_string->length, .data = (char*)this_string->data.pBuf + this_string->length });
+		iterator->index = NPOS;
+		iterator->data = NULL;
+		free(iterator);
+		return NULL;
 	}
-	else
-	{
-		return ((StringIterator) { .index = this_string->length, .data = (char*)this_string->data.buf + this_string->length });
-	}
+	return iterator;
 }

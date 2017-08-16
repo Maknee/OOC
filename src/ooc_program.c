@@ -16,9 +16,6 @@ int main()
 		*c = 'w';
 	});
 
-	Iterator(String) s = Call(String, end, s1);
-	printf("111 %s 111\n", s.data - 1);
-
 	printf("%s\n", Call(String, c_str, s1));
 
 	Delete(String, s1);

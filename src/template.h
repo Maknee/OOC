@@ -163,11 +163,11 @@
 #define ForEach(element, container_type, container, ...)      \
 		for(                                                  \
 			Iterator(container_type) CAT(container, Iterator) = Call(container_type, begin, container); \
-			CAT(container, Iterator).index < Call(container_type, end, container).index;                \
-			Call(container_type, next, container, (&CAT(container, Iterator)))                             \
+			Call(container_type, end, container, CAT(container, Iterator)) != NULL;                     \
+			Call(container_type, next, container, CAT(container, Iterator))                             \
 		   )                                                  \
         {                                                     \
-			element = CAT(container, Iterator).data;          \
+			element = CAT(container, Iterator)->data;         \
 			__VA_ARGS__                                       \
 		}                                                     \
 

@@ -82,7 +82,7 @@ typedef struct _StringIterator
 {
 	int index;
 	char* data;
-} StringIterator;
+} *StringIterator;
 
 /*============================================================================
 |   Object virtual function table definition
@@ -228,6 +228,8 @@ typedef struct _StringIterator
  *
  *			@param [in] this
  *			The object
+ *			@param [in] iterator
+ *			A pointer to an iterator
  *			@return
  *			Returns a string iterator
  **************************************************************************************************/
@@ -244,8 +246,8 @@ typedef struct _StringVFTable
 	void* (*substring)(void* this, int start, int end);
 
 	StringIterator (*begin)(void* this);
-	bool (*next)(void* this, StringIterator* iterator);
-	StringIterator (*end)(void* this);
+	bool (*next)(void* this, StringIterator iterator);
+	StringIterator (*end)(void* this, StringIterator iterator);
 } StringVFTable;
 
 /*============================================================================
@@ -666,7 +668,7 @@ StringIterator StringBegin(void* this);
  *			Returns a string iterator
  **************************************************************************************************/
 
-bool StringNext(void* this, StringIterator* iterator);
+bool StringNext(void* this, StringIterator iterator);
 
 /**********************************************************************************************//**
  * @fn		StringIterator StringEnd(void* this)
@@ -675,6 +677,8 @@ bool StringNext(void* this, StringIterator* iterator);
  *
  *			@param[in] this
  *			The object
+ *			@param [in] iterator
+ *			A pointer to an iterator
  *			@return
  *			Returns a string iterator
  **************************************************************************************************/
