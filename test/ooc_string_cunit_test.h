@@ -437,6 +437,14 @@ void TestStringVFTableStringSubStringAllocated();
 void TestStringVFTableStringSubStringLessThanZero();
 
 /**********************************************************************************************//**
+ * @fn	void TestStringVFTableStringSubStringOutOfBounds();
+ *
+ * @brief	Tests string vf table substring out of bounds
+ **************************************************************************************************/
+
+void TestStringVFTableStringSubStringOutOfBounds()
+
+/**********************************************************************************************//**
  * @fn	void TestStringIterator();
  *
  * @brief	Tests string iterator

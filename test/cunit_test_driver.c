@@ -149,7 +149,9 @@ int main()
 		!CU_add_test(stringSuite, "TestStringVFTableStringSubString", TestStringVFTableStringSubString) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringSubStringAllocated", TestStringVFTableStringSubStringAllocated) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringSubStringLessThanZero", TestStringVFTableStringSubStringLessThanZero) ||
-		!CU_add_test(stringSuite, "TestStringVFTableStringSubStringOutOfBounds", TestStringVFTableStringSubStringOutOfBounds))
+		!CU_add_test(stringSuite, "TestStringVFTableStringSubStringOutOfBounds", TestStringVFTableStringSubStringOutOfBounds) ||
+		!CU_add_test(stringSuite, "TestStringIterator", TestStringIterator) ||
+		!CU_add_test(stringSuite, "TestStringIteratorAllocated", TestStringIteratorAllocated))
 	{
 		printf("%s\n", CU_get_error_msg());
 		CU_cleanup_registry();
