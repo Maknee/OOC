@@ -10,10 +10,7 @@
 
 VectorVFTable vectorVFTable =
 {
-	.pCompleteObjectLocator = NULL,
-	.equals = NULL,
-	.compareTo = NULL,
-	.toString = NULL,
+	NULL_OBJECT_VFTABLE,
 	.add = NULL,
 	.clear = NULL,
 	.remove = NULL,
