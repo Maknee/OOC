@@ -66,4 +66,18 @@
 #undef T_DELETE
 #undef T
 
+//Vector of containers? Kind of useless, but okay.
+//Vector(Container)
+#define T Container
+#define T_EQUALS(element, other_element) ((Call(Container, equals, element, other_element)) ? (true) : (false))
+#define T_ALLOC(T_Ptr) *(T_Ptr) = New(Container)
+#define T_COPY(T_Ptr) Call(Container, copy, *(T_Ptr))
+#define T_DELETE(T_Ptr) Delete(Container, *(T_Ptr))
+#include "ooc_vector.c"
+#undef T_EQUALS
+#undef T_COPY
+#undef T_ALLOC
+#undef T_DELETE
+#undef T
+
 #define Vector(type) VectorExpansion(type)

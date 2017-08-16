@@ -43,4 +43,8 @@
 #include "ooc_vector.h"
 #undef T
 
+#define T Container
+#include "ooc_vector.h"
+#undef T
+
 #define Vector(type) VectorExpansion(type)
