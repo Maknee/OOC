@@ -311,7 +311,7 @@ void StringDestruct(void* this);
 /**********************************************************************************************//**
  * @fn		bool StringEquals(void* this, void* other);
  *
- * @brief	Checks if the type of the string is equal to another object
+ * @brief	Checks if the string is equal to another string
  *
  * @param	[in] this 
  * 			The string object
@@ -322,6 +322,21 @@ void StringDestruct(void* this);
  **************************************************************************************************/
 
 bool StringEquals(void* this, void* other);
+
+/**********************************************************************************************//**
+ * @fn		int StringCompareTo(void* this, void* other);
+ *
+ * @brief	Checks if the string is equal to another string
+ *
+ * @param	[in] this 
+ * 			The object
+ * @param	[in] other
+ * 			The other object
+ *
+ * @return	0 if it succeeds, negative or positive if it fails.
+ **************************************************************************************************/
+
+int StringCompareTo(void* this, void* other);
 
 /**********************************************************************************************//**
  * @fn		bool StringToString(void* this);

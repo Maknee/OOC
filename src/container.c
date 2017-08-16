@@ -85,6 +85,9 @@ void ContainerConstruct(void* this)
 	//Set the equals function
 	ContainervfTable.equals = &ContainerEquals;
 
+	//Set the compareTo function
+	ContainervfTable.compareTo = &ContainerCompareTo;
+
 	//Set the toString
 	ContainervfTable.toString = &ContainerToString;
 
@@ -129,6 +132,14 @@ bool ContainerEquals(void* this, void* other)
 	CHECK_NULL(other, false);
 
 	return (!strcmp(ContainerToString(this), ContainerToString(other))) ? true : false;
+}
+
+int ContainerCompareTo(void* this, void* other)
+{
+	CHECK_NULL(this, false);
+	CHECK_NULL(other, false);
+
+	return strcmp(ContainerToString(this), ContainerToString(other));
 }
 
 char* ContainerToString(void* this)

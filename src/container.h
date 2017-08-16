@@ -275,6 +275,21 @@ void ContainerDestruct(void* this);
 bool ContainerEquals(void* this, void* other);
 
 /**********************************************************************************************//**
+ * @fn		int ContainerCompareTo(void* this, void* other);
+ *
+ * @brief	Checks if the type of the container is equal to another object
+ *
+ * @param	[in] this 
+ * 			The object
+ * @param	[in] other
+ * 			The other object
+ *
+ * @return	0 if it succeeds, negative or positive if it fails.
+ **************************************************************************************************/
+
+int ContainerCompareTo(void* this, void* other);
+
+/**********************************************************************************************//**
  * @fn		bool ContainerToString(void* this);
  *
  * @brief	Gives the object's type name.

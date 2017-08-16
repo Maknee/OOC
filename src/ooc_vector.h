@@ -103,9 +103,7 @@
 #define DEFINE_VECTOR_VFTABLE                                  \
 	typedef struct CAT(CAT(_Vector, T), VFTable)               \
 	{                                                          \
-		CompleteObjectLocator* pCompleteObjectLocator;         \
-		bool(*equals)(void* this, void* other);                \
-		char* (*toString)(void* this);                         \
+		struct _ObjectVFTable;                                 \
 		                                                       \
 		bool (*add)(void* this, T item);                       \
 		void(*clear)(void* this);                              \
@@ -243,6 +241,21 @@ void CAT(VectorDestruct, T)(void* this);
  **************************************************************************************************/
 
 bool CAT(VectorEquals, T)(void* this, void* other);
+
+/**********************************************************************************************//**
+ * @fn		int StringCompareTo(void* this, void* other);
+ *
+ * @brief	Checks if the type of the vector is equal to another object
+ *
+ * @param	[in] this 
+ * 			The object
+ * @param	[in] other
+ * 			The other object
+ *
+ * @return	0 if it succeeds, negative or positive if it fails.
+ **************************************************************************************************/
+
+int CAT(VectorCompareTo, T)(void* this, void* other);
 
 /**********************************************************************************************//**
  * @fn		char* CAT(VectorToString, T)(void* this);

@@ -123,6 +123,9 @@ void CAT(VectorConstruct, T)(void* this)
 	//Set the equals function
 	vectorVFTable.equals = &CAT(VectorEquals, T);
 
+	//Set the compareTo function
+	vectorVFTable.compareTo = &CAT(VectorCompareTo, T);
+
 	//Set the toString
 	vectorVFTable.toString = &CAT(VectorToString, T);
 
@@ -281,6 +284,52 @@ bool CAT(VectorEquals, T)(void* this, void* other)
 		//get pointer to the data
 		T* index_of_other_vector = begin_of_other_vector + i;
 		
+		//check if the values are the same
+		if (!T_EQUALS(*index_of_vector, *index_of_other_vector))
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+int CAT(VectorCompareTo, T)(void* this, void* other)
+{
+	CHECK_NULL(this, false);
+	CHECK_NULL(other, false);
+
+	//cast to vector
+	VECTOR this_vector = (VECTOR)this;
+
+	//cast to vector
+	VECTOR other_vector = (VECTOR)other;
+
+	//DO NOT compare memory to see if contents are the same
+	//return (!memcmp(this_vector->data, other_vector->data, this_vector->size * sizeof(T)));
+
+	//Check if each element is equal... because objects exist
+
+	//Check if the sizes are the same
+	if (this_vector->size != other_vector->size)
+	{
+		return false;
+	}
+
+	//get beginning of vector
+	T* begin_of_vector = this_vector->data;
+
+	//get beginning of other vector
+	T* begin_of_other_vector = other_vector->data;
+
+	//iterate through each 
+	for (size_t i = 0; i < this_vector->size; i++)
+	{
+		//get pointer to the data
+		T* index_of_vector = begin_of_vector + i;
+
+		//get pointer to the data
+		T* index_of_other_vector = begin_of_other_vector + i;
+
 		//check if the values are the same
 		if (!T_EQUALS(*index_of_vector, *index_of_other_vector))
 		{

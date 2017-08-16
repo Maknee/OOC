@@ -177,6 +177,9 @@ void StringConstruct(void* this)
 	//Set the equals function
 	StringvfTable.equals = &StringEquals;
 
+	//Set the compareTo function
+	StringvfTable.compareTo = &StringCompareTo;
+
 	//Set the toString
 	StringvfTable.toString = &StringToString;
 
@@ -278,6 +281,14 @@ bool StringEquals(void* this, void* other)
 	CHECK_NULL(other, false);
 
 	return (!strcmp(StringC_Str(this), StringC_Str(other)) ? true : false);
+}
+
+int StringCompareTo(void* this, void* other)
+{
+	CHECK_NULL(this, false);
+	CHECK_NULL(other, false);
+
+	return strcmp(StringC_Str(this), StringC_Str(other));
 }
 
 char* StringToString(void* this)

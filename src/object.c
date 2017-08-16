@@ -131,6 +131,14 @@ bool ObjectEquals(void* this, void* other)
 	return (!strcmp(ObjectToString(this), ObjectToString(other))) ? true : false;
 }
 
+bool ObjectCompareTo(void* this, void* other)
+{
+	CHECK_NULL(this, false);
+	CHECK_NULL(other, false);
+
+	return strcmp(ObjectToString(this), ObjectToString(other));
+}
+
 char* ObjectToString(void* this)
 {
 	CHECK_NULL(this, NULL);

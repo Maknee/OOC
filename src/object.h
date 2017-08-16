@@ -93,6 +93,7 @@ typedef struct _ObjectVFTable
 {
 	CompleteObjectLocator* pCompleteObjectLocator;
 	bool (*equals)(void* this, void* other);
+	int (*compareTo)(void* this, void* other);
 	char* (*toString)(void* this);
 } ObjectVFTable;
 
@@ -226,6 +227,21 @@ void ObjectDestruct(void* this);
  **************************************************************************************************/
 
 bool ObjectEquals(void* this, void* other);
+
+/**********************************************************************************************//**
+ * @fn		int ObjectCompareTo(void* this, void* other);
+ *
+ * @brief	Checks if the type of the object is equal to another object
+ *
+ * @param	[in] this 
+ * 			The object
+ * @param	[in] other
+ * 			The other object
+ *
+ * @return	0 if it succeeds, negative or positive if it fails.
+ **************************************************************************************************/
+
+bool ObjectCompareTo(void* this, void* other);
 
 /**********************************************************************************************//**
  * @fn		bool ObjectToString(void* this);
