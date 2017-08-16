@@ -42,6 +42,27 @@ void TestValidDowncast()
 	Delete(Vector(int), vector);
 }
 
+void TestInvalidDowncast()
+{
+	Vector(int) vector = New(Vector(int));
+
+	Call(Vector(int), set, vector, INITIALIZER_LIST(int, 5, 5, 5, 5, 6));
+
+	Object vObject = Upcast(Object, vector);
+
+	CU_ASSERT_STRING_EQUAL(Call(Object, toString, vObject), "Object");
+	CU_ASSERT_STRING_EQUAL(Call(Object, toString, vector), "Object");
+
+	void* result = Downcast(Vector(String), vObject);
+
+	CU_ASSERT_STRING_EQUAL(Call(Object, toString, vector), "Vectorint");
+
+	//invalid cast
+	CU_ASSERT_PTR_EQUAL(result, NULL);
+
+	Delete(Vector(int), vector);
+}
+
 void TestMoveSemantics()
 {
 	Vector(String) vector = New(Vector(String));
@@ -50,9 +71,9 @@ void TestMoveSemantics()
 
 	SafeCall(String, set, something, "HEYYYY");
 
-	CU_ASSERT_TRUE(MoveCall(Vector(int), insert, Move(vector), something));
+	CU_ASSERT_TRUE(MoveCall(Vector(String), push_back, Move(vector), something));
 
 	//should have no leaks since string is moved into vector
 
-	Delete(Vector(int), vector);
+	Delete(Vector(String), vector);
 }
