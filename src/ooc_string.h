@@ -683,7 +683,7 @@ bool StringNext(void* this, StringIterator iterator);
  *			Returns a string iterator
  **************************************************************************************************/
 
-StringIterator StringEnd(void* this);
+StringIterator StringEnd(void* this, StringIterator iterator);
 
 /*============================================================================
 |   Container virtual function table instance
