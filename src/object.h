@@ -55,6 +55,7 @@ void* check_calloc(size_t size);
 		{                                                       \
 			.pCompleteObjectLocator = NULL,                     \
 			.equals = NULL,                                     \
+			.compareTo = NULL,                                  \
 			.toString = NULL                                    \
 		}                                                       \
 
