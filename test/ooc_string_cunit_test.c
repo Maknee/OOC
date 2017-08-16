@@ -1355,5 +1355,53 @@ void TestStringVFTableStringSubStringOutOfBounds()
 	CU_ASSERT_PTR_EQUAL(s1, NULL);
 }
 
+void TestStringIterator()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	//set characters of haystack
+	Call(String, set, s1, "aaa");
+
+	//call substring
+	ForEach(char* c, String, s1,
+	{
+		*c = 'w';
+	});
+
+	//test new string
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "www");
+
+	//free the string's resources
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+}
+
+void TestStringIteratorAllocated()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	//set characters of haystack
+	Call(String, set, s1, "aaaaaaaaaaaaaaaaaaaaaaaa");
+
+	//call substring
+	ForEach(char* c, String, s1,
+	{
+		*c = 'w';
+	});
+
+	//test new string
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "wwwwwwwwwwwwwwwwwwwwwwww");
+
+	//free the string's resources
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+}
+
 
 

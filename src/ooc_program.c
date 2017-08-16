@@ -7,19 +7,6 @@
 #endif
 int main()
 {
-	void* s1 = New(String);
-
-	Call(String, set, s1, "Much w0w");
-
-	ForEach(char* c, String, s1, 
-	{
-		*c = 'w';
-	});
-
-	printf("%s\n", Call(String, c_str, s1));
-
-	Delete(String, s1);
-
 	/*
 	//allocate a new string
 	void* s1 = New(String);
