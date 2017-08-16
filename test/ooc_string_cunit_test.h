@@ -442,7 +442,7 @@ void TestStringVFTableStringSubStringLessThanZero();
  * @brief	Tests string vf table substring out of bounds
  **************************************************************************************************/
 
-void TestStringVFTableStringSubStringOutOfBounds()
+void TestStringVFTableStringSubStringOutOfBounds();
 
 /**********************************************************************************************//**
  * @fn	void TestStringIterator();
