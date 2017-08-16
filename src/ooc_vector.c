@@ -311,7 +311,7 @@ int CAT(VectorCompareTo, T)(void* this, void* other)
 	if (this_vector->size != other_vector->size)
 	{
 		//should work?
-		return this_size - other_vector->size;
+		return (int)this_vector->size - (int)other_vector->size;
 	}
 
 	//get beginning of vector
@@ -330,7 +330,7 @@ int CAT(VectorCompareTo, T)(void* this, void* other)
 		T* index_of_other_vector = begin_of_other_vector + i;
 
 		//check if the values are the same
-		int comparsion = T_COMPARE_TO(*index_of_vector, *index_of_other_vector));
+		int comparsion = T_COMPARE_TO(*index_of_vector, *index_of_other_vector);
 		if(comparsion)
 		{
 			return comparsion;

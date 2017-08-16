@@ -193,7 +193,7 @@ void TestVectorStringVFTableCompareTo()
 	Call(Vector(String), move_push_back, vector2, random_string2);
 
 	//Check if two vectors are equal
-	CU_ASSERT(Call(Vector(String), compareTo, vector1, vector2), 0);
+	CU_ASSERT_EQUAL(Call(Vector(String), compareTo, vector1, vector2), 0);
 
 	//Delete vector of strings
 	Delete(Vector(String), vector2);

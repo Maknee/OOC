@@ -243,7 +243,7 @@ void CAT(VectorDestruct, T)(void* this);
 bool CAT(VectorEquals, T)(void* this, void* other);
 
 /**********************************************************************************************//**
- * @fn		int StringCompareTo(void* this, void* other);
+ * @fn		int CAST(VectorCompareTo, T)(void* this, void* other);
  *
  * @brief	Checks if the type of the vector is equal to another object
  *

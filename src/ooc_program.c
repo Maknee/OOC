@@ -59,7 +59,6 @@ int main()
 	//Delete vector of strings
 	Delete(Vector(String), vector);
 	*/
-	//Allocate a new vector of strings
 	
 	//Allocate a new vector of strings
 	Vector(String) vector1 = New(Vector(String));

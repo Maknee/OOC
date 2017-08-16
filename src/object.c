@@ -21,6 +21,7 @@ ObjectVFTable ObjectvfTable =
 {
 	.pCompleteObjectLocator = NULL,
 	.equals = &ObjectEquals,
+	.compareTo = &ObjectCompareTo,
 	.toString = &ObjectToString
 };
 
@@ -131,7 +132,7 @@ bool ObjectEquals(void* this, void* other)
 	return (!strcmp(ObjectToString(this), ObjectToString(other))) ? true : false;
 }
 
-bool ObjectCompareTo(void* this, void* other)
+int ObjectCompareTo(void* this, void* other)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(other, false);

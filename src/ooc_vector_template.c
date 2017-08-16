@@ -33,27 +33,27 @@
 #define T_DELETE(T_Ptr) Delete(Vectorint, *(T_Ptr))
 #include "ooc_vector.c"
 #undef T_EQUALS
+#undef T_COMPARE_TO
 #undef T_COPY
 #undef T_ALLOC
 #undef T_COMPARE_TO
 #undef T_DELETE
 #undef T
 
-
 //Vector(float)
 #define FLOAT_EPLISON 0.0000005
 
 #define T float
 #define T_EQUALS(element, other_element) ((fabs((element) - (other_element)) < FLOAT_EPLISON) ? (true) : (false))
-#define T_COMPARE_TO(element, other_element) ((T_EQUALS(element, other_element) ? (0) : (element - other_element))
+#define T_COMPARE_TO(element, other_element) ((fabs((element) - (other_element)) < FLOAT_EPLISON) ? (0) : ((element - other_element > 0) ? (1) : (-1)))
 #define T_ALLOC(T_Ptr) *(T_Ptr) = 0.0f
 #define T_COPY(T_Ptr) *(T_Ptr)
 #define T_DELETE(T_Ptr) *(T_Ptr) = 0.0f
 #include "ooc_vector.c"
 #undef T_EQUALS
+#undef T_COMPARE_TO
 #undef T_COPY
 #undef T_ALLOC
-#undef T_COMPARE_TO
 #undef T_DELETE
 #undef T
 
@@ -68,10 +68,10 @@
 #define T_DELETE(T_Ptr) Delete(String, *(T_Ptr))
 #include "ooc_vector.c"
 #undef T_EQUALS
+#undef T_COMPARE_TO
 #undef T_COPY
 #undef T_ALLOC
 #undef T_DELETE
-#undef T_COMPARE_TO
 #undef T
 
 //Vector of containers? Kind of useless, but okay.
@@ -84,9 +84,9 @@
 #define T_DELETE(T_Ptr) Delete(Container, *(T_Ptr))
 #include "ooc_vector.c"
 #undef T_EQUALS
+#undef T_COMPARE_TO
 #undef T_COPY
 #undef T_ALLOC
-#undef T_COMPARE_TO
 #undef T_DELETE
 #undef T
 

@@ -242,7 +242,7 @@ bool ObjectEquals(void* this, void* other);
  * @return	0 if it succeeds, negative or positive if it fails.
  **************************************************************************************************/
 
-bool ObjectCompareTo(void* this, void* other);
+int ObjectCompareTo(void* this, void* other);
 
 /**********************************************************************************************//**
  * @fn		bool ObjectToString(void* this);

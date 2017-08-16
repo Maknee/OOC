@@ -55,7 +55,7 @@ void TestInvalidDowncast()
 
 	void* result = Downcast(Vector(String), vObject);
 
-	CU_ASSERT_STRING_EQUAL(Call(Object, toString, vector), "Vectorint");
+	CU_ASSERT_STRING_NOT_EQUAL(Call(Object, toString, vector), "Vectorint");
 
 	//invalid cast
 	CU_ASSERT_PTR_EQUAL(result, NULL);
