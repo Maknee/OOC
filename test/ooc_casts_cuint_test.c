@@ -75,5 +75,12 @@ void TestMoveSemantics()
 
 	//should have no leaks since string is moved into vector
 
+	something = New(String);
+
+	//copy, not move
+	CU_ASSERT_TRUE(MoveCall(Vector(String), push_back, vector, something));
+
+	Delete(String, something);
+
 	Delete(Vector(String), vector);
 }

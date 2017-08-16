@@ -184,6 +184,60 @@ void TestObjectVFTableEquals()
 	object = NULL;
 }
 
+void TestObjectVFTableCompareTo()
+{
+	//compile time check
+	CU_ASSERT_PTR_EQUAL(ObjectvfTable.equals, ObjectEquals);
+
+	//manually allocates and deallocates an object
+	//this should __NOT__ be done in a real program
+	//since object is an abstract object
+
+	//allocate a new object
+	void* object = calloc(1, sizeof(struct _Object));
+
+	//allocate vftable
+	((Object)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
+
+	//call constructor to set up object
+	ObjectConstruct(object);
+
+	//allocate a new object
+	void* other_object = calloc(1, sizeof(struct _Object));
+
+	//allocate vftable
+	((Object)other_object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
+
+	//call constructor to set up object
+	ObjectConstruct(other_object);
+
+	//test for equals
+	CU_ASSERT_EQUAL(((ObjectVFTable*)((Object)object)->pVFTable)->compareTo(object, other_object), 0);
+	CU_ASSERT_EQUAL(((ObjectVFTable*)((Object)other_object)->pVFTable)->compareTo(other_object, object), 0);
+	CU_ASSERT_EQUAL(ObjectCompareTo(other_object, object), 0);
+
+	//call destructor
+	ObjectDestruct(other_object);
+
+	//free vftable
+	free(((Object)other_object)->pVFTable);
+
+	//free the string's resources
+	free(other_object);
+
+	//call destructor
+	ObjectDestruct(object);
+
+	//free vftable
+	free(((Object)object)->pVFTable);
+
+	//free the string's resources
+	free(object);
+
+	//NULL the pointer, so we don't have use after free vulns
+	object = NULL;
+}
+
 void TestObjectVFTableObjectToString()
 {
 	//compile time check

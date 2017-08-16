@@ -100,6 +100,14 @@ void TestObjectVFTableObjectToString();
 void TestObjectVFTableEquals();
 
 /**********************************************************************************************//**
+ * @fn	void TestObjectVFTableCompareTo();
+ *
+ * @brief	Tests object vf table compareTo() is pointing to the correct function
+ **************************************************************************************************/
+
+void TestObjectVFTableCompareTo();
+
+/**********************************************************************************************//**
  * @fn	void TestObjectVFTableObjectToString();
  *
  * @brief	Tests object vf table ObjectToString  is pointing to the correct function

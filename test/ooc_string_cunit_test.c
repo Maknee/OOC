@@ -192,6 +192,41 @@ void TestStringVFTableEquals()
 	CU_ASSERT_PTR_EQUAL(s2, NULL);
 }
 
+void TestStringVFTableCompareTo()
+{
+	//compile time check
+	CU_ASSERT_PTR_EQUAL(StringvfTable.equals, StringEquals);
+
+	//allocate a new string
+	void* s1 = New(String);
+
+	//string copy
+	void* s2 = New(String);
+
+	//check if strings' values are the same
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), Call(String, c_str, s2));
+
+	//append characters
+	Call(String, append, s1, "TEST");
+
+	//not equal
+	CU_ASSERT_STRING_NOT_EQUAL(Call(String, c_str, s1), Call(String, c_str, s2));
+
+	//append characters
+	Call(String, append, s2, "TEST");
+
+	//equal
+	CU_ASSERT_EQUAL(Call(String, compareTo, s1, s2), 0);
+
+	//free the string's resources
+	Delete(String, s2);
+	Delete(String, s1);
+
+	//check that the pointers are freed
+	CU_ASSERT_PTR_EQUAL(s1, NULL);
+	CU_ASSERT_PTR_EQUAL(s2, NULL);
+}
+
 void TestStringVFTableStringToString()
 {
 	//compile time check

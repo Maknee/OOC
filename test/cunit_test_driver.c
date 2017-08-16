@@ -49,6 +49,7 @@ int main()
 		!CU_add_test(objectSuite, "TestObjectCopyConstructor", TestObjectCopyConstructor) ||
 		!CU_add_test(objectSuite, "TestObjectDestructor", TestObjectDestructor) ||
 		!CU_add_test(objectSuite, "TestObjectVFTableEquals", TestObjectVFTableEquals) ||
+		!CU_add_test(objectSuite, "TestObjectVFTableCompareTo", TestObjectVFTableCompareTo) ||
 		!CU_add_test(objectSuite, "TestObjectVFTableObjectToString", TestObjectVFTableObjectToString))
     {
     	printf("%s\n", CU_get_error_msg());
@@ -77,6 +78,7 @@ int main()
 		!CU_add_test(containerSuite, "TestContainerCopyConstructor", TestContainerCopyConstructor) ||
 		!CU_add_test(containerSuite, "TestContainerDestructor", TestContainerDestructor) ||
 		!CU_add_test(containerSuite, "TestContainerVFTableEquals", TestContainerVFTableEquals) ||
+		!CU_add_test(containerSuite, "TestContainerVFTableCompareTo", TestContainerVFTableCompareTo) ||
 		!CU_add_test(containerSuite, "TestContainerVFTableContainerToString", TestContainerVFTableContainerToString))
 	{
 		printf("%s\n", CU_get_error_msg());
@@ -105,6 +107,7 @@ int main()
 		!CU_add_test(stringSuite, "TestStringCopyConstructor", TestStringCopyConstructor) ||
 		!CU_add_test(stringSuite, "TestStringDestructor", TestStringDestructor) ||
 		!CU_add_test(stringSuite, "TestStringVFTableEquals", TestStringVFTableEquals) ||
+		!CU_add_test(stringSuite, "TestStringVFTableCompareTo", TestStringVFTableCompareTo) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringToString", TestStringVFTableStringToString) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringAddFirstAllocatedSecondNot", TestStringVFTableStringAddFirstAllocatedSecondNot) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringAddSecondAllocatedFirstNot", TestStringVFTableStringAddSecondAllocatedFirstNot) ||
@@ -172,6 +175,9 @@ int main()
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableEquals", TestVectorStringVFTableEquals) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableNotSameSizeEquals", TestVectorStringVFTableNotSameSizeEquals) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableNotEquals", TestVectorStringVFTableNotEquals) ||
+		!CU_add_test(vectorSuite, "TestVectorStringVFTableCompareTo", TestVectorStringVFTableCompareTo) ||
+		!CU_add_test(vectorSuite, "TestVectorStringVFTableNotSameSizeCompareTo", TestVectorStringVFTableNotSameSizeCompareTo) ||
+		!CU_add_test(vectorSuite, "TestVectorStringVFTableNotCompareTo", TestVectorStringVFTableNotCompareTo) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableToString", TestVectorStringVFTableToString) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableAdd", TestVectorStringVFTableAdd) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableClear", TestVectorStringVFTableClear) ||

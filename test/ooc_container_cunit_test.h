@@ -92,6 +92,14 @@ void TestContainerDestructor();
 void TestContainerVFTableEquals();
 
 /**********************************************************************************************//**
+ * @fn	void TestContainerVFTableCompareTo();
+ *
+ * @brief	Tests container vf table compareTo() is pointing to the correct function
+ **************************************************************************************************/
+
+void TestContainerVFTableCompareTo();
+
+/**********************************************************************************************//**
  * @fn	void TestContainerVFTableContainerToString();
  *
  * @brief	Tests container vf table ContainerToString  is pointing to the correct function

@@ -184,6 +184,60 @@ void TestContainerVFTableEquals()
 	container = NULL;
 }
 
+void TestContainerVFTableCompareTo()
+{
+	//compile time check
+	CU_ASSERT_PTR_EQUAL(ContainervfTable.equals, ContainerEquals);
+
+	//manually allocates and deallocates an container
+	//this should __NOT__ be done in a real program
+	//since container is an abstract container
+
+	//allocate a new container
+	void* container = calloc(1, sizeof(struct _Container));
+
+	//allocate vftable
+	((Container)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
+
+	//call constructor to set up container
+	ContainerConstruct(container);
+
+	//allocate a new container
+	void* other_container = calloc(1, sizeof(struct _Container));
+
+	//allocate vftable
+	((Container)other_container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
+
+	//call constructor to set up container
+	ContainerConstruct(other_container);
+
+	//test for equals
+	CU_ASSERT_EQUAL(((ContainerVFTable*)((Container)container)->object.pVFTable)->compareTo(container, other_container), 0);
+	CU_ASSERT_EQUAL(((ContainerVFTable*)((Container)other_container)->object.pVFTable)->compareTo(other_container, container), 0);
+	CU_ASSERT_EQUAL(ContainerCompareTo(other_container, container), 0);
+
+	//call destructor
+	ContainerDestruct(other_container);
+
+	//free vftable
+	free(((Container)other_container)->object.pVFTable);
+
+	//free the string's resources
+	free(other_container);
+
+	//call destructor
+	ContainerDestruct(container);
+
+	//free vftable
+	free(((Container)container)->object.pVFTable);
+
+	//free the string's resources
+	free(container);
+
+	//NULL the pointer, so we don't have use after free vulns
+	container = NULL;
+}
+
 void TestContainerVFTableContainerToString()
 {
 	//compile time check

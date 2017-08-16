@@ -84,20 +84,20 @@ void TestStringCopyConstructor();
 void TestStringDestructor();
 
 /**********************************************************************************************//**
- * @fn	void TestStringVFTableStringToString();
- *
- * @brief	Tests string vf table StringToString  is pointing to the correct function
- **************************************************************************************************/
-
-void TestStringVFTableStringToString();
-
-/**********************************************************************************************//**
  * @fn	void TestStringVFTableEquals();
  *
  * @brief	Tests string vf table equals() is pointing to the correct function
  **************************************************************************************************/
 
 void TestStringVFTableEquals();
+
+/**********************************************************************************************//**
+ * @fn	void TestStringVFTableCompareTo();
+ *
+ * @brief	Tests string vf table equals() is pointing to the correct function
+ **************************************************************************************************/
+
+void TestStringVFTableCompareTo();
 
 /**********************************************************************************************//**
  * @fn	void TestStringVFTableStringToString();

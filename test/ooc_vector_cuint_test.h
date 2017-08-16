@@ -92,6 +92,31 @@ void TestVectorStringVFTableNotSameSizeEquals();
 void TestVectorStringVFTableNotEquals();
 
 /**********************************************************************************************//**
+ * @fn	void TestVectorStringVFTableCompareTo();
+ *
+ * @brief	Tests string vf table equals() is pointing to the correct function
+ **************************************************************************************************/
+
+void TestVectorStringVFTableCompareTo();
+
+/**********************************************************************************************//**
+ * @fn	void TestVectorStringVFTableNotSameSizeCompareTo();
+ *
+ * @brief	Tests string vf table equals() is pointing to the correct function
+ **************************************************************************************************/
+
+void TestVectorStringVFTableNotSameSizeCompareTo();
+
+/**********************************************************************************************//**
+ * @fn	void TestVectorStringVFTableNotCompareTo();
+ *
+ * @brief	Tests string vf table equals() is pointing to the correct function
+ **************************************************************************************************/
+
+void TestVectorStringVFTableNotCompareTo();
+
+
+/**********************************************************************************************//**
  * @fn	void TestVectorStringVFTableToString();
  *
  * @brief	Tests string vf table VectorStringToVectorString  is pointing to the correct function
