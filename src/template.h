@@ -208,7 +208,7 @@ const char* CheckForMove(const char* macro);
 
 #define CheckMove(...) CheckForMove(GET_FIRST_ARG((#__VA_ARGS__)))
 
-#define MoveCallExpansion(type, function, ...)                 \
+#define MoveCall(type, function, ...)                 \
 		(CheckForMove(GET_FIRST_ARG((#__VA_ARGS__)))           \
 		?                                                      \
 		(Call(type, CAT(move_, function), __VA_ARGS__))        \
@@ -216,7 +216,7 @@ const char* CheckForMove(const char* macro);
 		(Call(type, function, __VA_ARGS__))                    \
 		)                                                      \
 
-#define MoveCall(type, function, ...) MoveCallExpansion(type, function, __VA_ARGS__)
+//#define MoveCall(type, function, ...) MoveCallExpansion(type, function, __VA_ARGS__)
 
 
 #define Move(object) object

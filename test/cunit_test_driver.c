@@ -213,7 +213,9 @@ int main()
 	}
 
 	if (!CU_add_test(castsSuite, "TestValidUpcast", TestValidUpcast) ||
-		!CU_add_test(castsSuite, "TestValidDowncast", TestValidDowncast))
+		!CU_add_test(castsSuite, "TestValidDowncast", TestValidDowncast) ||
+		!CU_add_test(castsSuite, "TestMoveSemantics", TestMoveSemantics) ||
+		!CU_add_test(castsSuite, "TestInvalidDowncast", TestInvalidDowncast))
 	{
 		printf("%s\n", CU_get_error_msg());
 		CU_cleanup_registry();
