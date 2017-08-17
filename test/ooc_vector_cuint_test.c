@@ -883,7 +883,7 @@ void TestVectorIterator()
 
 	ForEach(String* s, Vector(String), vector1,
 	{
-		Call(String, set, *s, "l"));
+		Call(String, set, *s, "l");
 	})
 
 	//see that it is now l
