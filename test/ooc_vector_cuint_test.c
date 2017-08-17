@@ -860,3 +860,37 @@ void TestVectorStringVFTableReplace()
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
 }
+
+void TestVectorIterator()
+{
+	//Allocate a new vector of strings
+	Vector(String) vector1 = New(Vector(String));
+
+	//Add a new string to vector 1
+	String random_string1 = New(String);
+	Call(String, set, random_string1, "a");
+	Call(Vector(String), move_push_front, vector1, random_string1);
+
+	//Add a new string to vector 2
+	String random_string2 = New(String);
+	Call(String, set, random_string2, "b");
+	Call(Vector(String), move_push_front, vector1, random_string2);
+
+	//Add a new string to vector 3
+	String random_string3 = New(String);
+	Call(String, set, random_string3, "c");
+	Call(Vector(String), move_insert, vector1, random_string3, 1);
+
+	ForEach(String* s, Vector(String), vector1,
+	{
+		Call(String, set, *s, "l"));
+	})
+
+	//see that it is now l
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, random_string1), "l");
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, random_string2), "l");
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, random_string3), "l");
+
+	//Delete vector of strings
+	Delete(Vector(String), vector1);
+}

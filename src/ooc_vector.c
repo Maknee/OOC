@@ -151,7 +151,10 @@ void CAT(VectorConstruct, T)(void* this)
 	vectorVFTable.insert = &CAT(VectorInsert, T);
 	vectorVFTable.find = &CAT(VectorFind, T);
 	vectorVFTable.replace = &CAT(VectorReplace, T);
-	
+	vectorVFTable.begin = &CAT(VectorBegin, T);
+	vectorVFTable.next = &CAT(VectorNext, T);
+	vectorVFTable.end = &CAT(VectorEnd, T);
+
 	//cast to vector
 	VECTOR this_vector = (VECTOR)this;
 
@@ -801,6 +804,59 @@ bool CAT(VectorReplace, T)(void* this, T to_replace, T replacement)
 	}
 
 	return replaced;
+}
+
+CAT(CAT(Vector, T), Iterator) CAT(VectorBegin, T)(void* this)
+{
+	CHECK_NULL(this, NULL);
+
+	VECTOR this_vector = (VECTOR)this;
+
+	//allocate a iterator
+	CAT(CAT(Vector, T), Iterator) iterator = check_calloc(sizeof(struct CAT(CAT(_Vector, T), Iterator)));
+
+	iterator->index = 0;
+
+	//get beginning of vector
+	T* begin_of_vector = this_vector->data;
+
+	iterator->data = begin_of_vector;
+	return iterator;
+}
+
+bool CAT(VectorNext, T)(void* this, CAT(CAT(Vector, T), Iterator) iterator)
+{
+	CHECK_NULL(this, false);
+	CHECK_NULL(iterator, false);
+
+	VECTOR this_vector = (VECTOR)this;
+
+	iterator->index++;
+
+	//get beginning of vector
+	T* begin_of_vector = this_vector->data;
+
+	iterator->data = begin_of_vector + iterator->index;
+
+	return true;
+}
+
+CAT(CAT(Vector, T), Iterator) CAT(VectorEnd, T)(void* this, CAT(CAT(Vector, T), Iterator) iterator)
+{
+	CHECK_NULL(this, NULL);
+	CHECK_NULL(iterator, NULL);
+
+	VECTOR this_vector = (VECTOR)this;
+
+	//check if iterator is at the end
+	if (iterator->index == (int)this_vector->size)
+	{
+		iterator->index = NPOS;
+		iterator->data = NULL;
+		free(iterator);
+		return NULL;
+	}
+	return iterator;
 }
 
 /*============================================================================

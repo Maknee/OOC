@@ -65,6 +65,19 @@
 		}                                                       \
 
 /*============================================================================
+|   Vector Iterator
+*===========================================================================*/
+
+#define DEFINE_VECTOR_ITERATOR                                 \
+	typedef struct CAT(CAT(_Vector, T), Iterator)              \
+	{                                                          \
+		int index;                                             \
+		T* data;                                               \
+	} *CAT(CAT(Vector, T), Iterator);                          \
+
+DEFINE_VECTOR_ITERATOR
+
+/*============================================================================
 |   Object virtual function table definition
 *===========================================================================*/
 
@@ -93,6 +106,9 @@
  *			replace\n
  *			find\n
  *			replace\n
+ *			begin\n
+ *			next\n
+ *			end\n
  **************************************************************************************************/
 
 //have to use macro to define vftable because macros can't be
@@ -123,6 +139,9 @@
 		bool(*insert)(void* this, T item, int index);          \
 		int(*find) (void* this, T item);                       \
 		bool(*replace)(void* this, T to_replace, T replacement); \
+		CAT(CAT(Vector, T), Iterator) (*begin)(void* this);      \
+		bool(*next)(void* this, CAT(CAT(Vector, T), Iterator) iterator); \
+		CAT(CAT(Vector, T), Iterator) (*end)(void* this, CAT(CAT(Vector, T), Iterator) iterator); \
 	} CAT(CAT(Vector, T), VFTable);                            \
 
 DEFINE_VECTOR_VFTABLE
@@ -546,6 +565,47 @@ int CAT(VectorFind, T) (void* this, T item);
  **************************************************************************************************/
 
 bool CAT(VectorReplace, T)(void* this, T to_replace, T replacement);
+
+/**********************************************************************************************//**
+ * @fn		StringIterator StringBegin(void* this)
+ *
+ * @brief   Returns an iterator starting at the beginning of a string
+ *
+ *			@param[in] this
+ *			The object
+ *			@return
+ *			Returns a string iterator
+ **************************************************************************************************/
+
+CAT(CAT(Vector, T), Iterator) CAT(VectorBegin, T)(void* this);
+
+/**********************************************************************************************//**
+ * @fn		bool StringNext(void* this, StringIterator* iterator)
+ *
+ * @brief   Advances string iterator
+ *
+ *			@param[in] this
+ *			The object
+ *			@return
+ *			Returns a string iterator
+ **************************************************************************************************/
+
+bool CAT(VectorNext, T)(void* this, CAT(CAT(Vector, T), Iterator) iterator);
+
+/**********************************************************************************************//**
+ * @fn		StringIterator StringEnd(void* this)
+ *
+ * @brief   Returns an iterator starting at end of the string
+ *
+ *			@param[in] this
+ *			The object
+ *			@param [in] iterator
+ *			A pointer to an iterator
+ *			@return
+ *			Returns a string iterator
+ **************************************************************************************************/
+
+CAT(CAT(Vector, T), Iterator) CAT(VectorEnd, T)(void* this, CAT(CAT(Vector, T), Iterator) iterator);
 
 /*============================================================================
 |   Container virtual function table instance

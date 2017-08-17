@@ -60,7 +60,7 @@ int main()
 	Delete(Vector(String), vector);
 	*/
 	
-	/*
+	
 	//Allocate a new vector of strings
 	Vector(String) vector1 = New(Vector(String));
 
@@ -79,6 +79,11 @@ int main()
 	Call(String, set, random_string3, "c");
 	Call(Vector(String), insert, vector1, random_string3, 1);
 
+	ForEach(String* s, Vector(String), vector1,
+	{
+		printf("```` %s ````\n", Call(String, c_str, *s));
+	})
+
 	//Get the second index
 	//int error = 0;
 	//String equal_random_string3 = Call(Vector(String), get, vector1, 1, &error);
@@ -87,7 +92,7 @@ int main()
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
-	*/
+	
 #ifdef _MSC_VER
 	_CrtDumpMemoryLeaks();
 #endif

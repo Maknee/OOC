@@ -300,3 +300,10 @@ void TestVectorStringVFTableNPOSFind();
 
 void TestVectorStringVFTableReplace();
 
+/**********************************************************************************************//**
+ * @fn	void TestVectorIterator();
+ *	
+ * @brief	Tests string vf table string size.
+ **************************************************************************************************/
+
+void TestVectorIterator();

@@ -202,7 +202,8 @@ int main()
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableInsertOutOfBounds", TestVectorStringVFTableInsertOutOfBounds) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableFind", TestVectorStringVFTableFind) ||
 		!CU_add_test(vectorSuite, "TestVectorStringVFTableNPOSFind", TestVectorStringVFTableNPOSFind) ||
-		!CU_add_test(vectorSuite, "TestVectorStringVFTableReplace", TestVectorStringVFTableReplace))
+		!CU_add_test(vectorSuite, "TestVectorStringVFTableReplace", TestVectorStringVFTableReplace) ||
+		!CU_add_test(vectorSuite, "TestVectorIterator", TestVectorIterator))
 	{
 		printf("%s\n", CU_get_error_msg());
 		CU_cleanup_registry();
