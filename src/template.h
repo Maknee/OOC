@@ -175,6 +175,12 @@
 #define VectorExpansion(type) CAT(Vector, type)
 #define Vector(type) VectorExpansion(type)
 
+#define SetExpansion(type) CAT(Set, type)
+#define Set(type) SetExpansion(type)
+
+#define MapExpansion(type) CAT(Map, type)
+#define Map(type) MapExpansion(type)
+
 #define IteratorExpansion(type) CAT(type, Iterator)
 #define Iterator(type) IteratorExpansion(type)
 

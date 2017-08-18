@@ -234,10 +234,12 @@ typedef struct _StringIterator
  *			Returns a string iterator
  **************************************************************************************************/
 
+typedef struct _String *String;
+
 typedef struct _StringVFTable
 {
 	struct _ContainerVFTable;
-	bool (*set)(void* this, const char* item);
+	String (*set)(void* this, const char* item);
 	char* (*c_str)(void* this);
 	bool (*append)(void* this, const char* item);
 	bool (*insert)(void* this, void* item, int index);
@@ -525,7 +527,7 @@ size_t StringSize(void* this);
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn		bool StringSet(void* this, const char* item)
+ * @fn		String StringSet(void* this, const char* item)
  *
  * @brief	Concatenates the two strings
  * 			
@@ -547,7 +549,7 @@ size_t StringSize(void* this);
  * @todo	{find a case when the function should fail}
  **************************************************************************************************/
 
-bool StringSet(void* this, const char* item);
+String StringSet(void* this, const char* item);
 
 /**********************************************************************************************//**
  * @fn		char* StringC_Str(void* this)

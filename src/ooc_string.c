@@ -305,10 +305,10 @@ char* StringToString(void* this)
 |	Class member definitions
 *===========================================================================*/
 
-bool StringSet(void* this, const char* item)
+String StringSet(void* this, const char* item)
 {
-	CHECK_NULL(this, false);
-	CHECK_NULL(item, false);
+	CHECK_NULL(this, NULL);
+	CHECK_NULL(item, NULL);
 
 	String this_string = (String)this;
 
@@ -373,7 +373,7 @@ bool StringSet(void* this, const char* item)
 	//update the length
 	this_string->length = new_length;
 
-	return true;
+	return this_string;
 }
 
 bool StringAdd(void* this, void* item)

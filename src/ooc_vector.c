@@ -479,9 +479,9 @@ size_t CAT(VectorSize, T)(void* this)
 	return this_vector->size;
 }
 
-bool CAT(VectorSet, T)(void* this, const T* item, size_t num_elements)
+VECTOR CAT(VectorSet, T)(void* this, const T* item, size_t num_elements)
 {
-	CHECK_NULL(this, false);
+	CHECK_NULL(this, NULL);
 
 	//cast to vector
 	VECTOR this_vector = (VECTOR)this;
@@ -517,7 +517,7 @@ bool CAT(VectorSet, T)(void* this, const T* item, size_t num_elements)
 		this_vector->size++;
 	}
 
-	return true;
+	return this_vector;
 }
 
 T CAT(VectorGet, T)(void* this, int index, int* error_code)

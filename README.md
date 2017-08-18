@@ -63,7 +63,7 @@ int main()
 
 ## To Do
 
-[never] Document specifications
+[never done :(] Document specifications
 
 [x] Finish string class 
 
@@ -75,13 +75,21 @@ int main()
 
 [ URGENT ] Provide Examples
 
-[ Not sure ] Move semantics
+[ Unsafe ] Move semantics
 
-[80%] Vector class
+[x] Iterator
 
-[60%] Test Vector class
+[dunno] const Iterator
 
-[ :( ] Map class
+[ Make neater ] ForEach keyword
+
+[x] Vector class
+
+[x] Test Vector class
+
+[ :( ] Set class
+
+[ Will be done quicky if set is done ] Map class
 
 ## ?Wonderings, pondering, design decisions?
 

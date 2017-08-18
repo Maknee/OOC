@@ -16,5 +16,6 @@
 #include "container.h"
 #include "ooc_string.h"
 #include "ooc_vector_template.h"
+#include "ooc_set_template.h"
 
 

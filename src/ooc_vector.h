@@ -116,6 +116,9 @@ DEFINE_VECTOR_ITERATOR
 
 //also super class has to templated... not exactly what I call
 //perfect inheritence
+
+typedef struct CAT(_Vector, T) *CAT(Vector, T);
+
 #define DEFINE_VECTOR_VFTABLE                                  \
 	typedef struct CAT(CAT(_Vector, T), VFTable)               \
 	{                                                          \
@@ -129,7 +132,7 @@ DEFINE_VECTOR_ITERATOR
 		bool(*isEmpty)(void* this);                            \
 		size_t(*size)(void* this);                             \
 		                                                       \
-		bool(*set)(void* this, const T* item, size_t num_elements); \
+		CAT(Vector, T)(*set)(void* this, const T* item, size_t num_elements); \
 		T(*get)(void* this, int index, int* error_code);       \
 		bool(*move_push_front)(void* this, T item);            \
 		bool(*push_front)(void* this, T item);                 \
@@ -401,7 +404,7 @@ size_t CAT(VectorSize, T)(void* this);
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	bool CAT(VectorSet, T)(void* this, const T* item, size_t num_elements);
+ * @fn	CAT(Vector, T) CAT(VectorSet, T)(void* this, const T* item, size_t num_elements);
  *
  * @brief	Sets the vector to an array of elements
  *
@@ -415,7 +418,7 @@ size_t CAT(VectorSize, T)(void* this);
  * @return	True if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool CAT(VectorSet, T)(void* this, const T* item, size_t num_elements);
+CAT(Vector, T) CAT(VectorSet, T)(void* this, const T* item, size_t num_elements);
 
 /**********************************************************************************************//**
  * @fn	T CAT(VectorGet, T)(void* this, int index, int* error_code);
@@ -643,7 +646,7 @@ CAT(CAT(Vector, T), VFTable) CAT(CAT(Vector, T), vfTable);
 		size_t size;                                           \
 		size_t capacity;                                       \
 		T* data;                                               \
-	} *CAT(Vector, T);                                           \
+	} *CAT(Vector, T);                                         \
 
 DEFINE_VECTOR
 

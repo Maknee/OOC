@@ -60,7 +60,34 @@ int main()
 	Delete(Vector(String), vector);
 	*/
 	
+	/*
+	Set(int) s = New(Set(int));
+
+	Call(Set(int), insert, s, 1);
+	Call(Set(int), insert, s, 3);
+	Call(Set(int), insert, s, 5);
+	Call(Set(int), insert, s, 7);
+	Call(Set(int), insert, s, 2);
+	Call(Set(int), insert, s, 4);
+	Call(Set(int), insert, s, 6);
+	Call(Set(int), insert, s, 8);
 	
+
+	Call(Set(int), remove, s, 7);
+
+	SetTestint(s->root, 0);
+
+	Delete(Set(int), s);
+	*/
+
+	Set(String) s = New(Set(String));
+
+	Call(Set(String), insert, s, Call(String, set, New(String), "WWWW"));
+	Call(Set(String), insert, s, New(String));
+
+	Delete(Set(String), s);
+
+	/*
 	//Allocate a new vector of strings
 	Vector(String) vector1 = New(Vector(String));
 
@@ -92,6 +119,7 @@ int main()
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
+	*/
 	
 #ifdef _MSC_VER
 	_CrtDumpMemoryLeaks();
