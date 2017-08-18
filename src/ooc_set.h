@@ -525,8 +525,6 @@ bool CAT(SetNext, T)(void* this, CAT(CAT(Set, T), Iterator) iterator);
 
 CAT(CAT(Set, T), Iterator) CAT(SetEnd, T)(void* this, CAT(CAT(Set, T), Iterator) iterator);
 
-int CAT(SetTest, T)(CAT(SetNode, T));
-
 /*============================================================================
 |   Container virtual function table instance
 *===========================================================================*/
@@ -553,6 +551,8 @@ CAT(CAT(Set, T), VFTable) CAT(CAT(Set, T), vfTable);
 	} *CAT(SetNode, T);                                        \
 
 DEFINE_SETNODE
+
+int CAT(SetTest, T)(CAT(SetNode, T) root, int indent);
 
 /**********************************************************************************************//**
  * @def	DEFINE_SET

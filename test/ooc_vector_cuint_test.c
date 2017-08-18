@@ -476,7 +476,7 @@ void TestVectorStringVFTableSet()
 	Call(String, set, random_string2, "Testing");
 
 	//Check if two vectors are equal
-	CU_ASSERT_TRUE(Call(Vector(String), set, vector1, Initializer_List(String, random_string1, random_string2)));
+	CU_ASSERT_PTR_NOT_EQUAL(Call(Vector(String), set, vector1, Initializer_List(String, random_string1, random_string2)), NULL);
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);

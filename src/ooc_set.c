@@ -185,7 +185,7 @@ void* CAT(SetCopyConstruct, T)(void* this)
 	CHECK_NULL(this, NULL);
 
 	//cast to set
-	SET this_set = (SET)this;
+	//SET this_set = (SET)this;
 
 	//allocate a new set
 	void* copy = CAT(NewSet, T)();
@@ -363,25 +363,25 @@ int CAT(SetTest, T)(CAT(SetNode, T) root, int indent)
 
 		int right_height = CAT(SetTest, T)(right, indent + 4);
 
-		for (size_t i = 0; i < indent; i++)
+		for (int i = 0; i < indent; i++)
 		{
 			printf(" ");
 		}
 		if (right)
 		{
 			printf(" /\n");
-			for (size_t i = 0; i < indent; i++)
+			for (int i = 0; i < indent; i++)
 			{
 				printf(" ");
 			}
 		}
 
 		//print root
-		printf("%d\n", root->data);
+		//printf("%d\n", root->data);
 
 		if (left)
 		{
-			for (size_t i = 0; i < indent; i++)
+			for (int i = 0; i < indent; i++)
 			{
 				printf(" ");
 			}
@@ -784,7 +784,7 @@ CAT(CAT(Set, T), Iterator) CAT(SetBegin, T)(void* this)
 {
 	CHECK_NULL(this, NULL);
 
-	SET this_set = (SET)this;
+	//SET this_set = (SET)this;
 
 	//allocate a iterator
 	CAT(CAT(Set, T), Iterator) iterator = check_calloc(sizeof(struct CAT(CAT(_Set, T), Iterator)));
@@ -799,7 +799,7 @@ bool CAT(SetNext, T)(void* this, CAT(CAT(Set, T), Iterator) iterator)
 	CHECK_NULL(this, false);
 	CHECK_NULL(iterator, false);
 
-	SET this_set = (SET)this;
+	//SET this_set = (SET)this;
 
 	iterator->index++;
 
