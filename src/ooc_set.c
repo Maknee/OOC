@@ -458,7 +458,7 @@ bool CAT(SetRemove, T)(void* this, T item)
 	}
 
 	//imaginary parent's root
-	struct CAT(_SetNode, T) parent_root = { 0 };
+	struct CAT(_SetNode, T) parent_root = { .data = 0, .children = { NULL, NULL }, .color = BLACK };
 	parent_root.children[RIGHT] = this_set->root;
 
 	SETNODE grandparent = NULL;
@@ -602,7 +602,7 @@ bool CAT(SetMoveInsert, T)(void* this, T item)
 	else
 	{
 		//imaginary parent's root
-		struct CAT(_SetNode, T) parent_root = { 0 };
+		struct CAT(_SetNode, T) parent_root = { .data = 0, .children = { NULL, NULL }, .color = BLACK };
 		parent_root.children[RIGHT] = this_set->root;
 
 		SETNODE greatgrandparent = &parent_root;
@@ -690,7 +690,7 @@ bool CAT(SetInsert, T)(void* this, T item)
 	else
 	{
 		//imaginary parent's root
-		struct CAT(_SetNode, T) parent_root = { 0 };
+		struct CAT(_SetNode, T) parent_root = { .data = 0, .children = { NULL, NULL }, .color = BLACK };
 		parent_root.children[RIGHT] = this_set->root;
 
 		SETNODE greatgrandparent = &parent_root;
