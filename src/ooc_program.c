@@ -82,32 +82,6 @@ int main()
 	*/
 	
 
-	//Allocate a new set of strings
-	Set(String) set1 = New(Set(String));
-
-	//Add a new string to set 1
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "a");
-	Call(Set(String), move_insert, set1, random_string1);
-
-	//Add a new string to set 2
-	String random_string2 = New(String);
-	Call(String, set, random_string2, "b");
-	Call(Set(String), move_insert, set1, random_string2);
-
-	//Add a new string to set 3
-	String random_string3 = New(String);
-	Call(String, set, random_string3, "c");
-	Call(Set(String), move_insert, set1, random_string3);
-
-	String* equal_random_string3 = Call(Set(String), find, set1, random_string3);
-
-	//Check if they are equal
-	//CU_ASSERT_PTR_EQUAL(random_string3, *equal_random_string3);
-
-	//Delete set of strings
-	Delete(Set(String), set1);
-
 
 	/*
 	//Allocate a new vector of strings
