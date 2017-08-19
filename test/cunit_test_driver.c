@@ -232,6 +232,49 @@ int main()
 		return CU_get_error();
 	}
 
+	CU_pSuite setSuite = CU_add_suite("Set Testing Suite",
+		SetInitializeSuite,
+		SetCleanUpSuite);
+
+	if (setSuite == NULL)
+	{
+		printf("%s\n", CU_get_error_msg());
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	if (!CU_add_test(setSuite, "TestSetStringVFTableUninitializedCompleteObjectLocator", TestSetStringVFTableUninitializedCompleteObjectLocator) ||
+		!CU_add_test(setSuite, "TestSetStringNew", TestSetStringNew) ||
+		!CU_add_test(setSuite, "TestSetStringDelete", TestSetStringDelete) ||
+		!CU_add_test(setSuite, "TestSetStringCopyConstructor", TestSetStringCopyConstructor) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableEquals", TestSetStringVFTableEquals) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableNotSameSizeEquals", TestSetStringVFTableNotSameSizeEquals) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableNotEquals", TestSetStringVFTableNotEquals) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableCompareTo", TestSetStringVFTableCompareTo) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableNotSameSizeCompareTo", TestSetStringVFTableNotSameSizeCompareTo) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableNotCompareTo", TestSetStringVFTableNotCompareTo) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableToString", TestSetStringVFTableToString) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableAdd", TestSetStringVFTableAdd) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableClear", TestSetStringVFTableClear) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableRemove", TestSetStringVFTableRemove) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableContains", TestSetStringVFTableContains) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableNotContains", TestSetStringVFTableNotContains) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableCopy", TestSetStringVFTableCopy) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableIsEmpty", TestSetStringVFTableIsEmpty) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableSize", TestSetStringVFTableSize) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableSet", TestSetStringVFTableSet) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableMoveInsert", TestSetStringVFTableMoveInsert) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableInsert", TestSetStringVFTableInsert) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableFind", TestSetStringVFTableFind) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableNPOSFind", TestSetStringVFTableNPOSFind) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableReplace", TestSetStringVFTableReplace) ||
+		!CU_add_test(setSuite, "TestSetIterator", TestSetIterator))
+	{
+		printf("%s\n", CU_get_error_msg());
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
     // Run all tests using CUnit Basic interface which outputs
     // results to command-line.
     CU_basic_set_mode(CU_BRM_VERBOSE);

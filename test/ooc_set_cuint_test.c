@@ -65,26 +65,6 @@ void TestSetStringCopyConstructor()
 	CU_ASSERT_PTR_EQUAL(s2, NULL);
 }
 
-void TestSetStringRealloc()
-{
-	//Allocate a new set of strings
-	Set(String) set1 = New(Set(String));
-
-	//Add a new string to set 1
-	for (size_t i = 0; i < 30; i++)
-	{
-		String random_string1 = New(String);
-		Call(String, set, random_string1, "Testing");
-		Call(Set(String), move_insert, set1, random_string1);
-	}
-
-	//Check if set has a size of 30
-	CU_ASSERT_EQUAL(Call(Set(String), size, set1), 30);
-
-	//Delete set of strings
-	Delete(Set(String), set1);
-}
-
 void TestSetStringVFTableEquals()
 {
 	//Allocate a new set of strings

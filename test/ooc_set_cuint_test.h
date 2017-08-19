@@ -60,14 +60,6 @@ void TestSetStringDelete();
 void TestSetStringCopyConstructor();
 
 /**********************************************************************************************//**
- * @fn	void TestSetStringRealloc();
- *
- * @brief	Tests string vf table equals() is pointing to the correct function
- **************************************************************************************************/
-
-void TestSetStringRealloc();
-
-/**********************************************************************************************//**
  * @fn	void TestSetStringVFTableEquals();
  *
  * @brief	Tests string vf table equals() is pointing to the correct function
@@ -197,54 +189,6 @@ void TestSetStringVFTableSize();
 void TestSetStringVFTableSet();
 
 /**********************************************************************************************//**
- * @fn	void TestSetStringVFTableGet();
- *
- * @brief	Tests string vf table string remove.
- **************************************************************************************************/
-
-void TestSetStringVFTableGet();
-
-/**********************************************************************************************//**
- * @fn	void TestSetStringVFTableOutOfBoundsGet();
- *
- * @brief	Tests string vf table string remove allocated
- **************************************************************************************************/
-
-void TestSetStringVFTableOutOfBoundsGet();
-
-/**********************************************************************************************//**
- * @fn	void TestSetStringVFTableMovePushFront();
- *
- * @brief	Tests string vf table string remove npos
- **************************************************************************************************/
-
-void TestSetStringVFTableMovePushFront();
-
-/**********************************************************************************************//**
- * @fn	void TestSetStringVFTablePushFront();
- *
- * @brief	Tests string vf table string remove npos
- **************************************************************************************************/
-
-void TestSetStringVFTablePushFront();
-
-/**********************************************************************************************//**
- * @fn	void TestSetStringVFTableMovePushBack();
- *
- * @brief	Tests string vf table string contains.
- **************************************************************************************************/
-
-void TestSetStringVFTableMovePushBack();
-
-/**********************************************************************************************//**
- * @fn	void TestSetStringVFTablePushBack();
- *
- * @brief	Tests string vf table string contains.
- **************************************************************************************************/
-
-void TestSetStringVFTablePushBack();
-
-/**********************************************************************************************//**
  * @fn	void TestSetStringVFTableMoveInsert();
  *
  * @brief	Tests string vf table string copy.
@@ -253,28 +197,12 @@ void TestSetStringVFTablePushBack();
 void TestSetStringVFTableMoveInsert();
 
 /**********************************************************************************************//**
- * @fn	void TestSetStringVFTableMoveInsertOutOfBounds();
- *
- * @brief	Tests string vf table string copy.
- **************************************************************************************************/
-
-void TestSetStringVFTableMoveInsertOutOfBounds();
-
-/**********************************************************************************************//**
  * @fn	void TestSetStringVFTableInsert();
  *
  * @brief	Tests string vf table string copy.
  **************************************************************************************************/
 
 void TestSetStringVFTableInsert();
-
-/**********************************************************************************************//**
- * @fn	void TestSetStringVFTableInsertOutOfBounds();
- *
- * @brief	Tests string vf table string copy.
- **************************************************************************************************/
-
-void TestSetStringVFTableInsertOutOfBounds();
 
 /**********************************************************************************************//**
  * @fn	void TestSetStringVFTableFind();
