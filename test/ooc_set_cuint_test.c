@@ -73,6 +73,9 @@ void TestSetStringVFTableEquals()
 	//Allocate a new set of strings
 	Set(String) set2 = New(Set(String));
 
+	//Check if two sets are equal
+	CU_ASSERT_TRUE(Call(Set(String), equals, set1, set2));
+
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
@@ -161,6 +164,9 @@ void TestSetStringVFTableCompareTo()
 
 	//Allocate a new set of strings
 	Set(String) set2 = New(Set(String));
+
+	//Check if two sets are equal
+	CU_ASSERT_EQUAL(Call(Set(String), compareTo, set1, set2), 0);
 
 	//Add a new string to set 1
 	String random_string1 = New(String);

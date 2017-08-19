@@ -446,21 +446,15 @@ void CAT(SetDestruct, T)(void* this)
 
 static bool CAT(SetEqualsHelper, T)(SETNODE node1, SETNODE node2)
 {
-	//check if pointers are equal (CHECKS NULL AS WELL)
-	if (node1 == node2)
-	{
-		return true;
-	}
-
 	//if either are null, quit
-	if (node1 == NULL || node2 == NULL)
+	if (node1 == NULL && node2 == NULL)
 	{
-		return false;
+		return 0;
 	}
 
-	return T_EQUALS(node1->data, node2->data) &&
+	return (T_EQUALS(node1->data, node2->data) &&
 		CAT(SetEqualsHelper, T)(node1->children[LEFT], node2->children[LEFT]) &&
-		CAT(SetEqualsHelper, T)(node1->children[RIGHT], node2->children[RIGHT]);
+		CAT(SetEqualsHelper, T)(node1->children[RIGHT], node2->children[RIGHT]));
 }
 
 bool CAT(SetEquals, T)(void* this, void* other)
