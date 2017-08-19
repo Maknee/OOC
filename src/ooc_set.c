@@ -811,6 +811,9 @@ bool CAT(SetMoveInsert, T)(void* this, T item)
 			//if data is equal, then we stop
 			if (T_EQUALS(current_node->data, item))
 			{
+				//deallocate moved item
+				T_DELETE(&item);
+
 				break;
 			}
 
