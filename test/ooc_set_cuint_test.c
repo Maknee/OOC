@@ -113,7 +113,7 @@ void TestSetStringVFTableNotSameSizeEquals()
 
 	//Add a new string to set 3
 	String random_string3 = New(String);
-	Call(String, set, random_string3, "Testing");
+	Call(String, set, random_string3, "Testing1");
 	Call(Set(String), move_insert, set2, random_string3);
 
 	//Check if two sets are equal
@@ -202,7 +202,7 @@ void TestSetStringVFTableNotSameSizeCompareTo()
 
 	//Add a new string to set 3
 	String random_string3 = New(String);
-	Call(String, set, random_string3, "Testing");
+	Call(String, set, random_string3, "Testing1");
 	Call(Set(String), move_insert, set2, random_string3);
 
 	//Check if two sets are equal
@@ -436,7 +436,7 @@ void TestSetStringVFTableSize()
 	Call(Set(String), move_insert, set1, random_string2);
 
 	//Check if two sets are equal
-	CU_ASSERT_EQUAL(Call(Set(String), size, set1), 2);
+	CU_ASSERT_EQUAL(Call(Set(String), size, set1), 1);
 
 	//Delete set of strings
 	Delete(Set(String), set1);
