@@ -449,12 +449,12 @@ static bool CAT(SetEqualsHelper, T)(SETNODE node1, SETNODE node2)
 	//if either are null, quit
 	if (node1 == NULL && node2 == NULL)
 	{
-		return 0;
+		return true;
 	}
 
 	return (T_EQUALS(node1->data, node2->data) &&
 		CAT(SetEqualsHelper, T)(node1->children[LEFT], node2->children[LEFT]) &&
-		CAT(SetEqualsHelper, T)(node1->children[RIGHT], node2->children[RIGHT]));
+		CAT(SetEqualsHelper, T)(node1->children[RIGHT], node2->children[RIGHT]);
 }
 
 bool CAT(SetEquals, T)(void* this, void* other)
