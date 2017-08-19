@@ -75,7 +75,7 @@ void TestSetStringRealloc()
 	{
 		String random_string1 = New(String);
 		Call(String, set, random_string1, "Testing");
-		Call(Set(String), move_push_back, set1, random_string1);
+		Call(Set(String), move_insert, set1, random_string1);
 	}
 
 	//Check if set has a size of 30
@@ -96,12 +96,12 @@ void TestSetStringVFTableEquals()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Testing");
-	Call(Set(String), move_push_back, set2, random_string2);
+	Call(Set(String), move_insert, set2, random_string2);
 
 	//Check if two sets are equal
 	CU_ASSERT_TRUE(Call(Set(String), equals, set1, set2));
@@ -124,17 +124,17 @@ void TestSetStringVFTableNotSameSizeEquals()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Testing");
-	Call(Set(String), move_push_back, set2, random_string2);
+	Call(Set(String), move_insert, set2, random_string2);
 
 	//Add a new string to set 3
 	String random_string3 = New(String);
 	Call(String, set, random_string3, "Testing");
-	Call(Set(String), move_push_back, set2, random_string3);
+	Call(Set(String), move_insert, set2, random_string3);
 
 	//Check if two sets are equal
 	CU_ASSERT_FALSE(Call(Set(String), equals, set1, set2));
@@ -157,12 +157,12 @@ void TestSetStringVFTableNotEquals()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Tesssssting");
-	Call(Set(String), move_push_back, set2, random_string2);
+	Call(Set(String), move_insert, set2, random_string2);
 
 	//Check if two sets are equal
 	CU_ASSERT_FALSE(Call(Set(String), equals, set1, set2));
@@ -185,12 +185,12 @@ void TestSetStringVFTableCompareTo()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Testing");
-	Call(Set(String), move_push_back, set2, random_string2);
+	Call(Set(String), move_insert, set2, random_string2);
 
 	//Check if two sets are equal
 	CU_ASSERT_EQUAL(Call(Set(String), compareTo, set1, set2), 0);
@@ -213,17 +213,17 @@ void TestSetStringVFTableNotSameSizeCompareTo()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Testing");
-	Call(Set(String), move_push_back, set2, random_string2);
+	Call(Set(String), move_insert, set2, random_string2);
 
 	//Add a new string to set 3
 	String random_string3 = New(String);
 	Call(String, set, random_string3, "Testing");
-	Call(Set(String), move_push_back, set2, random_string3);
+	Call(Set(String), move_insert, set2, random_string3);
 
 	//Check if two sets are equal
 	CU_ASSERT_NOT_EQUAL(Call(Set(String), compareTo, set1, set2), 0);
@@ -246,12 +246,12 @@ void TestSetStringVFTableNotCompareTo()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Tesssssting");
-	Call(Set(String), move_push_back, set2, random_string2);
+	Call(Set(String), move_insert, set2, random_string2);
 
 	//Check if two sets are equal
 	CU_ASSERT_NOT_EQUAL(Call(Set(String), compareTo, set1, set2), 0);
@@ -315,7 +315,7 @@ void TestSetStringVFTableClear()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Clear set
 	Call(Set(String), clear, set1);
@@ -335,7 +335,7 @@ void TestSetStringVFTableRemove()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Test if thie string exists in set and remove
 	String random_string2 = New(String);
@@ -359,7 +359,7 @@ void TestSetStringVFTableContains()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Test if thie string exists in set and remove
 	String random_string2 = New(String);
@@ -380,7 +380,7 @@ void TestSetStringVFTableNotContains()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Test if thie string exists in set and remove
 	String random_string2 = New(String);
@@ -401,7 +401,7 @@ void TestSetStringVFTableCopy()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Copy set
 	Set(String) set2 = Call(Set(String), copy, set1);
@@ -424,7 +424,7 @@ void TestSetStringVFTableIsEmpty()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Test if thie string exists in set and remove
 	String random_string2 = New(String);
@@ -448,12 +448,12 @@ void TestSetStringVFTableSize()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Testing");
-	Call(Set(String), move_push_back, set1, random_string2);
+	Call(Set(String), move_insert, set1, random_string2);
 
 	//Check if two sets are equal
 	CU_ASSERT_EQUAL(Call(Set(String), size, set1), 2);
@@ -482,174 +482,6 @@ void TestSetStringVFTableSet()
 	Delete(Set(String), set1);
 }
 
-void TestSetStringVFTableGet()
-{
-	//Allocate a new set of strings
-	Set(String) set1 = New(Set(String));
-
-	//Add a new string to set 1
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
-
-	//Add a new string to set 2
-	String random_string2 = New(String);
-	Call(String, set, random_string2, "Testing");
-	Call(Set(String), move_push_back, set1, random_string2);
-
-	//Get the second index
-	int error = 0;
-	String equal_random_string2 = Call(Set(String), get, set1, 1, &error);
-
-	//Check if they are equal
-	CU_ASSERT_EQUAL(error, 0);
-	CU_ASSERT_PTR_EQUAL(random_string2, equal_random_string2);
-
-	//Delete set of strings
-	Delete(Set(String), set1);
-}
-
-void TestSetStringVFTableOutOfBoundsGet()
-{
-	//Allocate a new set of strings
-	Set(String) set1 = New(Set(String));
-
-	//Add a new string to set 1
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
-
-	//Add a new string to set 2
-	String random_string2 = New(String);
-	Call(String, set, random_string2, "Testing");
-	Call(Set(String), move_push_back, set1, random_string2);
-
-	//Get the second index
-	int error = 0;
-	String equal_random_string2 = Call(Set(String), get, set1, 80, &error);
-
-	//Check if they are equal
-	CU_ASSERT_EQUAL(error, 1);
-	CU_ASSERT_PTR_EQUAL(NULL, equal_random_string2);
-
-	//Delete set of strings
-	Delete(Set(String), set1);
-}
-
-void TestSetStringVFTableMovePushFront()
-{
-	//Allocate a new set of strings
-	Set(String) set1 = New(Set(String));
-
-	//Add a new string to set 1
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
-
-	//Add a new string to set 2
-	String random_string2 = New(String);
-	Call(String, set, random_string2, "Testing");
-	Call(Set(String), move_push_front, set1, random_string2);
-
-	//Get the first index
-	int error = 0;
-	String equal_random_string2 = Call(Set(String), get, set1, 0, &error);
-	//Check if they are equal
-	CU_ASSERT_EQUAL(error, 0);
-	CU_ASSERT_PTR_EQUAL(random_string2, equal_random_string2);
-
-	//Delete set of strings
-	Delete(Set(String), set1);
-}
-
-void TestSetStringVFTablePushFront()
-{
-	//Allocate a new set of strings
-	Set(String) set1 = New(Set(String));
-
-	//Add a new string to set 1
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Set(String), push_back, set1, random_string1);
-
-	//Add a new string to set 2
-	String random_string2 = New(String);
-	Call(String, set, random_string2, "Testing");
-	Call(Set(String), push_front, set1, random_string2);
-
-	//Get the first index
-	int error = 0;
-	String equal_random_string2 = Call(Set(String), get, set1, 0, &error);
-	//Check if they are equal
-	CU_ASSERT_EQUAL(error, 0);
-	CU_ASSERT_PTR_NOT_EQUAL(random_string2, equal_random_string2);
-
-	//Delete strings
-	Delete(String, random_string1);
-	Delete(String, random_string2);
-
-	//Delete set of strings
-	Delete(Set(String), set1);
-}
-
-void TestSetStringVFTableMovePushBack()
-{
-	//Allocate a new set of strings
-	Set(String) set1 = New(Set(String));
-
-	//Add a new string to set 1
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Set(String), move_push_back, set1, random_string1);
-
-	//Add a new string to set 2
-	String random_string2 = New(String);
-	Call(String, set, random_string2, "Testing");
-	Call(Set(String), move_push_back, set1, random_string2);
-
-	//Get the second index
-	int error = 0;
-	String equal_random_string2 = Call(Set(String), get, set1, 1, &error);
-
-	//Check if they are equal
-	CU_ASSERT_EQUAL(error, 0);
-	CU_ASSERT_PTR_EQUAL(random_string2, equal_random_string2);
-
-	//Delete set of strings
-	Delete(Set(String), set1);
-}
-
-void TestSetStringVFTablePushBack()
-{
-	//Allocate a new set of strings
-	Set(String) set1 = New(Set(String));
-
-	//Add a new string to set 1
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Set(String), push_back, set1, random_string1);
-
-	//Add a new string to set 2
-	String random_string2 = New(String);
-	Call(String, set, random_string2, "Testing");
-	Call(Set(String), push_back, set1, random_string2);
-
-	//Get the second index
-	int error = 0;
-	String equal_random_string2 = Call(Set(String), get, set1, 1, &error);
-
-	//Check if they are equal
-	CU_ASSERT_EQUAL(error, 0);
-	CU_ASSERT_PTR_NOT_EQUAL(random_string2, equal_random_string2);
-
-	//Delete strings
-	Delete(String, random_string1);
-	Delete(String, random_string2);
-
-	//Delete set of strings
-	Delete(Set(String), set1);
-}
-
 void TestSetStringVFTableMoveInsert()
 {
 	//Allocate a new set of strings
@@ -658,12 +490,12 @@ void TestSetStringVFTableMoveInsert()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "a");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "b");
-	Call(Set(String), move_push_back, set1, random_string2);
+	Call(Set(String), move_insert, set1, random_string2);
 
 	//Add a new string to set 3
 	String random_string3 = New(String);
@@ -690,12 +522,12 @@ void TestSetStringVFTableInsert()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "a");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "b");
-	Call(Set(String), move_push_back, set1, random_string2);
+	Call(Set(String), move_insert, set1, random_string2);
 
 	//Add a new string to set 3
 	String random_string3 = New(String);
@@ -725,12 +557,12 @@ void TestSetStringVFTableMoveInsertOutOfBounds()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "a");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "b");
-	Call(Set(String), move_push_back, set1, random_string2);
+	Call(Set(String), move_insert, set1, random_string2);
 
 	//Add a new string to set 3
 	String random_string3 = New(String);
@@ -752,12 +584,12 @@ void TestSetStringVFTableInsertOutOfBounds()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "a");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "b");
-	Call(Set(String), move_push_back, set1, random_string2);
+	Call(Set(String), move_insert, set1, random_string2);
 
 	//Add a new string to set 3
 	String random_string3 = New(String);
@@ -779,12 +611,12 @@ void TestSetStringVFTableFind()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "a");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "b");
-	Call(Set(String), move_push_back, set1, random_string2);
+	Call(Set(String), move_insert, set1, random_string2);
 
 	//Add a new string to set 3
 	String random_string3 = New(String);
@@ -807,12 +639,12 @@ void TestSetStringVFTableNPOSFind()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "a");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "b");
-	Call(Set(String), move_push_back, set1, random_string2);
+	Call(Set(String), move_insert, set1, random_string2);
 
 	//Add a new string to set 3
 	String random_string3 = New(String);
@@ -835,12 +667,12 @@ void TestSetStringVFTableReplace()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "a");
-	Call(Set(String), move_push_back, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "b");
-	Call(Set(String), move_push_back, set1, random_string2);
+	Call(Set(String), move_insert, set1, random_string2);
 
 	//Add a new string to set 3
 	String random_string3 = New(String);
@@ -869,12 +701,12 @@ void TestSetIterator()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "a");
-	Call(Set(String), move_push_front, set1, random_string1);
+	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "b");
-	Call(Set(String), move_push_front, set1, random_string2);
+	Call(Set(String), move_insert, set1, random_string2);
 
 	//Add a new string to set 3
 	String random_string3 = New(String);
