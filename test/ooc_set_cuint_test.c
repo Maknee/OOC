@@ -500,15 +500,12 @@ void TestSetStringVFTableMoveInsert()
 	//Add a new string to set 3
 	String random_string3 = New(String);
 	Call(String, set, random_string3, "c");
-	Call(Set(String), move_insert, set1, random_string3, 1);
+	Call(Set(String), move_insert, set1, random_string3);
 
-	//Get the second index
-	int error = 0;
-	String equal_random_string3 = Call(Set(String), get, set1, 1, &error);
+	String* equal_random_string3 = Call(Set(String), find, set1, random_string3);
 
 	//Check if they are equal
-	CU_ASSERT_EQUAL(error, 0);
-	CU_ASSERT_PTR_EQUAL(random_string3, equal_random_string3);
+	CU_ASSERT_PTR_EQUAL(random_string3, *equal_random_string3);
 
 	//Delete set of strings
 	Delete(Set(String), set1);
@@ -531,72 +528,16 @@ void TestSetStringVFTableInsert()
 
 	//Add a new string to set 3
 	String random_string3 = New(String);
-	Call(String, set, random_string3, "c");
-	Call(Set(String), insert, set1, random_string3, 1);
+	Call(String, set, random_string3, "b");
 
-	//Get the second index
-	int error = 0;
-	String equal_random_string3 = Call(Set(String), get, set1, 1, &error);
+	String* equal_random_string2 = Call(Set(String), find, set1, random_string3);
 
+	Delete(String, random_string3);
+	
 	//Check if they are equal
-	CU_ASSERT_EQUAL(error, 0);
-	CU_ASSERT_PTR_NOT_EQUAL(random_string3, equal_random_string3);
+	CU_ASSERT_PTR_NOT_EQUAL(random_string2, *equal_random_string2);
 
 	//Delete String
-	Delete(String, random_string3);
-
-	//Delete set of strings
-	Delete(Set(String), set1);
-}
-
-void TestSetStringVFTableMoveInsertOutOfBounds()
-{
-	//Allocate a new set of strings
-	Set(String) set1 = New(Set(String));
-
-	//Add a new string to set 1
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "a");
-	Call(Set(String), move_insert, set1, random_string1);
-
-	//Add a new string to set 2
-	String random_string2 = New(String);
-	Call(String, set, random_string2, "b");
-	Call(Set(String), move_insert, set1, random_string2);
-
-	//Add a new string to set 3
-	String random_string3 = New(String);
-	Call(String, set, random_string3, "c");
-	CU_ASSERT_FALSE(Call(Set(String), move_insert, set1, random_string3, 1000));
-
-	//failed to move_insert, so we have to handle
-	Delete(String, random_string3);
-
-	//Delete set of strings
-	Delete(Set(String), set1);
-}
-
-void TestSetStringVFTableInsertOutOfBounds()
-{
-	//Allocate a new set of strings
-	Set(String) set1 = New(Set(String));
-
-	//Add a new string to set 1
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "a");
-	Call(Set(String), move_insert, set1, random_string1);
-
-	//Add a new string to set 2
-	String random_string2 = New(String);
-	Call(String, set, random_string2, "b");
-	Call(Set(String), move_insert, set1, random_string2);
-
-	//Add a new string to set 3
-	String random_string3 = New(String);
-	Call(String, set, random_string3, "c");
-	CU_ASSERT_FALSE(Call(Set(String), insert, set1, random_string3, 1000));
-
-	//failed to insert, so we have to handle
 	Delete(String, random_string3);
 
 	//Delete set of strings
@@ -681,13 +622,10 @@ void TestSetStringVFTableReplace()
 	//replace random_string2
 	CU_ASSERT_TRUE(Call(Set(String), replace, set1, random_string2, random_string3));
 
-	int error = 0;
-	String tmp = Call(Set(String), get, set1, 1, &error);
+	String* tmp = Call(Set(String), find, set1, random_string3);
 	
-	CU_ASSERT_EQUAL(error, 0);
-
 	//see that it is now 3
-	CU_ASSERT_STRING_EQUAL(Call(String, c_str, tmp), Call(String, c_str, random_string3));
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, *tmp), Call(String, c_str, random_string3));
 
 	//Delete set of strings
 	Delete(Set(String), set1);
@@ -711,7 +649,7 @@ void TestSetIterator()
 	//Add a new string to set 3
 	String random_string3 = New(String);
 	Call(String, set, random_string3, "c");
-	Call(Set(String), move_insert, set1, random_string3, 1);
+	Call(Set(String), move_insert, set1, random_string3);
 
 	ForEach(String* s, Set(String), set1,
 	{
