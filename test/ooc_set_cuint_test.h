@@ -141,6 +141,14 @@ void TestSetStringVFTableClear();
 void TestSetStringVFTableRemove();
 
 /**********************************************************************************************//**
+ * @fn	void TestSetStringVFTableRemoveLots();
+ *
+ * @brief	Tests string vf table string add statically allocated.
+ **************************************************************************************************/
+
+void TestSetStringVFTableRemoveLots();
+
+/**********************************************************************************************//**
  * @fn	void TestSetStringVFTableContains();
  *
  * @brief	Tests string vf table string add newly allocated.
@@ -196,6 +204,8 @@ void TestSetStringVFTableSet();
 
 void TestSetStringVFTableMoveInsert();
 
+void TestSetStringVFTableMoveInsertLots();
+
 /**********************************************************************************************//**
  * @fn	void TestSetStringVFTableInsert();
  *
@@ -203,6 +213,8 @@ void TestSetStringVFTableMoveInsert();
  **************************************************************************************************/
 
 void TestSetStringVFTableInsert();
+
+void TestSetStringVFTableInsertLots();
 
 /**********************************************************************************************//**
  * @fn	void TestSetStringVFTableFind();

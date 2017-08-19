@@ -325,11 +325,52 @@ void TestSetStringVFTableRemove()
 	//Check if set is empty
 	CU_ASSERT_TRUE(Call(Set(String), isEmpty, set1));
 
+	//try to remove again
+	CU_ASSERT_FALSE(Call(Set(String), remove, set1, random_string2));
+
 	Delete(String, random_string2);
 
 	//Delete set of strings
 	Delete(Set(String), set1);
 }
+
+void TestSetStringVFTableRemoveLots()
+{
+	//Allocate a new set of int
+	Set(int) set1 = New(Set(int));
+
+	Call(Set(int), insert, set1, 1);
+	Call(Set(int), insert, set1, 123);
+	Call(Set(int), insert, set1, 512);
+	Call(Set(int), insert, set1, 55);
+	Call(Set(int), insert, set1, 43);
+	Call(Set(int), insert, set1, 2);
+	Call(Set(int), insert, set1, 65);
+	Call(Set(int), insert, set1, -12);
+	Call(Set(int), insert, set1, 32);
+	Call(Set(int), insert, set1, 532);
+	Call(Set(int), insert, set1, 231);
+	Call(Set(int), insert, set1, 36234);
+	Call(Set(int), insert, set1, 6345);
+
+	CU_ASSERT_TRUE(Call(Set(int), remove, set1, 1));
+	CU_ASSERT_TRUE(Call(Set(int), remove, set1, 123));
+	CU_ASSERT_TRUE(Call(Set(int), remove, set1, 512));
+	CU_ASSERT_TRUE(Call(Set(int), remove, set1, 55));
+	CU_ASSERT_TRUE(Call(Set(int), remove, set1, 43));
+	CU_ASSERT_TRUE(Call(Set(int), remove, set1, 2));
+	CU_ASSERT_TRUE(Call(Set(int), remove, set1, 65));
+	CU_ASSERT_TRUE(Call(Set(int), remove, set1, -12));
+	CU_ASSERT_TRUE(Call(Set(int), remove, set1, 32));
+	CU_ASSERT_TRUE(Call(Set(int), remove, set1, 532));
+	CU_ASSERT_TRUE(Call(Set(int), remove, set1, 231));
+	CU_ASSERT_TRUE(Call(Set(int), remove, set1, 36234));
+	CU_ASSERT_TRUE(Call(Set(int), remove, set1, 6345));
+
+	//Delete set of int
+	Delete(Set(int), set1);
+}
+
 
 void TestSetStringVFTableContains()
 {
@@ -339,6 +380,9 @@ void TestSetStringVFTableContains()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
+
+	CU_ASSERT_FALSE(Call(Set(String), contains, set1, random_string2));
+
 	Call(Set(String), move_insert, set1, random_string1);
 
 	//Test if thie string exists in set and remove
@@ -491,6 +535,35 @@ void TestSetStringVFTableMoveInsert()
 	Delete(Set(String), set1);
 }
 
+void TestSetStringVFTableMoveInsertLots()
+{
+	//Allocate a new set of int
+	Set(int) set1 = New(Set(int));
+
+	Call(Set(int), move_insert, set1, 13213);
+	Call(Set(int), move_insert, set1, 1123);
+	Call(Set(int), move_insert, set1, 5212);
+	Call(Set(int), move_insert, set1, 525);
+	Call(Set(int), move_insert, set1, 435);
+	Call(Set(int), move_insert, set1, 2);
+	Call(Set(int), move_insert, set1, 652);
+	Call(Set(int), move_insert, set1, -12);
+	Call(Set(int), move_insert, set1, 32);
+	Call(Set(int), move_insert, set1, 532);
+	Call(Set(int), move_insert, set1, 231);
+	Call(Set(int), move_insert, set1, 36234);
+	Call(Set(int), move_insert, set1, 6345);
+	Call(Set(int), move_insert, set1, 23);
+	Call(Set(int), move_insert, set1, 532);
+	Call(Set(int), move_insert, set1, 56);
+	Call(Set(int), move_insert, set1, 221);
+	Call(Set(int), move_insert, set1, 31234);
+	Call(Set(int), move_insert, set1, 6345);
+
+	//Delete set of int
+	Delete(Set(int), set1);
+}
+
 void TestSetStringVFTableInsert()
 {
 	//Allocate a new set of strings
@@ -521,6 +594,35 @@ void TestSetStringVFTableInsert()
 	Delete(Set(String), set1);
 }
 
+void TestSetStringVFTableInsertLots()
+{
+	//Allocate a new set of int
+	Set(int) set1 = New(Set(int));
+
+	Call(Set(int), insert, set1, 13213);
+	Call(Set(int), insert, set1, 1123);
+	Call(Set(int), insert, set1, 5212);
+	Call(Set(int), insert, set1, 525);
+	Call(Set(int), insert, set1, 435);
+	Call(Set(int), insert, set1, 2);
+	Call(Set(int), insert, set1, 652);
+	Call(Set(int), insert, set1, -12);
+	Call(Set(int), insert, set1, 32);
+	Call(Set(int), insert, set1, 532);
+	Call(Set(int), insert, set1, 231);
+	Call(Set(int), insert, set1, 36234);
+	Call(Set(int), insert, set1, 6345);
+	Call(Set(int), insert, set1, 23);
+	Call(Set(int), insert, set1, 532);
+	Call(Set(int), insert, set1, 56);
+	Call(Set(int), insert, set1, 221);
+	Call(Set(int), insert, set1, 31234);
+	Call(Set(int), insert, set1, 6345);
+
+	//Delete set of int
+	Delete(Set(int), set1);
+}
+
 void TestSetStringVFTableFind()
 {
 	//Allocate a new set of strings
@@ -529,6 +631,9 @@ void TestSetStringVFTableFind()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "a");
+	
+	CU_ASSERT_PTR_EQUAL(*(Call(Set(String), find, set1, random_string1)), NULL);
+	
 	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
@@ -585,11 +690,17 @@ void TestSetStringVFTableReplace()
 	//Add a new string to set 1
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "a");
+
+	CU_ASSERT_FALSE(Call(Set(String), replace, set1, random_string1, random_string1));
+
 	Call(Set(String), move_insert, set1, random_string1);
 
 	//Add a new string to set 2
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "b");
+
+	CU_ASSERT_FALSE(Call(Set(String), replace, set1, random_string2, random_string1));
+
 	Call(Set(String), move_insert, set1, random_string2);
 
 	//Add a new string to set 3

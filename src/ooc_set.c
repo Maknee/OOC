@@ -200,6 +200,7 @@ static SETNODE CAT(SetCopyNode, T)(SETNODE node)
 
 #define CopyNode(node) CAT(SetCopyNode, T)(node)
 
+/*
 int CAT(SetTest, T)(CAT(SetNode, T) root, int indent)
 {
 	if (root == NULL)
@@ -271,6 +272,8 @@ int CAT(SetTest, T)(CAT(SetNode, T) root, int indent)
 		}
 	}
 }
+*/
+
 
 /*============================================================================
 |	New Operator
@@ -482,22 +485,15 @@ bool CAT(SetEquals, T)(void* this, void* other)
 
 static int CAT(SetCompareToHelper, T)(SETNODE node1, SETNODE node2)
 {
-	//check if pointers are equal (CHECKS NULL AS WELL)
-	if (node1 == node2)
+	//if either are null, quit
+	if (node1 == NULL && node2 == NULL)
 	{
 		return 0;
 	}
 
-	//if either are null, quit
-	if (node1 == NULL || node2 == NULL)
-	{
-		//dunno if this will affect anything by returning -1
-		return -1;
-	}
-
-	return T_COMPARE_TO(node1->data, node2->data) &&
+	return (T_COMPARE_TO(node1->data, node2->data) &&
 		CAT(SetEqualsHelper, T)(node1->children[LEFT], node2->children[LEFT]) &&
-		CAT(SetEqualsHelper, T)(node1->children[RIGHT], node2->children[RIGHT]);
+		CAT(SetEqualsHelper, T)(node1->children[RIGHT], node2->children[RIGHT]));
 }
 
 int CAT(SetCompareTo, T)(void* this, void* other)

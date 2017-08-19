@@ -257,6 +257,7 @@ int main()
 		!CU_add_test(setSuite, "TestSetStringVFTableAdd", TestSetStringVFTableAdd) ||
 		!CU_add_test(setSuite, "TestSetStringVFTableClear", TestSetStringVFTableClear) ||
 		!CU_add_test(setSuite, "TestSetStringVFTableRemove", TestSetStringVFTableRemove) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableRemoveLots", TestSetStringVFTableRemoveLots) ||
 		!CU_add_test(setSuite, "TestSetStringVFTableContains", TestSetStringVFTableContains) ||
 		!CU_add_test(setSuite, "TestSetStringVFTableNotContains", TestSetStringVFTableNotContains) ||
 		!CU_add_test(setSuite, "TestSetStringVFTableCopy", TestSetStringVFTableCopy) ||
@@ -264,7 +265,9 @@ int main()
 		!CU_add_test(setSuite, "TestSetStringVFTableSize", TestSetStringVFTableSize) ||
 		!CU_add_test(setSuite, "TestSetStringVFTableSet", TestSetStringVFTableSet) ||
 		!CU_add_test(setSuite, "TestSetStringVFTableMoveInsert", TestSetStringVFTableMoveInsert) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableMoveInsertLots", TestSetStringVFTableMoveInsertLots) ||
 		!CU_add_test(setSuite, "TestSetStringVFTableInsert", TestSetStringVFTableInsert) ||
+		!CU_add_test(setSuite, "TestSetStringVFTableInsertLots", TestSetStringVFTableInsertLots) ||
 		!CU_add_test(setSuite, "TestSetStringVFTableFind", TestSetStringVFTableFind) ||
 		!CU_add_test(setSuite, "TestSetStringVFTableNPOSFind", TestSetStringVFTableNPOSFind) ||
 		!CU_add_test(setSuite, "TestSetStringVFTableReplace", TestSetStringVFTableReplace) ||
