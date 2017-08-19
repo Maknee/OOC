@@ -381,7 +381,7 @@ void TestSetStringVFTableContains()
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
 
-	CU_ASSERT_FALSE(Call(Set(String), contains, set1, random_string2));
+	CU_ASSERT_FALSE(Call(Set(String), contains, set1, random_string1));
 
 	Call(Set(String), move_insert, set1, random_string1);
 
@@ -632,7 +632,7 @@ void TestSetStringVFTableFind()
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "a");
 	
-	CU_ASSERT_PTR_EQUAL(*(Call(Set(String), find, set1, random_string1)), NULL);
+	CU_ASSERT_PTR_EQUAL((Call(Set(String), find, set1, random_string1)), NULL);
 	
 	Call(Set(String), move_insert, set1, random_string1);
 
