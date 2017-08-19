@@ -54,6 +54,224 @@ CompleteObjectLocator CAT(setCompleteObjectLocator, T) =
 	.pClassHierarchyDescriptor = &CAT(setClassHierarchyDescriptor, T)
 };
 
+
+/*============================================================================
+|	Helper functions
+*===========================================================================*/
+
+static int CAT(SetIsRed, T)(SETNODE node)
+{
+	return (node != NULL && node->color) ? (RED) : (BLACK);
+}
+
+#define IsRed(node) CAT(SetIsRed, T)(node)
+
+/*============================================================================
+|	Example Rotate left
+|	   1
+|     2 4
+|      3 5
+|
+| first line
+|	   1 <--- old root
+|     2 4 <--- new root
+|      3 5
+|
+| second line
+|	   1 <--- old root
+|     2 3            4 <--- new root
+|                     5
+|
+| third line
+|	   4 <--- new root
+|     1 5
+|    2 3
+|*===========================================================================*/
+
+static SETNODE CAT(SetSingleRotate, T)(SETNODE root, int direction)
+{
+	//get the opposite node
+	SETNODE new_root = root->children[!direction];
+
+	//switch over opposite node's child as old root's child
+	root->children[!direction] = new_root->children[direction];
+
+	//update the new root to set the old root as its child
+	new_root->children[direction] = root;
+
+	//update the colors, so the tree is valid
+	root->color = RED;
+	new_root->color = BLACK;
+
+	return new_root;
+}
+
+#define SingleRotate(root, direction) CAT(SetSingleRotate, T)(root, direction)
+
+/*============================================================================
+|	Example Double rotate left
+|	                     5 <--- old root
+|	                    / \
+|                      3   7
+|	                  / \ / \
+|	                 2  4 6  9
+|                           / \
+|                          8   10
+|
+| first line
+|	                     5
+|	                    / \
+|                      3   7 <--- current root
+|	                  / \ / \
+|	                 2  4 6  9
+|                           / \
+|                          8   10
+|
+|	                     5 <---old root sets new current root to be its child
+|	                    / \
+|                      3   6 <--- new current root
+|	                  / \   \
+|	                 2   4   7
+|                             \
+|                              9
+|                             / \
+|                            8   10
+|
+| second line
+|                          6 <--- new current root
+|	                      / \
+|	       old root ---> 5   7
+|                       /     \
+|                      3       9
+|                     / \     / \
+|                    2   4   8   10
+|*===========================================================================*/
+
+static SETNODE CAT(SetDoubleRotate, T)(SETNODE root, int direction)
+{
+	//opposite rotate child?
+	root->children[!direction] = SingleRotate(root->children[!direction], !direction);
+
+	//rotate root
+	return SingleRotate(root, direction);
+}
+
+#define DoubleRotate(root, direction) CAT(SetDoubleRotate, T)(root, direction)
+
+static SETNODE CAT(SetNewMoveNode, T)(T* data_ptr)
+{
+	SETNODE new_node = check_calloc(sizeof(struct CAT(_SetNode, T)));
+
+	new_node->data = *data_ptr;
+	new_node->children[LEFT] = NULL;
+	new_node->children[RIGHT] = NULL;
+	new_node->color = RED;
+
+	return new_node;
+}
+
+#define NewMoveNode(data_ptr) CAT(SetNewMoveNode, T)(data_ptr)
+
+static SETNODE CAT(SetNewNode, T)(T* data_ptr)
+{
+	SETNODE new_node = check_calloc(sizeof(struct CAT(_SetNode, T)));
+
+	new_node->data = T_COPY(data_ptr);
+	new_node->children[LEFT] = NULL;
+	new_node->children[RIGHT] = NULL;
+	new_node->color = RED;
+
+	return new_node;
+}
+
+#define NewNode(data_ptr) CAT(SetNewNode, T)(data_ptr)
+
+static SETNODE CAT(SetCopyNode, T)(SETNODE node)
+{
+	SETNODE new_node = check_calloc(sizeof(struct CAT(_SetNode, T)));
+
+	new_node->data = T_COPY(&node->data);
+	new_node->children[LEFT] = node->children[LEFT];
+	new_node->children[RIGHT] = node->children[RIGHT];
+	new_node->color = node->color;
+
+	return new_node;
+}
+
+#define CopyNode(node) CAT(SetCopyNode, T)(node)
+
+int CAT(SetTest, T)(CAT(SetNode, T) root, int indent)
+{
+	if (root == NULL)
+	{
+		return 1;
+	}
+	else
+	{
+		SETNODE left = root->children[LEFT];
+		SETNODE right = root->children[RIGHT];
+
+		if (IsRed(root))
+		{
+			if (IsRed(left) || IsRed(right))
+			{
+				puts("RED VIOLATION");
+				return 0;
+			}
+		}
+
+		if ((left != NULL && T_COMPARE_TO(left->data, root->data) >= 0) || (right != NULL && T_COMPARE_TO(right->data, root->data) <= 0))
+		{
+			puts("BINARY TREE VIOLATION");
+			return 0;
+		}
+
+		int right_height = CAT(SetTest, T)(right, indent + 4);
+
+		for (int i = 0; i < indent; i++)
+		{
+			printf(" ");
+		}
+		if (right)
+		{
+			printf(" /\n");
+			for (int i = 0; i < indent; i++)
+			{
+				printf(" ");
+			}
+		}
+
+		//print root
+		printf("%d\n", root->data);
+
+		if (left)
+		{
+			for (int i = 0; i < indent; i++)
+			{
+				printf(" ");
+			}
+			printf(" \\\n");
+		}
+
+		int left_height = CAT(SetTest, T)(left, indent + 4);
+
+		if (left_height != 0 && right_height != 0 && left_height != right_height)
+		{
+			puts("BLACK VIOLATION");
+			return 0;
+		}
+
+		if (left_height != 0 && right_height != 0)
+		{
+			return IsRed(root) ? left_height : left_height + 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+}
+
 /*============================================================================
 |	New Operator
 *===========================================================================*/
@@ -116,7 +334,6 @@ void CAT(SetConstruct, T)(void* this)
 	//Set the vtable's complete object locator to complete the RTTI circle
 	setVFTable.pCompleteObjectLocator = &CAT(setCompleteObjectLocator, T);
 
-	/*
 	//Set the equals function
 	setVFTable.equals = &CAT(SetEquals, T);
 
@@ -140,12 +357,7 @@ void CAT(SetConstruct, T)(void* this)
 	//Initialize class member methods
 	//==========================
 
-	setVFTable.set = &CAT(SetSet, T);
-	setVFTable.get = &CAT(SetGet, T);
-	setVFTable.move_push_front = &CAT(SetMovePushFront, T);
-	setVFTable.push_front = &CAT(SetPushFront, T);
-	setVFTable.move_push_back = &CAT(SetMovePushBack, T);
-	setVFTable.push_back = &CAT(SetPushBack, T);
+	setVFTable.set = &CAT(Set_Set, T);
 	setVFTable.move_insert = &CAT(SetMoveInsert, T);
 	setVFTable.insert = &CAT(SetInsert, T);
 	setVFTable.find = &CAT(SetFind, T);
@@ -153,10 +365,6 @@ void CAT(SetConstruct, T)(void* this)
 	setVFTable.begin = &CAT(SetBegin, T);
 	setVFTable.next = &CAT(SetNext, T);
 	setVFTable.end = &CAT(SetEnd, T);
-	*/
-	
-	setVFTable.insert = &CAT(SetInsert, T);
-	setVFTable.remove = &CAT(SetRemove, T);
 
 	//cast to set
 	SET this_set = (SET)this;
@@ -180,15 +388,34 @@ void CAT(SetConstruct, T)(void* this)
 |	Copy Constructor
 *===========================================================================*/
 
+static CAT(SetCopyHelper, T)(SETNODE node, SETNODE copy_node)
+{
+	if (node != NULL)
+	{
+		copy_node = CopyNode(node);
+		copy_node->children[LEFT] = CAT(SetCopyHelper, T)(node->children[LEFT], copy_node->children[LEFT]);
+		copy_node->children[RIGHT] = CAT(SetCopyHelper, T)(node->children[RIGHT], copy_node->children[RIGHT]);
+	}
+}
+
 void* CAT(SetCopyConstruct, T)(void* this)
 {
 	CHECK_NULL(this, NULL);
 
 	//cast to set
-	//SET this_set = (SET)this;
+	SET this_set = (SET)this;
 
 	//allocate a new set
 	void* copy = CAT(NewSet, T)();
+
+	//cast to set
+	SET copy_set = (SET)copy;
+
+	//copy the contents of the string to the copied set except for vftable (which is contained in Container struct inside the String struct)
+	copy_set->size = this_set->size;
+
+	//copy tree
+	CAT(SetCopyHelper, T)(this_set->root, copy_set->root);
 
 	return copy;
 }
@@ -201,222 +428,74 @@ void CAT(SetDestruct, T)(void* this)
 {
 	CHECK_NULL_NO_RET(this);
 
+	//call super destructor
+	ContainerDestruct(this);
 
-}
-
-/*============================================================================
-|	Helper functions
-*===========================================================================*/
-
-static int CAT(SetIsRed, T)(SETNODE node)
-{
-	return (node != NULL && node->color) ? (RED) : (BLACK);
-}
-
-#define IsRed(node) CAT(SetIsRed, T)(node)
-
-/*============================================================================
-|	Example Rotate left
-|	   1
-|     2 4
-|      3 5
-|
-| first line
-|	   1 <--- old root
-|     2 4 <--- new root
-|      3 5
-|
-| second line
-|	   1 <--- old root
-|     2 3            4 <--- new root
-|                     5
-| 
-| third line
-|	   4 <--- new root
-|     1 5
-|    2 3 
-|*===========================================================================*/
-
-static SETNODE CAT(SetSingleRotate, T)(SETNODE root, int direction)
-{
-	//get the opposite node
-	SETNODE new_root = root->children[!direction];
-	
-	//switch over opposite node's child as old root's child
-	root->children[!direction] = new_root->children[direction];
-
-	//update the new root to set the old root as its child
-	new_root->children[direction] = root;
-
-	//update the colors, so the tree is valid
-	root->color = RED;
-	new_root->color = BLACK;
-
-	return new_root;
-}
-
-#define SingleRotate(root, direction) CAT(SetSingleRotate, T)(root, direction)
-
-/*============================================================================
-|	Example Double rotate left
-|	                     5 <--- old root
-|	                    / \
-|                      3   7
-|	                  / \ / \            
-|	                 2  4 6  9
-|                           / \
-|                          8   10
-|
-| first line
-|	                     5 
-|	                    / \
-|                      3   7 <--- current root
-|	                  / \ / \
-|	                 2  4 6  9
-|                           / \
-|                          8   10
-|
-|	                     5 <---old root sets new current root to be its child
-|	                    / \
-|                      3   6 <--- new current root
-|	                  / \   \
-|	                 2   4   7
-|                             \
-|                              9
-|                             / \
-|                            8   10
-|
-| second line
-|                          6 <--- new current root
-|	                      / \
-|	       old root ---> 5   7
-|                       /     \
-|                      3       9
-|                     / \     / \
-|                    2   4   8   10
-|*===========================================================================*/
-
-static SETNODE CAT(SetDoubleRotate, T)(SETNODE root, int direction)
-{
-	//opposite rotate child?
-	root->children[!direction] = SingleRotate(root->children[!direction], !direction);
-
-	//rotate root
-	return SingleRotate(root, direction);
-}
-
-#define DoubleRotate(root, direction) CAT(SetDoubleRotate, T)(root, direction)
-
-static SETNODE CAT(SetNewMoveNode, T)(T* data_ptr)
-{
-	SETNODE new_node = check_calloc(sizeof(struct CAT(_SetNode, T)));
-
-	new_node->data = *data_ptr;
-	new_node->children[LEFT] = NULL;
-	new_node->children[RIGHT] = NULL;
-	new_node->color = RED;
-	
-	return new_node;
-}
-
-#define NewMoveNode(data_ptr) CAT(SetNewMoveNode, T)(data_ptr)
-
-static SETNODE CAT(SetNewNode, T)(T* data_ptr)
-{
-	SETNODE new_node = check_calloc(sizeof(struct CAT(_SetNode, T)));
-
-	new_node->data = T_COPY(data_ptr);
-	new_node->children[LEFT] = NULL;
-	new_node->children[RIGHT] = NULL;
-	new_node->color = RED;
-
-	return new_node;
-}
-
-#define NewNode(data_ptr) CAT(SetNewNode, T)(data_ptr)
-
-int CAT(SetTest, T)(CAT(SetNode, T) root, int indent)
-{
-	if (root == NULL)
-	{
-		return 1;
-	}
-	else
-	{
-		SETNODE left = root->children[LEFT];
-		SETNODE right = root->children[RIGHT];
-
-		if (IsRed(root))
-		{
-			if (IsRed(left) || IsRed(right))
-			{
-				puts("RED VIOLATION");
-				return 0;
-			}
-		}
-
-		if ((left != NULL && T_COMPARE_TO(left->data, root->data) >= 0) || (right != NULL && T_COMPARE_TO(right->data, root->data) <= 0))
-		{
-			puts("BINARY TREE VIOLATION");
-			return 0;
-		}
-
-		int right_height = CAT(SetTest, T)(right, indent + 4);
-
-		for (int i = 0; i < indent; i++)
-		{
-			printf(" ");
-		}
-		if (right)
-		{
-			printf(" /\n");
-			for (int i = 0; i < indent; i++)
-			{
-				printf(" ");
-			}
-		}
-
-		//print root
-		//printf("%d\n", root->data);
-
-		if (left)
-		{
-			for (int i = 0; i < indent; i++)
-			{
-				printf(" ");
-			}
-			printf(" \\\n");
-		}
-
-		int left_height = CAT(SetTest, T)(left, indent + 4);
-
-		if (left_height != 0 && right_height != 0 && left_height != right_height)
-		{
-			puts("BLACK VIOLATION");
-			return 0;
-		}
-
-		if (left_height != 0 && right_height != 0)
-		{
-			return IsRed(root) ? left_height : left_height + 1;
-		}
-		else
-		{
-			return 0;
-		}
-	}
+	//call clear
+	CAT(SetClear, T)(this);
 }
 
 /*============================================================================
 |	Overridden member function definitions
 *===========================================================================*/
 
+static CAT(SetEqualsHelper, T)(SETNODE node1, SETNODE node2)
+{
+	//check if pointers are equal (CHECKS NULL AS WELL)
+	if (node1 == node2)
+	{
+		return true;
+	}
+
+	//if either are null, quit
+	if (node1 == NULL || node2 == NULL)
+	{
+		return false;
+	}
+
+	return T_EQUALS(node1->data, node2->data) &&
+		CAT(SetEqualsHelper, T)(node1->children[LEFT], node2->children[LEFT]) &&
+		CAT(SetEqualsHelper, T)(node1->children[RIGHT], node2->children[RIGHT]);
+}
+
 bool CAT(SetEquals, T)(void* this, void* other)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(other, false);
+	
+	//cast to set
+	SET this_set = (SET)this;
 
-	return true;
+	//cast to set
+	SET other_set = (SET)other;
+
+	//Check if the sizes are the same
+	if (this_set->size != other_set->size)
+	{
+		return false;
+	}
+
+	return CAT(SetEqualsHelper, T)(this_set->root, other_set->root);
+}
+
+static CAT(SetCompareToHelper, T)(SETNODE node1, SETNODE node2)
+{
+	//check if pointers are equal (CHECKS NULL AS WELL)
+	if (node1 == node2)
+	{
+		return 0;
+	}
+
+	//if either are null, quit
+	if (node1 == NULL || node2 == NULL)
+	{
+		//dunno if this will affect anything by returning -1
+		return -1;
+	}
+
+	return T_COMPARE_TO(node1->data, node2->data) &&
+		CAT(SetEqualsHelper, T)(node1->children[LEFT], node2->children[LEFT]) &&
+		CAT(SetEqualsHelper, T)(node1->children[RIGHT], node2->children[RIGHT]);
 }
 
 int CAT(SetCompareTo, T)(void* this, void* other)
@@ -424,9 +503,20 @@ int CAT(SetCompareTo, T)(void* this, void* other)
 	CHECK_NULL(this, false);
 	CHECK_NULL(other, false);
 
-	
-	
-	return 0;
+	//cast to set
+	SET this_set = (SET)this;
+
+	//cast to set
+	SET other_set = (SET)other;
+
+	//Check if the sizes are the same
+	if (this_set->size != other_set->size)
+	{
+		//should work?
+		return (int)this_set->size - (int)other_set->size;
+	}
+
+	return CAT(SetCompareToHelper, T)(this_set->root, other_set->root);
 }
 
 char* CAT(SetToString, T)(void* this)
@@ -438,12 +528,39 @@ char* CAT(SetToString, T)(void* this)
 
 bool CAT(SetAdd, T)(void* this, T item)
 {
-	return true;
+	return CAT(SetInsert, T)(this, item);
 }
 
 void CAT(SetClear, T)(void* this)
 {
 	CHECK_NULL_NO_RET(this);
+
+	//cast to set
+	SET this_set = (SET)this;
+	this_set->size = 0;
+
+	SETNODE node = this_set->root;
+	SETNODE save = NULL;
+
+	while (node != NULL)
+	{
+		if (node->children[LEFT] == NULL)
+		{
+			//destroy and move to right
+			save = node->children[RIGHT];
+			T_DELETE(&node->data);
+			free(node);
+		}
+		else
+		{
+			//rotate to right
+			save = node->children[LEFT];
+			node->children[LEFT] = save->children[RIGHT];
+			save->children[RIGHT] = node;
+		}
+
+		node = save;
+	}
 }
 
 bool CAT(SetRemove, T)(void* this, T item)
@@ -549,7 +666,32 @@ bool CAT(SetContains, T)(void* this, T item)
 {
 	CHECK_NULL(this, false);
 
-	
+	SET this_set = (SET)this;
+
+	if (this_set->root == NULL)
+	{
+		//empty tree
+		return false;
+	}
+	else
+	{
+		SETNODE current_node = this_set->root;
+		
+		int direction = 0;
+
+		while (current_node != NULL)
+		{	
+			//if data is equal, then we stop
+			if (T_EQUALS(current_node->data, item))
+			{
+				return true;
+			}
+
+			direction = T_COMPARE_TO(current_node->data, item) < 0;
+			current_node = current_node->children[direction];
+		}
+	}
+
 	return false;
 }
 
@@ -584,6 +726,18 @@ bool CAT(Set_Set, T)(void* this, const T* item, size_t num_elements)
 {
 	CHECK_NULL(this, false);
 
+	//cast to set
+	SET this_set = (SET)this;
+
+	//clear the set
+	CAT(SetClear, T)(this);
+
+	//insert items
+	//loop until null
+	for (size_t i = 0; i < num_elements; i++)
+	{
+		CAT(SetMoveInsert, T)(this, item[i]);
+	}
 	
 	return true;
 }
@@ -594,10 +748,15 @@ bool CAT(SetMoveInsert, T)(void* this, T item)
 
 	SET this_set = (SET)this;
 
+	//check if we need to update size
+	bool inserted_node = false;
+
 	if (this_set->root == NULL)
 	{
 		//empty tree
 		this_set->root = NewMoveNode(&item);
+
+		inserted_node = true;
 	}
 	else
 	{
@@ -619,6 +778,8 @@ bool CAT(SetMoveInsert, T)(void* this, T item)
 			if (current_node == NULL)
 			{
 				parent->children[direction] = current_node = NewMoveNode(&item);
+
+				inserted_node = true;
 			}
 
 			//color flip parent and children
@@ -672,6 +833,10 @@ bool CAT(SetMoveInsert, T)(void* this, T item)
 
 	//make root black
 	this_set->root->color = BLACK;
+	if (inserted_node)
+	{
+		this_set->size++;
+	}
 
 	return true;
 }
@@ -682,10 +847,15 @@ bool CAT(SetInsert, T)(void* this, T item)
 
 	SET this_set = (SET)this;
 
+	//check if we need to update size
+	bool inserted_node = false;
+
 	if (this_set->root == NULL)
 	{
 		//empty tree
 		this_set->root = NewNode(&item);
+
+		inserted_node = true;
 	}
 	else
 	{
@@ -707,6 +877,8 @@ bool CAT(SetInsert, T)(void* this, T item)
 			if (current_node == NULL)
 			{
 				parent->children[direction] = current_node = NewNode(&item);
+
+				inserted_node = true;
 			}
 
 			//color flip parent and children
@@ -760,36 +932,115 @@ bool CAT(SetInsert, T)(void* this, T item)
 
 	//make root black
 	this_set->root->color = BLACK;
-	this_set->size++;
+	if (inserted_node)
+	{
+		this_set->size++;
+	}
 
 	return true;
 }
 
-int CAT(SetFind, T) (void* this, T item)
+T* CAT(SetFind, T) (void* this, T item)
 {
 	CHECK_NULL(this, false);
 
-	//return NPOS if nothing was found
-	return NPOS;
+
+	SET this_set = (SET)this;
+
+	if (this_set->root == NULL)
+	{
+		//empty tree
+		return false;
+	}
+	else
+	{
+		SETNODE current_node = this_set->root;
+
+		int direction = 0;
+
+		while (current_node != NULL)
+		{
+			//if data is equal, then we stop
+			if (T_EQUALS(current_node->data, item))
+			{
+				return &current_node->data;
+			}
+
+			direction = T_COMPARE_TO(current_node->data, item) < 0;
+			current_node = current_node->children[direction];
+		}
+	}
+
+	return NULL;
 }
 
 bool CAT(SetReplace, T)(void* this, T to_replace, T replacement)
 {
 	CHECK_NULL(this, false);
 
-	return true;
+	SET this_set = (SET)this;
+
+	if (this_set->root == NULL)
+	{
+		//empty tree
+		return false;
+	}
+	else
+	{
+		SETNODE current_node = this_set->root;
+
+		int direction = 0;
+
+		while (current_node != NULL)
+		{
+			//if data is equal, then we stop
+			if (T_EQUALS(current_node->data, to_replace))
+			{
+				//delete and move the result in place
+				T_DELETE(&current_node->data);
+				current_node->data = replacement;
+				return true;
+			}
+
+			direction = T_COMPARE_TO(current_node->data, to_replace) < 0;
+			current_node = current_node->children[direction];
+		}
+	}
+	return false; 
+}
+
+static T* CAT(GetSetInOrderTraversalByIndex, T)(SETNODE node, int* current_index, int wanted_index)
+{
+	if (node != NULL)
+	{
+		T* left_data = CAT(GetSetInOrderTraversalByIndex, T)(node->children[LEFT], current_index, wanted_index);
+		if (left_data != NULL)
+		{
+			return left_data;
+		}
+		if (*current_index == wanted_index)
+		{
+			return &node->data;
+		}
+		(*current_index)++;
+		return CAT(GetSetInOrderTraversalByIndex, T)(node->children[RIGHT], current_index, wanted_index);
+	}
+	return NULL;
 }
 
 CAT(CAT(Set, T), Iterator) CAT(SetBegin, T)(void* this)
 {
 	CHECK_NULL(this, NULL);
 
-	//SET this_set = (SET)this;
+	SET this_set = (SET)this;
 
 	//allocate a iterator
 	CAT(CAT(Set, T), Iterator) iterator = check_calloc(sizeof(struct CAT(CAT(_Set, T), Iterator)));
 
 	iterator->index = 0;
+
+	int start_index = 0;
+	iterator->data = CAT(GetSetInOrderTraversalByIndex, T)(this_set->root, &start_index, iterator->index);
 
 	return iterator;
 }
@@ -799,9 +1050,15 @@ bool CAT(SetNext, T)(void* this, CAT(CAT(Set, T), Iterator) iterator)
 	CHECK_NULL(this, false);
 	CHECK_NULL(iterator, false);
 
-	//SET this_set = (SET)this;
+	SET this_set = (SET)this;
+
+	//search for child node that has the value... 
+	//(This is inefficient, but it follows how iterators work in the design)
 
 	iterator->index++;
+
+	int start_index = 0;
+	iterator->data = CAT(GetSetInOrderTraversalByIndex, T)(this_set->root, &start_index, iterator->index);
 
 	return true;
 }

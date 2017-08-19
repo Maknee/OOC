@@ -452,7 +452,7 @@ bool CAT(SetMoveInsert, T)(void* this, T item);
 bool CAT(SetInsert, T)(void* this, T item);
 
 /**********************************************************************************************//**
- * @fn	int CAT(SetFind, T) (void* this, T item);
+ * @fn	T* CAT(SetFind, T) (void* this, T item)
  *
  * @brief	Finds the index of the element in the set
  *
@@ -464,7 +464,7 @@ bool CAT(SetInsert, T)(void* this, T item);
  * @return	Index of the element. NPOS if none were found
  **************************************************************************************************/
 
-int CAT(SetFind, T) (void* this, T item);
+T* CAT(SetFind, T) (void* this, T item);
 
 /**********************************************************************************************//**
  * @fn	bool CAT(SetReplace, T)(void* this, T to_replace, T replacement);

@@ -59,7 +59,6 @@ int main()
 	//Delete vector of strings
 	Delete(Vector(String), vector);
 	*/
-	
 	/*
 	Set(int) s = New(Set(int));
 
@@ -71,22 +70,36 @@ int main()
 	Call(Set(int), insert, s, 4);
 	Call(Set(int), insert, s, 6);
 	Call(Set(int), insert, s, 8);
-	
-
-	Call(Set(int), remove, s, 7);
 
 	SetTestint(s->root, 0);
 
+	ForEach(int* string, Set(int), s,
+	{
+		printf("%d\n", *string);
+	})
+
 	Delete(Set(int), s);
 	*/
-
+	
 	Set(String) s = New(Set(String));
 
-	Call(Set(String), insert, s, Call(String, set, New(String), "WWWW"));
-	Call(Set(String), insert, s, New(String));
+	Call(Set(String), move_insert, s, Call(String, set, New(String), "a"));
+	Call(Set(String), move_insert, s, Call(String, set, New(String), "b"));
+	Call(Set(String), move_insert, s, Call(String, set, New(String), "c"));
+	Call(Set(String), move_insert, s, New(String));
+
+	printf("%zu\n", s->size);
+	//SetTestString(s->root, 0);
+
+	ForEach(String* string, Set(String), s,
+	{
+		printf("%s\n", Call(String, c_str, *string));
+	})
+
+	String* found = Call(Set(String), find, s, New(String));
 
 	Delete(Set(String), s);
-
+	
 	/*
 	//Allocate a new vector of strings
 	Vector(String) vector1 = New(Vector(String));
