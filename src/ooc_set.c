@@ -242,7 +242,7 @@ int CAT(SetTest, T)(CAT(SetNode, T) root, int indent)
 		}
 
 		//print root
-		printf("%d\n", root->data);
+		//printf("%d\n", root->data);
 
 		if (left)
 		{
@@ -388,7 +388,7 @@ void CAT(SetConstruct, T)(void* this)
 |	Copy Constructor
 *===========================================================================*/
 
-static CAT(SetCopyHelper, T)(SETNODE node, SETNODE copy_node)
+static SETNODE CAT(SetCopyHelper, T)(SETNODE node, SETNODE copy_node)
 {
 	if (node != NULL)
 	{
@@ -396,6 +396,7 @@ static CAT(SetCopyHelper, T)(SETNODE node, SETNODE copy_node)
 		copy_node->children[LEFT] = CAT(SetCopyHelper, T)(node->children[LEFT], copy_node->children[LEFT]);
 		copy_node->children[RIGHT] = CAT(SetCopyHelper, T)(node->children[RIGHT], copy_node->children[RIGHT]);
 	}
+	return NULL;
 }
 
 void* CAT(SetCopyConstruct, T)(void* this)
@@ -439,7 +440,7 @@ void CAT(SetDestruct, T)(void* this)
 |	Overridden member function definitions
 *===========================================================================*/
 
-static CAT(SetEqualsHelper, T)(SETNODE node1, SETNODE node2)
+static bool CAT(SetEqualsHelper, T)(SETNODE node1, SETNODE node2)
 {
 	//check if pointers are equal (CHECKS NULL AS WELL)
 	if (node1 == node2)
@@ -478,7 +479,7 @@ bool CAT(SetEquals, T)(void* this, void* other)
 	return CAT(SetEqualsHelper, T)(this_set->root, other_set->root);
 }
 
-static CAT(SetCompareToHelper, T)(SETNODE node1, SETNODE node2)
+static int CAT(SetCompareToHelper, T)(SETNODE node1, SETNODE node2)
 {
 	//check if pointers are equal (CHECKS NULL AS WELL)
 	if (node1 == node2)
@@ -725,9 +726,6 @@ size_t CAT(SetSize, T)(void* this)
 bool CAT(Set_Set, T)(void* this, const T* item, size_t num_elements)
 {
 	CHECK_NULL(this, false);
-
-	//cast to set
-	SET this_set = (SET)this;
 
 	//clear the set
 	CAT(SetClear, T)(this);

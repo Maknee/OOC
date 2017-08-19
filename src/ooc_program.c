@@ -96,7 +96,7 @@ int main()
 		printf("%s\n", Call(String, c_str, *string));
 	})
 
-	String* found = Call(Set(String), find, s, New(String));
+	//String* found = Call(Set(String), find, s, New(String));
 
 	Delete(Set(String), s);
 	
