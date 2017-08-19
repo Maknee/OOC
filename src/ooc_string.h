@@ -239,7 +239,7 @@ typedef struct _String *String;
 typedef struct _StringVFTable
 {
 	struct _ContainerVFTable;
-	String (*set)(void* this, const char* item);
+	void* (*set)(void* this, const char* item);
 	char* (*c_str)(void* this);
 	bool (*append)(void* this, const char* item);
 	bool (*insert)(void* this, void* item, int index);
@@ -549,7 +549,7 @@ size_t StringSize(void* this);
  * @todo	{find a case when the function should fail}
  **************************************************************************************************/
 
-String StringSet(void* this, const char* item);
+void* StringSet(void* this, const char* item);
 
 /**********************************************************************************************//**
  * @fn		char* StringC_Str(void* this)

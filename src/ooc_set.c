@@ -551,6 +551,7 @@ void CAT(SetClear, T)(void* this)
 			save = node->children[RIGHT];
 			T_DELETE(&node->data);
 			free(node);
+			node = NULL;
 		}
 		else
 		{
@@ -562,6 +563,7 @@ void CAT(SetClear, T)(void* this)
 
 		node = save;
 	}
+	this_set->root = NULL;
 }
 
 bool CAT(SetRemove, T)(void* this, T item)

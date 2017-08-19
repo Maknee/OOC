@@ -81,24 +81,18 @@ int main()
 	Delete(Set(int), s);
 	*/
 	
-	Set(String) s = New(Set(String));
+	//Allocate a new set of strings
+	Set(String) set1 = New(Set(String));
 
-	Call(Set(String), move_insert, s, Call(String, set, New(String), "a"));
-	Call(Set(String), move_insert, s, Call(String, set, New(String), "b"));
-	Call(Set(String), move_insert, s, Call(String, set, New(String), "c"));
-	Call(Set(String), move_insert, s, New(String));
+	//Add a new string to set 1
+	String random_string1 = New(String);
+	Call(String, set, random_string1, "Testing");
+	Call(Set(String), move_insert, set1, random_string1);
 
-	printf("%zu\n", s->size);
-	//SetTestString(s->root, 0);
+	//Clear set
+	Call(Set(String), clear, set1);
 
-	ForEach(String* string, Set(String), s,
-	{
-		printf("%s\n", Call(String, c_str, *string));
-	})
-
-	//String* found = Call(Set(String), find, s, New(String));
-
-	Delete(Set(String), s);
+	Delete(Set(String), set1);
 	
 	/*
 	//Allocate a new vector of strings
@@ -135,6 +129,13 @@ int main()
 	*/
 	
 #ifdef _MSC_VER
+	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
+	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE);
+	_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDOUT);
+	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
+	_CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDOUT);
+	_CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE);
+	_CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDOUT);
 	_CrtDumpMemoryLeaks();
 #endif
 	return 0;

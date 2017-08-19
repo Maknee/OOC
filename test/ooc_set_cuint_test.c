@@ -544,7 +544,7 @@ void TestSetStringVFTableFind()
 	Call(String, set, random_string3, "b");
 
 	//Find random_string2
-	CU_ASSERT_EQUAL(Call(Set(String), find, set1, random_string3), 1);
+	CU_ASSERT_TRUE(CallCall(Set(String), find, set1, random_string3), );
 
 	Delete(String, random_string3);
 
