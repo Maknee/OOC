@@ -80,7 +80,6 @@ int main()
 
 	Delete(Set(int), s);
 	*/
-	
 	//Allocate a new set of strings
 	Set(String) set1 = New(Set(String));
 
@@ -89,11 +88,18 @@ int main()
 	Call(String, set, random_string1, "Testing");
 	Call(Set(String), move_insert, set1, random_string1);
 
-	//Clear set
-	Call(Set(String), clear, set1);
+	//Copy set
+	Set(String) set2 = Call(Set(String), copy, set1);
 
+	//Check if two sets are equal
+	printf("%d\n", Call(Set(String), equals, set1, set2));
+
+	//Delete set of strings
+	Delete(Set(String), set2);
+
+	//Delete set of strings
 	Delete(Set(String), set1);
-	
+
 	/*
 	//Allocate a new vector of strings
 	Vector(String) vector1 = New(Vector(String));

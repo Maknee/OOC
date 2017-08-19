@@ -515,10 +515,7 @@ void TestSetStringVFTableInsert()
 	Delete(String, random_string3);
 	
 	//Check if they are equal
-	CU_ASSERT_PTR_NOT_EQUAL(random_string2, *equal_random_string2);
-
-	//Delete String
-	Delete(String, random_string3);
+	CU_ASSERT_PTR_EQUAL(random_string2, *equal_random_string2);
 
 	//Delete set of strings
 	Delete(Set(String), set1);
@@ -572,7 +569,7 @@ void TestSetStringVFTableNPOSFind()
 	Call(String, set, random_string3, "wwww");
 
 	//Find random_string2
-	CU_ASSERT_EQUAL(Call(Set(String), find, set1, random_string3), NPOS);
+	CU_ASSERT_EQUAL(Call(Set(String), find, set1, random_string3), NULL);
 
 	Delete(String, random_string3);
 

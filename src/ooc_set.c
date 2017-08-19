@@ -191,8 +191,8 @@ static SETNODE CAT(SetCopyNode, T)(SETNODE node)
 	SETNODE new_node = check_calloc(sizeof(struct CAT(_SetNode, T)));
 
 	new_node->data = T_COPY(&node->data);
-	new_node->children[LEFT] = node->children[LEFT];
-	new_node->children[RIGHT] = node->children[RIGHT];
+	new_node->children[LEFT] = NULL;
+	new_node->children[RIGHT] = NULL;
 	new_node->color = node->color;
 
 	return new_node;
@@ -395,6 +395,7 @@ static SETNODE CAT(SetCopyHelper, T)(SETNODE node, SETNODE copy_node)
 		copy_node = CopyNode(node);
 		copy_node->children[LEFT] = CAT(SetCopyHelper, T)(node->children[LEFT], copy_node->children[LEFT]);
 		copy_node->children[RIGHT] = CAT(SetCopyHelper, T)(node->children[RIGHT], copy_node->children[RIGHT]);
+		return copy_node;
 	}
 	return NULL;
 }
@@ -416,7 +417,7 @@ void* CAT(SetCopyConstruct, T)(void* this)
 	copy_set->size = this_set->size;
 
 	//copy tree
-	CAT(SetCopyHelper, T)(this_set->root, copy_set->root);
+	copy_set->root = CAT(SetCopyHelper, T)(this_set->root, copy_set->root);
 
 	return copy;
 }
@@ -942,15 +943,14 @@ bool CAT(SetInsert, T)(void* this, T item)
 
 T* CAT(SetFind, T) (void* this, T item)
 {
-	CHECK_NULL(this, false);
-
+	CHECK_NULL(this, NULL);
 
 	SET this_set = (SET)this;
 
 	if (this_set->root == NULL)
 	{
 		//empty tree
-		return false;
+		return NULL;
 	}
 	else
 	{
