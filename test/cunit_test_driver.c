@@ -12,6 +12,7 @@
 #include "ooc_string_cunit_test.h"
 #include "ooc_vector_cuint_test.h"
 #include "ooc_casts_cuint_test.h"
+#include "ooc_set_cuint_test.h"
 
 /*
  * Set up and run tests.
