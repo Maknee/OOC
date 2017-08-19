@@ -811,8 +811,12 @@ bool CAT(SetMoveInsert, T)(void* this, T item)
 			//if data is equal, then we stop
 			if (T_EQUALS(current_node->data, item))
 			{
-				//deallocate moved item
-				T_DELETE(&item);
+				if (!inserted_node)
+				{
+					//replace node with moved item
+					T_DELETE(&current_node->data);
+					current_node->data = item;
+				}
 
 				break;
 			}
@@ -913,6 +917,12 @@ bool CAT(SetInsert, T)(void* this, T item)
 			//if data is equal, then we stop
 			if (T_EQUALS(current_node->data, item))
 			{
+				if (!inserted_node)
+				{
+					//replace node with moved item
+					current_node->data = T_COPY(&item);
+				}
+
 				break;
 			}
 
