@@ -10,7 +10,14 @@
 
 EntryVFTable entryVFTable =
 {
-	NULL_OBJECT_VFTABLE
+	NULL_OBJECT_VFTABLE,
+	.copy = NULL,
+	.move_set_key = NULL,
+	.set_key = NULL,
+	.get_key = NULL,
+	.move_set_key = NULL,
+	.set_key = NULL,
+	.get_key = NULL
 };
 
 TypeDescriptor CAT(entryTypeDescriptor, CAT(K, V)) =
