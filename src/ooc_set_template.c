@@ -9,6 +9,11 @@
 #undef T
 #endif
 
+#define RED 1
+#define BLACK 0
+#define RIGHT 1
+#define LEFT 0
+
 //Set(int)
 #define T int
 #define T_EQUALS(element, other_element) ((element == other_element) ? (true) : (false))
@@ -73,5 +78,10 @@
 #undef T_ALLOC
 #undef T_DELETE
 #undef T
+
+#undef RED
+#undef BLACK
+#undef RIGHT
+#undef LEFT
 
 #define Set(type) SetExpansion(type)
