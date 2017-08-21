@@ -15,9 +15,9 @@ EntryVFTable entryVFTable =
 	.move_set_key = NULL,
 	.set_key = NULL,
 	.get_key = NULL,
-	.move_set_key = NULL,
-	.set_key = NULL,
-	.get_key = NULL
+	.move_set_value = NULL,
+	.set_value = NULL,
+	.get_value = NULL
 };
 
 TypeDescriptor CAT(entryTypeDescriptor, CAT(K, V)) =
