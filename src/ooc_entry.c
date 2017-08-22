@@ -222,7 +222,7 @@ int CAT(EntryCompareTo, CAT(K, V))(void* this, void* other)
 	ENTRY other_entry = (ENTRY)other;
 
 	int k_comparsion = K_COMPARE_TO(this_entry->key, other_entry->key);
-	int v_comparsion = K_COMPARE_TO(this_entry->value, other_entry->value);
+	int v_comparsion = V_COMPARE_TO(this_entry->value, other_entry->value);
 	
 	return (k_comparsion ? k_comparsion : (v_comparsion ? v_comparsion : 0));
 }

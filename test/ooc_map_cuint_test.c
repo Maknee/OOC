@@ -12,19 +12,19 @@ int MapCleanUpSuite()
 
 void TestMapStringVFTableUninitializedCompleteObjectLocator()
 {
-	CU_ASSERT_PTR_EQUAL(MapStringvfTable.pCompleteObjectLocator, NULL);
+	CU_ASSERT_PTR_EQUAL(MapintStringvfTable.pCompleteObjectLocator, NULL);
 }
 
 void TestMapStringNew()
 {
 	//allocate a new map_string
-	void* map_string = NewMapString();
+	void* map_string = NewMapintString();
 	
 	//map_string should be allocated
 	CU_ASSERT_PTR_NOT_EQUAL(map_string, NULL);
 
 	//free the map_string's resources
-	DeleteMapString(map_string);
+	DeleteMapintString(map_string);
 
 	//manual delete map_string call does not map map_string to null :(
 	CU_ASSERT_PTR_NOT_EQUAL(map_string, NULL);
@@ -457,7 +457,7 @@ void TestMapStringVFTableRemove()
 void TestMapStringVFTableRemoveLots()
 {
 	//Allocate a new map of int
-	Map(int) map1 = New(Map(int));
+	Map(int, String) map1 = New(Map(int, String));
 
 	//Add a new string to map 1
 	Entry(int, String) entry1 = New(Entry(int, String));
@@ -475,9 +475,7 @@ void TestMapStringVFTableRemoveLots()
 
 	Call(Entry(int, String), move_set_key, entry123, 123);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry123, random_string1);
+	Call(Entry(int, String), set_value, entry123, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry123);
 
@@ -486,9 +484,7 @@ void TestMapStringVFTableRemoveLots()
 
 	Call(Entry(int, String), move_set_key, entry512, 512);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry512, random_string1);
+	Call(Entry(int, String), set_value, entry512, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry512);
 
@@ -497,9 +493,7 @@ void TestMapStringVFTableRemoveLots()
 
 	Call(Entry(int, String), move_set_key, entry55, 55);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry55, random_string1);
+	Call(Entry(int, String), set_value, entry55, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry55);
 
@@ -508,9 +502,7 @@ void TestMapStringVFTableRemoveLots()
 
 	Call(Entry(int, String), move_set_key, entry43, 43);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry43, random_string1);
+	Call(Entry(int, String), set_value, entry43, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry43);
 
@@ -519,9 +511,7 @@ void TestMapStringVFTableRemoveLots()
 
 	Call(Entry(int, String), move_set_key, entry2, 2);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry2, random_string1);
+	Call(Entry(int, String), set_value, entry2, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry2);
 
@@ -530,9 +520,7 @@ void TestMapStringVFTableRemoveLots()
 
 	Call(Entry(int, String), move_set_key, entry65, 65);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry65, random_string1);
+	Call(Entry(int, String), set_value, entry65, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry65);
 
@@ -541,9 +529,7 @@ void TestMapStringVFTableRemoveLots()
 
 	Call(Entry(int, String), move_set_key, entry12, -12);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry12, random_string1);
+	Call(Entry(int, String), set_value, entry12, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry12);
 
@@ -552,9 +538,7 @@ void TestMapStringVFTableRemoveLots()
 
 	Call(Entry(int, String), move_set_key, entry32, 32);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry32, random_string1);
+	Call(Entry(int, String), set_value, entry32, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry32);
 
@@ -563,9 +547,7 @@ void TestMapStringVFTableRemoveLots()
 
 	Call(Entry(int, String), move_set_key, entry532, 532);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry532, random_string1);
+	Call(Entry(int, String), set_value, entry532, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry532);
 
@@ -574,9 +556,7 @@ void TestMapStringVFTableRemoveLots()
 
 	Call(Entry(int, String), move_set_key, entry231, 231);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry231, random_string1);
+	Call(Entry(int, String), set_value, entry231, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry231);
 
@@ -585,9 +565,7 @@ void TestMapStringVFTableRemoveLots()
 
 	Call(Entry(int, String), move_set_key, entry36234, 36234);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry36234, random_string1);
+	Call(Entry(int, String), set_value, entry36234, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry36234);
 
@@ -596,12 +574,9 @@ void TestMapStringVFTableRemoveLots()
 
 	Call(Entry(int, String), move_set_key, entry6345, 6345);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry6345, random_string1);
+	Call(Entry(int, String), set_value, entry6345, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry6345);
-
 
 	CU_ASSERT_TRUE(Call(Map(int, String), remove, map1, entry1));
 	CU_ASSERT_TRUE(Call(Map(int, String), remove, map1, entry123));
@@ -618,7 +593,7 @@ void TestMapStringVFTableRemoveLots()
 	CU_ASSERT_TRUE(Call(Map(int, String), remove, map1, entry6345));
 
 	//Delete map of int
-	Delete(Map(int), map1);
+	Delete(Map(int, String), map1);
 }
 
 
@@ -646,8 +621,6 @@ void TestMapStringVFTableContains()
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Testing");
 	Call(Entry(int, String), move_set_value, entry2, random_string2);
-
-	Call(Map(int, String), move_insert, map2, entry2);
 
 	CU_ASSERT_TRUE(Call(Map(int, String), contains, map1, entry2));
 
@@ -682,7 +655,7 @@ void TestMapStringVFTableNotContains()
 	Call(String, set, random_string2, "Testing");
 	Call(Entry(int, String), move_set_value, entry2, random_string2);
 
-	CU_ASSERT_FALSE(Call(Map(int, String), contains, map1, random_string2));
+	CU_ASSERT_FALSE(Call(Map(int, String), contains, map1, entry2));
 
 	Delete(Entry(int, String), entry2);
 
@@ -744,7 +717,7 @@ void TestMapStringVFTableIsEmpty()
 	Call(String, set, random_string2, "Testing");
 	Call(Entry(int, String), move_set_value, entry2, random_string2);
 
-	Call(Entry(int, String), remove, map1, entry2);
+	Call(Map(int, String), remove, map1, entry2);
 
 	//Check if map is empty
 	CU_ASSERT_TRUE(Call(Map(int, String), isEmpty, map1));
@@ -838,7 +811,7 @@ void TestMapStringVFTableMoveInsert()
 	//Add a new string to map 2
 	Entry(int, String) entry2 = New(Entry(int, String));
 
-	Call(Entry(int, String), move_set_key, entry2, 1);
+	Call(Entry(int, String), move_set_key, entry2, 2);
 
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Testing");
@@ -849,18 +822,18 @@ void TestMapStringVFTableMoveInsert()
 	//Add a new string to map 1
 	Entry(int, String) entry3 = New(Entry(int, String));
 
-	Call(Entry(int, String), move_set_key, entry3, 1);
+	Call(Entry(int, String), move_set_key, entry3, 2);
 
 	String random_string3 = New(String);
 	Call(String, set, random_string3, "Testing");
 	Call(Entry(int, String), move_set_value, entry3, random_string3);
 
-	Call(Map(int, String), move_insert, map2, entry3);
-
-	Entry(int, String)* equal_random_string3 = Call(Map(int, String), find, map2, random_string3);
+	Entry(int, String)* equal_random_string3 = Call(Map(int, String), find, map1, entry3);
 
 	//Check if they are equal
 	CU_ASSERT_PTR_EQUAL(random_string3, (*equal_random_string3)->value);
+
+	Delete(Map(int, String), entry3);
 
 	//Delete map of strings
 	Delete(Map(int, String), map1);
@@ -869,7 +842,7 @@ void TestMapStringVFTableMoveInsert()
 void TestMapStringVFTableMoveInsertLots()
 {
 	//Allocate a new map of int
-	Map(int) map1 = New(Map(int));
+	Map(int, String) map1 = New(Map(int, String));
 
 	//Add a new string to map 1
 	Entry(int, String) entry1 = New(Entry(int, String));
@@ -887,9 +860,7 @@ void TestMapStringVFTableMoveInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry123, 123);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry123, random_string1);
+	Call(Entry(int, String), set_value, entry123, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry123);
 
@@ -898,9 +869,7 @@ void TestMapStringVFTableMoveInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry512, 512);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry512, random_string1);
+	Call(Entry(int, String), set_value, entry512, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry512);
 
@@ -909,9 +878,7 @@ void TestMapStringVFTableMoveInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry55, 55);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry55, random_string1);
+	Call(Entry(int, String), set_value, entry55, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry55);
 
@@ -920,9 +887,7 @@ void TestMapStringVFTableMoveInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry43, 43);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry43, random_string1);
+	Call(Entry(int, String), set_value, entry43, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry43);
 
@@ -931,9 +896,7 @@ void TestMapStringVFTableMoveInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry2, 2);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry2, random_string1);
+	Call(Entry(int, String), set_value, entry2, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry2);
 
@@ -942,9 +905,7 @@ void TestMapStringVFTableMoveInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry65, 65);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry65, random_string1);
+	Call(Entry(int, String), set_value, entry65, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry65);
 
@@ -953,9 +914,7 @@ void TestMapStringVFTableMoveInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry12, -12);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry12, random_string1);
+	Call(Entry(int, String), set_value, entry12, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry12);
 
@@ -964,9 +923,7 @@ void TestMapStringVFTableMoveInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry32, 32);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry32, random_string1);
+	Call(Entry(int, String), set_value, entry32, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry32);
 
@@ -975,9 +932,7 @@ void TestMapStringVFTableMoveInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry532, 532);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry532, random_string1);
+	Call(Entry(int, String), set_value, entry532, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry532);
 
@@ -986,9 +941,7 @@ void TestMapStringVFTableMoveInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry231, 231);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry231, random_string1);
+	Call(Entry(int, String), set_value, entry231, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry231);
 
@@ -997,9 +950,7 @@ void TestMapStringVFTableMoveInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry36234, 36234);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry36234, random_string1);
+	Call(Entry(int, String), set_value, entry36234, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry36234);
 
@@ -1008,14 +959,12 @@ void TestMapStringVFTableMoveInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry6345, 6345);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry6345, random_string1);
+	Call(Entry(int, String), set_value, entry6345, random_string1);
 
 	Call(Map(int, String), move_insert, map1, entry6345);
 
 	//Delete map of int
-	Delete(Map(int), map1);
+	Delete(Map(int, String), map1);
 }
 
 void TestMapStringVFTableInsert()
@@ -1069,7 +1018,7 @@ void TestMapStringVFTableInsert()
 void TestMapStringVFTableInsertLots()
 {
 	//Allocate a new map of int
-	Map(int) map1 = New(Map(int));
+	Map(int, String) map1 = New(Map(int, String));
 
 	//Add a new string to map 1
 	Entry(int, String) entry1 = New(Entry(int, String));
@@ -1087,9 +1036,7 @@ void TestMapStringVFTableInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry123, 123);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry123, random_string1);
+	Call(Entry(int, String), set_value, entry123, random_string1);
 
 	Call(Map(int, String), insert, map1, entry123);
 
@@ -1098,9 +1045,7 @@ void TestMapStringVFTableInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry512, 512);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry512, random_string1);
+	Call(Entry(int, String), set_value, entry512, random_string1);
 
 	Call(Map(int, String), insert, map1, entry512);
 
@@ -1109,9 +1054,7 @@ void TestMapStringVFTableInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry55, 55);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry55, random_string1);
+	Call(Entry(int, String), set_value, entry55, random_string1);
 
 	Call(Map(int, String), insert, map1, entry55);
 
@@ -1120,9 +1063,7 @@ void TestMapStringVFTableInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry43, 43);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry43, random_string1);
+	Call(Entry(int, String), set_value, entry43, random_string1);
 
 	Call(Map(int, String), insert, map1, entry43);
 
@@ -1131,9 +1072,7 @@ void TestMapStringVFTableInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry2, 2);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry2, random_string1);
+	Call(Entry(int, String), set_value, entry2, random_string1);
 
 	Call(Map(int, String), insert, map1, entry2);
 
@@ -1142,9 +1081,7 @@ void TestMapStringVFTableInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry65, 65);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry65, random_string1);
+	Call(Entry(int, String), set_value, entry65, random_string1);
 
 	Call(Map(int, String), insert, map1, entry65);
 
@@ -1153,9 +1090,7 @@ void TestMapStringVFTableInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry12, -12);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry12, random_string1);
+	Call(Entry(int, String), set_value, entry12, random_string1);
 
 	Call(Map(int, String), insert, map1, entry12);
 
@@ -1164,9 +1099,7 @@ void TestMapStringVFTableInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry32, 32);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry32, random_string1);
+	Call(Entry(int, String), set_value, entry32, random_string1);
 
 	Call(Map(int, String), insert, map1, entry32);
 
@@ -1175,9 +1108,7 @@ void TestMapStringVFTableInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry532, 532);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry532, random_string1);
+	Call(Entry(int, String), set_value, entry532, random_string1);
 
 	Call(Map(int, String), insert, map1, entry532);
 
@@ -1186,9 +1117,7 @@ void TestMapStringVFTableInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry231, 231);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry231, random_string1);
+	Call(Entry(int, String), set_value, entry231, random_string1);
 
 	Call(Map(int, String), insert, map1, entry231);
 
@@ -1197,9 +1126,7 @@ void TestMapStringVFTableInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry36234, 36234);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry36234, random_string1);
+	Call(Entry(int, String), set_value, entry36234, random_string1);
 
 	Call(Map(int, String), insert, map1, entry36234);
 
@@ -1208,9 +1135,7 @@ void TestMapStringVFTableInsertLots()
 
 	Call(Entry(int, String), move_set_key, entry6345, 6345);
 
-	String random_string1 = New(String);
-	Call(String, set, random_string1, "Testing");
-	Call(Entry(int, String), move_set_value, entry6345, random_string1);
+	Call(Entry(int, String), set_value, entry6345, random_string1);
 
 	Call(Map(int, String), insert, map1, entry6345);
 
@@ -1224,12 +1149,12 @@ void TestMapStringVFTableInsertLots()
 	Delete(Entry(int, String), entry12);
 	Delete(Entry(int, String), entry32);
 	Delete(Entry(int, String), entry532);
-	Delete(Entry(int, String), entry213);
+	Delete(Entry(int, String), entry231);
 	Delete(Entry(int, String), entry36234);
 	Delete(Entry(int, String), entry6345);
 
 	//Delete map of int
-	Delete(Map(int), map1);
+	Delete(Map(int, String), map1);
 }
 
 void TestMapStringVFTableFind()
