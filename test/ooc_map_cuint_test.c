@@ -1288,7 +1288,7 @@ void TestMapIterator()
 	//Add a new string to map 1
 	Entry(int, String) entry1 = New(Entry(int, String));
 
-	Call(Entry(int, String), move_set_key, entry1, 1);
+	Call(Entry(int, String), set_key, entry1, 1);
 
 	String random_string1 = New(String);
 	Call(String, set, random_string1, "Testing");
@@ -1320,9 +1320,15 @@ void TestMapIterator()
 	
 	ForEach(Entry(int, String)* entry, Map(int, String), map1,
 	{
+		//do not set the key of entry, will corrupt tree :(
+		int* key = Call(Entry(int, String), get_key, *entry);
+		printf("%d\n", *key);
+
 		String* string = Call(Entry(int, String), get_value, *entry);
 		Call(String, set, *string, "www");
 	})
+
+	CU_ASSERT_STRING_EQUAL(Call(Entry(int, String), to_string, entry1), "EntryintString");
 
 	String* string1 = Call(Entry(int, String), get_value, entry1);
 	CU_ASSERT_STRING_EQUAL(Call(String, c_str, *string1), "www");
