@@ -548,7 +548,7 @@ void TestVectorStringVFTableMovePushFront()
 	Call(Vector(String), move_push_front, vector1, random_string2);
 
 	//Get the first index
-	String equal_random_string2 = Call(Vector(String), get, vector1, 0);
+	String* equal_random_string2 = Call(Vector(String), get, vector1, 0);
 
 	//Check if they are equal
 	CU_ASSERT_PTR_EQUAL(random_string2, *equal_random_string2);
