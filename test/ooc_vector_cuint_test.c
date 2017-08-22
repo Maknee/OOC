@@ -498,12 +498,10 @@ void TestVectorStringVFTableGet()
 	Call(Vector(String), move_push_back, vector1, random_string2);
 
 	//Get the second index
-	int error = 0;
-	String equal_random_string2 = Call(Vector(String), get, vector1, 1, &error);
+	String* equal_random_string2 = Call(Vector(String), get, vector1, 1);
 
 	//Check if they are equal
-	CU_ASSERT_EQUAL(error, 0);
-	CU_ASSERT_PTR_EQUAL(random_string2, equal_random_string2);
+	CU_ASSERT_PTR_EQUAL(random_string2, *equal_random_string2);
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
@@ -525,11 +523,9 @@ void TestVectorStringVFTableOutOfBoundsGet()
 	Call(Vector(String), move_push_back, vector1, random_string2);
 
 	//Get the second index
-	int error = 0;
-	String equal_random_string2 = Call(Vector(String), get, vector1, 80, &error);
+	String* equal_random_string2 = Call(Vector(String), get, vector1, 80);
 
 	//Check if they are equal
-	CU_ASSERT_EQUAL(error, 1);
 	CU_ASSERT_PTR_EQUAL(NULL, equal_random_string2);
 
 	//Delete vector of strings
@@ -552,11 +548,10 @@ void TestVectorStringVFTableMovePushFront()
 	Call(Vector(String), move_push_front, vector1, random_string2);
 
 	//Get the first index
-	int error = 0;
-	String equal_random_string2 = Call(Vector(String), get, vector1, 0, &error);
+	String equal_random_string2 = Call(Vector(String), get, vector1, 0);
+
 	//Check if they are equal
-	CU_ASSERT_EQUAL(error, 0);
-	CU_ASSERT_PTR_EQUAL(random_string2, equal_random_string2);
+	CU_ASSERT_PTR_EQUAL(random_string2, *equal_random_string2);
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
@@ -578,11 +573,10 @@ void TestVectorStringVFTablePushFront()
 	Call(Vector(String), push_front, vector1, random_string2);
 
 	//Get the first index
-	int error = 0;
-	String equal_random_string2 = Call(Vector(String), get, vector1, 0, &error);
+	String* equal_random_string2 = Call(Vector(String), get, vector1, 0);
+
 	//Check if they are equal
-	CU_ASSERT_EQUAL(error, 0);
-	CU_ASSERT_PTR_NOT_EQUAL(random_string2, equal_random_string2);
+	CU_ASSERT_PTR_NOT_EQUAL(random_string2, *equal_random_string2);
 
 	//Delete strings
 	Delete(String, random_string1);
@@ -608,12 +602,10 @@ void TestVectorStringVFTableMovePushBack()
 	Call(Vector(String), move_push_back, vector1, random_string2);
 
 	//Get the second index
-	int error = 0;
-	String equal_random_string2 = Call(Vector(String), get, vector1, 1, &error);
+	String* equal_random_string2 = Call(Vector(String), get, vector1, 1);
 
 	//Check if they are equal
-	CU_ASSERT_EQUAL(error, 0);
-	CU_ASSERT_PTR_EQUAL(random_string2, equal_random_string2);
+	CU_ASSERT_PTR_EQUAL(random_string2, *equal_random_string2);
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
@@ -635,12 +627,10 @@ void TestVectorStringVFTablePushBack()
 	Call(Vector(String), push_back, vector1, random_string2);
 
 	//Get the second index
-	int error = 0;
-	String equal_random_string2 = Call(Vector(String), get, vector1, 1, &error);
+	String* equal_random_string2 = Call(Vector(String), get, vector1, 1);
 
 	//Check if they are equal
-	CU_ASSERT_EQUAL(error, 0);
-	CU_ASSERT_PTR_NOT_EQUAL(random_string2, equal_random_string2);
+	CU_ASSERT_PTR_NOT_EQUAL(random_string2, *equal_random_string2);
 
 	//Delete strings
 	Delete(String, random_string1);
@@ -671,12 +661,10 @@ void TestVectorStringVFTableMoveInsert()
 	Call(Vector(String), move_insert, vector1, random_string3, 1);
 
 	//Get the second index
-	int error = 0;
-	String equal_random_string3 = Call(Vector(String), get, vector1, 1, &error);
+	String* equal_random_string3 = Call(Vector(String), get, vector1, 1);
 
 	//Check if they are equal
-	CU_ASSERT_EQUAL(error, 0);
-	CU_ASSERT_PTR_EQUAL(random_string3, equal_random_string3);
+	CU_ASSERT_PTR_EQUAL(random_string3, *equal_random_string3);
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);
@@ -703,11 +691,9 @@ void TestVectorStringVFTableInsert()
 	Call(Vector(String), insert, vector1, random_string3, 1);
 
 	//Get the second index
-	int error = 0;
-	String equal_random_string3 = Call(Vector(String), get, vector1, 1, &error);
+	String* equal_random_string3 = Call(Vector(String), get, vector1, 1);
 
 	//Check if they are equal
-	CU_ASSERT_EQUAL(error, 0);
 	CU_ASSERT_PTR_NOT_EQUAL(random_string3, equal_random_string3);
 
 	//Delete String
@@ -849,13 +835,10 @@ void TestVectorStringVFTableReplace()
 	//replace random_string2
 	CU_ASSERT_TRUE(Call(Vector(String), replace, vector1, random_string2, random_string3));
 
-	int error = 0;
-	String tmp = Call(Vector(String), get, vector1, 1, &error);
+	String* tmp = Call(Vector(String), get, vector1, 1);
 	
-	CU_ASSERT_EQUAL(error, 0);
-
 	//see that it is now 3
-	CU_ASSERT_STRING_EQUAL(Call(String, c_str, tmp), Call(String, c_str, random_string3));
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, *tmp), Call(String, c_str, random_string3));
 
 	//Delete vector of strings
 	Delete(Vector(String), vector1);

@@ -133,7 +133,7 @@ typedef struct CAT(_Vector, T) *CAT(Vector, T);
 		size_t(*size)(void* this);                             \
 		                                                       \
 		CAT(Vector, T)(*set)(void* this, const T* item, size_t num_elements); \
-		T(*get)(void* this, int index, int* error_code);       \
+		T*(*get)(void* this, int index);                       \
 		bool(*move_push_front)(void* this, T item);            \
 		bool(*push_front)(void* this, T item);                 \
 		bool(*move_push_back)(void* this, T item);             \
@@ -421,7 +421,7 @@ size_t CAT(VectorSize, T)(void* this);
 CAT(Vector, T) CAT(VectorSet, T)(void* this, const T* item, size_t num_elements);
 
 /**********************************************************************************************//**
- * @fn	T CAT(VectorGet, T)(void* this, int index, int* error_code);
+ * @fn	T* CAT(VectorGet, T)(void* this, int index);
  *
  * @brief	Ca ts.
  *
@@ -436,7 +436,7 @@ CAT(Vector, T) CAT(VectorSet, T)(void* this, const T* item, size_t num_elements)
  * 			no element was returned
  **************************************************************************************************/
 
-T CAT(VectorGet, T)(void* this, int index, int* error_code);
+T* CAT(VectorGet, T)(void* this, int index);
 
 /**********************************************************************************************//**
  * @fn	bool CAT(VectorMovePushFront, T)(void* this, T item);

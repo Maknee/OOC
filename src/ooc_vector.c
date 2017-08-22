@@ -520,7 +520,7 @@ VECTOR CAT(VectorSet, T)(void* this, const T* item, size_t num_elements)
 	return this_vector;
 }
 
-T CAT(VectorGet, T)(void* this, int index, int* error_code)
+T* CAT(VectorGet, T)(void* this, int index)
 {
 	CHECK_NULL(this, false);
 
@@ -529,21 +529,15 @@ T CAT(VectorGet, T)(void* this, int index, int* error_code)
 
 	//check for out of bounds
 	if (index == NPOS || index < 0 || index > (int)this_vector->size)
-	{
-		//set error code
-		*error_code = 1;
-		
-		return (T) { 0 };
+	{	
+		return NULL;
 	}
 
 	//get the data
 	T* this_vector_data = this_vector->data;
 
-	//set error code
-	*error_code = 0;
-
 	//return data at index
-	return *(this_vector_data + index);
+	return (this_vector_data + index);
 }
 
 bool CAT(VectorMovePushFront, T)(void* this, T item)
