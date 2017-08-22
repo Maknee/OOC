@@ -1328,7 +1328,7 @@ void TestMapIterator()
 		Call(String, set, *string, "www");
 	})
 
-	CU_ASSERT_STRING_EQUAL(Call(Entry(int, String), to_string, entry1), "EntryintString");
+	CU_ASSERT_STRING_EQUAL(Call(Entry(int, String), toString, entry1), "EntryintString");
 
 	String* string1 = Call(Entry(int, String), get_value, entry1);
 	CU_ASSERT_STRING_EQUAL(Call(String, c_str, *string1), "www");
