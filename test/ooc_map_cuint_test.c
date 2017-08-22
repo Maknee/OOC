@@ -1267,14 +1267,27 @@ void TestMapStringVFTableReplace()
 	//Add a new string to map 1
 	Entry(int, String) entry3 = New(Entry(int, String));
 
-	Call(Entry(int, String), move_set_key, entry3, 1);
+	Call(Entry(int, String), move_set_key, entry3, 2);
 
 	String random_string3 = New(String);
 	Call(String, set, random_string3, "Testing");
 	Call(Entry(int, String), move_set_value, entry3, random_string3);
 
+	//Add a new string to map 1
+	Entry(int, String) entry4 = New(Entry(int, String));
+
+	Call(Entry(int, String), move_set_key, entry4, 8);
+
+	String random_string4 = New(String);
+	Call(String, set, random_string4, "Testing");
+	Call(Entry(int, String), move_set_value, entry4, random_string4);
+
 	//Find random_string2
-	CU_ASSERT_TRUE(Call(Map(int, String), replace, map1, entry1, entry3));
+	CU_ASSERT_TRUE(Call(Map(int, String), replace, map1, entry2, entry3));
+
+	CU_ASSERT_FALSE(Call(Map(int, String), replace, map1, entry2, entry4));
+
+	Delete(Entry(int, Sstring), entry4);
 
 	//Delete map of strings
 	Delete(Map(int, String), map1);
