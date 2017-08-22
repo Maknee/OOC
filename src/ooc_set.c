@@ -984,7 +984,7 @@ bool CAT(SetReplace, T)(void* this, T to_replace, T replacement)
 
 	SET this_set = (SET)this;
 
-	if (this_set->root == NULL || T_EQUALS(to_replace, replacement))
+	if (this_set->root == NULL)
 	{
 		//empty tree
 		return false;
