@@ -13,6 +13,7 @@
 #include "ooc_vector_cuint_test.h"
 #include "ooc_casts_cuint_test.h"
 #include "ooc_set_cuint_test.h"
+#include "ooc_map_cuint_test.h"
 
 /*
  * Set up and run tests.
@@ -271,7 +272,53 @@ int main()
 		!CU_add_test(setSuite, "TestSetStringVFTableFind", TestSetStringVFTableFind) ||
 		!CU_add_test(setSuite, "TestSetStringVFTableNPOSFind", TestSetStringVFTableNPOSFind) ||
 		!CU_add_test(setSuite, "TestSetStringVFTableReplace", TestSetStringVFTableReplace) ||
-		!CU_add_test(setSuite, "TestSetIterator", TestSetIterator))
+		!CU_add_test(setSuite, "TestMapIterator", TestMapIterator))
+	{
+		printf("%s\n", CU_get_error_msg());
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	CU_pSuite mapSuite = CU_add_suite("Map Testing Suite",
+		SetInitializeSuite,
+		SetCleanUpSuite);
+
+	if (mapSuite == NULL)
+	{
+		printf("%s\n", CU_get_error_msg());
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
+	if (!CU_add_test(mapSuite, "TestMapStringVFTableUninitializedCompleteObjectLocator", TestMapStringVFTableUninitializedCompleteObjectLocator) ||
+		!CU_add_test(mapSuite, "TestMapStringNew", TestMapStringNew) ||
+		!CU_add_test(mapSuite, "TestMapStringDelete", TestMapStringDelete) ||
+		!CU_add_test(mapSuite, "TestMapStringCopyConstructor", TestMapStringCopyConstructor) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableEquals", TestMapStringVFTableEquals) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableNotSameSizeEquals", TestMapStringVFTableNotSameSizeEquals) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableNotEquals", TestMapStringVFTableNotEquals) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableCompareTo", TestMapStringVFTableCompareTo) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableNotSameSizeCompareTo", TestMapStringVFTableNotSameSizeCompareTo) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableNotCompareTo", TestMapStringVFTableNotCompareTo) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableToString", TestMapStringVFTableToString) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableAdd", TestMapStringVFTableAdd) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableClear", TestMapStringVFTableClear) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableRemove", TestMapStringVFTableRemove) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableRemoveLots", TestMapStringVFTableRemoveLots) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableContains", TestMapStringVFTableContains) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableNotContains", TestMapStringVFTableNotContains) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableCopy", TestMapStringVFTableCopy) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableIsEmpty", TestMapStringVFTableIsEmpty) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableSize", TestMapStringVFTableSize) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableSet", TestMapStringVFTableSet) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableMoveInsert", TestMapStringVFTableMoveInsert) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableMoveInsertLots", TestMapStringVFTableMoveInsertLots) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableInsert", TestMapStringVFTableInsert) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableInsertLots", TestMapStringVFTableInsertLots) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableFind", TestMapStringVFTableFind) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableNPOSFind", TestMapStringVFTableNPOSFind) ||
+		!CU_add_test(mapSuite, "TestMapStringVFTableReplace", TestMapStringVFTableReplace) ||
+		!CU_add_test(ampSuite, "TestSetIterator", TestSetIterator))
 	{
 		printf("%s\n", CU_get_error_msg());
 		CU_cleanup_registry();
