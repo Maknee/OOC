@@ -27,10 +27,10 @@ https://www.blackhat.com/presentations/bh-dc-07/Sabanal_Yason/Paper/bh-dc-07-Sab
 int main()
 {	
 	//allocate a new string
-	void* s1 = New(String);
+	String s1 = New(String);
 
 	//allocate a new string
-	void* s2 = New(String);
+	String s2 = New(String);
 
 	//set s1 to "Much w0w"
 	Call(String, set, s1, "Much w0w");
