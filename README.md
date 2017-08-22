@@ -71,11 +71,13 @@ int main()
 
 [x] Test on linux and create makefile
 
-[x] Implement Dynamic cast (upcast/downcast)
+[ Needs to be fixed - not correct cast =/ ] Implement Dynamic cast (upcast/downcast)
 
 [ URGENT ] Provide Examples
 
-[ Unsafe ] Move semantics
+[ URGENT ] Explain how OOC works w/ diagrams
+
+[ Unsafe - probably implemented as MoveCall in future ] Move semantics
 
 [x] Iterator
 
@@ -87,9 +89,9 @@ int main()
 
 [x] Test Vector class
 
-[ :( ] Set class
+[x] Set class
 
-[ Will be done quicky if set is done ] Map class
+[x] Map class
 
 ## ?Wonderings, pondering, design decisions?
 
