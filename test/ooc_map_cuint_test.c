@@ -611,6 +611,8 @@ void TestMapStringVFTableContains()
 	Call(String, set, random_string1, "Testing");
 	Call(Entry(int, String), move_set_value, entry1, random_string1);
 
+	CU_ASSERT_FALSE(Call(Map(int, String), contains, map1, entry1));
+
 	Call(Map(int, String), move_insert, map1, entry1);
 
 	//Add a new string to map 2
