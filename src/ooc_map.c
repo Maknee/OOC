@@ -593,7 +593,7 @@ bool CAT(MapRemove, CAT(K, V))(void* this, ENTRY entry)
 		
 		direction = Call(ENTRY, compareTo, current_node->entry, entry) < 0;
 
-		if (Call(ENTRY, equals, current_node->entry, entry))
+		if (K_EQUALS(current_node->entry->key, entry->key))
 		{
 			found_node = current_node;
 		}
@@ -678,7 +678,7 @@ bool CAT(MapContains, CAT(K, V))(void* this, ENTRY entry)
 		while (current_node != NULL)
 		{	
 			//if data is equal, then we stop
-			if (Call(ENTRY, equals, current_node->entry, entry))
+			if (K_EQUALS(current_node->entry->key, entry->key))
 			{
 				return true;
 			}
@@ -801,7 +801,7 @@ bool CAT(MapMoveInsert, CAT(K, V))(void* this, ENTRY entry)
 			}
 
 			//if data is equal, then we stop
-			if (Call(ENTRY, equals, current_node->entry, entry))
+			if (K_EQUALS(current_node->entry->key, entry->key))
 			{
 				if (!inserted_node)
 				{
@@ -907,7 +907,7 @@ bool CAT(MapInsert, CAT(K, V))(void* this, ENTRY entry)
 			}
 
 			//if data is equal, then we stop
-			if (Call(ENTRY, equals, current_node->entry, entry))
+			if (K_EQUALS(current_node->entry->key, entry->key))
 			{
 				if (!inserted_node)
 				{
@@ -946,7 +946,7 @@ bool CAT(MapInsert, CAT(K, V))(void* this, ENTRY entry)
 	return true;
 }
 
-ENTRY CAT(MapFind, CAT(K, V)) (void* this, ENTRY entry)
+ENTRY* CAT(MapFind, CAT(K, V)) (void* this, ENTRY entry)
 {
 	CHECK_NULL(this, NULL);
 
@@ -966,9 +966,9 @@ ENTRY CAT(MapFind, CAT(K, V)) (void* this, ENTRY entry)
 		while (current_node != NULL)
 		{
 			//if data is equal, then we stop
-			if (Call(ENTRY, equals, current_node->entry, entry))
+			if (K_EQUALS(current_node->entry->key, entry->key))
 			{
-				return current_node->entry;
+				return &current_node->entry;
 			}
 
 			direction = Call(ENTRY, compareTo, current_node->entry, entry) < 0;
@@ -999,7 +999,7 @@ bool CAT(MapReplace, CAT(K, V))(void* this, ENTRY to_replace, ENTRY replacement)
 		while (current_node != NULL)
 		{
 			//if data is equal, then we stop
-			if (Call(ENTRY, equals, current_node->entry, to_replace))
+			if (K_EQUALS(current_node->entry->key, to_replace->key))
 			{
 				//delete and move the result in place
 				Delete(ENTRY, current_node->entry);
@@ -1045,7 +1045,7 @@ CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapBegin, CAT(K, V))(void* this)
 	iterator->index = 0;
 
 	int start_index = 0;
-	iterator->entry = CAT(GetMapInOrderTraversalByIndex, CAT(K, V))(this_map->root, &start_index, iterator->index);
+	iterator->data = CAT(GetMapInOrderTraversalByIndex, CAT(K, V))(this_map->root, &start_index, iterator->index);
 
 	return iterator;
 }
@@ -1063,7 +1063,7 @@ bool CAT(MapNext, CAT(K, V))(void* this, CAT(CAT(Map, CAT(K, V)), Iterator) iter
 	iterator->index++;
 
 	int start_index = 0;
-	iterator->entry = CAT(GetMapInOrderTraversalByIndex, CAT(K, V))(this_map->root, &start_index, iterator->index);
+	iterator->data = CAT(GetMapInOrderTraversalByIndex, CAT(K, V))(this_map->root, &start_index, iterator->index);
 
 	return true;
 }
@@ -1079,7 +1079,7 @@ CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapEnd, CAT(K, V))(void* this, CAT(CAT(Ma
 	if (iterator->index == (int)this_map->size)
 	{
 		iterator->index = NPOS;
-		iterator->entry = NULL;
+		iterator->data = NULL;
 		free(iterator);
 		return NULL;
 	}

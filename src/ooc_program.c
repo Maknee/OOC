@@ -80,7 +80,7 @@ int main()
 
 	Delete(Set(int), s);
 	*/
-	
+	/*
 	//Allocate a new set of strings
 	Set(String) set1 = New(Set(String));
 
@@ -108,6 +108,51 @@ int main()
 
 	//Delete set of strings
 	Delete(Set(String), set1);
+	*/
+
+	//Allocate a new map of strings
+	Map(int, String) map1 = New(Map(int, String));
+
+	//Add a new string to map 1
+	Entry(int, String) entry1 = New(Entry(int, String));
+
+	Call(Entry(int, String), move_set_key, entry1, 1);
+
+	String random_string1 = New(String);
+	Call(String, set, random_string1, "Testing");
+	Call(Entry(int, String), move_set_value, entry1, random_string1);
+
+	Call(Map(int, String), move_insert, map1, entry1);
+
+	//Add a new string to map 2
+	Entry(int, String) entry2 = New(Entry(int, String));
+
+	Call(Entry(int, String), move_set_key, entry2, 1);
+
+	String random_string2 = New(String);
+	Call(String, set, random_string2, "Testing");
+	Call(Entry(int, String), move_set_value, entry2, random_string2);
+
+	Call(Map(int, String), move_insert, map1, entry2);
+
+	//Add a new string to map 1
+	Entry(int, String) entry3 = New(Entry(int, String));
+
+	Call(Entry(int, String), move_set_key, entry3, 1);
+
+	String random_string3 = New(String);
+	Call(String, set, random_string3, "Testing");
+	Call(Entry(int, String), move_set_value, entry3, random_string3);
+
+	ForEach(Entry(int, String)* entry, Map(int, String), map1,
+	{
+		String* string = Call(Entry(int, String), get_value, *entry);
+		Call(String, set, *string, "www");
+	})
+
+	Delete(Entry(int, String), entry3);
+
+	Delete(Map(int, String), map1);
 
 	/*
 	//Allocate a new vector of strings

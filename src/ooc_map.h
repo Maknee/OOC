@@ -72,7 +72,7 @@
 	typedef struct CAT(CAT(_Map, CAT(K, V)), Iterator)         \
 	{                                                          \
 		int index;                                             \
-		ENTRY* entry;                                          \
+		ENTRY* data;                                           \
 	} *CAT(CAT(Map, CAT(K, V)), Iterator);                     \
 
 DEFINE_MAP_ITERATOR
@@ -132,7 +132,7 @@ DEFINE_MAP_ITERATOR
 		bool(*set)(void* this, const ENTRY* entries, size_t num_elements); \
 		bool(*move_insert)(void* this, ENTRY entry);                \
 		bool(*insert)(void* this, ENTRY entry);                     \
-		ENTRY(*find) (void* this, ENTRY entry);                       \
+		ENTRY*(*find) (void* this, ENTRY entry);                       \
 		bool(*replace)(void* this, ENTRY to_replace, ENTRY replacement); \
 		CAT(CAT(Map, CAT(K, V)), Iterator) (*begin)(void* this);      \
 		bool(*next)(void* this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator); \
@@ -449,7 +449,7 @@ bool CAT(MapMoveInsert, CAT(K, V))(void* this, ENTRY entry);
 bool CAT(MapInsert, CAT(K, V))(void* this, ENTRY entry);
 
 /**********************************************************************************************//**
- * @fn	ENTRY entry CAT(MapFind, CAT(K, V)) (void* this, ENTRY entry)
+ * @fn	ENTRY* entry CAT(MapFind, CAT(K, V)) (void* this, ENTRY entry)
  *
  * @brief	Finds the index of the element in the map
  *
@@ -461,7 +461,7 @@ bool CAT(MapInsert, CAT(K, V))(void* this, ENTRY entry);
  * @return	Index of the element. NPOS if none were found
  **************************************************************************************************/
 
-ENTRY CAT(MapFind, CAT(K, V)) (void* this, ENTRY entry);
+ENTRY* CAT(MapFind, CAT(K, V)) (void* this, ENTRY entry);
 
 /**********************************************************************************************//**
  * @fn	bool CAT(MapReplace, CAT(K, V))(void* this, T to_replace, T replacement);

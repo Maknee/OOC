@@ -43,6 +43,13 @@
 #undef V
 #undef K
 
+#define K int
+#define V String
+#include "ooc_entry.h"
+#include "ooc_map.h"
+#undef V
+#undef K
+
 #undef RED
 #undef BLACK
 #undef RIGHT

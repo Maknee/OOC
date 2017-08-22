@@ -178,8 +178,11 @@
 #define SetExpansion(type) CAT(Set, type)
 #define Set(type) SetExpansion(type)
 
-#define MapExpansion(type) CAT(Map, type)
-#define Map(type) MapExpansion(type)
+#define EntryExpansion(key_type, value_type) CAT(Entry, CAT(key_type, value_type))
+#define Entry(key_type, value_type) EntryExpansion(key_type, value_type)
+
+#define MapExpansion(key_type, value_type) CAT(Map, CAT(key_type, value_type))
+#define Map(key_type, value_type) MapExpansion(key_type, value_type)
 
 #define IteratorExpansion(type) CAT(type, Iterator)
 #define Iterator(type) IteratorExpansion(type)
