@@ -986,7 +986,7 @@ bool CAT(MapReplace, CAT(K, V))(void* this, ENTRY to_replace, ENTRY replacement)
 
 	MAP this_map = (MAP)this;
 
-	if (this_map->root == NULL)
+	if (this_map->root == NULL || to_replace == replacement)
 	{
 		//empty tree
 		return false;
