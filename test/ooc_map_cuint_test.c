@@ -1287,7 +1287,7 @@ void TestMapStringVFTableReplace()
 
 	CU_ASSERT_FALSE(Call(Map(int, String), replace, map1, entry2, entry4));
 
-	Delete(Entry(int, Sstring), entry4);
+	Delete(Entry(int, String), entry4);
 
 	//Delete map of strings
 	Delete(Map(int, String), map1);
