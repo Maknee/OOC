@@ -178,7 +178,7 @@ static MAPNODE CAT(MapNewNode, CAT(K, V))(ENTRY entry)
 {
 	MAPNODE new_node = check_calloc(sizeof(struct CAT(_MapNode, CAT(K, V))));
 
-	new_node->entry = entry;
+	new_node->entry = Call(ENTRY, copy, entry);
 	new_node->children[LEFT] = NULL;
 	new_node->children[RIGHT] = NULL;
 	new_node->color = RED;
@@ -912,6 +912,7 @@ bool CAT(MapInsert, CAT(K, V))(void* this, ENTRY entry)
 				if (!inserted_node)
 				{
 					//replace node with moved entry
+					Delete(ENTRY, current_node->entry);
 					current_node->entry = Call(ENTRY, copy, entry);
 				}
 

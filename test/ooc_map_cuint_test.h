@@ -194,7 +194,7 @@ void TestMapStringVFTableSize();
  * @brief	Tests string vf table string remove.
  **************************************************************************************************/
 
-void TestMapStringVFTableMap();
+void TestMapStringVFTableSet();
 
 /**********************************************************************************************//**
  * @fn	void TestMapStringVFTableMoveInsert();

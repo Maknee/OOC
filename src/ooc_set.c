@@ -910,6 +910,7 @@ bool CAT(SetInsert, T)(void* this, T item)
 				if (!inserted_node)
 				{
 					//replace node with moved item
+					T_DELETE(&current_node->data);
 					current_node->data = T_COPY(&item);
 				}
 

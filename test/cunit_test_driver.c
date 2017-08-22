@@ -272,7 +272,7 @@ int main()
 		!CU_add_test(setSuite, "TestSetStringVFTableFind", TestSetStringVFTableFind) ||
 		!CU_add_test(setSuite, "TestSetStringVFTableNPOSFind", TestSetStringVFTableNPOSFind) ||
 		!CU_add_test(setSuite, "TestSetStringVFTableReplace", TestSetStringVFTableReplace) ||
-		!CU_add_test(setSuite, "TestMapIterator", TestMapIterator))
+		!CU_add_test(setSuite, "TestSetIterator", TestSetIterator))
 	{
 		printf("%s\n", CU_get_error_msg());
 		CU_cleanup_registry();
@@ -318,7 +318,7 @@ int main()
 		!CU_add_test(mapSuite, "TestMapStringVFTableFind", TestMapStringVFTableFind) ||
 		!CU_add_test(mapSuite, "TestMapStringVFTableNPOSFind", TestMapStringVFTableNPOSFind) ||
 		!CU_add_test(mapSuite, "TestMapStringVFTableReplace", TestMapStringVFTableReplace) ||
-		!CU_add_test(ampSuite, "TestSetIterator", TestSetIterator))
+		!CU_add_test(mapSuite, "TestSetIterator", TestSetIterator))
 	{
 		printf("%s\n", CU_get_error_msg());
 		CU_cleanup_registry();

@@ -373,7 +373,7 @@ void TestMapStringVFTableAdd()
 	Call(String, set, random_string2, "Testing");
 	Call(Entry(int, String), move_set_value, entry2, random_string2);
 
-	Call(Map(int, String), move_insert, map2, entry2);
+	Call(Map(int, String), add, map2, entry2);
 
 	//Check if two maps are equal
 	CU_ASSERT_TRUE(Call(Map(int, String), equals, map1, map2));
@@ -649,7 +649,7 @@ void TestMapStringVFTableNotContains()
 	//Add a new string to map 2
 	Entry(int, String) entry2 = New(Entry(int, String));
 
-	Call(Entry(int, String), move_set_key, entry2, 1);
+	Call(Entry(int, String), move_set_key, entry2, 23132);
 
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Testing");
@@ -762,7 +762,7 @@ void TestMapStringVFTableSize()
 	Delete(Map(int, String), map1);
 }
 
-void TestMapStringVFTableMap()
+void TestMapStringVFTableSet()
 {
 	//Allocate a new map of strings
 	Map(int, String) map1 = New(Map(int, String));
@@ -817,23 +817,7 @@ void TestMapStringVFTableMoveInsert()
 	Call(String, set, random_string2, "Testing");
 	Call(Entry(int, String), move_set_value, entry2, random_string2);
 
-	Call(Map(int, String), move_insert, map1, entry2);
-
-	//Add a new string to map 1
-	Entry(int, String) entry3 = New(Entry(int, String));
-
-	Call(Entry(int, String), move_set_key, entry3, 2);
-
-	String random_string3 = New(String);
-	Call(String, set, random_string3, "Testing");
-	Call(Entry(int, String), move_set_value, entry3, random_string3);
-
-	Entry(int, String)* equal_random_string3 = Call(Map(int, String), find, map1, entry3);
-
-	//Check if they are equal
-	CU_ASSERT_PTR_EQUAL(random_string3, (*equal_random_string3)->value);
-
-	Delete(Map(int, String), entry3);
+	CU_ASSERT_TRUE(Call(Map(int, String), move_insert, map1, entry2));
 
 	//Delete map of strings
 	Delete(Map(int, String), map1);
@@ -1005,8 +989,8 @@ void TestMapStringVFTableInsert()
 
 	Entry(int, String)* equal_entry2 = Call(Map(int, String), find, map1, entry3);
 	
-	//Check if they are equal
-	CU_ASSERT_PTR_EQUAL(entry2, *equal_entry2);
+	//Check if they are equal, entry2 is not moved
+	CU_ASSERT_PTR_NOT_EQUAL(entry2, *equal_entry2);
 
 	Delete(Entry(int, String), entry2);
 	Delete(Entry(int, String), entry3);
@@ -1242,8 +1226,8 @@ void TestMapStringVFTableNPOSFind()
 	Call(String, set, random_string3, "Testing");
 	Call(Entry(int, String), move_set_value, entry3, random_string3);
 
-	//Find random_string2
-	CU_ASSERT_TRUE(Call(Entry(int, String), equals, (*(Call(Map(int, String), find, map1, entry3))), NULL));
+	Entry(int, String)* entry = Call(Map(int, String), find, map1, entry3);
+	CU_ASSERT_PTR_EQUAL(entry, NULL);
 
 	Delete(Entry(int, String), entry3);
 
@@ -1272,7 +1256,7 @@ void TestMapStringVFTableReplace()
 	//Add a new string to map 2
 	Entry(int, String) entry2 = New(Entry(int, String));
 
-	Call(Entry(int, String), move_set_key, entry2, 1);
+	Call(Entry(int, String), move_set_key, entry2, 2);
 
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Testing");
@@ -1315,7 +1299,7 @@ void TestMapIterator()
 	//Add a new string to map 2
 	Entry(int, String) entry2 = New(Entry(int, String));
 
-	Call(Entry(int, String), move_set_key, entry2, 1);
+	Call(Entry(int, String), move_set_key, entry2, 2);
 
 	String random_string2 = New(String);
 	Call(String, set, random_string2, "Testing");
@@ -1326,12 +1310,14 @@ void TestMapIterator()
 	//Add a new string to map 1
 	Entry(int, String) entry3 = New(Entry(int, String));
 
-	Call(Entry(int, String), move_set_key, entry3, 1);
+	Call(Entry(int, String), move_set_key, entry3, 3);
 
 	String random_string3 = New(String);
 	Call(String, set, random_string3, "Testing");
 	Call(Entry(int, String), move_set_value, entry3, random_string3);
 
+	Call(Map(int, String), move_insert, map1, entry3);
+	
 	ForEach(Entry(int, String)* entry, Map(int, String), map1,
 	{
 		String* string = Call(Entry(int, String), get_value, *entry);
@@ -1344,8 +1330,6 @@ void TestMapIterator()
 	CU_ASSERT_STRING_EQUAL(Call(String, c_str, *string2), "www");
 	String* string3 = Call(Entry(int, String), get_value, entry3);
 	CU_ASSERT_STRING_EQUAL(Call(String, c_str, *string3), "www");
-
-	Delete(Entry(int, String), entry3);
 
 	//Delete map of strings
 	Delete(Map(int, String), map1);
