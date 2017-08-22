@@ -318,7 +318,7 @@ int main()
 		!CU_add_test(mapSuite, "TestMapStringVFTableFind", TestMapStringVFTableFind) ||
 		!CU_add_test(mapSuite, "TestMapStringVFTableNPOSFind", TestMapStringVFTableNPOSFind) ||
 		!CU_add_test(mapSuite, "TestMapStringVFTableReplace", TestMapStringVFTableReplace) ||
-		!CU_add_test(mapSuite, "TestSetIterator", TestSetIterator))
+		!CU_add_test(mapSuite, "TestMapIterator", TestMapIterator))
 	{
 		printf("%s\n", CU_get_error_msg());
 		CU_cleanup_registry();
