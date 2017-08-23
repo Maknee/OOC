@@ -371,6 +371,8 @@ void TestStringVFTableStringReplace();
 
 void TestStringVFTableStringReplaceAllocated();
 
+void TestStringVFTableStringErase();
+
 /**********************************************************************************************//**
  * @fn	void TestStringVFTableStringFind();
  *

@@ -1065,6 +1065,48 @@ void TestStringVFTableStringReplaceAllocated()
 	Delete(String, s1);
 }
 
+void TestStringVFTableStringErase()
+{
+	//allocate a new string
+	void* s1 = New(String);
+
+	//append characters to s1
+	Call(String, set, s1, "this test this");
+
+	//erase the string s1 at index 
+	Call(String, erase, s1, 0, 4);
+
+	//test if substring == "test"
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), " test this");
+
+	//append characters to s1
+	Call(String, set, s1, "this test this this this this");
+
+	//erase the string s1 at index 
+	Call(String, erase, s1, 0, 4);
+
+	//test if substring == "test"
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), " test this this this this");
+
+	//append characters to s1
+	Call(String, set, s1, "this test this this this this");
+
+	//erase the string s1 at index 
+	CU_ASSERT_FALSE(Call(String, erase, s1, 4, 2));
+
+	//test if substring == "test"
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "this test this this this this");
+
+	//erase the string s1 at index 
+	CU_ASSERT_TRUE(Call(String, erase, s1, 0, NPOS));
+
+	//test if substring == "test"
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "this test this this this this");
+
+	//free the string's resources
+	Delete(String, s1);
+}
+
 void TestStringVFTableStringFind()
 {
 	//allocate a new string

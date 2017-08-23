@@ -143,6 +143,7 @@ int main()
 		!CU_add_test(stringSuite, "TestStringVFTableStringInsertNPOS", TestStringVFTableStringInsertNPOS) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringReplace", TestStringVFTableStringReplace) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringReplaceAllocated", TestStringVFTableStringReplaceAllocated) ||
+		!CU_add_test(stringSuite, "TestStringVFTableStringErase", TestStringVFTableStringErase) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringFind", TestStringVFTableStringFind) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringFindHayStackAllocated", TestStringVFTableStringFindHayStackAllocated) ||
 		!CU_add_test(stringSuite, "TestStringVFTableStringFindNeedleAllocated", TestStringVFTableStringFindNeedleAllocated) ||
