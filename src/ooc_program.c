@@ -32,6 +32,7 @@
 *			append - @ref StringAppend
 *			insert - @ref StringInsert
 *			replace - @ref StringReplace
+*			erase - @ref StringErase
 *			find - @ref StringFind
 *			substring - @ref StringSubString
 *			begin - @ref StringBegin
@@ -183,7 +184,7 @@ int main()
 	{
 		printf("%s\n", Call(String, c_str, *directory));
 	})
-
+	
 	Delete(String, to_find);
 
 	Delete(Vector(String), directories);

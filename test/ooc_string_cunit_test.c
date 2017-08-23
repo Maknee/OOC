@@ -1227,6 +1227,12 @@ void TestStringVFTableStringSubString()
 	//set characters of haystack
 	Call(String, set, s1, "TESTwwwtestWWW");
 
+	void* copy_s1 = Call(String, substring, s1, 0, NPOS);
+	
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, copy_s1), Call(String, c_str, s1));
+
+	Delete(String, copy_s1);
+
 	//set characters of needle1
 	Call(String, set, s2, "www");
 

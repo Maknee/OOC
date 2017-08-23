@@ -202,6 +202,7 @@ void StringConstruct(void* this)
 	StringvfTable.append = &StringAppend;
 	StringvfTable.insert = &StringInsert;
 	StringvfTable.replace = &StringReplace;
+	StringvfTable.erase = &StringErase;
 	StringvfTable.find = &StringFind;
 	StringvfTable.substring = &StringSubstring;
 	StringvfTable.begin = &StringBegin;
@@ -856,6 +857,85 @@ bool StringReplace(void* this, void* item, void* replacement)
 	return true;
 }
 
+bool StringErase(void* this, int start, int end)
+{
+	CHECK_NULL(this, false);
+
+	String this_string = (String)this;
+
+	//check if start or end if negative
+	if (start < 0 || (end < 0 && end != NPOS) || (start > end) || start > this_string->length)
+	{
+		return false;
+	}
+	
+	//check for end being greater than length or having a value of npos
+	if (end > this_string->length || end == NPOS)
+	{
+		end = this_string->length;
+	}
+
+	//cast found to size_t from int, now we know that the value isn't negative
+	size_t start_t = (size_t)start;
+	size_t end_t = (size_t)end;
+
+	//update the length
+	size_t new_length = this_string->length - (end_t - start_t);
+
+	//check whether or not the string is using an array or a dynamic pointer
+	if (CheckIfStringIsAllocated(this_string))
+	{
+		//start of substring
+		char* start_index = this_string->data.pBuf + start_t;
+
+		//end of substring
+		char* end_index = this_string->data.pBuf + end_t;
+
+		//length of data after substring
+		size_t data_after_substring_length = this_string->length - end_t;
+
+		//start of substring as if it was the end (this is the place to null out the rest of the data)
+		char* null_end_of_string_length = this_string->data.pBuf + this_string->length - (end_t - start_t);
+
+		//fill the substring area with NULLs first (case when the substring is at the end)
+		memset(start_index, 0, (end_t - start_t));
+
+		//fill the data after the substring into the data of the substring
+		memmove(start_index, end_index, data_after_substring_length);
+
+		//replace the rest with nulls
+		memset(null_end_of_string_length, 0, (end_t - start_t));
+	}
+	else
+	{
+		//start of substring
+		char* start_index = this_string->data.buf + start_t;
+
+		//end of substring
+		char* end_index = this_string->data.buf + end_t;
+
+		//length of data after substring
+		size_t data_after_substring_length = this_string->length - end_t;
+
+		//start of substring as if it was the end (this is the place to null out the rest of the data)
+		char* null_end_of_string_length = this_string->data.buf + this_string->length - (end_t - start_t);
+
+		//fill the substring area with NULLs first (case when the substring is at the end)
+		memset(start_index, 0, (end_t - start_t));
+
+		//fill the data after the substring into the data of the substring
+		memmove(start_index, end_index, data_after_substring_length);
+
+		//replace the rest with nulls
+		memset(null_end_of_string_length, 0, (end_t - start_t));
+	}
+
+	//update the length
+	this_string->length = new_length;
+
+	return true;
+}
+
 int StringFind(void* this, void* item, int index)
 {
 	CHECK_NULL(this, -1);
@@ -917,7 +997,7 @@ void* StringSubstring(void* this, int start, int end)
 
 	if (end == NPOS)
 	{
-		end = this_string->length;
+		end = (int)this_string->length;
 	}
 
 	//check if user made mistakes...
