@@ -862,17 +862,17 @@ bool StringErase(void* this, int start, int end)
 	CHECK_NULL(this, false);
 
 	String this_string = (String)this;
-
-	//check if start or end if negative
-	if (start < 0 || (end < 0 && end != NPOS) || (start > end) || (size_t)start > this_string->length)
-	{
-		return false;
-	}
 	
 	//check for end being greater than length or having a value of npos
 	if ((size_t)end > this_string->length || end == NPOS)
 	{
 		end = (int)this_string->length;
+	}
+
+	//check if start or end if negative
+	if (start < 0 || end < 0 || (start > end) || (size_t)start > this_string->length)
+	{
+		return false;
 	}
 
 	//cast found to size_t from int, now we know that the value isn't negative
