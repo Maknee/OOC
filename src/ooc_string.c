@@ -864,15 +864,15 @@ bool StringErase(void* this, int start, int end)
 	String this_string = (String)this;
 
 	//check if start or end if negative
-	if (start < 0 || (end < 0 && end != NPOS) || (start > end) || start > this_string->length)
+	if (start < 0 || (end < 0 && end != NPOS) || (start > end) || (size_t)start > this_string->length)
 	{
 		return false;
 	}
 	
 	//check for end being greater than length or having a value of npos
-	if (end > this_string->length || end == NPOS)
+	if ((size_t)end > this_string->length || end == NPOS)
 	{
-		end = this_string->length;
+		end = (int)this_string->length;
 	}
 
 	//cast found to size_t from int, now we know that the value isn't negative
