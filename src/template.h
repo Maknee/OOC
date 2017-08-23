@@ -216,8 +216,11 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object);
 //used for SafeCall -- we don't want to change the vftable, only checks if cast is allowed
 #define CheckDynamicCast(new_type, object) ((UpcastTable(new_type, object)) ? (true) : ((DowncastTable(new_type, object)) ? (true) : (false)))
 
-//attempts upcast and downcast vftable
-#define DynamicCast(new_type, object) ((UpcastTable(new_type, object)) ? (Upcast(new_type, object)) : ((DowncastTable(new_type, object)) ? (Downcast(new_type, object)) : (NULL)))
+//converts actual object's vftable
+//#define DynamicCast(new_type, object) ((UpcastTable(new_type, object)) ? (Upcast(new_type, object)) : ((DowncastTable(new_type, object)) ? (Downcast(new_type, object)) : (NULL)))
+
+//attempts upcast and downcast vftable (doesn't change vftable)
+#define DynamicCast(new_type, object) ((UpcastTable(new_type, object)) ? (object) : ((DowncastTable(new_type, object)) ? (object) : (NULL)))
 
 //TOTAL UNSAFE... :(
 //MOVE SEMANTICS 
@@ -226,6 +229,7 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object);
 //ugh not perfect, we convert the macro to a string and check if it is a move
 const char* CheckForMove(const char* macro);
 
+/*
 #define Moo(type, function, ...) CheckForMove(GET_FIRST_ARG((#__VA_ARGS__)))
 
 #define CheckMove(...) CheckForMove(GET_FIRST_ARG((#__VA_ARGS__)))
@@ -238,11 +242,11 @@ const char* CheckForMove(const char* macro);
 		(Call(type, function, __VA_ARGS__))                    \
 		)                                                      \
 
-//#define MoveCall(type, function, ...) MoveCallExpansion(type, function, __VA_ARGS__)
+#define MoveCall(type, function, ...) MoveCallExpansion(type, function, __VA_ARGS__)
+*/
 
-
-#define Move(object) object
-
+#define MoveCallExpansion(type, function, ...) ((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->CAT(move_, function)(__VA_ARGS__)
+#define MoveCall(type, function, ...) MoveCallExpansion(type, function, __VA_ARGS__)
 
 //GLOBAL DEFINES
 #define NPOS -1

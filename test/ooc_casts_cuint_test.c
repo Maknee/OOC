@@ -71,14 +71,14 @@ void TestMoveSemantics()
 
 	SafeCall(String, set, something, "HEYYYY");
 
-	CU_ASSERT_TRUE(MoveCall(Vector(String), push_back, Move(vector), something));
+	CU_ASSERT_TRUE(MoveCall(Vector(String), push_back, vector, something));
 
 	//should have no leaks since string is moved into vector
 
 	something = New(String);
 
 	//copy, not move
-	CU_ASSERT_TRUE(MoveCall(Vector(String), push_back, vector, something));
+	CU_ASSERT_TRUE(Call(Vector(String), push_back, vector, something));
 
 	Delete(String, something);
 

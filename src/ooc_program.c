@@ -9,10 +9,10 @@ int main()
 {
 	/*
 	//allocate a new string
-	void* s1 = New(String);
+	String s1 = New(String);
 
 	//allocate a new string
-	void* s2 = New(String);
+	String s2 = New(String);
 
 	//set s1 to "Much w0w"
 	Call(String, set, s1, "Much w0w");
@@ -40,11 +40,32 @@ int main()
 	//prints "Much w0w d0ge gud"
 	printf("%s\n", Call(String, c_str, s1));
 
+	printf("%s\n", Call(String, toString, s1));
+
 	//free the string's resources
 	Delete(String, s2);
 	Delete(String, s1);
 	*/
-	
+
+	Vector(String) vector = New(Vector(String));
+
+	String something = New(String);
+
+	SafeCall(String, set, something, "HEYYYY");
+
+	MoveCall(Vector(String), push_back, vector, something);
+
+	//should have no leaks since string is moved into vector
+
+	something = New(String);
+
+	//copy, not move
+	Call(Vector(String), push_back, vector, something);
+
+	Delete(String, something);
+
+	Delete(Vector(String), vector);
+
 	/*
 	Vector(Vector(int)) ints = New(Vector(Vector(int)));
 	SafeCall(Vector(Vector(int)), push_back, ints, New(Vector(int)));
@@ -109,72 +130,6 @@ int main()
 	//Delete set of strings
 	Delete(Set(String), set1);
 	*/
-
-	//Allocate a new map of strings
-Map(int, String) map1 = New(Map(int, String));
-
-//Add a new string to map 1
-Entry(int, String) entry1 = New(Entry(int, String));
-
-Call(Entry(int, String), move_set_key, entry1, 1);
-
-String random_string1 = New(String);
-Call(String, set, random_string1, "Testing");
-Call(Entry(int, String), move_set_value, entry1, random_string1);
-
-(Call(Map(int, String), replace, map1, entry1, entry1));
-
-Call(Map(int, String), move_insert, map1, entry1);
-
-//Add a new string to map 2
-Entry(int, String) entry2 = New(Entry(int, String));
-
-Call(Entry(int, String), move_set_key, entry2, 2);
-
-String random_string2 = New(String);
-Call(String, set, random_string2, "Testing");
-Call(Entry(int, String), move_set_value, entry2, random_string2);
-
-Call(Map(int, String), move_insert, map1, entry2);
-
-//Add a new string to map 1
-Entry(int, String) entry3 = New(Entry(int, String));
-
-Call(Entry(int, String), move_set_key, entry3, 2);
-
-String random_string3 = New(String);
-Call(String, set, random_string3, "Testing");
-Call(Entry(int, String), move_set_value, entry3, random_string3);
-
-//Add a new string to map 1
-Entry(int, String) entry4 = New(Entry(int, String));
-
-Call(Entry(int, String), move_set_key, entry4, 8);
-
-String random_string4 = New(String);
-Call(String, set, random_string4, "Testing");
-Call(Entry(int, String), move_set_value, entry4, random_string4);
-
-//Add a new string to map 1
-Entry(int, String) entry5 = New(Entry(int, String));
-
-Call(Entry(int, String), move_set_key, entry5, 8);
-
-String random_string5 = New(String);
-Call(String, set, random_string5, "Testing");
-Call(Entry(int, String), move_set_value, entry5, random_string5);
-
-
-//Find random_string2
-(Call(Map(int, String), replace, map1, entry2, entry3));
-
-(Call(Map(int, String), replace, map1, entry5, entry4));
-
-Delete(Entry(int, String), entry4);
-Delete(Entry(int, String), entry5);
-
-//Delete map of strings
-Delete(Map(int, String), map1);
 
 	/*
 	//Allocate a new map of strings
