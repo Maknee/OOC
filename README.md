@@ -12,10 +12,10 @@ data structures (some have templates :)!) that do not exist in the standard C li
 
 Current data structures implemented
 
-String
-Templated Vector
-Templated Set
-Templated Map
+* String
+* Templated Vector
+* Templated Set
+* Templated Map
 
 ## How does this work?
 
@@ -32,17 +32,27 @@ the object and container methods. There is also a CompleteObjectLocator class, w
 runtime type information for casting between classes and finding out an object's type at runtime.
 
 A Stackoverflow post that inspired this project
+
 https://stackoverflow.com/questions/2181079/object-oriented-programming-in-c
 
 A better explanation of RTTI
+
 http://www.openrce.org/articles/full_view/23
 
 ## Who the heck would want to use this?
 
-Sometimes C gets a bit messy and hard to manage, even though I love writing C code. 
-The standard library can be tricky at times and there are A LOT of unsafe functions
-that should/are depreciated. Even though using this project will add overhead, 
-having managable code is important. 
+Sometimes, C does get a bit messy and hard to manage, even though I love writing raw C code :(. 
+The standard library can be tricky at times and there are plenty of unsafe functions
+that should/are depreciated. Anyone who is annoyed by the standard library or feel limited
+by the amount of primitive data structures in C (struct, arrays), should use this framework.
+
+
+## Why are you reimplementing C++, you dummy?
+
+Yup, I'll admit it. I'm pretty dumb for implementing this framework when C++ exists. 
+But... I want to learn. I didn't fully understand the virtual function table concept.
+I didn't understand how RTTI works. This project gave me insight as to how higher level languages
+such as java are implemented. Plus, I want to use this in my other (future) projects :).
 
 ## Example
 
