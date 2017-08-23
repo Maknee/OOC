@@ -1,3 +1,67 @@
+/*! 
+* \mainpage OOC Main page
+*
+* \section intro_sec Introduction
+*
+* Welcome to OOC documentation
+*
+* \section string_sec String class
+*
+*   		String Methods\n\n
+* 			Overridden Methods\n\n
+* 			Object Methods\n
+*			equals\n
+*			toString\n\n
+*			Container Methods\n
+*			add\n
+*			clear\n
+*			remove\n
+*			contains\n
+*			copy\n
+*			isEmpty\n
+*			size\n\n
+*			Class member methods\n
+*			set\n
+*			c_str\n
+*			append\n
+*			insert\n
+*			replace\n
+*			find\n
+*			substring\n
+*			begin\n
+*			next\n
+*			end\n
+*
+* \section vector_sec Vector class
+*
+* 			Vector Methods\n
+* 			Overridden Methods\n
+* 			Object Methods\n
+*			equals - bool CAT(VectorEquals, T)(void* this, void* other);\n
+*			compareTo - int CAT(VectorCompareTo, T)(void* this, void* other);\n
+*			toString - char* CAT(VectorToString, T)(void* this);\n
+*			Container Methods\n
+*			add - bool CAT(VectorAdd, T)(void* this, T item);\n
+*			clear - void CAT(VectorClear, T)(void* this);\n
+*			remove - bool CAT(VectorRemove, T)(void* this, T item);\n
+*			contains - bool CAT(VectorContains, T)(void* this, T item);\n
+*			copy - void* CAT(VectorCopy, T)(void* this);\n
+*			isEmpty\n
+*			size\n
+*			Class member methods\n
+*			set\n
+*			get\n
+*			push_front\n
+*			push_back\n
+*			replace\n
+*			find\n
+*			replace\n
+*			begin\n
+*			next\n
+*			end\n
+* etc...
+*/
+
 #include "ooc.h"
 
 #ifdef _MSC_VER

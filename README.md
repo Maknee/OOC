@@ -124,17 +124,17 @@ https://www.blackhat.com/presentations/bh-dc-07/Sabanal_Yason/Paper/bh-dc-07-Sab
 
 [x] Test on linux and create makefile
 
-[ Needs to be fixed - not correct cast =/ ] Implement Dynamic cast (upcast/downcast)
+[x] Implement Dynamic cast (upcast/downcast)
 
 [ URGENT ] Provide Examples
 
-[ URGENT ] Explain how OOC works w/ diagrams
+[ Good ] Explain how OOC works w/ diagrams
 
 [ Unsafe - probably implemented as MoveCall in future ] Move semantics
 
 [x] Iterator
 
-[dunno] const Iterator
+[ dunno ] const Iterator
 
 [ Make neater ] ForEach keyword
 
