@@ -474,7 +474,7 @@ bool StringRemove(void* this, void* item)
 	String other_string = (String)item;
 
 	//find the substring's index in the current string
-	int found = StringFind(this_string, other_string);
+	int found = StringFind(this_string, other_string, 0);
 
 	//check if the substring exists
 	if (found != NPOS)
@@ -545,7 +545,7 @@ bool StringContains(void* this, void* item)
 	CHECK_NULL(this, false);
 	CHECK_NULL(item, false);
 
-	return (StringFind(this, item) != NPOS) ? true : false;
+	return (StringFind(this, item, 0) != NPOS) ? true : false;
 }
 
 void* StringCopy(void* this)
@@ -783,7 +783,7 @@ bool StringReplace(void* this, void* item, void* replacement)
 
 	//keep track of our starting index for each replacement
 	int index = 0;
-	while ((index = StringFind(this_string, to_find_string)) != NPOS)
+	while ((index = StringFind(this_string, to_find_string, 0)) != NPOS)
 	{
 		//Taken from StringRemove (need since StringRemove doesn't take in the index)
 
@@ -856,7 +856,7 @@ bool StringReplace(void* this, void* item, void* replacement)
 	return true;
 }
 
-int StringFind(void* this, void* item)
+int StringFind(void* this, void* item, int index)
 {
 	CHECK_NULL(this, -1);
 	CHECK_NULL(item, -1);
@@ -873,22 +873,22 @@ int StringFind(void* this, void* item)
 	{
 		if (CheckIfStringIsAllocated(item))
 		{
-			pFound = strstr(this_string->data.pBuf, substring->data.pBuf);
+			pFound = strstr(this_string->data.pBuf + index, substring->data.pBuf);
 		}
 		else
 		{
-			pFound = strstr(this_string->data.pBuf, substring->data.buf);
+			pFound = strstr(this_string->data.pBuf + index, substring->data.buf);
 		}
 	}
 	else
 	{
 		if (CheckIfStringIsAllocated(item))
 		{
-			pFound = strstr(this_string->data.buf, substring->data.pBuf);
+			pFound = strstr(this_string->data.buf + index, substring->data.pBuf);
 		}
 		else
 		{
-			pFound = strstr(this_string->data.buf, substring->data.buf);
+			pFound = strstr(this_string->data.buf + index, substring->data.buf);
 		}
 	}
 
@@ -913,13 +913,18 @@ void* StringSubstring(void* this, int start, int end)
 {
 	CHECK_NULL(this, NULL);
 	
+	String this_string = (String)this;
+
+	if (end == NPOS)
+	{
+		end = this_string->length;
+	}
+
 	//check if user made mistakes...
 	if (start > end || start < 0 || end < 0)
 	{
 		return NULL;
 	}
-
-	String this_string = (String)this;
 
 	//check if indices are in bounds
 	if (start > (int)this_string->length || end > (int)this_string->length)
@@ -943,7 +948,7 @@ void* StringSubstring(void* this, int start, int end)
 		memmove(copy_string->data.pBuf, copy_string->data.pBuf + start_t, copy_string->length);
 
 		//now zero out the rest
-		memset(copy_string->data.pBuf + copy_string->length, 0, end_t - copy_string->length);
+		memset(copy_string->data.pBuf + copy_string->length, 0, copy_string->capacity - copy_string->length);
 	}
 	else
 	{
@@ -951,7 +956,7 @@ void* StringSubstring(void* this, int start, int end)
 		memmove(copy_string->data.buf, copy_string->data.buf + start_t, copy_string->length);
 
 		//now zero out the rest
-		memset(copy_string->data.buf + copy_string->length, 0, end_t - copy_string->length);
+		memset(copy_string->data.buf + copy_string->length, 0, copy_string->capacity - copy_string->length);
 	}
 	return copy_string;
 }

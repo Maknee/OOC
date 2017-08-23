@@ -244,7 +244,7 @@ typedef struct _StringVFTable
 	bool (*append)(void* this, const char* item);
 	bool (*insert)(void* this, void* item, int index);
 	bool (*replace)(void* this, void* item, void* replacement);
-	int (*find) (void* this, void* item);
+	int (*find) (void* this, void* item, int index);
 	void* (*substring)(void* this, int start, int end);
 
 	StringIterator (*begin)(void* this);
@@ -616,7 +616,7 @@ bool StringInsert(void* this, void* item, int index);
 bool StringReplace(void* this, void* item, void* replacement);
 
 /**********************************************************************************************//**
- * @fn		int StringFind(void* this, void* item)
+ * @fn		int StringFind(void* this, void* item, int index)
  *
  * @brief	Returns the index of the first occurence of the substring
  *			
@@ -627,7 +627,7 @@ bool StringReplace(void* this, void* item, void* replacement);
  * @return	Returns true if the string was found, and false if not
  **************************************************************************************************/
 
-int StringFind(void* this, void* item);
+int StringFind(void* this, void* item, int index);
 
 /**********************************************************************************************//**
  * @fn		void* StringSubstring(void* this, int start, int end);

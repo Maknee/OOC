@@ -1080,7 +1080,7 @@ void TestStringVFTableStringFind()
 	Call(String, set, s2, "www");
 
 	//find index of www in s1
-	int index = Call(String, find, s1, s2);
+	int index = Call(String, find, s1, s2, 0);
 	
 	//index should be value of 4
 	CU_ASSERT_EQUAL(index, 4);
@@ -1109,7 +1109,7 @@ void TestStringVFTableStringFindHayStackAllocated()
 	Call(String, set, s2, "test");
 
 	//find index of www in s1
-	int index = Call(String, find, s1, s2);
+	int index = Call(String, find, s1, s2, 0);
 
 	//index should be value of 10
 	CU_ASSERT_EQUAL(index, 10);
@@ -1141,7 +1141,7 @@ void TestStringVFTableStringFindNeedleAllocated()
 	Call(String, set, s2, "test");
 
 	//find index of test in s1
-	int index = Call(String, find, s1, s2);
+	int index = Call(String, find, s1, s2, 0);
 
 	//index should be value of 10
 	CU_ASSERT_EQUAL(index, 10);
@@ -1170,7 +1170,7 @@ void TestStringVFTableStringFindHayStackAllocatedNeedleAllocated()
 	Call(String, set, s2, "because testing is good!");
 
 	//find index of www in s1
-	int index = Call(String, find, s1, s2);
+	int index = Call(String, find, s1, s2, 0);
 
 	//index should be value of 14
 	CU_ASSERT_EQUAL(index, 15);
@@ -1199,7 +1199,7 @@ void TestStringVFTableStringFindNull()
 	Call(String, set, s2, "not found!");
 
 	//find index of www in s1
-	int index = Call(String, find, s1, s2);
+	int index = Call(String, find, s1, s2, 0);
 
 	//index should be value of -1
 	CU_ASSERT_EQUAL(index, -1);
@@ -1234,13 +1234,13 @@ void TestStringVFTableStringSubString()
 	Call(String, set, s3, "WWW");
 
 	//find index of www in s1
-	int index1 = Call(String, find, s1, s2);
+	int index1 = Call(String, find, s1, s2, 0);
 
 	//index should be value of 4
 	CU_ASSERT_EQUAL(index1, 4);
 
 	//find index of WWW in s1
-	int index2 = Call(String, find, s1, s3);
+	int index2 = Call(String, find, s1, s3, 0);
 
 	//index should be value of 11
 	CU_ASSERT_EQUAL(index2, 11);
@@ -1284,13 +1284,13 @@ void TestStringVFTableStringSubStringAllocated()
 	Call(String, set, s3, "WWW");
 
 	//find index of www in s1
-	int index1 = Call(String, find, s1, s2);
+	int index1 = Call(String, find, s1, s2, 0);
 
 	//index should be value of 4
 	CU_ASSERT_EQUAL(index1, 4);
 
 	//find index of WWW in s1
-	int index2 = Call(String, find, s1, s3);
+	int index2 = Call(String, find, s1, s3, 0);
 
 	//index should be value of 11
 	CU_ASSERT_EQUAL(index2, 11);

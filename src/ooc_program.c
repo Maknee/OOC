@@ -7,59 +7,132 @@
 *
 * \section string_sec String class
 *
-*   		String Methods\n\n
-* 			Overridden Methods\n\n
-* 			Object Methods\n
-*			equals\n
-*			toString\n\n
-*			Container Methods\n
-*			add\n
-*			clear\n
-*			remove\n
-*			contains\n
-*			copy\n
-*			isEmpty\n
-*			size\n\n
-*			Class member methods\n
-*			set\n
-*			c_str\n
-*			append\n
-*			insert\n
-*			replace\n
-*			find\n
-*			substring\n
-*			begin\n
-*			next\n
-*			end\n
+*   		String Methods
+*
+* 			Overridden Object Methods
+* 
+*			equals - @ref StringEquals
+*			compareTo - @ref StringCompareTo
+*			toString - @ref StringToString
+*
+*			Overridden Container Methods
+*
+*			add - @ref StringAdd
+*			clear - @ref StringClear
+*			remove - @ref StringRemove
+*			contains - @ref StringContains
+*			copy - @ref StringCopy
+*			isEmpty - @ref StringIsEmpty
+*			size - @ref StringSize
+*
+*			Class member methods
+*
+*			set - @ref StringSet
+*			c_str - @ref StringC_Str
+*			append - @ref StringAppend
+*			insert - @ref StringInsert
+*			replace - @ref StringReplace
+*			find - @ref StringFind
+*			substring - @ref StringSubString
+*			begin - @ref StringBegin
+*			next - @ref StringNext
+*			end - @ref StringEnd
 *
 * \section vector_sec Vector class
 *
-* 			Vector Methods\n
-* 			Overridden Methods\n
-* 			Object Methods\n
-*			equals - bool CAT(VectorEquals, T)(void* this, void* other);\n
-*			compareTo - int CAT(VectorCompareTo, T)(void* this, void* other);\n
-*			toString - char* CAT(VectorToString, T)(void* this);\n
-*			Container Methods\n
-*			add - bool CAT(VectorAdd, T)(void* this, T item);\n
-*			clear - void CAT(VectorClear, T)(void* this);\n
-*			remove - bool CAT(VectorRemove, T)(void* this, T item);\n
-*			contains - bool CAT(VectorContains, T)(void* this, T item);\n
-*			copy - void* CAT(VectorCopy, T)(void* this);\n
-*			isEmpty\n
-*			size\n
-*			Class member methods\n
-*			set\n
-*			get\n
-*			push_front\n
-*			push_back\n
-*			replace\n
-*			find\n
-*			replace\n
-*			begin\n
-*			next\n
-*			end\n
-* etc...
+* 			Vector Methods
+*
+* 			Overridden Object Methods
+*
+*			equals - bool (*equals)(void* this, void* other);
+*			compareTo - int (*compareTo)(void* this, void* other);
+*			toString - char* (*toString)(void* this);
+*			
+*           Overriden Container Methods
+*			add - bool (*add)(void* this, T item);
+*			clear - void(*clear)(void* this);
+*			remove - bool(*remove)(void* this, T item);
+*			contains - bool(*contains)(void* this, T item);
+*			copy - void* (*copy)(void* this);
+*			isEmpty - bool(*isEmpty)(void* this);
+*			size - size_t(*size)(void* this);
+* 
+*			Class member methods
+* 
+*			set - CAT(Vector, T) (*set)(void* this, const T* item, size_t num_elements);
+*			get - T*(*get)(void* this, int index);
+*			move_push_front - bool(*move_push_front)(void* this, T item);
+*			push_front - bool(*push_front)(void* this, T item);
+*			move_push_back - bool(*move_push_back)(void* this, T item);
+*			push_back - bool(*push_back)(void* this, T item);
+*			move_insert - bool(*move_insert)(void* this, T item, int index);
+*			insert - bool(*insert)(void* this, T item, int index);
+*			find - int(*find) (void* this, T item);
+*			replace - bool(*replace)(void* this, T to_replace, T replacement);
+*			begin - CAT(CAT(Vector, T), Iterator) (*begin)(void* this);
+*			next - bool(*next)(void* this, CAT(CAT(Vector, T), Iterator) iterator);
+*			end - CAT(CAT(Vector, T), Iterator) (*end)(void* this, CAT(CAT(Vector, T), Iterator) iterator);
+* 
+* \section set_sec Set class
+*
+* 			Vector Methods
+*
+* 			Overridden Object Methods
+*
+*			equals - bool (*equals)(void* this, void* other);
+*			compareTo - int (*compareTo)(void* this, void* other);
+*			toString - char* (*toString)(void* this);
+*
+*           Overriden Container Methods
+*			add - bool (*add)(void* this, T item);
+*			clear - void(*clear)(void* this);
+*			remove - bool(*remove)(void* this, T item);
+*			contains - bool(*contains)(void* this, T item);
+*			copy - void* (*copy)(void* this);
+*			isEmpty - bool(*isEmpty)(void* this);
+*			size - size_t(*size)(void* this);
+*
+*			Class member methods
+*
+*			set - CAT(Vector, T) (*set)(void* this, const T* item, size_t num_elements);
+*			move_insert - bool(*move_insert)(void* this, T item, int index);
+*			insert - bool(*insert)(void* this, T item, int index);
+*			find - T*(*find) (void* this, T item);
+*			replace - bool(*replace)(void* this, T to_replace, T replacement);
+*			begin - CAT(CAT(Set, T), Iterator) (*begin)(void* this);
+*			next - bool(*next)(void* this, CAT(CAT(Set, T), Iterator) iterator);
+*			end - CAT(CAT(Set, T), Iterator) (*end)(void* this, CAT(CAT(Set, T), Iterator) iterator);
+*
+* \section map_sec Map class
+*
+* 			Vector Methods
+*
+* 			Overridden Object Methods
+*
+*			equals - bool (*equals)(void* this, void* other);
+*			compareTo - int (*compareTo)(void* this, void* other);
+*			toString - char* (*toString)(void* this);
+*
+*           Overriden Container Methods
+*			add - bool (*add)(void* this, ENTRY entry);
+*			clear - void(*clear)(void* this);
+*			remove - bool(*remove)(void* this, ENTRY entry);
+*			contains - bool(*contains)(void* this, ENTRY entry);
+*			copy - void* (*copy)(void* this);
+*			isEmpty - bool(*isEmpty)(void* this);
+*			size - size_t(*size)(void* this);
+*
+*			Class member methods
+*
+*			set - CAT(Map, T) (*set)(void* this, const ENTRY* item, size_t num_elements);
+*			move_insert - bool(*move_insert)(void* this, ENTRY entry, int index);
+*			insert - bool(*insert)(void* this, ENTRY entry, int index);
+*			find - T*(*find) (void* this, ENTRY entry);
+*			replace - bool(*replace)(void* this, T to_replace, T replacement);
+*			begin - CAT(CAT(Map, T), Iterator) (*begin)(void* this);
+*			next - bool(*next)(void* this, CAT(CAT(Set, T), Iterator) iterator);
+*			end - CAT(CAT(Map, T), Iterator) (*end)(void* this, CAT(CAT(Map, T), Iterator) iterator);
+*
 */
 
 #include "ooc.h"
@@ -71,6 +144,52 @@
 #endif
 int main()
 {
+	//Want program to output
+	//C:
+	//path
+	//to
+	//dir
+
+	String path = New(String);
+
+	//Read data from file...
+	Call(String, set, path, "C:/path/to/dir");
+
+	//Parse line 
+	int start_index = 0;
+	int index_of_slash = 0;
+
+	//to find
+	String to_find = New(String);
+	Call(String, set, to_find, "/");
+
+	//Create a vector containing all the strings
+	Vector(String) directories = New(Vector(String));
+
+	while ((index_of_slash = Call(String, find, path, to_find, start_index)) != NPOS)
+	{
+		String directory = Call(String, substring, path, start_index, index_of_slash);
+		
+		MoveCall(Vector(String), push_back, directories, directory);
+
+		start_index = index_of_slash + 1;
+	}
+
+	String last_directory = Call(String, substring, path, start_index, index_of_slash);
+
+	MoveCall(Vector(String), push_back, directories, last_directory);
+
+	ForEach(String* directory, Vector(String), directories, 
+	{
+		printf("%s\n", Call(String, c_str, *directory));
+	})
+
+	Delete(String, to_find);
+
+	Delete(Vector(String), directories);
+
+	Delete(String, path);
+
 	/*
 	//allocate a new string
 	String s1 = New(String);
