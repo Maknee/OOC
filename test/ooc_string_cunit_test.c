@@ -1101,7 +1101,7 @@ void TestStringVFTableStringErase()
 	CU_ASSERT_TRUE(Call(String, erase, s1, 0, NPOS));
 
 	//test if substring == "test"
-	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "this test this this this this");
+	CU_ASSERT_STRING_EQUAL(Call(String, c_str, s1), "");
 
 	//free the string's resources
 	Delete(String, s1);
