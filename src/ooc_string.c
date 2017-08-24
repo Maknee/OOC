@@ -173,6 +173,9 @@ void StringConstruct(void* this)
 
 	//Set the vtable's complete object locator to complete the RTTI circle
 	StringvfTable.pCompleteObjectLocator = &stringCompleteObjectLocator;
+	
+	//Set the equals function
+	StringvfTable.delete = &DeleteString;
 
 	//Set the equals function
 	StringvfTable.equals = &StringEquals;

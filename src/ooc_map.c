@@ -339,6 +339,9 @@ void CAT(MapConstruct, CAT(K, V))(void* this)
 	//Map the vtable's complete object locator to complete the RTTI circle
 	mapVFTable.pCompleteObjectLocator = &CAT(mapCompleteObjectLocator, CAT(K, V));
 
+	//Map the delete function
+	mapVFTable.delete = &CAT(DeleteMap, CAT(K, V));
+
 	//Map the equals function
 	mapVFTable.equals = &CAT(MapEquals, CAT(K, V));
 

@@ -108,6 +108,9 @@ void CAT(EntryConstruct, CAT(K, V))(void* this)
 	//Entry the vtable's complete object locator to complete the RTTI circle
 	entryVFTable.pCompleteObjectLocator = &CAT(entryCompleteObjectLocator, CAT(K, V));
 
+	//Entry the delete function
+	entryVFTable.delete = &CAT(DeleteEntry, CAT(K, V));
+
 	//Entry the equals function
 	entryVFTable.equals = &CAT(EntryEquals, CAT(K, V));
 

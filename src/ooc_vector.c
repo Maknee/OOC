@@ -119,6 +119,9 @@ void CAT(VectorConstruct, T)(void* this)
 	vectorVFTable.pCompleteObjectLocator = &CAT(vectorCompleteObjectLocator, T);
 
 	//Set the equals function
+	vectorVFTable.delete = &CAT(DeleteVector, T);
+
+	//Set the equals function
 	vectorVFTable.equals = &CAT(VectorEquals, T);
 
 	//Set the compareTo function

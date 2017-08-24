@@ -338,6 +338,9 @@ void CAT(SetConstruct, T)(void* this)
 	setVFTable.pCompleteObjectLocator = &CAT(setCompleteObjectLocator, T);
 
 	//Set the equals function
+	setVFTable.delete = &CAT(DeleteSet, T);
+
+	//Set the equals function
 	setVFTable.equals = &CAT(SetEquals, T);
 
 	//Set the compareTo function

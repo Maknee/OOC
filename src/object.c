@@ -20,6 +20,7 @@ void* check_calloc(size_t size)
 ObjectVFTable ObjectvfTable =
 {
 	.pCompleteObjectLocator = NULL,
+	.delete = &DeleteObject,
 	.equals = &ObjectEquals,
 	.compareTo = &ObjectCompareTo,
 	.toString = &ObjectToString

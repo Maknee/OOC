@@ -54,6 +54,7 @@ void* check_calloc(size_t size);
 #define NULL_OBJECT_VFTABLE                                             \
 		{                                                       \
 			.pCompleteObjectLocator = NULL,                     \
+			.delete = NULL,                                     \
 			.equals = NULL,                                     \
 			.compareTo = NULL,                                  \
 			.toString = NULL                                    \
@@ -70,7 +71,13 @@ void* check_calloc(size_t size);
  * 			
  * @var		_ObjectVFTable::pCompleteObjectLocator
  * 			Pointer to the object's complete object locator
- * 			
+ *
+ * @var		_ObjectVFTable::delete
+ * 			Pointer to a function that calls delete on the object
+ *
+ *			@param [in] this
+ *			The object
+ *
  * @var		_ObjectVFTable::equals
  * 			Pointer to a function that adds an item to the object
  *			
@@ -93,6 +100,7 @@ void* check_calloc(size_t size);
 typedef struct _ObjectVFTable
 {
 	CompleteObjectLocator* pCompleteObjectLocator;
+	void (*delete)(void* this);
 	bool (*equals)(void* this, void* other);
 	int (*compareTo)(void* this, void* other);
 	char* (*toString)(void* this);
