@@ -141,3 +141,13 @@ bool MoveSetPointerToNull(bool result, void** object)
 	}
 	return result;
 }
+
+/* Test for GCC > 4.9.0 */
+#if GCC_VERSION > 40900
+
+inline void free_object(void* obj)
+{
+	(*(Object*)obj)->pVFTable->delete(*(Object*)obj);
+}
+
+#endif

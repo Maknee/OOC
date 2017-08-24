@@ -275,5 +275,11 @@ bool MoveSetPointerToNull(bool result, void** object);
 #if GCC_VERSION > 40900
 //implement _Generic
 #define GCC_New()
+
+//https://snai.pe/c/c-smart-pointers/
+#define unique_ptr __attribute__((cleanup(free_object)))
+
+inline void free_object(void* obj);
+
 #endif
 
