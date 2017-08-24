@@ -166,7 +166,7 @@ int main()
 
 	printf("Your total is %.2lf dollars\n", total_cost);
 	
-	Delete(Vector(float), shopping_cart);
+	//Delete(Vector(float), shopping_cart);
 
 	/*
 	//allocate a new string

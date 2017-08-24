@@ -11,6 +11,7 @@
 */
 
 #pragma once
+#include "template.h"
 #include "rtti.h"
 #include "object.h"
 #include "container.h"
