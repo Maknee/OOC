@@ -132,3 +132,12 @@ const char* CheckForMove(const char* macro)
 	return NULL;
 }
 */
+
+bool MoveSetPointerToNull(bool result, void** object)
+{
+	if (result)
+	{
+		*object = NULL;
+	}
+	return result;
+}

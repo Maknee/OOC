@@ -145,51 +145,28 @@
 #endif
 int main()
 {
-	//Want program to output
-	//C:
-	//path
-	//to
-	//dir
+	//Shopping for carrots, onions and tomatoes
+	float carrot_cost = 0.87f;
+	float onion_cost = 1.32f;
+	float tomato_cost = 1.64f;
 
-	String path = New(String);
+	//Bought 5 carrots, 4 onions and 3 tomatoes
+	Vector(float) shopping_cart = New(Vector(float));
 
-	//Read data from file...
-	Call(String, set, path, "C:/path/to/dir");
+	Call(Vector(float), push_back, shopping_cart, carrot_cost * 5);
+	Call(Vector(float), push_back, shopping_cart, onion_cost * 4);
+	Call(Vector(float), push_back, shopping_cart, tomato_cost * 3);
 
-	//Parse line 
-	int start_index = 0;
-	int index_of_slash = 0;
-
-	//to find
-	String to_find = New(String);
-	Call(String, set, to_find, "/");
-
-	//Create a vector containing all the strings
-	Vector(String) directories = New(Vector(String));
-
-	while ((index_of_slash = Call(String, find, path, to_find, start_index)) != NPOS)
+	//Calculate checkout price
+	float total_cost = 0.0f;
+	ForEach(float* cost, Vector(float), shopping_cart,
 	{
-		String directory = Call(String, substring, path, start_index, index_of_slash);
-		
-		MoveCall(Vector(String), push_back, directories, directory);
-
-		start_index = index_of_slash + 1;
-	}
-
-	String last_directory = Call(String, substring, path, start_index, index_of_slash);
-
-	MoveCall(Vector(String), push_back, directories, last_directory);
-
-	ForEach(String* directory, Vector(String), directories, 
-	{
-		printf("%s\n", Call(String, c_str, *directory));
+		total_cost += *cost;
 	})
+
+	printf("Your total is %.2lf dollars\n", total_cost);
 	
-	Delete(String, to_find);
-
-	Delete(Vector(String), directories);
-
-	Delete(String, path);
+	Delete(Vector(float), shopping_cart);
 
 	/*
 	//allocate a new string

@@ -14,6 +14,7 @@
 #pragma once
 #include "ooc_string.h"
 #include <math.h>
+#include <stdbool.h>
 
 /**********************************************************************************************//**
  * @def		EXPAND(x)
@@ -115,6 +116,9 @@
 
 #define GET_FIRST_ARG_(arg, ...) arg
 #define GET_FIRST_ARG(args) GET_FIRST_ARG_ args
+
+#define GET_SECOND_ARG_(arg, arg2) arg2
+#define GET_SECOND_ARG(args) GET_SECOND_ARG_ args
 
 //https ://stackoverflow.com/questions/2124339/c-preprocessor-va-args-number-of-arguments
 //doesn't work with empty
@@ -227,7 +231,7 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object);
 // =/ in C LUL?
 
 //ugh not perfect, we convert the macro to a string and check if it is a move
-const char* CheckForMove(const char* macro);
+//const char* CheckForMove(const char* macro);
 
 /*
 #define Moo(type, function, ...) CheckForMove(GET_FIRST_ARG((#__VA_ARGS__)))
@@ -245,8 +249,16 @@ const char* CheckForMove(const char* macro);
 #define MoveCall(type, function, ...) MoveCallExpansion(type, function, __VA_ARGS__)
 */
 
+
+bool MoveSetPointerToNull(bool result, void** object);
+
+#define MoveCallExpansion(type, function, ...) MoveSetPointerToNull(((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->CAT(move_, function)(__VA_ARGS__), &GET_SECOND_ARG((__VA_ARGS__)))
+#define MoveCall(type, function, ...) MoveCallExpansion(type, function, __VA_ARGS__)
+
+/*
 #define MoveCallExpansion(type, function, ...) ((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->CAT(move_, function)(__VA_ARGS__)
 #define MoveCall(type, function, ...) MoveCallExpansion(type, function, __VA_ARGS__)
+*/
 
 //GLOBAL DEFINES
 #define NPOS -1
@@ -262,6 +274,6 @@ const char* CheckForMove(const char* macro);
  /* Test for GCC > 4.9.0 */
 #if GCC_VERSION > 40900
 //implement _Generic
-#define Call_GCC
+#define GCC_New()
 #endif
 

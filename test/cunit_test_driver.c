@@ -281,8 +281,8 @@ int main()
 	}
 
 	CU_pSuite mapSuite = CU_add_suite("Map Testing Suite",
-		SetInitializeSuite,
-		SetCleanUpSuite);
+		MapInitializeSuite,
+		MapCleanUpSuite);
 
 	if (mapSuite == NULL)
 	{
