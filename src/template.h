@@ -252,7 +252,7 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object);
 
 bool MoveSetPointerToNull(bool result, void** object);
 
-#define MoveCallExpansion(type, function, ...) MoveSetPointerToNull(((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->CAT(move_, function)(__VA_ARGS__), &GET_SECOND_ARG((__VA_ARGS__)))
+#define MoveCallExpansion(type, function, ...) MoveSetPointerToNull(((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->CAT(move_, function)(__VA_ARGS__), (void**)&GET_SECOND_ARG((__VA_ARGS__)))
 #define MoveCall(type, function, ...) MoveCallExpansion(type, function, __VA_ARGS__)
 
 /*
