@@ -12,6 +12,7 @@
 */
 
 #pragma once
+#include "object.h"
 #include "ooc_string.h"
 #include <math.h>
 #include <stdbool.h>
@@ -276,10 +277,10 @@ bool MoveSetPointerToNull(bool result, void** object);
 //implement _Generic
 #define GCC_New()
 
-//https://snai.pe/c/c-smart-pointers/
-#define unique_ptr __attribute__((cleanup(free_object)))
+void free_object(void* obj);
 
-inline void free_object(void* obj);
+//https://snai.pe/c/c-smart-pointers/
+#define unique __attribute__((cleanup(free_object)))
 
 #endif
 
