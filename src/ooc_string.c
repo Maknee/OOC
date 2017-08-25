@@ -165,7 +165,7 @@ void StringConstruct(void* this)
 {
 	CHECK_NULL_NO_RET(this);
 
-	//call super class's constructor (ObjectConstruct)
+	//call super class's constructor (ContainerConstruct)
 	ContainerConstruct(this);
 
 	//Override Object's methods

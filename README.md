@@ -31,6 +31,120 @@ the vector inherits from container, which inherits from object, the vector must 
 the object and container methods. There is also a CompleteObjectLocator class, which contains
 runtime type information for casting between classes and finding out an object's type at runtime.
 
+#### Abstraction
+
+Each object in OOC is abstracted into its own class and implemenation details can be ignored. The same 
+calls can be made to different objects such as String and Vector
+
+```C
+//returns number of elements in vec
+Call(Vector(int), size, vec);
+
+//returns number of characters in str
+Call(String, size, str);
+```
+
+#### Encapsulation
+
+The user never has to manually "grab" any data fields of an object in OOC.
+Therefore, all data fields are "private" and there are getter functions to 
+grab the data.
+
+Example with vector (stores data in contigious memory)
+
+```C
+//get pointer to data (No need to do this)
+vec->data;
+
+//get first element of vector (more obvious that one is trying to get an int)
+Call(Vector(int), get, vec, 0);
+```
+
+#### Inheritence
+
+[Insert detailed image here]
+
+Inheritence can be done by making use of how structs are laid out in memory.
+
+For example, the string class inherits from a container class by holding the container struct inside string struct.
+
+```C
+typedef struct _String
+{
+	struct _Container container;
+	size_t length;
+	size_t capacity;
+	union
+	{
+		char buf[DEFAULT_STRING_LENGTH];
+		char* pBuf;
+	} data;
+} *String;
+```
+
+#### Polymorphism
+
+[Insert detailed image here]
+
+Polymorphism can be done in a similar fashion to how inheritence is implemented in OOC.
+
+For example, the string virtual function table inherits from the container virtual function table
+and overrides the original function in the string constructor
+
+String Virtual Function Table
+
+```C
+typedef struct _StringVFTable
+{
+	struct _ContainerVFTable;
+	void* (*set)(void* this, const char* item);
+	char* (*c_str)(void* this);
+	...
+	StringIterator (*end)(void* this, StringIterator iterator);
+} StringVFTable;
+```
+String Constructor 
+
+```C
+void StringConstruct(void* this)
+{
+	CHECK_NULL_NO_RET(this);
+
+	//call super class's constructor (ContainerConstruct)
+	ContainerConstruct(this);
+
+	//Override Object's methods
+	//=========================
+
+	//Set the vtable's complete object locator to complete the RTTI circle
+	StringvfTable.pCompleteObjectLocator = &stringCompleteObjectLocator;
+	
+	//Set the equals function
+	StringvfTable.delete = &DeleteString;
+
+	...
+
+	//Override Container's methods
+	//==========================
+
+	StringvfTable.add = &StringAdd;
+	StringvfTable.clear = &StringClear;
+
+	...
+
+	//Initialize class member methods
+	//==========================
+
+	StringvfTable.set = &StringSet;
+	StringvfTable.c_str = &StringC_Str;
+
+	...
+
+}
+```
+
+## More detailed information on the topic
+
 A Stackoverflow post that inspired this project
 
 https://stackoverflow.com/questions/2181079/object-oriented-programming-in-c
@@ -38,6 +152,12 @@ https://stackoverflow.com/questions/2181079/object-oriented-programming-in-c
 A better explanation of RTTI
 
 http://www.openrce.org/articles/full_view/23
+
+## Limitations
+
+Only one empty constructor can be made for a class
+
+Single inheritence
 
 ## Who the heck would want to use this?
 
