@@ -62,7 +62,7 @@ Call(Vector(int), get, vec, 0);
 
 #### Inheritence
 
-[Insert detailed image here]
+![Alt text](docs/OOC_inheritence.png?raw=true "OOC Inheritence")
 
 Inheritence can be done by making use of how structs are laid out in memory.
 
@@ -84,7 +84,7 @@ typedef struct _String
 
 #### Polymorphism
 
-[Insert detailed image here]
+![Alt text](docs/OOC_polymorphism.png?raw=true "OOC Polymorphism")
 
 Polymorphism can be done in a similar fashion to how inheritence is implemented in OOC.
 
