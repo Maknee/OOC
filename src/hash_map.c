@@ -84,7 +84,7 @@ static void CAT(HashMapClear, CAT(K, V))(void* this)
 			continue;
 
 		//if not, iterate through the chain and remove every node
-		while (node->next != NULL)
+		while (node != NULL)
 		{
 			HASHMAPNODE temp = node;
 			node = node->next;
@@ -328,6 +328,11 @@ bool CAT(HashMapDelete, CAT(K, V))(void* this, K key)
 				if (prev != NULL)
 				{
 					prev->next = node->next;
+				}
+				else
+				{
+					//the first index is null
+					this_hash_map->table[hash_index] = NULL;
 				}
 				
 				//decrease the current size

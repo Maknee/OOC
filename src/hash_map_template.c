@@ -22,7 +22,8 @@ size_t StringHashFunction(char *str)
 
 typedef char* String;
 
-//Entry(int, int)
+//Key = String
+//Value = int
 #define K String
 #define V int
 #define HASH_FUNCTION(element) StringHashFunction(element)
