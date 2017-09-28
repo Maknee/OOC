@@ -398,35 +398,49 @@ bool CAT(VectorRemove, T)(void* this, T item)
 
 	//cast to vector
 	VECTOR this_vector = (VECTOR)this;
-	
+
+	if (start < 0 || end < 0 || (size_t)start > this_vector->size || (size_t)end > this_vector->size)
+	{
+		return false;
+	}
+
+	//cast found to size_t from int, now we know that the value isn't negative
+	size_t start_t = (size_t)start;
+	size_t end_t = (size_t)end;
+
+	//update the length
+	size_t new_size = this_vector->size - (end_t - start_t);
+
 	//get beginning of vector
-	T* begin_of_vector = this_vector->data;
+	T* begin_of_vector = this_vector->data + start_t;
 
 	//get the end of vector
-	T* end_of_vector = begin_of_vector + this_vector->size;
+	T* end_of_vector = begin_of_vector + end_t;
 
-	//iterate through each 
-	for (size_t i = 0; i < this_vector->size; i++)
+	//length of data after end to cut
+	size_t data_after_end_length = this_vector->size - end_t;
+
+	//start of vector as if it was the end (this is the place to null out the rest of the data)
+	T* null_end_of_vector = this_vector->data + this_vector->size - (end_t - start_t);
+
+	for (size_t i = start_t; i < end_t; i++)
 	{
-		//get pointer to the data
-		T* index_of_vector = begin_of_vector + i;
-
-		//check if the values are the same
-		if (T_EQUALS(*index_of_vector, item))
-		{
-			//delete the item
-			T_DELETE(index_of_vector);
-
-			//remove the current item and shift everything to the left
-			memmove(index_of_vector, index_of_vector + 1, (size_t)(end_of_vector - (index_of_vector + 1)));
-
-			//zero out the remaining one
-			memset(end_of_vector - 1, 0, sizeof(T));
-
-			//update size
-			this_vector->size--;
-		}
+		//get index of vector
+		T* index_of_vector = this_vector->data + i;
+		T_DELETE(index_of_vector);
 	}
+
+	//fill the substring area with NULLs first (case when the substring is at the end)
+	memset(begin_of_vector, 0, sizeof(T) * (end_t - start_t));
+
+	//fill the data after the substring into the data of the substring
+	memmove(begin_of_vector, end_of_vector, sizeof(T) * data_after_end_length);
+
+	//replace the rest with nulls
+	memset(null_end_of_vector, 0, sizeof(T) * (end_t - start_t));
+
+	this_vector->size = new_size;
+	
 	return true;
 }
 
