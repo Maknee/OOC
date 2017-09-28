@@ -17,3 +17,9 @@ typedef char* String;
 #include "hash_map.h"
 #undef V
 #undef K
+
+#define K String
+#define V float
+#include "hash_map.h"
+#undef V
+#undef K

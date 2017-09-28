@@ -33,9 +33,30 @@ typedef char* String;
 #define V_EQUAL(element, other_element) ((element == other_element) ? (true) : (false))
 #define V_DELETE(element) element = 0
 #include "hash_map.c"
+#undef HASH_FUNCTION
 #undef K_EQUALS
 #undef K_DELETE
 #undef V_EQUALS
 #undef V_DELETE
 #undef V
 #undef K
+
+//Key = String
+//Value = float
+#define K String
+#define V float
+#define HASH_FUNCTION(element) StringHashFunction(element)
+//strcmp (assume that string is null terminated)
+#define K_EQUAL(element, other_element) ((!strcmp(element, other_element)) ? (true) : (false))
+#define K_DELETE(element) free(element)
+#define V_EQUAL(element, other_element) ((abs(element - other_element) < 0.005f) ? (true) : (false))
+#define V_DELETE(element) element = 0
+#include "hash_map.c"
+#undef HASH_FUNCTION
+#undef K_EQUALS
+#undef K_DELETE
+#undef V_EQUALS
+#undef V_DELETE
+#undef V
+#undef K
+
