@@ -13,6 +13,7 @@ VectorVFTable vectorVFTable =
 	NULL_OBJECT_VFTABLE,
 	.add = NULL,
 	.clear = NULL,
+	.erase = NULL,
 	.remove = NULL,
 	.contains = NULL,
 	.copy = NULL,
@@ -135,6 +136,7 @@ void CAT(VectorConstruct, T)(void* this)
 
 	vectorVFTable.add = &CAT(VectorAdd, T);
 	vectorVFTable.clear = &CAT(VectorClear, T);
+	vectorVFTable.erase = &CAT(VectorErase, T);
 	vectorVFTable.remove = &CAT(VectorRemove, T);
 	vectorVFTable.contains = &CAT(VectorContains, T);
 	vectorVFTable.copy = &CAT(VectorCopy, T);
@@ -392,7 +394,7 @@ void CAT(VectorClear, T)(void* this)
 	this_vector->size = 0;
 }
 
-bool CAT(VectorRemove, T)(void* this, T item)
+bool CAT(VectorErase, T)(void* this, int start, int end)
 {
 	CHECK_NULL(this, false);
 
@@ -440,7 +442,45 @@ bool CAT(VectorRemove, T)(void* this, T item)
 	memset(null_end_of_vector, 0, sizeof(T) * (end_t - start_t));
 
 	this_vector->size = new_size;
-	
+
+	return true;
+}
+
+bool CAT(VectorRemove, T)(void* this, T item)
+{
+	CHECK_NULL(this, false);
+
+	//cast to vector
+	VECTOR this_vector = (VECTOR)this;
+
+	//get beginning of vector
+	T* begin_of_vector = this_vector->data;
+
+	//get the end of vector
+	T* end_of_vector = begin_of_vector + this_vector->size;
+
+	//iterate through each 
+	for (size_t i = 0; i < this_vector->size; i++)
+	{
+		//get pointer to the data
+		T* index_of_vector = begin_of_vector + i;
+
+		//check if the values are the same
+		if (T_EQUALS(*index_of_vector, item))
+		{
+			//delete the item
+			T_DELETE(index_of_vector);
+
+			//remove the current item and shift everything to the left
+			memmove(index_of_vector, index_of_vector + 1, sizeof(T) * (size_t)(end_of_vector - (index_of_vector + 1)));
+
+			//zero out the remaining one
+			memset(end_of_vector - 1, 0, sizeof(T));
+
+			//update size
+			this_vector->size--;
+		}
+	}
 	return true;
 }
 

@@ -49,6 +49,7 @@
 				},                                              \
 				.add = NULL,                                    \
 				.clear = NULL,                                  \
+				.erase = NULL,                                 \
 				.remove = NULL,                                 \
 				.contains = NULL,                               \
 				.copy = NULL,                                   \
@@ -126,6 +127,7 @@ typedef struct CAT(_Vector, T) *CAT(Vector, T);
 		                                                       \
 		bool (*add)(void* this, T item);                       \
 		void(*clear)(void* this);                              \
+		bool(*erase)(void* this, int start, int end);          \
 		bool(*remove)(void* this, T item);                     \
 		bool(*contains)(void* this, T item);                   \
 		void* (*copy)(void* this);                             \
@@ -322,6 +324,26 @@ bool CAT(VectorAdd, T)(void* this, T item);
  **************************************************************************************************/
 
 void CAT(VectorClear, T)(void* this);
+
+/**********************************************************************************************//**
+ * @fn 		bool CAT(VectorErase, T)(void* this, size_t start, size_t end);
+ *
+ * @brief	Remove the subvector in a vector
+ *			
+ * @param	[in] this
+ * 			The vector
+ * @param	[in] start
+ * 			start index
+ * @param	[in] end
+ * 			end index
+ * @return	Returns true if the item was removed,
+ * 			returns false if the item couldn't be found or removed
+ * @note    Removes the all occurences of the item in the vector
+ * @note	Function will not resize the capacity. 
+ * 			The overhead of free is most likely not worth resizing the capacity
+ **************************************************************************************************/
+
+bool CAT(VectorErase, T)(void* this, int start, int end);
 
 /**********************************************************************************************//**
  * @fn		bool VectorRemove(void* this, void* item)
