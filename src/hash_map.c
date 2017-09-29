@@ -228,7 +228,7 @@ bool CAT(HashMapSet, CAT(K, V))(void* this, K key, V value)
 				prev = node;
 				node = node->next;
 			}
-		} while (node && node->next != NULL);
+		} while (node != NULL);
 
 		//if we haven't replaced a node, add the new node to the end of the chain and check if limit has been succeeded
 		if (this_hash_map->current_size != this_hash_map->size)
@@ -236,7 +236,7 @@ bool CAT(HashMapSet, CAT(K, V))(void* this, K key, V value)
 			//move the key and value into the new node
 			HASHMAPNODE new_node = NewNode(key, value);
 
-			node->next = new_node;
+			prev->next = new_node;
 
 			//increase size
 			this_hash_map->current_size++;
@@ -293,7 +293,7 @@ const V* CAT(HashMapGet, CAT(K, V))(void* this, K key)
 				//move onto next
 				node = node->next;
 			}
-		} while (node->next != NULL);
+		} while (node != NULL);
 	}
 
 	//No node, return null
@@ -350,7 +350,7 @@ bool CAT(HashMapDelete, CAT(K, V))(void* this, K key)
 				prev = node;
 				node = node->next;
 			}
-		} while (node->next != NULL);
+		} while (node != NULL);
 	}
 	
 	//Could not find the node to delete

@@ -17,7 +17,7 @@ load - O(1) current size and max size of the hash map is stored in the hashmap s
 	hash_map_template.h/.c - contains the templated key/value pairs
 	hash_map.h/.c - implmentation of a fixed hash map
 	template.h - contains necessary macros
-	main.c - main program (commandline/runs tests)
+	main.c - main program (commandline / testing)
 
 How to use it
 
