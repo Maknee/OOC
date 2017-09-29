@@ -41,7 +41,7 @@ void PrintTable(HashMap(String, int) hashmap)
 		//get the next node in the table
 		HashMapNodeStringint node = hashmap->table[i];
 
-		printf("%d", i);
+		printf("%zu", i);
 
 		if (!node)
 		{
@@ -114,7 +114,7 @@ int main()
 			fgets(input, MAX_SIZE, stdin);
 			input[strlen(input) - 1] = '\0';
 
-			int* value = Call(HashMap(String, int), get, hashmap, input);
+			const int* value = Call(HashMap(String, int), get, hashmap, input);
 
 			if (value)
 			{
@@ -143,7 +143,7 @@ int main()
 		}
 		else if (!strncmp(input, "load", 5))
 		{
-			float load = Call(HashMap(String, int), load, hashmap, input);
+			float load = Call(HashMap(String, int), load, hashmap);
 			printf("Load: %lf\n", load);
 		}
 		else if (!strncmp(input, "help", 5))
@@ -172,7 +172,6 @@ void TestSet()
 	//attempt to add three key (fails)
 	String three = CreateString("3");
 	assert(!Call(HashMap(String, int), set, hashmap, three, 3));
-	free(three);
 
 	//create a new string one2
 	String one2 = CreateString("1");
@@ -180,9 +179,9 @@ void TestSet()
 	//replace the original key (one)
 	assert(Call(HashMap(String, int), set, hashmap, one2, 1));
 
-	Delete(HashMap(String, int), hashmap);
-
 	printf("%s\n", "Testing set successful");
+	
+	Delete(HashMap(String, int), hashmap);
 }
 
 void TestGet()
@@ -207,6 +206,8 @@ void TestGet()
 	free(three);
 
 	printf("%s\n", "Testing get successful");
+	
+	Delete(HashMap(String, int), hashmap);
 }
 
 void TestDelete()
@@ -231,6 +232,8 @@ void TestDelete()
 	free(three);
 
 	printf("%s\n", "Testing delete successful");
+	
+	Delete(HashMap(String, int), hashmap);
 }
 
 void TestLoad()
@@ -250,15 +253,17 @@ void TestLoad()
 	assert(Call(HashMap(String, int), set, hashmap, one, 1));
 
 	//load of 0.5f
-	assert(abs(0.5f -Call(HashMap(String, int), delete, hashmap, two)) < 0.005f);
+	assert(fabs(0.5f - Call(HashMap(String, int), load, hashmap)) < 0.005f);
 
 	assert(Call(HashMap(String, int), set, hashmap, two, 2));
 
 	//we can see that load has a value of 1
-	assert(abs(1.0f - Call(HashMap(String, int), delete, hashmap, two)) < 0.005f);
+	assert(fabs(1.0f - Call(HashMap(String, int), load, hashmap)) < 0.005f);
 
 
 	printf("%s\n", "Testing load successful");
+	
+	Delete(HashMap(String, int), hashmap);
 }
 
 void TestHashMap()

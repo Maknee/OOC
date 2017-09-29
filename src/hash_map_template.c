@@ -14,8 +14,8 @@ size_t StringHashFunction(char *str)
 	unsigned long hash = 5381;
 	int c;
 
-	while (c = *str++)
-		hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+	while ((c = *str++))
+		hash = ((hash << 5) + hash) + (unsigned long)c; /* hash * 33 + c */
 
 	return (size_t)hash;
 }
@@ -34,9 +34,9 @@ typedef char* String;
 #define V_DELETE(element) element = 0
 #include "hash_map.c"
 #undef HASH_FUNCTION
-#undef K_EQUALS
+#undef K_EQUAL
 #undef K_DELETE
-#undef V_EQUALS
+#undef V_EQUAL
 #undef V_DELETE
 #undef V
 #undef K
@@ -53,9 +53,9 @@ typedef char* String;
 #define V_DELETE(element) element = 0
 #include "hash_map.c"
 #undef HASH_FUNCTION
-#undef K_EQUALS
+#undef K_EQUAL
 #undef K_DELETE
-#undef V_EQUALS
+#undef V_EQUAL
 #undef V_DELETE
 #undef V
 #undef K

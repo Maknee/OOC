@@ -173,6 +173,9 @@ void CAT(HashMapDestruct, CAT(K, V))(void* this)
 
 	//clear the tables
 	ClearTable(this);
+
+	//free the table
+	free(((HASHMAP)this)->table);
 }
 
 bool CAT(HashMapSet, CAT(K, V))(void* this, K key, V value)
@@ -248,6 +251,8 @@ bool CAT(HashMapSet, CAT(K, V))(void* this, K key, V value)
 	//check if we are at limit
 	if (this_hash_map->current_size == this_hash_map->size)
 	{
+		K_DELETE(key);
+		V_DELETE(value);
 		return false;
 	}
 
@@ -331,8 +336,8 @@ bool CAT(HashMapDelete, CAT(K, V))(void* this, K key)
 				}
 				else
 				{
-					//the first index is null
-					this_hash_map->table[hash_index] = NULL;
+					//the first index node's next
+					this_hash_map->table[hash_index] = node->next;
 				}
 				
 				//decrease the current size
