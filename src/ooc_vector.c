@@ -417,7 +417,7 @@ bool CAT(VectorErase, T)(void* this, int start, int end)
 	T* begin_of_vector = this_vector->data + start_t;
 
 	//get the end of vector
-	T* end_of_vector = begin_of_vector + end_t;
+	T* end_of_vector = this_vector->data + end_t;
 
 	//length of data after end to cut
 	size_t data_after_end_length = this_vector->size - end_t;
