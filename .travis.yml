@@ -1,27 +1,35 @@
 dist: trusty
-sudo: required
 language: c
 
 compiler:
 - gcc
 - clang
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-      - llvm-toolchain-trusty-6.0
-    packages:
-      - gcc-8
-      - g++-8
-      - cmake
-      - clang-6.0
-      - clang++-6.0
-env:
-  global:
-      - CODECOV_TOKEN=5a7a6637-fa92-4356-9651-0da0d491ba0d
+matrix:
+ include:
+   - os: linux
+   addons:
+     apt:
+       sources:
+         - ubuntu-toolchain-r-test
+         - llvm-toolchain-precise-6.0
+         packages:
+         - clang-6.0
+         env:
+         - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
+ include:
+   - os: linux
+   addons:
+     apt:
+       sources:
+         - ubuntu-toolchain-r-test
+         packages:
+         - gcc-8
+         env:
+         - MATRIX_EVAL="CC=gcc-8 && CXX=gcc++-8"
 
 before_install:
+- eval "${MATRIX_EVAL}"
 - sudo apt-get install xsltproc valgrind
 - wget http://downloads.sourceforge.net/project/cunit/CUnit/2.1-2/CUnit-2.1-2-src.tar.bz2
 - tar -xvjpf CUnit-2.1-2-src.tar.bz2
