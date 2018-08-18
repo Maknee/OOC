@@ -6,6 +6,9 @@ option(BUILD_OOC_TESTS "Build tests" OFF) #Only build for gcc currently... Shoul
 
 if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" ) #Only build for gcc/clang
     set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-Wextra -Wall -Wno-unused-parameter -std=c11 -fms-extensions")
+    if("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
+        set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-Werror") # Add extra flag for gcc (DO NOT PUT THIS FLAG FOR CLANG >= 5.0)
+    endif()
     set(CAN_BUILD_TESTS TRUE)
 endif()
 
