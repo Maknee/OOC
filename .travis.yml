@@ -2,8 +2,7 @@ language: c
 
 compiler:
 - gcc
-- gcc-nightly
-#- clang
+- clang
 
 env:
   global:
