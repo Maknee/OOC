@@ -5,9 +5,9 @@ project (OOC)
 option(BUILD_OOC_TESTS "Build tests" OFF) #Only build for gcc currently... Should transfer to google test or ctest
 
 if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" ) #Only build for gcc/clang
-    set(CMAKE_C_FLAGS ${CMAKE_FLAGS} "-Werror -Wextra -Wall -Wno-unused-parameter -std=c11 -fms-extensions")
+    set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-Werror -Wextra -Wall -Wno-unused-parameter -std=c11 -fms-extensions")
     if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
-        set(CMAKE_C_FLAGS ${CMAKE_FLAGS} "-Wmicrosoft-anon-tag -Wgnu-anonymous-struct") # Add extra flag for clang
+        set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-Wmicrosoft-anon-tag -Wgnu-anonymous-struct") # Add extra flag for clang
     endif()
     set(CAN_BUILD_TESTS TRUE)
 endif()
