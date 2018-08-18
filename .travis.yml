@@ -43,10 +43,6 @@ before_install:
 - cd ..
 
 script:
-- ln -s /usr/bin/gcc-8 /usr/local/bin/gcc
-- ln -s /usr/bin/g++-8 /usr/local/bin/g++
-- ln -s /usr/bin/clang-6.0 /usr/local/bin/clang
-- ln -s /usr/bin/clang++-6.0 /usr/local/bin/clang++
 - cmake . -Bbuild/
 - cd build/
 - make
