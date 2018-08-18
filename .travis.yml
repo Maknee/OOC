@@ -18,6 +18,7 @@ before_install:
 - cd ..
 
 script:
+- cmake . -Bbuild/
 - make && make test && ./ooc
 - gcov *.o src/*.o test/*.o
 - make xunit-report
