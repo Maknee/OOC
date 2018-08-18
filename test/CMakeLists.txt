@@ -1,7 +1,7 @@
 project(OOC_Tests)
 
 if (BUILD_OOC_TEST)
-    if ("${CMAKE_GXX_COMPILER_ID}" STREQUAL "GNU") #Only build for gcc
+    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") #Only build for gcc
         set(CMAKE_C_FLAGS "-fprofile-arcs -ftest-coverage -O0 -g -ftrapv -Werror -Wextra -Wall -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wwrite-strings -Waggregate-return -Wswitch-default -Wswitch-enum -Wconversion -Wunreachable-code -Winit-self -Wformat-nonliteral -Wno-unused-parameter -Wno-unused-but-set-parameter -std=c11 -fms-extensions -ggdb3")
         set(CMAKE_EXE_LINKER_FLAGS "-lcunit")
         add_executable(${PROJECT_NAME} 
