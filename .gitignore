@@ -2,6 +2,8 @@
 /Debug
 /Release
 OOC.*
+/.vs
+/build
 
 # Prerequisites
 *.d
