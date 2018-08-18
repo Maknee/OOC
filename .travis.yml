@@ -17,7 +17,6 @@ matrix:
          - clang-6.0
          env:
          - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
- include:
    - os: linux
    addons:
      apt:
