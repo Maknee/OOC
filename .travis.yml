@@ -19,7 +19,6 @@ addons:
 env:
   global:
       - CODECOV_TOKEN=5a7a6637-fa92-4356-9651-0da0d491ba0d
-  
 
 before_install:
 - sudo apt-get install xsltproc valgrind
