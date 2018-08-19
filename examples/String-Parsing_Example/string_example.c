@@ -48,8 +48,8 @@ int main()
 		printf("%s\n", Call(String, c_str, *directory));
 	})
 
-		//Free resources
-		Delete(String, to_find);
+	//Free resources
+	Delete(String, to_find);
 
 	Delete(String, path);
 
