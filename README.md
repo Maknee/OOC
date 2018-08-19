@@ -313,6 +313,10 @@ https://www.blackhat.com/presentations/bh-dc-07/Sabanal_Yason/Paper/bh-dc-07-Sab
 
 [ well ] C++ shared/unique_ptr
 
+[ Soon tm ] Default constructor / Rule of 5 / Rule of 0
+
+[ Soon tm ] Easy way to initialize Object
+
 ## Contributing
 
 Feel free to make a PR and when I have time, I'll take a look into it. :)

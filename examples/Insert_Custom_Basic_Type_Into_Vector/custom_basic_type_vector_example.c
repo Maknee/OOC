@@ -6,13 +6,11 @@
 
 int main()
 {
-	getchar();
-
 	Vector(pExampleStruct) example_structs = New(Vector(pExampleStruct));
 
 	pExampleStruct p_example_struct = malloc(sizeof(ExampleStruct));
 
-	MoveCall(Vector(pExampleStruct), push_back, example_structs, p_example_struct);
+	Call(Vector(pExampleStruct), push_back, example_structs, p_example_struct);
 
 	free(p_example_struct);
 

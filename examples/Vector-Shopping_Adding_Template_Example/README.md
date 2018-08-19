@@ -1,35 +1,23 @@
-This example provides a templated vector case. What if the vector template did not
-include floats? Unforunately, the way templates are implemented, one would have to update the vector template manually.
-To do this, one needs to update the ooc_vector_template.c and ooc_vector_template.h with the correct
-macros, so the templated class is generated correctly.
+This example provides an example of adding a struct into the vector. 
 
 ```C
 #include "ooc.h"
+#include "example_struct.h"
+
+#include <stdio.h>
+#include <stdlib.h>
 
 int main()
 {
-	//Shopping for carrots, onions and tomatoes
-	float carrot_cost = 0.87f;
-	float onion_cost = 1.32f;
-	float tomato_cost = 1.64f;
+	Vector(pExampleStruct) example_structs = New(Vector(pExampleStruct));
 
-	//Bought 5 carrots, 4 onions and 3 tomatoes
-	Vector(float) shopping_cart = New(Vector(float));
+	pExampleStruct p_example_struct = malloc(sizeof(ExampleStruct));
 
-	Call(Vector(float), push_back, shopping_cart, carrot_cost * 5);
-	Call(Vector(float), push_back, shopping_cart, onion_cost * 4);
-	Call(Vector(float), push_back, shopping_cart, tomato_cost * 3);
+	Call(Vector(pExampleStruct), push_back, example_structs, p_example_struct);
 
-	//Calculate checkout price
-	float total_cost = 0.0f;
-	ForEach(float* cost, Vector(float), shopping_cart,
-	{
-		total_cost += *cost;
-	})
+	free(p_example_struct);
 
-	printf("Your total is %.2lf dollars\n", total_cost);
-	
-	Delete(Vector(float), shopping_cart);
+	Delete(Vector(pExampleStruct), example_structs);
 
 	return 0;
 }

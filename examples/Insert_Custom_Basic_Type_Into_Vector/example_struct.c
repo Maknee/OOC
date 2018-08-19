@@ -20,7 +20,7 @@ pExampleStruct CopyExampleStruct(pExampleStruct p_example_struct)
 #define T_COMPARE_TO(element, other_element) (memcmp(element, other_element, sizeof(ExampleStruct)))
 #define T_ALLOC(T_Ptr) *(T_Ptr) = malloc(sizeof(ExampleStruct))
 #define T_COPY(T_Ptr) CopyExampleStruct(*(T_Ptr))
-#define T_DELETE(T_Ptr) free(T_Ptr)
+#define T_DELETE(T_Ptr) free(*T_Ptr)
 #include "ooc_vector.c"
 #undef T_EQUALS
 #undef T_COMPARE_TO
