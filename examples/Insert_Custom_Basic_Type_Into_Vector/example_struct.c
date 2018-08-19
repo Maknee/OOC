@@ -6,14 +6,6 @@ pExampleStruct CopyExampleStruct(pExampleStruct p_example_struct)
 	return memcpy(copy_p_example_struct, p_example_struct, sizeof(struct ExampleStruct));
 }
 
-#ifdef Vector
-#undef Vector
-#endif
-
-#ifdef T
-#undef T
-#endif
-
 //Vector(pExampleStruct)
 #define T pExampleStruct
 #define T_EQUALS(element, other_element) (!memcmp(element, other_element, sizeof(ExampleStruct)))
@@ -29,6 +21,3 @@ pExampleStruct CopyExampleStruct(pExampleStruct p_example_struct)
 #undef T_COMPARE_TO
 #undef T_DELETE
 #undef T
-
-//re-enable what we type in as Vector(type) b/c Vector is used as a different Vector macro in the includes
-#define Vector(type) VectorExpansion(type)
