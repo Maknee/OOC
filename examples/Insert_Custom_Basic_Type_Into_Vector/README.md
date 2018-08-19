@@ -1,5 +1,3 @@
-Splitting a string example
-
 ```C
 #include "ooc.h"
 

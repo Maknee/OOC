@@ -1,11 +1,11 @@
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.com/Maknee/OOC.svg?token=awrLzay2NUpTLyLqBpuQ&branch=master)](https://travis-ci.com/Maknee/OOC)
 [![Documentation](https://codedocs.xyz/Maknee/OOC.svg)](https://codedocs.xyz/Maknee/OOC/index.html)
 [![codecov](https://codecov.io/gh/Maknee/OOC/branch/master/graph/badge.svg)](https://codecov.io/gh/Maknee/OOC)
 
 ## What is OOC?
 
-OOC is an acroynm for "Object Oriented C" - I wasn't creative enough to give it another name :(.
+OOC is an acroynm for "Object Oriented C"
 
 The project uses object orient design and implementations to construct a framework consisting of important
 data structures (some have templates :)!) that do not exist in the standard C library.
@@ -16,6 +16,43 @@ Current data structures implemented
 * Templated Vector
 * Templated Set
 * Templated Map
+
+## Who the heck would want to use this?
+
+Sometimes, C does get a bit messy and hard to manage. 
+The standard library can be tricky at times and there are plenty of unsafe functions
+that should/are deprecated. Anyone who is annoyed by the standard library or feel limited
+by the amount of primitive data structures in C (struct, arrays), should use this framework.
+
+There also are Object oriented C libraries out there, but they're far too awkward to use (too C heavy-handed)
+
+[https://github.com/shichao-an/ooc](https://github.com/shichao-an/ooc)
+[http://ooc-coding.sourceforge.net/](http://ooc-coding.sourceforge.net/)
+[https://en.wikipedia.org/wiki/GObject](https://en.wikipedia.org/wiki/GObject)
+
+## Tested compilers
+
+- Microsoft Visual Studio 2015
+- Microsoft Visual Studio 2017
+- gcc 4.8.4
+- gcc 8.0
+- clang 3.8
+- clang 5.0
+- clang 6.0
+
+If clang is used, make sure -Werror is not enabled if clang >= 5.0. This will cause a c extension to fail (-Wmicrosoft-anon-struct).
+
+## Building
+
+The project uses [cmake](https://cmake.org/) to generate the library and examples.
+
+If a microsoft visual studio is used, testing will be disabled since [cuint](http://cunit.sourceforge.net/) is used as the testing framework.
+
+In top level directory of OOC
+
+cmake -Bbuild .
+
+There is also a Makefile in the directory as well (It does not generate a library, however)
 
 ## How does this work?
 
@@ -159,18 +196,10 @@ Only one empty constructor can be made for a class
 
 Single inheritence
 
-## Who the heck would want to use this?
-
-Sometimes, C does get a bit messy and hard to manage, even though I love writing raw C code :(. 
-The standard library can be tricky at times and there are plenty of unsafe functions
-that should/are depreciated. Anyone who is annoyed by the standard library or feel limited
-by the amount of primitive data structures in C (struct, arrays), should use this framework.
-
-
 ## Why are you reimplementing C++, you dummy?
 
-Yup, I'll admit it. I'm pretty dumb for implementing this framework when C++ exists. 
-But... I want to learn. I didn't fully understand the virtual function table concept.
+Yup. I'm pretty much reinventing the wheel for implementing this framework when C++ exists. 
+But..., sometimes one has to use C and I wanted to learn from this project. I didn't fully understand the virtual function table concept.
 I didn't understand how RTTI works. This project gave me insight as to how higher level languages
 such as java are implemented. Plus, I want to use this in my other (future) projects :).
 
@@ -246,17 +275,9 @@ https://www.blackhat.com/presentations/bh-dc-07/Sabanal_Yason/Paper/bh-dc-07-Sab
 
 [x] Implement Dynamic cast (upcast/downcast)
 
-[ URGENT ] Provide Examples
-
-[ Good ] Explain how OOC works w/ diagrams
-
-[ Unsafe - probably implemented as MoveCall in future ] Move semantics
+[x] Explain how OOC works w/ diagrams
 
 [x] Iterator
-
-[ dunno ] const Iterator
-
-[ Make neater ] ForEach keyword
 
 [x] Vector class
 
@@ -266,17 +287,32 @@ https://www.blackhat.com/presentations/bh-dc-07/Sabanal_Yason/Paper/bh-dc-07-Sab
 
 [x] Map class
 
-[ uh ] Change struct names beginning with underscore (nonstandard...)
+[ >:( ] Provide Examples
 
-[ well ] Consider changing microsoft version of "anonymous" structs -> requires --fms-extensions on gcc :( (Less readable and seeing what is inheritence)
+[sort of working] Move semantics
 
-## ?Wonderings, pondering, design decisions?
+[ in the far future ] const Iterator
 
-Should constructors just set vftable pointer to super's vftable or should the super's vftable be memcpy'ed into the dervied pointer?
+[ Kind of ugly right now ] ForEach keyword
 
-Leaning towards memcpy
+[ really should ] Add do(){ } while(0); to macros...
 
-Reason:
-No point in just setting the pointer if the pointer is just going to be overwritten...
+[ :( ] Change struct names beginning with underscore (nonstandard...)
 
-Inefficient setting of variables in vtable, but necessary to call once. Easier to design, less code though...
+[ :( ] Consider changing microsoft version of "anonymous" structs -> requires --fms-extensions on gcc :( (Less readable and seeing what is inheritence)
+
+[ Not sure, maybe take a look at how it's done in C++ ] Exceptions/Exception handling
+
+[ should be simple ] Allow one to pass multiple parameters to a constructor. Add __VA_ARGS__ to New
+
+[ ehh ] Replace Delete(type, object) with Delete(object). Can be fixed by below
+
+[ ugh, going to have to figure out how to template this one ] Simplify library calls by templating object.h/container.h. Instead of Call(type, object, method), one can use Call(object, method) or object->Call(...)
+
+[ Probably not ] Allow allocations on the stack and RAII like C++. Take a look at [https://github.com/Snaipe/libcsptr](https://github.com/Snaipe/libcsptr)
+
+[ well ] C++ shared/unique_ptr
+
+## Contributing
+
+Feel free to make a PR and when I have time, I'll take a look into it. :)
