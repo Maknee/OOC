@@ -121,25 +121,26 @@ DEFINE_VECTOR_ITERATOR
 typedef struct CAT(_Vector, T) *CAT(Vector, T);
 
 #define VECTOR CAT(Vector, T)
+#define VectorVFTable CAT(VECTOR, VFTable)
 
-#define DEFINE_VECTOR_VFTABLE                                  \
-	typedef struct CAT(CAT(_Vector, T), VFTable)               \
-	{                                                          \
-		CompleteObjectLocator* pCompleteObjectLocator;         \
-		void (*delete)(VECTOR this);                          \
-		bool (*equals)(VECTOR this, VECTOR other);               \
-		int (*compareTo)(VECTOR this, VECTOR other);             \
+#define DEFINE_VECTOR_VFTABLE                                   \
+	typedef struct VectorVFTable                                \
+	{                                                           \
+		CompleteObjectLocator* pCompleteObjectLocator;          \
+		void (*delete)(VECTOR this);                            \
+		bool (*equals)(VECTOR this, VECTOR other);              \
+		int (*compareTo)(VECTOR this, VECTOR other);            \
 		char* (*toString)(VECTOR this);                         \
-		                                                       \
+		                                                        \
 		bool (*add)(VECTOR this, T item);                       \
 		void(*clear)(VECTOR this);                              \
 		bool(*erase)(VECTOR this, int start, int end);          \
 		bool(*remove)(VECTOR this, T item);                     \
 		bool(*contains)(VECTOR this, T item);                   \
-		VECTOR (*copy)(VECTOR this);                             \
+		VECTOR (*copy)(VECTOR this);                            \
 		bool(*isEmpty)(VECTOR this);                            \
 		size_t(*size)(VECTOR this);                             \
-		                                                       \
+		                                                        \
 		CAT(Vector, T)(*set)(VECTOR this, const T* item, size_t num_elements); \
 		T*(*get)(VECTOR this, int index);                       \
 		bool(*move_push_front)(VECTOR this, T item);            \
@@ -670,7 +671,9 @@ CAT(CAT(Vector, T), VFTable) CAT(CAT(Vector, T), vfTable);
 #define DEFINE_VECTOR                                          \
 	typedef struct CAT(_Vector, T)                             \
 	{                                                          \
-		struct _Container container;                           \
+		VectorVFTable* pVFTable;                                \
+		VectorVFTable* objectpVFTable;                          \
+		                                                       \
 		size_t size;                                           \
 		size_t capacity;                                       \
 		T* data;                                               \

@@ -118,7 +118,7 @@
 #define GET_FIRST_ARG_(arg, ...) arg
 #define GET_FIRST_ARG(args) GET_FIRST_ARG_ args
 
-#define GET_SECOND_ARG_(arg, arg2) arg2
+#define GET_SECOND_ARG_(arg, arg2, ...) arg2
 #define GET_SECOND_ARG(args) GET_SECOND_ARG_ args
 
 //https ://stackoverflow.com/questions/2124339/c-preprocessor-va-args-number-of-arguments
@@ -159,6 +159,9 @@
 
 #define CallExpansion(type, function, ...) ((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)
 #define Call(type, function, ...) CallExpansion(type, function, __VA_ARGS__)
+
+#define CallExpExpansion(object, function, ...) (object->pVFTable->function(object, __VA_ARGS__))
+#define CallExp(object, function, ...) CallExpExpansion(object, function, __VA_ARGS__)
 
 #define SafeCallExpansion(type, function, ...) (CheckDynamicCast(type, GET_FIRST_ARG((__VA_ARGS__))) ? (((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)) : 0)
 #define SafeCall(type, function, ...) SafeCallExpansion(type, function, __VA_ARGS__)
