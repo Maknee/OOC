@@ -17,7 +17,11 @@
 
 #pragma once
 
+#define OOC_V1
+
 #include "template.h"
+
+
 
 #define T int
 #include "ooc_vector.h"

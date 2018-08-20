@@ -19,6 +19,8 @@
 
 #if defined(K) && defined (V)
 
+#define OOC_V1
+
 #include "container.h"
 #include "template.h"
 

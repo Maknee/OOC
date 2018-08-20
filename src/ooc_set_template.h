@@ -17,6 +17,8 @@
 
 #pragma once
 
+#define OOC_V1
+
 #include "template.h"
 
 #ifdef Set

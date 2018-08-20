@@ -1,4 +1,3 @@
-
 #define OOC_V1
 
 #include "ooc.h"
