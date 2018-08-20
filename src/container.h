@@ -39,20 +39,13 @@
  **************************************************************************************************/
 
 #define NULL_CONTAINER_VFTABLE                                  \
-		{                                                       \
-			{                                                   \
-				.pCompleteObjectLocator = NULL,                 \
-				.equals = NULL,                                 \
-				.toString = NULL                                \
-			},                                                  \
-			.add = NULL,                                        \
-			.clear = NULL,                                      \
-			.remove = NULL,                                     \
-			.contains = NULL,                                   \
-			.copy = NULL,                                       \
-			.isEmpty = NULL,                                    \
-			.size = NULL                                        \
-		}                                                       \
+		NULL_OBJECT_VFTABLE,                                    \
+		.add = NULL,                                            \
+		.clear = NULL,                                          \
+		.remove = NULL,                                         \
+		.contains = NULL,                                       \
+		.isEmpty = NULL,                                        \
+		.size = NULL                                            \
 
 /*============================================================================
 |   Object virtual function table definition
@@ -149,7 +142,6 @@ typedef struct _ContainerVFTable
 	void (*clear)(void* this);
 	bool (*remove)(void* this, void* item);
 	bool (*contains)(void* this, void* item);
-
 	bool (*isEmpty)(void* this);
 	size_t (*size)(void* this);
 } ContainerVFTable;

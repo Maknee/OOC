@@ -238,7 +238,20 @@ typedef struct _String *String;
 
 typedef struct _StringVFTable
 {
-	struct _ContainerVFTable;
+	CompleteObjectLocator* pCompleteObjectLocator;
+	void(*delete)(void* this);
+	void* (*copy)(void* this);
+	bool(*equals)(void* this, void* other);
+	int(*compareTo)(void* this, void* other);
+	char* (*toString)(void* this);
+
+	bool(*add)(void* this, void* item);
+	void(*clear)(void* this);
+	bool(*remove)(void* this, void* item);
+	bool(*contains)(void* this, void* item);
+	bool(*isEmpty)(void* this);
+	size_t(*size)(void* this);
+	
 	void* (*set)(void* this, const char* item);
 	char* (*c_str)(void* this);
 	bool (*append)(void* this, const char* item);
