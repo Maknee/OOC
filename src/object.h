@@ -52,12 +52,11 @@ void* check_calloc(size_t size);
  **************************************************************************************************/
 
 #define NULL_OBJECT_VFTABLE                                     \
-		                                                        \
-			.pCompleteObjectLocator = NULL,                     \
-			.delete = NULL,                                     \
-			.equals = NULL,                                     \
-			.compareTo = NULL,                                  \
-			.toString = NULL                                    \
+		.pCompleteObjectLocator = NULL,                         \
+		.delete = NULL,                                         \
+		.equals = NULL,                                         \
+		.compareTo = NULL,                                      \
+		.toString = NULL                                        \
 		                                                        \
 
 /*============================================================================

@@ -19,7 +19,8 @@
 
 #ifdef T
 
-#include "container.h"
+#define OOC_V1
+
 #include "template.h"
 
 /*============================================================================
