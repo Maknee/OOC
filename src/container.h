@@ -138,7 +138,13 @@
 
 typedef struct _ContainerVFTable
 {
-	struct _ObjectVFTable;
+	CompleteObjectLocator* pCompleteObjectLocator;
+	void(*delete)(void* this);
+	void* (*copy)(void* this);
+	bool(*equals)(void* this, void* other);
+	int(*compareTo)(void* this, void* other);
+	char* (*toString)(void* this);
+
 	bool (*add)(void* this, void* item);
 	void (*clear)(void* this);
 	bool (*remove)(void* this, void* item);
