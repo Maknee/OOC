@@ -1,5 +1,7 @@
 #if defined(T) && defined(T_EQUALS)
 
+#define OOC_V1
+
 #include "template.h"
 
 //can't define this as Set since name collision

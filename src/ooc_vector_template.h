@@ -19,10 +19,6 @@
 
 #include "template.h"
 
-#ifdef T
-#undef T
-#endif
-
 #define T int
 #include "ooc_vector.h"
 #undef T

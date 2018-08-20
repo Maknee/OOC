@@ -1,3 +1,6 @@
+
+#define OOC_V1
+
 #include "ooc.h"
 #include "example_struct.h"
 

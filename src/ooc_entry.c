@@ -1,5 +1,7 @@
 #if defined(K) && defined(V)
 
+#define OOC_V1
+
 #include "template.h"
 
 //can't define this as Entry since name collision

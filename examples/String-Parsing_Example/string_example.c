@@ -1,3 +1,5 @@
+#define OOC_V1
+
 #include "ooc.h"
 
 int main()

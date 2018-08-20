@@ -148,23 +148,6 @@
          9,8,7,6,5,4,3,2,1,0
 
 //Macros for calling 
-#define NewExpansion(type) New ## type()
-#define New(type) NewExpansion(type)
-
-#define DeleteExpansion(type, object)                         \
-		Delete ## type(object);                               \
-		object = NULL                                         \
-
-#define Delete(type, object) DeleteExpansion(type, object)
-
-#define CallExpansion(type, function, ...) ((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)
-#define Call(type, function, ...) CallExpansion(type, function, __VA_ARGS__)
-
-#define CallExpExpansion(object, function, ...) (object->pVFTable->function(object, __VA_ARGS__))
-#define CallExp(object, function, ...) CallExpExpansion(object, function, __VA_ARGS__)
-
-#define SafeCallExpansion(type, function, ...) (CheckDynamicCast(type, GET_FIRST_ARG((__VA_ARGS__))) ? (((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)) : 0)
-#define SafeCall(type, function, ...) SafeCallExpansion(type, function, __VA_ARGS__)
 
 #define Initializer_List(type, ...) (const type[]) {__VA_ARGS__, 0}, PP_NARG(__VA_ARGS__)
 
@@ -229,6 +212,54 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object);
 
 //attempts upcast and downcast vftable (doesn't change vftable)
 #define DynamicCast(new_type, object) ((UpcastTable(new_type, object)) ? (object) : ((DowncastTable(new_type, object)) ? (object) : (NULL)))
+
+//Important expansions
+
+#define NewExpansion(type) New ## type()
+#define New(type) NewExpansion(type)
+
+//default to V2 if V1 is not defined
+#define OOC_V2
+
+#if defined(OOC_V1)
+
+#define Delete(type, object) DeleteExpansion(type, object)
+
+#define CallExpansion(type, function, ...) ((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)
+#define Call(type, function, ...) CallExpansion(type, function, __VA_ARGS__)
+
+#define SafeCallExpansion(type, function, ...) (CheckDynamicCast(type, GET_FIRST_ARG((__VA_ARGS__))) ? (((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)) : 0)
+#define SafeCall(type, function, ...) SafeCallExpansion(type, function, __VA_ARGS__)
+
+#define DeleteExpansion(type, object)                         \
+		Delete ## type(object);                               \
+		object = NULL                                         \
+
+#elif defined(OOC_V2)
+
+#define CallExpansion(object, function, ...) do { (object->pVFTable->function(object, __VA_ARGS__)) } while(0)
+#define Call(object, function, ...) CallExpansion(object, function, __VA_ARGS__)
+
+#define SafeCallExpansion(type, object, function, ...) do{ ((CheckDynamicCast(type, object)) ? (Call(type, object, function, __VA_ARGS__)) : (0)) } while(0)
+#define SafeCall(type, object, function, ...) SafeCallExpansion(type, object, function, __VA_ARGS__)
+
+#define DeleteExpansion(object)                         \
+		do {                                            \
+          Call(object, delete);                         \
+		  object = NULL;                                \
+		} while(0)                                      \
+
+#define Delete(object) DeleteExpansion(object)
+
+#endif
+
+#ifdef OOC_V1
+#undef OOC_V1
+#endif
+
+#ifdef OOC_V2
+#undef OOC_V2
+#endif
 
 //TOTAL UNSAFE... :(
 //MOVE SEMANTICS 
