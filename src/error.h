@@ -23,7 +23,7 @@
  * @note * <a href="https://stackoverflow.com/questions/1644868/c-define-macro-for-debug-printing">Entire debug macro</a>
  **************************************************************************************************/
 
-#ifdef defined(DEBUG) || defined(NDEBUG) || defined(_DEBUG) || defined(_NDEBUG)
+#if defined(DEBUG) || defined(NDEBUG) || defined(_DEBUG) || defined(_NDEBUG)
 
 #define DEBUG_PRINT(fmt, ...)                                   \
         do { fprintf(stderr, "%s : %d : %s(): " fmt, __FILE__,  \
