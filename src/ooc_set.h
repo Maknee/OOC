@@ -114,28 +114,38 @@ DEFINE_SET_ITERATOR
 
 //also super class has to templated... not exactly what I call
 //perfect inheritence
-#define DEFINE_SET_VFTABLE                                  \
-	typedef struct CAT(CAT(_Set, T), VFTable)               \
+
+typedef struct CAT(_Set, T) *CAT(Set, T);
+
+#define SET CAT(Set, T)
+#define SetVFTable CAT(SET, VFTable)
+
+#define DEFINE_SET_VFTABLE                                     \
+	typedef struct CAT(CAT(_Set, T), VFTable)                  \
 	{                                                          \
-		struct _ObjectVFTable;                                 \
+		CompleteObjectLocator* pCompleteObjectLocator;         \
+		void (*delete)(SET this);                              \
+		SET (*copy)(SET this);                                 \
+        bool (*equals)(SET this, SET other);                   \
+		int (*compareTo)(SET this, SET other);                 \
+		char* (*toString)(SET this);                           \
+                                                               \
+		bool (*add)(SET this, T item);                         \
+		void(*clear)(SET this);                                \
+		bool(*remove)(SET this, T item);                       \
+		bool(*contains)(SET this, T item);                     \
+		bool(*isEmpty)(SET this);                              \
+		size_t(*size)(SET this);                               \
 		                                                       \
-		bool (*add)(void* this, T item);                       \
-		void(*clear)(void* this);                              \
-		bool(*remove)(void* this, T item);                     \
-		bool(*contains)(void* this, T item);                   \
-		void* (*copy)(void* this);                             \
-		bool(*isEmpty)(void* this);                            \
-		size_t(*size)(void* this);                             \
-		                                                       \
-		bool(*set)(void* this, const T* item, size_t num_elements); \
-		bool(*move_insert)(void* this, T item);                \
-		bool(*insert)(void* this, T item);                     \
-		T*(*find) (void* this, T item);                       \
-		bool(*replace)(void* this, T to_replace, T replacement); \
-		CAT(CAT(Set, T), Iterator) (*begin)(void* this);      \
-		bool(*next)(void* this, CAT(CAT(Set, T), Iterator) iterator); \
-		CAT(CAT(Set, T), Iterator) (*end)(void* this, CAT(CAT(Set, T), Iterator) iterator); \
-	} CAT(CAT(Set, T), VFTable);                            \
+		bool(*set)(SET this, const T* item, size_t num_elements); \
+		bool(*move_insert)(SET this, T item);                  \
+		bool(*insert)(SET this, T item);                       \
+		T*(*find) (SET this, T item);                          \
+		bool(*replace)(SET this, T to_replace, T replacement); \
+		CAT(CAT(Set, T), Iterator) (*begin)(SET this);         \
+		bool(*next)(SET this, CAT(CAT(Set, T), Iterator) iterator); \
+		CAT(CAT(Set, T), Iterator) (*end)(SET this, CAT(CAT(Set, T), Iterator) iterator); \
+	} CAT(CAT(Set, T), VFTable);                               \
 
 DEFINE_SET_VFTABLE
 
@@ -148,7 +158,7 @@ DEFINE_SET_VFTABLE
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void* CAT(NewSet, T)()
+ * @fn	SET CAT(NewSet, T)()
  * @brief	Set's new operator
  * 			
  *			Returns an allocated new set
@@ -156,14 +166,14 @@ DEFINE_SET_VFTABLE
  * @return	An allocated set object or null if none could be allocated
  **************************************************************************************************/
 
-void* CAT(NewSet, T)();
+SET CAT(NewSet, T)();
 
 /*============================================================================
 |	Delete Operator
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void CAT(DeleteSet, T)(void* this);
+ * @fn	void CAT(DeleteSet, T)(SET this);
  *
  * @brief	Deletes and frees a set's resources
  *
@@ -172,14 +182,14 @@ void* CAT(NewSet, T)();
  * @return	Nothing
  **************************************************************************************************/
 
-void CAT(DeleteSet, T)(void* this);
+void CAT(DeleteSet, T)(SET this);
 
 /*============================================================================
 |	Constructor
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void CAT(SetConstruct, T)(void* this);
+ * @fn	void CAT(SetConstruct, T)(SET this);
  * @brief	Set's constructor
  * 			
  *			Setups the vftable by completing the RTTI dependency
@@ -192,14 +202,14 @@ void CAT(DeleteSet, T)(void* this);
  * @todo	{Find a way to not use memcpy for setting up the vftable...}
  **************************************************************************************************/
 
-void CAT(SetConstruct, T)(void* this);
+void CAT(SetConstruct, T)(SET this);
 
 /*============================================================================
 |	Copy Constructor
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void* CAT(SetCopyConstruct, T)(void* this);
+ * @fn	SET CAT(SetCopyConstruct, T)(SET this);
  * @brief	Set's copy constructor
  * 			
  *			Returns a copy of the set
@@ -214,14 +224,14 @@ void CAT(SetConstruct, T)(void* this);
  * 			for the set and copy every element
  **************************************************************************************************/
 
-void* CAT(SetCopyConstruct, T)(void* this);
+SET CAT(SetCopyConstruct, T)(SET this);
 
 /*============================================================================
 |	Destructor
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void CAT(SetDestruct, T)(void* this);
+ * @fn	void CAT(SetDestruct, T)(SET this);
  * @brief	Set's destructor
  * 			
  *			Calls the super destructors and properly manages 
@@ -233,14 +243,14 @@ void* CAT(SetCopyConstruct, T)(void* this);
  * @return	Nothing
  **************************************************************************************************/
 
-void CAT(SetDestruct, T)(void* this);
+void CAT(SetDestruct, T)(SET this);
 
 /*============================================================================
 |	Overridden member function definitions
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn		bool CAT(SetEquals, T)(void* this, void* other);
+ * @fn		bool CAT(SetEquals, T)(SET this, SET other);
  *
  * @brief	Checks if the type of the set is equal to another object
  *
@@ -252,10 +262,10 @@ void CAT(SetDestruct, T)(void* this);
  * @return	True if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool CAT(SetEquals, T)(void* this, void* other);
+bool CAT(SetEquals, T)(SET this, SET other);
 
 /**********************************************************************************************//**
- * @fn		int CAST(SetCompareTo, T)(void* this, void* other);
+ * @fn		int CAST(SetCompareTo, T)(SET this, SET other);
  *
  * @brief	Checks if the type of the set is equal to another object
  *
@@ -267,10 +277,10 @@ bool CAT(SetEquals, T)(void* this, void* other);
  * @return	0 if it succeeds, negative or positive if it fails.
  **************************************************************************************************/
 
-int CAT(SetCompareTo, T)(void* this, void* other);
+int CAT(SetCompareTo, T)(SET this, SET other);
 
 /**********************************************************************************************//**
- * @fn		char* CAT(SetToString, T)(void* this);
+ * @fn		char* CAT(SetToString, T)(SET this);
  *
  * @brief	Gives the object's type name.
  * 			Is used for casts.
@@ -282,10 +292,10 @@ int CAT(SetCompareTo, T)(void* this, void* other);
  * @return	Returns a pointer to the object's name
  **************************************************************************************************/
 
-char* CAT(SetToString, T)(void* this);
+char* CAT(SetToString, T)(SET this);
 
 /**********************************************************************************************//**
- * @fn		bool CAT(SetAdd, T)(void* this, T item);
+ * @fn		bool CAT(SetAdd, T)(SET this, T item);
  *
  * @brief	Does the same as SetPushBack
  *
@@ -295,10 +305,10 @@ char* CAT(SetToString, T)(void* this);
  * 			The item (element of the set), not another <b>Set</b>
  **************************************************************************************************/
 
-bool CAT(SetAdd, T)(void* this, T item);
+bool CAT(SetAdd, T)(SET this, T item);
 
 /**********************************************************************************************//**
- * @fn		void CAT(SetClear, T)(void* this);
+ * @fn		void CAT(SetClear, T)(SET this);
  *
  * @brief	Clears the contents of the set
  * 			
@@ -311,10 +321,10 @@ bool CAT(SetAdd, T)(void* this, T item);
  * @return	Nothing
  **************************************************************************************************/
 
-void CAT(SetClear, T)(void* this);
+void CAT(SetClear, T)(SET this);
 
 /**********************************************************************************************//**
- * @fn		bool SetRemove(void* this, void* item)
+ * @fn		bool SetRemove(SET this, SET item)
  *
  * @brief	Remove the subset in a set
  *			
@@ -329,10 +339,10 @@ void CAT(SetClear, T)(void* this);
  * 			The overhead of free is most likely not worth resizing the capacity
  **************************************************************************************************/
 
-bool CAT(SetRemove, T)(void* this, T item);
+bool CAT(SetRemove, T)(SET this, T item);
 
 /**********************************************************************************************//**
- * @fn		bool CAT(SetContains, T)(void* this, T item);
+ * @fn		bool CAT(SetContains, T)(SET this, T item);
  *
  * @brief	Remove the item in a set
  *			
@@ -344,10 +354,10 @@ bool CAT(SetRemove, T)(void* this, T item);
  * 			returns false if the item couldn't be found
  **************************************************************************************************/
 
-bool CAT(SetContains, T)(void* this, T item);
+bool CAT(SetContains, T)(SET this, T item);
 
 /**********************************************************************************************//**
- * @fn	void* CAT(SetCopy, T)(void* this);
+ * @fn	SET CAT(SetCopy, T)(SET this);
  * @brief	Set's copy function
  * 			
  *			Returns a deep copy of the set
@@ -361,10 +371,10 @@ bool CAT(SetContains, T)(void* this, T item);
  * 			for the pBuf if the current set has dynamically allocated memory
  **************************************************************************************************/
 
-void* CAT(SetCopy, T)(void* this);
+SET CAT(SetCopy, T)(SET this);
 
 /**********************************************************************************************//**
- * @fn		bool CAT(SetIsEmpty, T)(void* this);
+ * @fn		bool CAT(SetIsEmpty, T)(SET this);
  *
  * @brief	Checks if the set is empty
  *			
@@ -374,10 +384,10 @@ void* CAT(SetCopy, T)(void* this);
  * 			returns false if the set is not empty
  **************************************************************************************************/
 
-bool CAT(SetIsEmpty, T)(void* this);
+bool CAT(SetIsEmpty, T)(SET this);
 
 /**********************************************************************************************//**
- * @fn		size_t CAT(SetSize, T)(void* this);
+ * @fn		size_t CAT(SetSize, T)(SET this);
  *
  * @brief	Returns the number of elements in the set
  *			
@@ -387,14 +397,14 @@ bool CAT(SetIsEmpty, T)(void* this);
  * @note	Includes NULL terminator
  **************************************************************************************************/
 
-size_t CAT(SetSize, T)(void* this);
+size_t CAT(SetSize, T)(SET this);
 
 /*============================================================================
 |	Class member definitions
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	bool CAT(Set_Set, T)(void* this, const T* item, size_t num_elements);
+ * @fn	bool CAT(Set_Set, T)(SET this, const T* item, size_t num_elements);
  *
  * @brief	Sets the set to an array of elements
  *
@@ -408,10 +418,10 @@ size_t CAT(SetSize, T)(void* this);
  * @return	True if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool CAT(Set_Set, T)(void* this, const T* item, size_t num_elements);
+bool CAT(Set_Set, T)(SET this, const T* item, size_t num_elements);
 
 /**********************************************************************************************//**
- * @fn	bool CAT(SetMoveInsert, T)(void* this, T item)
+ * @fn	bool CAT(SetMoveInsert, T)(SET this, T item)
  *
  * @brief	Inserts the item at the index in the set by moving the item.\n
  * 			Everything after the index will be shifted to the right
@@ -426,10 +436,10 @@ bool CAT(Set_Set, T)(void* this, const T* item, size_t num_elements);
  * @return	True if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool CAT(SetMoveInsert, T)(void* this, T item);
+bool CAT(SetMoveInsert, T)(SET this, T item);
 
 /**********************************************************************************************//**
- * @fn	bool CAT(SetInsert, T)(void* this, T item);
+ * @fn	bool CAT(SetInsert, T)(SET this, T item);
  *
  * @brief	Inserts a copy of the item at the index in the set.\n
  * 			Everything after the index will be shifted to the right
@@ -444,10 +454,10 @@ bool CAT(SetMoveInsert, T)(void* this, T item);
  * @return	True if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool CAT(SetInsert, T)(void* this, T item);
+bool CAT(SetInsert, T)(SET this, T item);
 
 /**********************************************************************************************//**
- * @fn	T* CAT(SetFind, T) (void* this, T item)
+ * @fn	T* CAT(SetFind, T) (SET this, T item)
  *
  * @brief	Finds the index of the element in the set
  *
@@ -459,10 +469,10 @@ bool CAT(SetInsert, T)(void* this, T item);
  * @return	Index of the element. NPOS if none were found
  **************************************************************************************************/
 
-T* CAT(SetFind, T) (void* this, T item);
+T* CAT(SetFind, T) (SET this, T item);
 
 /**********************************************************************************************//**
- * @fn	bool CAT(SetReplace, T)(void* this, T to_replace, T replacement);
+ * @fn	bool CAT(SetReplace, T)(SET this, T to_replace, T replacement);
  *
  * @brief	Replaces the elements with another element
  * 			Deallocates previous element, and allocates a copy of the replacement element
@@ -477,10 +487,10 @@ T* CAT(SetFind, T) (void* this, T item);
  * @return	Index of the element. NPOS if none were found
  **************************************************************************************************/
 
-bool CAT(SetReplace, T)(void* this, T to_replace, T replacement);
+bool CAT(SetReplace, T)(SET this, T to_replace, T replacement);
 
 /**********************************************************************************************//**
- * @fn		StringIterator StringBegin(void* this)
+ * @fn		StringIterator StringBegin(SET this)
  *
  * @brief   Returns an iterator starting at the beginning of a string
  *
@@ -490,10 +500,10 @@ bool CAT(SetReplace, T)(void* this, T to_replace, T replacement);
  *			Returns a string iterator
  **************************************************************************************************/
 
-CAT(CAT(Set, T), Iterator) CAT(SetBegin, T)(void* this);
+CAT(CAT(Set, T), Iterator) CAT(SetBegin, T)(SET this);
 
 /**********************************************************************************************//**
- * @fn		bool StringNext(void* this, StringIterator* iterator)
+ * @fn		bool StringNext(SET this, StringIterator* iterator)
  *
  * @brief   Advances string iterator
  *
@@ -503,10 +513,10 @@ CAT(CAT(Set, T), Iterator) CAT(SetBegin, T)(void* this);
  *			Returns a string iterator
  **************************************************************************************************/
 
-bool CAT(SetNext, T)(void* this, CAT(CAT(Set, T), Iterator) iterator);
+bool CAT(SetNext, T)(SET this, CAT(CAT(Set, T), Iterator) iterator);
 
 /**********************************************************************************************//**
- * @fn		StringIterator StringEnd(void* this)
+ * @fn		StringIterator StringEnd(SET this)
  *
  * @brief   Returns an iterator starting at end of the string
  *
@@ -518,7 +528,7 @@ bool CAT(SetNext, T)(void* this, CAT(CAT(Set, T), Iterator) iterator);
  *			Returns a string iterator
  **************************************************************************************************/
 
-CAT(CAT(Set, T), Iterator) CAT(SetEnd, T)(void* this, CAT(CAT(Set, T), Iterator) iterator);
+CAT(CAT(Set, T), Iterator) CAT(SetEnd, T)(SET this, CAT(CAT(Set, T), Iterator) iterator);
 
 /*============================================================================
 |   Container virtual function table instance

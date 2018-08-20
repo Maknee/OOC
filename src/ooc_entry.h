@@ -61,18 +61,28 @@
 
 //also super class has to templated... not exactly what I call
 //perfect inheritence
+
+typedef struct CAT(_Entry, CAT(K, V)) *CAT(Entry, CAT(K, V));
+
+#define ENTRY CAT(Entry, CAT(K, V))
+#define EntryVFTable CAT(ENTRY, VFTable)
+
 #define DEFINE_ENTRY_VFTABLE                                  \
 	typedef struct CAT(CAT(_Entry, CAT(K, V)), VFTable)       \
 	{                                                         \
-		struct _ObjectVFTable;                                \
+		CompleteObjectLocator* pCompleteObjectLocator;        \
+		void (*delete)(ENTRY this);                          \
+		ENTRY (*copy)(ENTRY this);                          \
+        bool (*equals)(ENTRY this, ENTRY other);            \
+		int (*compareTo)(ENTRY this, ENTRY other);          \
+		char* (*toString)(ENTRY this);                       \
 		                                                      \
-		void* (*copy)(void* this);                            \
-		bool (*move_set_key)(void* this, K item);             \
-		bool (*set_key)(void* this, K item);                  \
-		K* (*get_key)(void* this);                            \
-		bool (*move_set_value)(void* this, V item);           \
-		bool (*set_value)(void* this, V item);                \
-		V* (*get_value)(void* this);                          \
+		bool (*move_set_key)(ENTRY this, K item);             \
+		bool (*set_key)(ENTRY this, K item);                  \
+		K* (*get_key)(ENTRY this);                            \
+		bool (*move_set_value)(ENTRY this, V item);           \
+		bool (*set_value)(ENTRY this, V item);                \
+		V* (*get_value)(ENTRY this);                          \
 	} CAT(CAT(Entry, CAT(K, V)), VFTable);                    \
 
 DEFINE_ENTRY_VFTABLE
@@ -86,7 +96,7 @@ DEFINE_ENTRY_VFTABLE
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void* CAT(NewEntry, CAT(K, V))()
+ * @fn	ENTRY CAT(NewEntry, CAT(K, V))()
  * @brief	Entry's new operator
  * 			
  *			Returns an allocated new entry
@@ -94,14 +104,14 @@ DEFINE_ENTRY_VFTABLE
  * @return	An allocated entry object or null if none could be allocated
  **************************************************************************************************/
 
-void* CAT(NewEntry, CAT(K, V))();
+ENTRY CAT(NewEntry, CAT(K, V))();
 
 /*============================================================================
 |	Delete Operator
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void CAT(DeleteEntry, CAT(K, V))(void* this);
+ * @fn	void CAT(DeleteEntry, CAT(K, V))(ENTRY this);
  *
  * @brief	Deletes and frees a entry's resources
  *
@@ -110,14 +120,14 @@ void* CAT(NewEntry, CAT(K, V))();
  * @return	Nothing
  **************************************************************************************************/
 
-void CAT(DeleteEntry, CAT(K, V))(void* this);
+void CAT(DeleteEntry, CAT(K, V))(ENTRY this);
 
 /*============================================================================
 |	Constructor
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void CAT(EntryConstruct, CAT(K, V))(void* this);
+ * @fn	void CAT(EntryConstruct, CAT(K, V))(ENTRY this);
  * @brief	Entry's constructor
  * 			
  *			Entryups the vftable by completing the RTTI dependency
@@ -130,14 +140,14 @@ void CAT(DeleteEntry, CAT(K, V))(void* this);
  * @todo	{Find a way to not use memcpy for entryting up the vftable...}
  **************************************************************************************************/
 
-void CAT(EntryConstruct, CAT(K, V))(void* this);
+void CAT(EntryConstruct, CAT(K, V))(ENTRY this);
 
 /*============================================================================
 |	Copy Constructor
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void* CAT(EntryCopyConstruct, CAT(K, V))(void* this);
+ * @fn	ENTRY CAT(EntryCopyConstruct, CAT(K, V))(ENTRY this);
  * @brief	Entry's copy constructor
  * 			
  *			Returns a copy of the entry
@@ -152,14 +162,14 @@ void CAT(EntryConstruct, CAT(K, V))(void* this);
  * 			for the entry and copy every element
  **************************************************************************************************/
 
-void* CAT(EntryCopyConstruct, CAT(K, V))(void* this);
+ENTRY CAT(EntryCopyConstruct, CAT(K, V))(ENTRY this);
 
 /*============================================================================
 |	Destructor
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void CAT(EntryDestruct, CAT(K, V))(void* this);
+ * @fn	void CAT(EntryDestruct, CAT(K, V))(ENTRY this);
  * @brief	Entry's destructor
  * 			
  *			Calls the super destructors and properly manages 
@@ -171,14 +181,14 @@ void* CAT(EntryCopyConstruct, CAT(K, V))(void* this);
  * @return	Nothing
  **************************************************************************************************/
 
-void CAT(EntryDestruct, CAT(K, V))(void* this);
+void CAT(EntryDestruct, CAT(K, V))(ENTRY this);
 
 /*============================================================================
 |	Overridden member function definitions
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn		bool CAT(EntryEquals, CAT(K, V))(void* this, void* other);
+ * @fn		bool CAT(EntryEquals, CAT(K, V))(ENTRY this, ENTRY other);
  *
  * @brief	Checks if the type of the entry is equal to another object
  *
@@ -190,10 +200,10 @@ void CAT(EntryDestruct, CAT(K, V))(void* this);
  * @return	True if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool CAT(EntryEquals, CAT(K, V))(void* this, void* other);
+bool CAT(EntryEquals, CAT(K, V))(ENTRY this, ENTRY other);
 
 /**********************************************************************************************//**
- * @fn		int CAST(EntryCompareTo, CAT(K, V))(void* this, void* other);
+ * @fn		int CAST(EntryCompareTo, CAT(K, V))(ENTRY this, ENTRY other);
  *
  * @brief	Checks if the type of the entry is equal to another object
  *
@@ -205,10 +215,10 @@ bool CAT(EntryEquals, CAT(K, V))(void* this, void* other);
  * @return	0 if it succeeds, negative or positive if it fails.
  **************************************************************************************************/
 
-int CAT(EntryCompareTo, CAT(K, V))(void* this, void* other);
+int CAT(EntryCompareTo, CAT(K, V))(ENTRY this, ENTRY other);
 
 /**********************************************************************************************//**
- * @fn		char* CAT(EntryToString, CAT(K, V))(void* this);
+ * @fn		char* CAT(EntryToString, CAT(K, V))(ENTRY this);
  *
  * @brief	Gives the object's type name.
  * 			Is used for casts.
@@ -220,10 +230,10 @@ int CAT(EntryCompareTo, CAT(K, V))(void* this, void* other);
  * @return	Returns a pointer to the object's name
  **************************************************************************************************/
 
-char* CAT(EntryToString, CAT(K, V))(void* this);
+char* CAT(EntryToString, CAT(K, V))(ENTRY this);
 
 /**********************************************************************************************//**
- * @fn		bool CAT(EntryAdd, CAT(K, V))(void* this, T item);
+ * @fn		bool CAT(EntryAdd, CAT(K, V))(ENTRY this, T item);
  *
  * @brief	Does the same as EntryPushBack
  *
@@ -233,13 +243,13 @@ char* CAT(EntryToString, CAT(K, V))(void* this);
  * 			The item (element of the entry), not another <b>Entry</b>
  **************************************************************************************************/
 
-void* CAT(EntryCopy, CAT(K, V))(void* this);
-bool CAT(EntryMoveSetKey, CAT(K, V))(void* this, K item);
-bool CAT(EntrySetKey, CAT(K, V))(void* this, K item);
-K* CAT(EntryGetKey, CAT(K, V))(void* this);
-bool CAT(EntryMoveSetValue, CAT(K, V))(void* this, V item);
-bool CAT(EntrySetValue, CAT(K, V))(void* this, V item);
-V* CAT(EntryGetValue, CAT(K, V))(void* this);
+ENTRY CAT(EntryCopy, CAT(K, V))(ENTRY this);
+bool CAT(EntryMoveSetKey, CAT(K, V))(ENTRY this, K item);
+bool CAT(EntrySetKey, CAT(K, V))(ENTRY this, K item);
+K* CAT(EntryGetKey, CAT(K, V))(ENTRY this);
+bool CAT(EntryMoveSetValue, CAT(K, V))(ENTRY this, V item);
+bool CAT(EntrySetValue, CAT(K, V))(ENTRY this, V item);
+V* CAT(EntryGetValue, CAT(K, V))(ENTRY this);
 
 /*============================================================================
 |   Container virtual function table instance

@@ -51,14 +51,14 @@ void* check_calloc(size_t size);
  * @see		_Container
  **************************************************************************************************/
 
-#define NULL_OBJECT_VFTABLE                                             \
-		{                                                       \
+#define NULL_OBJECT_VFTABLE                                     \
+		                                                        \
 			.pCompleteObjectLocator = NULL,                     \
 			.delete = NULL,                                     \
 			.equals = NULL,                                     \
 			.compareTo = NULL,                                  \
 			.toString = NULL                                    \
-		}                                                       \
+		                                                        \
 
 /*============================================================================
 |   Object virtual function table definition
@@ -101,6 +101,7 @@ typedef struct _ObjectVFTable
 {
 	CompleteObjectLocator* pCompleteObjectLocator;
 	void (*delete)(void* this);
+	void* (*copy)(void* this);
 	bool (*equals)(void* this, void* other);
 	int (*compareTo)(void* this, void* other);
 	char* (*toString)(void* this);

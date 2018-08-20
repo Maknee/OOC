@@ -49,7 +49,7 @@
 				},                                              \
 				.add = NULL,                                    \
 				.clear = NULL,                                  \
-				.erase = NULL,                                 \
+				.erase = NULL,                                  \
 				.remove = NULL,                                 \
 				.contains = NULL,                               \
 				.copy = NULL,                                   \
@@ -123,33 +123,33 @@ typedef struct CAT(_Vector, T) *CAT(Vector, T);
 #define VECTOR CAT(Vector, T)
 #define VectorVFTable CAT(VECTOR, VFTable)
 
-#define DEFINE_VECTOR_VFTABLE                                   \
-	typedef struct VectorVFTable                                \
-	{                                                           \
-		CompleteObjectLocator* pCompleteObjectLocator;          \
-		void (*delete)(VECTOR this);                            \
-		bool (*equals)(VECTOR this, VECTOR other);              \
-		int (*compareTo)(VECTOR this, VECTOR other);            \
-		char* (*toString)(VECTOR this);                         \
-		                                                        \
-		bool (*add)(VECTOR this, T item);                       \
-		void(*clear)(VECTOR this);                              \
-		bool(*erase)(VECTOR this, int start, int end);          \
-		bool(*remove)(VECTOR this, T item);                     \
-		bool(*contains)(VECTOR this, T item);                   \
-		VECTOR (*copy)(VECTOR this);                            \
-		bool(*isEmpty)(VECTOR this);                            \
-		size_t(*size)(VECTOR this);                             \
-		                                                        \
+#define DEFINE_VECTOR_VFTABLE                                  \
+	typedef struct VectorVFTable                               \
+	{                                                          \
+		CompleteObjectLocator* pCompleteObjectLocator;         \
+		void (*delete)(VECTOR this);                           \
+		VECTOR (*copy)(VECTOR this);                           \
+        bool (*equals)(VECTOR this, VECTOR other);             \
+		int (*compareTo)(VECTOR this, VECTOR other);           \
+		char* (*toString)(VECTOR this);                        \
+		                                                       \
+		bool (*add)(VECTOR this, T item);                      \
+		void(*clear)(VECTOR this);                             \
+		bool(*erase)(VECTOR this, int start, int end);         \
+		bool(*remove)(VECTOR this, T item);                    \
+		bool(*contains)(VECTOR this, T item);                  \
+		bool(*isEmpty)(VECTOR this);                           \
+		size_t(*size)(VECTOR this);                            \
+		                                                       \
 		CAT(Vector, T)(*set)(VECTOR this, const T* item, size_t num_elements); \
-		T*(*get)(VECTOR this, int index);                       \
-		bool(*move_push_front)(VECTOR this, T item);            \
-		bool(*push_front)(VECTOR this, T item);                 \
-		bool(*move_push_back)(VECTOR this, T item);             \
-		bool(*push_back)(VECTOR this, T item);                  \
-		bool(*move_insert)(VECTOR this, T item, int index);     \
-		bool(*insert)(VECTOR this, T item, int index);          \
-		int(*find) (VECTOR this, T item);                       \
+		T*(*get)(VECTOR this, int index);                      \
+		bool(*move_push_front)(VECTOR this, T item);           \
+		bool(*push_front)(VECTOR this, T item);                \
+		bool(*move_push_back)(VECTOR this, T item);            \
+		bool(*push_back)(VECTOR this, T item);                 \
+		bool(*move_insert)(VECTOR this, T item, int index);    \
+		bool(*insert)(VECTOR this, T item, int index);         \
+		int(*find) (VECTOR this, T item);                      \
 		bool(*replace)(VECTOR this, T to_replace, T replacement); \
 		CAT(CAT(Vector, T), Iterator) (*begin)(VECTOR this);      \
 		bool(*next)(VECTOR this, CAT(CAT(Vector, T), Iterator) iterator); \
@@ -671,8 +671,8 @@ CAT(CAT(Vector, T), VFTable) CAT(CAT(Vector, T), vfTable);
 #define DEFINE_VECTOR                                          \
 	typedef struct CAT(_Vector, T)                             \
 	{                                                          \
-		VectorVFTable* pVFTable;                                \
-		VectorVFTable* objectpVFTable;                          \
+		VectorVFTable* pVFTable;                               \
+		VectorVFTable* objectpVFTable;                         \
 		                                                       \
 		size_t size;                                           \
 		size_t capacity;                                       \

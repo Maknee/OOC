@@ -52,10 +52,10 @@ CompleteObjectLocator CAT(entryCompleteObjectLocator, CAT(K, V)) =
 |	New Operator
 *===========================================================================*/
 
-void* CAT(NewEntry, CAT(K, V))()
+ENTRY CAT(NewEntry, CAT(K, V))()
 {
 	//allocate a new entry
-	void* this = check_calloc(sizeof(struct CAT(_Entry, CAT(K, V))));
+	ENTRY this = check_calloc(sizeof(struct CAT(_Entry, CAT(K, V))));
 
 	//cast to entry
 	ENTRY this_entry = (ENTRY)this;
@@ -73,7 +73,7 @@ void* CAT(NewEntry, CAT(K, V))()
 |	Delete Operator
 *===========================================================================*/
 
-void CAT(DeleteEntry, CAT(K, V))(void* this)
+void CAT(DeleteEntry, CAT(K, V))(ENTRY this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -97,7 +97,7 @@ void CAT(DeleteEntry, CAT(K, V))(void* this)
 |	Constructor
 *===========================================================================*/
 
-void CAT(EntryConstruct, CAT(K, V))(void* this)
+void CAT(EntryConstruct, CAT(K, V))(ENTRY this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -149,7 +149,7 @@ void CAT(EntryConstruct, CAT(K, V))(void* this)
 |	Copy Constructor
 *===========================================================================*/
 
-void* CAT(EntryCopyConstruct, CAT(K, V))(void* this)
+ENTRY CAT(EntryCopyConstruct, CAT(K, V))(ENTRY this)
 {
 	CHECK_NULL(this, NULL);
 
@@ -157,7 +157,7 @@ void* CAT(EntryCopyConstruct, CAT(K, V))(void* this)
 	ENTRY this_entry = (ENTRY)this;
 
 	//allocate a new entry
-	void* copy = CAT(NewEntry, CAT(K, V))();
+	ENTRY copy = CAT(NewEntry, CAT(K, V))();
 
 	//cast to entry
 	ENTRY copy_entry = (ENTRY)copy;
@@ -175,7 +175,7 @@ void* CAT(EntryCopyConstruct, CAT(K, V))(void* this)
 |	Destructor
 *===========================================================================*/
 
-void CAT(EntryDestruct, CAT(K, V))(void* this)
+void CAT(EntryDestruct, CAT(K, V))(ENTRY this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -194,7 +194,7 @@ void CAT(EntryDestruct, CAT(K, V))(void* this)
 |	Overridden member function definitions
 *===========================================================================*/
 
-bool CAT(EntryEquals, CAT(K, V))(void* this, void* other)
+bool CAT(EntryEquals, CAT(K, V))(ENTRY this, ENTRY other)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(other, false);
@@ -215,7 +215,7 @@ bool CAT(EntryEquals, CAT(K, V))(void* this, void* other)
 	return false;
 }
 
-int CAT(EntryCompareTo, CAT(K, V))(void* this, void* other)
+int CAT(EntryCompareTo, CAT(K, V))(ENTRY this, ENTRY other)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(other, false);
@@ -232,21 +232,21 @@ int CAT(EntryCompareTo, CAT(K, V))(void* this, void* other)
 	return (k_comparsion ? k_comparsion : (v_comparsion ? v_comparsion : 0));
 }
 
-char* CAT(EntryToString, CAT(K, V))(void* this)
+char* CAT(EntryToString, CAT(K, V))(ENTRY this)
 {
 	CHECK_NULL(this, NULL);
 
 	return ContainerToString(this);
 }
 
-void* CAT(EntryCopy, CAT(K, V))(void* this)
+ENTRY CAT(EntryCopy, CAT(K, V))(ENTRY this)
 {
 	CHECK_NULL(this, NULL);
 
 	return CAT(EntryCopyConstruct, CAT(K, V))(this);
 }
 
-bool CAT(EntryMoveSetKey, CAT(K, V))(void* this, K item)
+bool CAT(EntryMoveSetKey, CAT(K, V))(ENTRY this, K item)
 {
 	CHECK_NULL(this, false);
 
@@ -257,7 +257,7 @@ bool CAT(EntryMoveSetKey, CAT(K, V))(void* this, K item)
 	return true;
 }
 
-bool CAT(EntrySetKey, CAT(K, V))(void* this, K item)
+bool CAT(EntrySetKey, CAT(K, V))(ENTRY this, K item)
 {
 	CHECK_NULL(this, false);
 
@@ -268,7 +268,7 @@ bool CAT(EntrySetKey, CAT(K, V))(void* this, K item)
 	return true;
 }
 
-K* CAT(EntryGetKey, CAT(K, V))(void* this)
+K* CAT(EntryGetKey, CAT(K, V))(ENTRY this)
 {
 	CHECK_NULL(this, NULL);
 
@@ -277,7 +277,7 @@ K* CAT(EntryGetKey, CAT(K, V))(void* this)
 	return &this_entry->key;
 }
 
-bool CAT(EntryMoveSetValue, CAT(K, V))(void* this, V item)
+bool CAT(EntryMoveSetValue, CAT(K, V))(ENTRY this, V item)
 {
 	CHECK_NULL(this, false);
 
@@ -288,7 +288,7 @@ bool CAT(EntryMoveSetValue, CAT(K, V))(void* this, V item)
 	return true;
 }
 
-bool CAT(EntrySetValue, CAT(K, V))(void* this, V item)
+bool CAT(EntrySetValue, CAT(K, V))(ENTRY this, V item)
 {
 	CHECK_NULL(this, false);
 
@@ -299,7 +299,7 @@ bool CAT(EntrySetValue, CAT(K, V))(void* this, V item)
 	return true;
 }
 
-V* CAT(EntryGetValue, CAT(K, V))(void* this)
+V* CAT(EntryGetValue, CAT(K, V))(ENTRY this)
 {
 	CHECK_NULL(this, NULL);
 

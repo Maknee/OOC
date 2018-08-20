@@ -281,10 +281,10 @@ int CAT(SetTest, T)(CAT(SetNode, T) root, int indent)
 |	New Operator
 *===========================================================================*/
 
-void* CAT(NewSet, T)()
+SET CAT(NewSet, T)()
 {
 	//allocate a new set
-	void* this = check_calloc(sizeof(struct CAT(_Set, T)));
+	SET this = check_calloc(sizeof(struct CAT(_Set, T)));
 
 	//cast to set
 	SET this_set = (SET)this;
@@ -302,7 +302,7 @@ void* CAT(NewSet, T)()
 |	Delete Operator
 *===========================================================================*/
 
-void CAT(DeleteSet, T)(void* this)
+void CAT(DeleteSet, T)(SET this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -326,7 +326,7 @@ void CAT(DeleteSet, T)(void* this)
 |	Constructor
 *===========================================================================*/
 
-void CAT(SetConstruct, T)(void* this)
+void CAT(SetConstruct, T)(SET this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -408,7 +408,7 @@ static SETNODE CAT(SetCopyHelper, T)(SETNODE node, SETNODE copy_node)
 	return NULL;
 }
 
-void* CAT(SetCopyConstruct, T)(void* this)
+SET CAT(SetCopyConstruct, T)(SET this)
 {
 	CHECK_NULL(this, NULL);
 
@@ -416,7 +416,7 @@ void* CAT(SetCopyConstruct, T)(void* this)
 	SET this_set = (SET)this;
 
 	//allocate a new set
-	void* copy = CAT(NewSet, T)();
+	SET copy = CAT(NewSet, T)();
 
 	//cast to set
 	SET copy_set = (SET)copy;
@@ -434,7 +434,7 @@ void* CAT(SetCopyConstruct, T)(void* this)
 |	Destructor
 *===========================================================================*/
 
-void CAT(SetDestruct, T)(void* this)
+void CAT(SetDestruct, T)(SET this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -462,7 +462,7 @@ static bool CAT(SetEqualsHelper, T)(SETNODE node1, SETNODE node2)
 		CAT(SetEqualsHelper, T)(node1->children[RIGHT], node2->children[RIGHT]));
 }
 
-bool CAT(SetEquals, T)(void* this, void* other)
+bool CAT(SetEquals, T)(SET this, SET other)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(other, false);
@@ -495,7 +495,7 @@ static int CAT(SetCompareToHelper, T)(SETNODE node1, SETNODE node2)
 		CAT(SetEqualsHelper, T)(node1->children[RIGHT], node2->children[RIGHT]));
 }
 
-int CAT(SetCompareTo, T)(void* this, void* other)
+int CAT(SetCompareTo, T)(SET this, SET other)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(other, false);
@@ -516,19 +516,19 @@ int CAT(SetCompareTo, T)(void* this, void* other)
 	return CAT(SetCompareToHelper, T)(this_set->root, other_set->root);
 }
 
-char* CAT(SetToString, T)(void* this)
+char* CAT(SetToString, T)(SET this)
 {
 	CHECK_NULL(this, NULL);
 
 	return ContainerToString(this);
 }
 
-bool CAT(SetAdd, T)(void* this, T item)
+bool CAT(SetAdd, T)(SET this, T item)
 {
 	return CAT(SetInsert, T)(this, item);
 }
 
-void CAT(SetClear, T)(void* this)
+void CAT(SetClear, T)(SET this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -562,7 +562,7 @@ void CAT(SetClear, T)(void* this)
 	this_set->root = NULL;
 }
 
-bool CAT(SetRemove, T)(void* this, T item)
+bool CAT(SetRemove, T)(SET this, T item)
 {
 	CHECK_NULL(this, false);
 
@@ -661,7 +661,7 @@ bool CAT(SetRemove, T)(void* this, T item)
 	return true;
 }
 
-bool CAT(SetContains, T)(void* this, T item)
+bool CAT(SetContains, T)(SET this, T item)
 {
 	CHECK_NULL(this, false);
 
@@ -694,14 +694,14 @@ bool CAT(SetContains, T)(void* this, T item)
 	return false;
 }
 
-void* CAT(SetCopy, T)(void* this)
+SET CAT(SetCopy, T)(SET this)
 {
 	CHECK_NULL(this, NULL);
 
 	return CAT(SetCopyConstruct, T)(this);
 }
 
-bool CAT(SetIsEmpty, T)(void* this)
+bool CAT(SetIsEmpty, T)(SET this)
 {
 	CHECK_NULL(this, false);
 
@@ -711,7 +711,7 @@ bool CAT(SetIsEmpty, T)(void* this)
 	return this_set->size == 0;
 }
 
-size_t CAT(SetSize, T)(void* this)
+size_t CAT(SetSize, T)(SET this)
 {
 	CHECK_NULL(this, false);
 
@@ -721,7 +721,7 @@ size_t CAT(SetSize, T)(void* this)
 	return this_set->size;
 }
 
-bool CAT(Set_Set, T)(void* this, const T* item, size_t num_elements)
+bool CAT(Set_Set, T)(SET this, const T* item, size_t num_elements)
 {
 	CHECK_NULL(this, false);
 
@@ -738,7 +738,7 @@ bool CAT(Set_Set, T)(void* this, const T* item, size_t num_elements)
 	return true;
 }
 
-bool CAT(SetMoveInsert, T)(void* this, T item)
+bool CAT(SetMoveInsert, T)(SET this, T item)
 {
 	CHECK_NULL(this, false);
 
@@ -844,7 +844,7 @@ bool CAT(SetMoveInsert, T)(void* this, T item)
 	return true;
 }
 
-bool CAT(SetInsert, T)(void* this, T item)
+bool CAT(SetInsert, T)(SET this, T item)
 {
 	CHECK_NULL(this, false);
 
@@ -950,7 +950,7 @@ bool CAT(SetInsert, T)(void* this, T item)
 	return true;
 }
 
-T* CAT(SetFind, T) (void* this, T item)
+T* CAT(SetFind, T) (SET this, T item)
 {
 	CHECK_NULL(this, NULL);
 
@@ -983,7 +983,7 @@ T* CAT(SetFind, T) (void* this, T item)
 	return NULL;
 }
 
-bool CAT(SetReplace, T)(void* this, T to_replace, T replacement)
+bool CAT(SetReplace, T)(SET this, T to_replace, T replacement)
 {
 	CHECK_NULL(this, false);
 
@@ -1037,7 +1037,7 @@ static T* CAT(GetSetInOrderTraversalByIndex, T)(SETNODE node, int* current_index
 	return NULL;
 }
 
-CAT(CAT(Set, T), Iterator) CAT(SetBegin, T)(void* this)
+CAT(CAT(Set, T), Iterator) CAT(SetBegin, T)(SET this)
 {
 	CHECK_NULL(this, NULL);
 
@@ -1054,7 +1054,7 @@ CAT(CAT(Set, T), Iterator) CAT(SetBegin, T)(void* this)
 	return iterator;
 }
 
-bool CAT(SetNext, T)(void* this, CAT(CAT(Set, T), Iterator) iterator)
+bool CAT(SetNext, T)(SET this, CAT(CAT(Set, T), Iterator) iterator)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(iterator, false);
@@ -1072,7 +1072,7 @@ bool CAT(SetNext, T)(void* this, CAT(CAT(Set, T), Iterator) iterator)
 	return true;
 }
 
-CAT(CAT(Set, T), Iterator) CAT(SetEnd, T)(void* this, CAT(CAT(Set, T), Iterator) iterator)
+CAT(CAT(Set, T), Iterator) CAT(SetEnd, T)(SET this, CAT(CAT(Set, T), Iterator) iterator)
 {
 	CHECK_NULL(this, NULL);
 	CHECK_NULL(iterator, NULL);

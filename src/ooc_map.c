@@ -283,10 +283,10 @@ int CAT(MapTest, CAT(K, V))(CAT(MapNode, CAT(K, V)) root, int indent)
 |	New Operator
 *===========================================================================*/
 
-void* CAT(NewMap, CAT(K, V))()
+MAP CAT(NewMap, CAT(K, V))()
 {
 	//allocate a new map
-	void* this = check_calloc(sizeof(struct CAT(_Map, CAT(K, V))));
+	MAP this = check_calloc(sizeof(struct CAT(_Map, CAT(K, V))));
 
 	//cast to map
 	MAP this_map = (MAP)this;
@@ -304,7 +304,7 @@ void* CAT(NewMap, CAT(K, V))()
 |	Delete Operator
 *===========================================================================*/
 
-void CAT(DeleteMap, CAT(K, V))(void* this)
+void CAT(DeleteMap, CAT(K, V))(MAP this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -328,7 +328,7 @@ void CAT(DeleteMap, CAT(K, V))(void* this)
 |	Constructor
 *===========================================================================*/
 
-void CAT(MapConstruct, CAT(K, V))(void* this)
+void CAT(MapConstruct, CAT(K, V))(MAP this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -410,7 +410,7 @@ static MAPNODE CAT(MapCopyHelper, CAT(K, V))(MAPNODE node, MAPNODE copy_node)
 	return NULL;
 }
 
-void* CAT(MapCopyConstruct, CAT(K, V))(void* this)
+MAP CAT(MapCopyConstruct, CAT(K, V))(MAP this)
 {
 	CHECK_NULL(this, NULL);
 
@@ -418,7 +418,7 @@ void* CAT(MapCopyConstruct, CAT(K, V))(void* this)
 	MAP this_map = (MAP)this;
 
 	//allocate a new map
-	void* copy = CAT(NewMap, CAT(K, V))();
+	MAP copy = CAT(NewMap, CAT(K, V))();
 
 	//cast to map
 	MAP copy_map = (MAP)copy;
@@ -436,7 +436,7 @@ void* CAT(MapCopyConstruct, CAT(K, V))(void* this)
 |	Destructor
 *===========================================================================*/
 
-void CAT(MapDestruct, CAT(K, V))(void* this)
+void CAT(MapDestruct, CAT(K, V))(MAP this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -464,7 +464,7 @@ static bool CAT(MapEqualsHelper, CAT(K, V))(MAPNODE node1, MAPNODE node2)
 		CAT(MapEqualsHelper, CAT(K, V))(node1->children[RIGHT], node2->children[RIGHT]));
 }
 
-bool CAT(MapEquals, CAT(K, V))(void* this, void* other)
+bool CAT(MapEquals, CAT(K, V))(MAP this, MAP other)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(other, false);
@@ -497,7 +497,7 @@ static int CAT(MapCompareToHelper, CAT(K, V))(MAPNODE node1, MAPNODE node2)
 		CAT(MapEqualsHelper, CAT(K, V))(node1->children[RIGHT], node2->children[RIGHT]));
 }
 
-int CAT(MapCompareTo, CAT(K, V))(void* this, void* other)
+int CAT(MapCompareTo, CAT(K, V))(MAP this, MAP other)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(other, false);
@@ -518,19 +518,19 @@ int CAT(MapCompareTo, CAT(K, V))(void* this, void* other)
 	return CAT(MapCompareToHelper, CAT(K, V))(this_map->root, other_map->root);
 }
 
-char* CAT(MapToString, CAT(K, V))(void* this)
+char* CAT(MapToString, CAT(K, V))(MAP this)
 {
 	CHECK_NULL(this, NULL);
 
 	return ContainerToString(this);
 }
 
-bool CAT(MapAdd, CAT(K, V))(void* this, ENTRY entry)
+bool CAT(MapAdd, CAT(K, V))(MAP this, ENTRY entry)
 {
 	return CAT(MapInsert, CAT(K, V))(this, entry);
 }
 
-void CAT(MapClear, CAT(K, V))(void* this)
+void CAT(MapClear, CAT(K, V))(MAP this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -564,7 +564,7 @@ void CAT(MapClear, CAT(K, V))(void* this)
 	this_map->root = NULL;
 }
 
-bool CAT(MapRemove, CAT(K, V))(void* this, ENTRY entry)
+bool CAT(MapRemove, CAT(K, V))(MAP this, ENTRY entry)
 {
 	CHECK_NULL(this, false);
 
@@ -663,7 +663,7 @@ bool CAT(MapRemove, CAT(K, V))(void* this, ENTRY entry)
 	return true;
 }
 
-bool CAT(MapContains, CAT(K, V))(void* this, ENTRY entry)
+bool CAT(MapContains, CAT(K, V))(MAP this, ENTRY entry)
 {
 	CHECK_NULL(this, false);
 
@@ -696,14 +696,14 @@ bool CAT(MapContains, CAT(K, V))(void* this, ENTRY entry)
 	return false;
 }
 
-void* CAT(MapCopy, CAT(K, V))(void* this)
+MAP CAT(MapCopy, CAT(K, V))(MAP this)
 {
 	CHECK_NULL(this, NULL);
 
 	return CAT(MapCopyConstruct, CAT(K, V))(this);
 }
 
-bool CAT(MapIsEmpty, CAT(K, V))(void* this)
+bool CAT(MapIsEmpty, CAT(K, V))(MAP this)
 {
 	CHECK_NULL(this, false);
 
@@ -713,7 +713,7 @@ bool CAT(MapIsEmpty, CAT(K, V))(void* this)
 	return this_map->size == 0;
 }
 
-size_t CAT(MapSize, CAT(K, V))(void* this)
+size_t CAT(MapSize, CAT(K, V))(MAP this)
 {
 	CHECK_NULL(this, false);
 
@@ -723,7 +723,7 @@ size_t CAT(MapSize, CAT(K, V))(void* this)
 	return this_map->size;
 }
 
-bool CAT(MapSet, CAT(K, V))(void* this, const ENTRY* entry, size_t num_elements)
+bool CAT(MapSet, CAT(K, V))(MAP this, const ENTRY* entry, size_t num_elements)
 {
 	CHECK_NULL(this, false);
 
@@ -740,7 +740,7 @@ bool CAT(MapSet, CAT(K, V))(void* this, const ENTRY* entry, size_t num_elements)
 	return true;
 }
 
-bool CAT(MapMoveInsert, CAT(K, V))(void* this, ENTRY entry)
+bool CAT(MapMoveInsert, CAT(K, V))(MAP this, ENTRY entry)
 {
 	CHECK_NULL(this, false);
 
@@ -846,7 +846,7 @@ bool CAT(MapMoveInsert, CAT(K, V))(void* this, ENTRY entry)
 	return true;
 }
 
-bool CAT(MapInsert, CAT(K, V))(void* this, ENTRY entry)
+bool CAT(MapInsert, CAT(K, V))(MAP this, ENTRY entry)
 {
 	CHECK_NULL(this, false);
 
@@ -952,7 +952,7 @@ bool CAT(MapInsert, CAT(K, V))(void* this, ENTRY entry)
 	return true;
 }
 
-ENTRY* CAT(MapFind, CAT(K, V)) (void* this, ENTRY entry)
+ENTRY* CAT(MapFind, CAT(K, V)) (MAP this, ENTRY entry)
 {
 	CHECK_NULL(this, NULL);
 
@@ -985,7 +985,7 @@ ENTRY* CAT(MapFind, CAT(K, V)) (void* this, ENTRY entry)
 	return NULL;
 }
 
-bool CAT(MapReplace, CAT(K, V))(void* this, ENTRY to_replace, ENTRY replacement)
+bool CAT(MapReplace, CAT(K, V))(MAP this, ENTRY to_replace, ENTRY replacement)
 {
 	CHECK_NULL(this, false);
 
@@ -1039,7 +1039,7 @@ static ENTRY* CAT(GetMapInOrderTraversalByIndex, CAT(K, V))(MAPNODE node, int* c
 	return NULL;
 }
 
-CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapBegin, CAT(K, V))(void* this)
+CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapBegin, CAT(K, V))(MAP this)
 {
 	CHECK_NULL(this, NULL);
 
@@ -1056,7 +1056,7 @@ CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapBegin, CAT(K, V))(void* this)
 	return iterator;
 }
 
-bool CAT(MapNext, CAT(K, V))(void* this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator)
+bool CAT(MapNext, CAT(K, V))(MAP this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(iterator, false);
@@ -1074,7 +1074,7 @@ bool CAT(MapNext, CAT(K, V))(void* this, CAT(CAT(Map, CAT(K, V)), Iterator) iter
 	return true;
 }
 
-CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapEnd, CAT(K, V))(void* this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator)
+CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapEnd, CAT(K, V))(MAP this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator)
 {
 	CHECK_NULL(this, NULL);
 	CHECK_NULL(iterator, NULL);
