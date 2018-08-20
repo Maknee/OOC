@@ -768,4 +768,7 @@ CompleteObjectLocator CAT(vectorCompleteObjectLocator, T);
 |	Class member functions
 *===========================================================================*/
 
+#undef VECTOR
+#undef VectorVFTable
+
 #endif

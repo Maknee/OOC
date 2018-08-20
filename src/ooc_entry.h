@@ -366,4 +366,7 @@ CompleteObjectLocator CAT(entryCompleteObjectLocator, CAT(K, V));
 |	Class member functions
 *===========================================================================*/
 
+#undef ENTRY
+#undef EntryVFTable
+
 #endif

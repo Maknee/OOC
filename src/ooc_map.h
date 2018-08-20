@@ -674,4 +674,7 @@ CompleteObjectLocator CAT(mapCompleteObjectLocator, CAT(K, V));
 
 #undef ENTRY
 
+#undef MAP
+#undef MAPVFTable
+
 #endif

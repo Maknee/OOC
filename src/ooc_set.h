@@ -669,4 +669,7 @@ CompleteObjectLocator CAT(setCompleteObjectLocator, T);
 |	Class member functions
 *===========================================================================*/
 
+#undef SET
+#undef SetVFTable
+
 #endif
