@@ -32,7 +32,7 @@
 #undef T
 
 //Vector(float)
-#define FLOAT_EPLISON 0.0000005
+#define FLOAT_EPLISON 0.005
 
 #define T float
 #define T_EQUALS(element, other_element) ((fabs((element) - (other_element)) < FLOAT_EPLISON) ? (true) : (false))

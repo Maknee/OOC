@@ -285,13 +285,13 @@ bool MoveSetPointerToNull(bool result, void** object);
 			__VA_ARGS__                                                                 \
 		}                                                                               \
 
+#define MoveCallExpansion(object, function, ...) MoveSetPointerToNull((object)->pVFTable->CAT(move_, function)(object, __VA_ARGS__), (void**)&GET_FIRST_ARG((__VA_ARGS__)))
+#define MoveCall(object, function, ...) MoveCallExpansion(object, function, __VA_ARGS__)
+
 #ifdef _MSC_VER //microsoft (nonstandard) zero arguments erases comma
 
 #define CallExpansion(object, function, ...) ((object)->pVFTable->function(object, __VA_ARGS__))
 #define Call(object, function, ...) CallExpansion(object, function, __VA_ARGS__)
-
-#define MoveCallExpansion(object, function, ...) MoveSetPointerToNull((object)->pVFTable->CAT(move_, function)(object, __VA_ARGS__), (void**)&GET_FIRST_ARG((__VA_ARGS__)))
-#define MoveCall(object, function, ...) MoveCallExpansion(object, function, __VA_ARGS__)
 
 #define SafeCallExpansion(type, object, function, ...) ((CheckDynamicCast(type, object)) ? (Call(type, object, function, __VA_ARGS__)) : (0))
 #define SafeCall(type, object, function, ...) do { SafeCallExpansion(type, object, function, __VA_ARGS__) } while(0);
@@ -300,9 +300,6 @@ bool MoveSetPointerToNull(bool result, void** object);
 
 #define CallExpansion(object, function, ...) ((object)->pVFTable->function(object, ##__VA_ARGS__))
 #define Call(object, function, ...) CallExpansion(object, function, ##__VA_ARGS__)
-
-#define MoveCallExpansion(object, function, ...) MoveSetPointerToNull((object)->pVFTable->CAT(move_, function)(object, ##__VA_ARGS__), (void**)&GET_FIRST_ARG((##__VA_ARGS__)))
-#define MoveCall(object, function, ...) MoveCallExpansion(object, function, ##__VA_ARGS__)
 
 #define SafeCallExpansion(type, object, function, ...) ((CheckDynamicCast(type, object)) ? (Call(type, object, function, ##__VA_ARGS__)) : (0))
 #define SafeCall(type, object, function, ...) do { SafeCallExpansion(type, object, function, ##__VA_ARGS__) } while(0);
