@@ -338,17 +338,10 @@ void CAT(SetConstruct, T)(SET this)
 
 	//Set the vtable's complete object locator to complete the RTTI circle
 	setVFTable.pCompleteObjectLocator = &CAT(setCompleteObjectLocator, T);
-
-	//Set the equals function
 	setVFTable.delete = &CAT(DeleteSet, T);
-
-	//Set the equals function
+	setVFTable.copy = &CAT(SetCopy, T);
 	setVFTable.equals = &CAT(SetEquals, T);
-
-	//Set the compareTo function
 	setVFTable.compareTo = &CAT(SetCompareTo, T);
-
-	//Set the toString
 	setVFTable.toString = &CAT(SetToString, T);
 
 	//Override Container's methods
@@ -358,7 +351,6 @@ void CAT(SetConstruct, T)(SET this)
 	setVFTable.clear = &CAT(SetClear, T);
 	setVFTable.remove = &CAT(SetRemove, T);
 	setVFTable.contains = &CAT(SetContains, T);
-	setVFTable.copy = &CAT(SetCopy, T);
 	setVFTable.isEmpty = &CAT(SetIsEmpty, T);
 	setVFTable.size = &CAT(SetSize, T);
 	

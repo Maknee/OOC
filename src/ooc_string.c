@@ -173,17 +173,10 @@ void StringConstruct(void* this)
 
 	//Set the vtable's complete object locator to complete the RTTI circle
 	StringvfTable.pCompleteObjectLocator = &stringCompleteObjectLocator;
-	
-	//Set the equals function
 	StringvfTable.delete = &DeleteString;
-
-	//Set the equals function
+	StringvfTable.copy = &StringCopy;
 	StringvfTable.equals = &StringEquals;
-
-	//Set the compareTo function
 	StringvfTable.compareTo = &StringCompareTo;
-
-	//Set the toString
 	StringvfTable.toString = &StringToString;
 
 	//Override Container's methods
@@ -193,7 +186,6 @@ void StringConstruct(void* this)
 	StringvfTable.clear = &StringClear;
 	StringvfTable.remove = &StringRemove;
 	StringvfTable.contains = &StringContains;
-	StringvfTable.copy = &StringCopy;
 	StringvfTable.isEmpty = &StringIsEmpty;
 	StringvfTable.size = &StringSize;
 

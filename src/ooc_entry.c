@@ -109,23 +109,15 @@ void CAT(EntryConstruct, CAT(K, V))(ENTRY this)
 
 	//Entry the vtable's complete object locator to complete the RTTI circle
 	entryVFTable.pCompleteObjectLocator = &CAT(entryCompleteObjectLocator, CAT(K, V));
-
-	//Entry the delete function
+	entryVFTable.copy = &CAT(EntryCopy, CAT(K, V));
 	entryVFTable.delete = &CAT(DeleteEntry, CAT(K, V));
-
-	//Entry the equals function
 	entryVFTable.equals = &CAT(EntryEquals, CAT(K, V));
-
-	//Entry the compareTo function
 	entryVFTable.compareTo = &CAT(EntryCompareTo, CAT(K, V));
-
-	//Entry the toString
 	entryVFTable.toString = &CAT(EntryToString, CAT(K, V));
 	
 	//Initialize class member methods
 	//==========================
 
-	entryVFTable.copy = &CAT(EntryCopy, CAT(K, V));
 	entryVFTable.move_set_key = &CAT(EntryMoveSetKey, CAT(K, V));
 	entryVFTable.set_key = &CAT(EntrySetKey, CAT(K, V));
 	entryVFTable.get_key = &CAT(EntryGetKey, CAT(K, V));

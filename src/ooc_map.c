@@ -340,17 +340,10 @@ void CAT(MapConstruct, CAT(K, V))(MAP this)
 
 	//Map the vtable's complete object locator to complete the RTTI circle
 	mapVFTable.pCompleteObjectLocator = &CAT(mapCompleteObjectLocator, CAT(K, V));
-
-	//Map the delete function
 	mapVFTable.delete = &CAT(DeleteMap, CAT(K, V));
-
-	//Map the equals function
+	mapVFTable.copy = &CAT(MapCopy, CAT(K, V));
 	mapVFTable.equals = &CAT(MapEquals, CAT(K, V));
-
-	//Map the compareTo function
 	mapVFTable.compareTo = &CAT(MapCompareTo, CAT(K, V));
-
-	//Map the toString
 	mapVFTable.toString = &CAT(MapToString, CAT(K, V));
 
 	//Override Container's methods
@@ -360,7 +353,6 @@ void CAT(MapConstruct, CAT(K, V))(MAP this)
 	mapVFTable.clear = &CAT(MapClear, CAT(K, V));
 	mapVFTable.remove = &CAT(MapRemove, CAT(K, V));
 	mapVFTable.contains = &CAT(MapContains, CAT(K, V));
-	mapVFTable.copy = &CAT(MapCopy, CAT(K, V));
 	mapVFTable.isEmpty = &CAT(MapIsEmpty, CAT(K, V));
 	mapVFTable.size = &CAT(MapSize, CAT(K, V));
 	

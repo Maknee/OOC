@@ -126,17 +126,10 @@ void CAT(VectorConstruct, T)(VECTOR this)
 
 	//Set the vtable's complete object locator to complete the RTTI circle
 	vectorVFTable.pCompleteObjectLocator = &CAT(vectorCompleteObjectLocator, T);
-
-	//Set the equals function
 	vectorVFTable.delete = &CAT(DeleteVector, T);
-
-	//Set the equals function
+	vectorVFTable.copy = &CAT(VectorCopy, T);
 	vectorVFTable.equals = &CAT(VectorEquals, T);
-
-	//Set the compareTo function
 	vectorVFTable.compareTo = &CAT(VectorCompareTo, T);
-
-	//Set the toString
 	vectorVFTable.toString = &CAT(VectorToString, T);
 
 	//Override Container's methods
@@ -147,7 +140,6 @@ void CAT(VectorConstruct, T)(VECTOR this)
 	vectorVFTable.erase = &CAT(VectorErase, T);
 	vectorVFTable.remove = &CAT(VectorRemove, T);
 	vectorVFTable.contains = &CAT(VectorContains, T);
-	vectorVFTable.copy = &CAT(VectorCopy, T);
 	vectorVFTable.isEmpty = &CAT(VectorIsEmpty, T);
 	vectorVFTable.size = &CAT(VectorSize, T);
 	
