@@ -108,7 +108,7 @@ For example, the string class inherits from a container class by holding the con
 ```C
 typedef struct _String
 {
-	struct _Container container;
+	struct Container_ container;
 	size_t length;
 	size_t capacity;
 	union
@@ -133,7 +133,7 @@ String Virtual Function Table
 ```C
 typedef struct _StringVFTable
 {
-	struct _ContainerVFTable;
+	struct ContainerVFTable;
 	void* (*set)(void* this, const char* item);
 	char* (*c_str)(void* this);
 	...

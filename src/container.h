@@ -52,14 +52,14 @@
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @struct	_ContainerVFTable
+ * @struct	ContainerVFTable
  *
  * @brief	Struct that contains the vftable of the container class
  * 			
- * @var		_ContainerVFTable::objectVFTable
+ * @var		ContainerVFTable::objectVFTable
  * 			Pointer to the inherited object's virtual function table
  * 			
- * @var		_ContainerVFTable::add
+ * @var		ContainerVFTable::add
  * 			Pointer to a function that adds an item to the container
  *			
  *			@param [in] this 
@@ -69,7 +69,7 @@
  *			@return
  *			Returns true if the item was added successfully, returns false if the item was added unsuccessfully		
  *			
- * @var		_ContainerVFTable::clear
+ * @var		ContainerVFTable::clear
  * 			Pointer to a function that clears all items in the container
  *
  *			@param [in] this
@@ -80,7 +80,7 @@
  *				  Clearing the container requires calling the destructor
  *			@note The function should always successfully finish
  *			
- * @var		_ContainerVFTable::remove
+ * @var		ContainerVFTable::remove
  * 			Pointer to a function that removes an item in the container
  *
  *			@param [in] this
@@ -90,7 +90,7 @@
  *			@return
  *			Returns true if the item was removed successfully, returns false if the item was removed unsuccessfully	
  *			
- * @var		_ContainerVFTable::contains
+ * @var		ContainerVFTable::contains
  * 			Pointer to a function that checks whether or not an item is in
  * 			the container
  *
@@ -101,7 +101,7 @@
  *			@return
  *			Returns true if the item is in the container, false if the item is not in the container
  *			
- * @var		_ContainerVFTable::copy
+ * @var		ContainerVFTable::copy
  * 			Pointer to a function that copies the container and returns a pointer to the copy
  * 			the container
  *
@@ -110,7 +110,7 @@
  *			@return
  *			Returns a copy of the container or null if it cannot be copied
  * 
- * @var		_ContainerVFTable::isEmpty
+ * @var		ContainerVFTable::isEmpty
  * 			Pointer to a function that checks whether or not the container
  * 			is empty
  *
@@ -119,7 +119,7 @@
  *			@return [in] bool
  *			Returns true if the container is empty, returns false if the container is not empty
  *			
- * @var		_ContainerVFTable::size
+ * @var		ContainerVFTable::size
  * 			Pointer to a function that returns the number of elements
  * 			in the container
  *
@@ -129,7 +129,7 @@
  *			Returns number of elements in the container
  **************************************************************************************************/
 
-typedef struct _ContainerVFTable
+typedef struct ContainerVFTable
 {
 	CompleteObjectLocator* pCompleteObjectLocator;
 	void(*delete)(void* this);
@@ -323,17 +323,17 @@ ContainerVFTable ContainervfTable;
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @struct	_Container
+ * @struct	Container_
  *
  * @brief	The container struct, which only contains the inherited Object class
  * 			
- * @var		_Container::object
+ * @var		Container_::object
  * 			Since the container inherits from the object class,
  * 			it must contain the object's class
  *			@see _Object
  **************************************************************************************************/
 
-typedef struct _Container
+typedef struct Container_
 {
 	struct _Object object;
 } *Container;
