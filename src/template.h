@@ -237,11 +237,23 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object);
 
 #elif defined(OOC_V2)
 
+#ifdef _MSC_VER //microsoft (nonstandard) zero arguments erases comma
+
 #define CallExpansion(object, function, ...) (object->pVFTable->function(object, __VA_ARGS__))
 #define Call(object, function, ...) CallExpansion(object, function, __VA_ARGS__)
 
-#define SafeCallExpansion(type, object, function, ...) do{ ((CheckDynamicCast(type, object)) ? (Call(type, object, function, __VA_ARGS__)) : (0)) } while(0)
-#define SafeCall(type, object, function, ...) SafeCallExpansion(type, object, function, __VA_ARGS__)
+#define SafeCallExpansion(type, object, function, ...) ((CheckDynamicCast(type, object)) ? (Call(type, object, function, __VA_ARGS__)) : (0))
+#define SafeCall(type, object, function, ...) do { SafeCallExpansion(type, object, function, __VA_ARGS__) } while(0);
+
+#else //assume gcc/clang (nonstandard) zero arguments passed to __VA_ARGS__ doesn't erase the comma
+
+#define CallExpansion(object, function, ...) (object->pVFTable->function(object, ##__VA_ARGS__))
+#define Call(object, function, ...) CallExpansion(object, function, ##__VA_ARGS__)
+
+#define SafeCallExpansion(type, object, function, ...) ((CheckDynamicCast(type, object)) ? (Call(type, object, function, ##__VA_ARGS__)) : (0))
+#define SafeCall(type, object, function, ...) do { SafeCallExpansion(type, object, function, ##__VA_ARGS__) } while(0);
+
+#endif
 
 #define DeleteExpansion(object)                         \
           Call(object, delete);                         \
