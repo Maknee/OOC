@@ -330,12 +330,12 @@ ContainerVFTable ContainervfTable;
  * @var		Container_::object
  * 			Since the container inherits from the object class,
  * 			it must contain the object's class
- *			@see _Object
+ *			@see Object_
  **************************************************************************************************/
 
 typedef struct Container_
 {
-	struct _Object object;
+	struct Object_ object;
 } *Container;
 
 /*============================================================================

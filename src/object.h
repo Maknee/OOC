@@ -48,7 +48,7 @@ void* check_calloc(size_t size);
  * @brief	A macro that defines a null object vftable template for classes
  * 			that inherit from the object class
  * 			
- * @see		_Container
+ * @see		Container_
  **************************************************************************************************/
 
 #define NULL_OBJECT_VFTABLE                                     \
@@ -64,20 +64,20 @@ void* check_calloc(size_t size);
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @struct	_ObjectVFTable
+ * @struct	ObjectVFTable
  *
  * @brief	Struct that contains the vftable of the object class
  * 			
- * @var		_ObjectVFTable::pCompleteObjectLocator
+ * @var		ObjectVFTable::pCompleteObjectLocator
  * 			Pointer to the object's complete object locator
  *
- * @var		_ObjectVFTable::delete
+ * @var		ObjectVFTable::delete
  * 			Pointer to a function that calls delete on the object
  *
  *			@param [in] this
  *			The object
  *
- * @var		_ObjectVFTable::equals
+ * @var		ObjectVFTable::equals
  * 			Pointer to a function that adds an item to the object
  *			
  *			@param [in] this 
@@ -87,7 +87,7 @@ void* check_calloc(size_t size);
  *			@return bool
  *			Returns true if the objects are of the same type, returns false if the objects' types are different
  *			
- * @var		_ObjectVFTable::toString
+ * @var		ObjectVFTable::toString
  * 			Pointer to a function that returns a char array of the object's type
  *
  *			@param [in] this
@@ -96,7 +96,7 @@ void* check_calloc(size_t size);
  *			Pointer to a char array containing the object's RTTI name
  **************************************************************************************************/
 
-typedef struct _ObjectVFTable
+typedef struct ObjectVFTable
 {
 	CompleteObjectLocator* pCompleteObjectLocator;
 	void (*delete)(void* this);
@@ -285,17 +285,17 @@ ObjectVFTable ObjectvfTable;
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @struct	_Object
+ * @struct	Object_
  *
  * @brief	The object struct which contains the base vftable
  * 			
- * @var		_Object::pVFTable
+ * @var		Object_::pVFTable
  * 			The vftable (may be casted vftable)
- * @var		_Object::objectpVFTable
+ * @var		Object_::objectpVFTable
  * 			The actual aftable (will never be casted)
  **************************************************************************************************/
 
-typedef struct _Object
+typedef struct Object_
 {
 	void* pVFTable;
 	void* objectpVFTable;
