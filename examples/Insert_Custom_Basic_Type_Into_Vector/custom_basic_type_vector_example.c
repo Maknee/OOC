@@ -1,4 +1,4 @@
-#define OOC_V1
+#define OOC_V2
 
 #include "ooc.h"
 #include "example_struct.h"
@@ -12,11 +12,11 @@ int main()
 
 	pExampleStruct p_example_struct = malloc(sizeof(ExampleStruct));
 
-	Call(Vector(pExampleStruct), push_back, example_structs, p_example_struct);
+	Call(example_structs, push_back, p_example_struct);
 
 	free(p_example_struct);
 
-	Delete(Vector(pExampleStruct), example_structs);
+	Delete(example_structs);
 
 	return 0;
 }

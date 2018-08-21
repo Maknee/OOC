@@ -151,17 +151,6 @@
 
 #define Initializer_List(type, ...) (const type[]) {__VA_ARGS__, 0}, PP_NARG(__VA_ARGS__)
 
-#define ForEach(element, container_type, container, ...)      \
-		for(                                                  \
-			Iterator(container_type) CAT(container, Iterator) = Call(container_type, begin, container); \
-			Call(container_type, end, container, CAT(container, Iterator)) != NULL;                     \
-			Call(container_type, next, container, CAT(container, Iterator))                             \
-		   )                                                  \
-        {                                                     \
-			element = CAT(container, Iterator)->data;         \
-			__VA_ARGS__                                       \
-		}                                                     \
-
 //TEMPLATES
 #define VectorExpansion(type) CAT(Vector, type)
 #define Vector(type) VectorExpansion(type)
@@ -218,6 +207,37 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object);
 #define NewExpansion(type) New ## type()
 #define New(type) NewExpansion(type)
 
+//TOTAL UNSAFE... :(
+//MOVE SEMANTICS 
+// =/ in C LUL?
+
+//ugh not perfect, we convert the macro to a string and check if it is a move
+//const char* CheckForMove(const char* macro);
+
+/*
+#define Moo(type, function, ...) CheckForMove(GET_FIRST_ARG((#__VA_ARGS__)))
+
+#define CheckMove(...) CheckForMove(GET_FIRST_ARG((#__VA_ARGS__)))
+
+#define MoveCall(type, function, ...)                 \
+(CheckForMove(GET_FIRST_ARG((#__VA_ARGS__)))           \
+?                                                      \
+(Call(type, CAT(move_, function), __VA_ARGS__))        \
+:                                                      \
+(Call(type, function, __VA_ARGS__))                    \
+)                                                      \
+
+#define MoveCall(type, function, ...) MoveCallExpansion(type, function, __VA_ARGS__)
+*/
+
+
+bool MoveSetPointerToNull(bool result, void** object);
+
+/*
+#define MoveCallExpansion(type, function, ...) ((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->CAT(move_, function)(__VA_ARGS__)
+#define MoveCall(type, function, ...) MoveCallExpansion(type, function, __VA_ARGS__)
+*/
+
 //default to V2 if V1 is not defined
 #define OOC_V2
 
@@ -228,6 +248,9 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object);
 #define CallExpansion(type, function, ...) ((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)
 #define Call(type, function, ...) CallExpansion(type, function, __VA_ARGS__)
 
+#define MoveCallExpansion(type, function, ...) MoveSetPointerToNull(((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->CAT(move_, function)(__VA_ARGS__), (void**)&GET_SECOND_ARG((__VA_ARGS__)))
+#define MoveCall(type, function, ...) MoveCallExpansion(type, function, __VA_ARGS__)
+
 #define SafeCallExpansion(type, function, ...) (CheckDynamicCast(type, GET_FIRST_ARG((__VA_ARGS__))) ? (((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->function(__VA_ARGS__)) : 0)
 #define SafeCall(type, function, ...) SafeCallExpansion(type, function, __VA_ARGS__)
 
@@ -235,20 +258,51 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object);
 		Delete ## type(object);                               \
 		object = NULL                                         \
 
+//Iterators
+
+#define ForEach(element, container_type, container, ...)      \
+		for(                                                  \
+			Iterator(container_type) CAT(container, Iterator) = Call(container_type, begin, container); \
+			Call(container_type, end, container, CAT(container, Iterator)) != NULL;                     \
+			Call(container_type, next, container, CAT(container, Iterator))                             \
+		   )                                                  \
+        {                                                     \
+			element = CAT(container, Iterator)->data;         \
+			__VA_ARGS__                                       \
+		}                                                     \
+
 #elif defined(OOC_V2)
+
+//Iterators
+#define ForEach(element, container_type, container, ...)                                \
+		for(                                                                            \
+			Iterator(container_type) CAT(container, Iterator) = Call(container, begin); \
+			Call(container, end, CAT(container, Iterator)) != NULL;                     \
+			Call(container, next, CAT(container, Iterator))                             \
+		   )                                                                            \
+        {                                                                               \
+			element = CAT(container, Iterator)->data;                                   \
+			__VA_ARGS__                                                                 \
+		}                                                                               \
 
 #ifdef _MSC_VER //microsoft (nonstandard) zero arguments erases comma
 
-#define CallExpansion(object, function, ...) (object->pVFTable->function(object, __VA_ARGS__))
+#define CallExpansion(object, function, ...) ((object)->pVFTable->function(object, __VA_ARGS__))
 #define Call(object, function, ...) CallExpansion(object, function, __VA_ARGS__)
+
+#define MoveCallExpansion(object, function, ...) MoveSetPointerToNull((object)->pVFTable->CAT(move_, function)(object, __VA_ARGS__), (void**)&GET_FIRST_ARG((__VA_ARGS__)))
+#define MoveCall(object, function, ...) MoveCallExpansion(object, function, __VA_ARGS__)
 
 #define SafeCallExpansion(type, object, function, ...) ((CheckDynamicCast(type, object)) ? (Call(type, object, function, __VA_ARGS__)) : (0))
 #define SafeCall(type, object, function, ...) do { SafeCallExpansion(type, object, function, __VA_ARGS__) } while(0);
 
 #else //assume gcc/clang (nonstandard) zero arguments passed to __VA_ARGS__ doesn't erase the comma
 
-#define CallExpansion(object, function, ...) (object->pVFTable->function(object, ##__VA_ARGS__))
+#define CallExpansion(object, function, ...) ((object)->pVFTable->function(object, ##__VA_ARGS__))
 #define Call(object, function, ...) CallExpansion(object, function, ##__VA_ARGS__)
+
+#define MoveCallExpansion(object, function, ...) MoveSetPointerToNull((object)->pVFTable->CAT(move_, function)(object, ##__VA_ARGS__), (void**)&GET_FIRST_ARG((##__VA_ARGS__)))
+#define MoveCall(object, function, ...) MoveCallExpansion(object, function, ##__VA_ARGS__)
 
 #define SafeCallExpansion(type, object, function, ...) ((CheckDynamicCast(type, object)) ? (Call(type, object, function, ##__VA_ARGS__)) : (0))
 #define SafeCall(type, object, function, ...) do { SafeCallExpansion(type, object, function, ##__VA_ARGS__) } while(0);
@@ -270,40 +324,6 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object);
 #ifdef OOC_V2
 #undef OOC_V2
 #endif
-
-//TOTAL UNSAFE... :(
-//MOVE SEMANTICS 
-// =/ in C LUL?
-
-//ugh not perfect, we convert the macro to a string and check if it is a move
-//const char* CheckForMove(const char* macro);
-
-/*
-#define Moo(type, function, ...) CheckForMove(GET_FIRST_ARG((#__VA_ARGS__)))
-
-#define CheckMove(...) CheckForMove(GET_FIRST_ARG((#__VA_ARGS__)))
-
-#define MoveCall(type, function, ...)                 \
-		(CheckForMove(GET_FIRST_ARG((#__VA_ARGS__)))           \
-		?                                                      \
-		(Call(type, CAT(move_, function), __VA_ARGS__))        \
-		:                                                      \
-		(Call(type, function, __VA_ARGS__))                    \
-		)                                                      \
-
-#define MoveCall(type, function, ...) MoveCallExpansion(type, function, __VA_ARGS__)
-*/
-
-
-bool MoveSetPointerToNull(bool result, void** object);
-
-#define MoveCallExpansion(type, function, ...) MoveSetPointerToNull(((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->CAT(move_, function)(__VA_ARGS__), (void**)&GET_SECOND_ARG((__VA_ARGS__)))
-#define MoveCall(type, function, ...) MoveCallExpansion(type, function, __VA_ARGS__)
-
-/*
-#define MoveCallExpansion(type, function, ...) ((type ## VFTable*)((Object)GET_FIRST_ARG((__VA_ARGS__)))->pVFTable)->CAT(move_, function)(__VA_ARGS__)
-#define MoveCall(type, function, ...) MoveCallExpansion(type, function, __VA_ARGS__)
-*/
 
 //GLOBAL DEFINES
 #define NPOS -1
