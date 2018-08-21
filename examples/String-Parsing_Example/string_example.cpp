@@ -3,7 +3,7 @@
 #include <vector>
 #include <stdio.h>
 
-std::vector<std::string> SplitByDelimiter(std::string str, std::string delimiter)
+std::vector<std::string> SplitByDelimiter(std::string& str, std::string& delimiter)
 {
 	//Create a vector containing all the strings
 	std::vector<std::string> directories;
