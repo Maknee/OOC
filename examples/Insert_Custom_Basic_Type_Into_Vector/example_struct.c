@@ -6,11 +6,10 @@ pExampleStruct CopyExampleStruct(pExampleStruct p_example_struct)
 	return memcpy(copy_p_example_struct, p_example_struct, sizeof(struct ExampleStruct));
 }
 
-//Vector(pExampleStruct)
+	//Vector(pExampleStruct)
 #define T pExampleStruct
 #define T_EQUALS(element, other_element) (!memcmp(element, other_element, sizeof(ExampleStruct)))
 #define T_COMPARE_TO(element, other_element) (memcmp(element, other_element, sizeof(ExampleStruct)))
-#define T_ALLOC(T_Ptr) *(T_Ptr) = malloc(sizeof(ExampleStruct))
 #define T_COPY(T_Ptr) CopyExampleStruct(*(T_Ptr))
 #define T_DELETE(T_Ptr) free(*T_Ptr)
 #include "ooc_vector.c"

@@ -237,19 +237,17 @@ void* DowncastVFTable(void* _newTypeVFTable, void* object);
 
 #elif defined(OOC_V2)
 
-#define CallExpansion(object, function, ...) do { (object->pVFTable->function(object, __VA_ARGS__)) } while(0)
+#define CallExpansion(object, function, ...) (object->pVFTable->function(object, __VA_ARGS__))
 #define Call(object, function, ...) CallExpansion(object, function, __VA_ARGS__)
 
 #define SafeCallExpansion(type, object, function, ...) do{ ((CheckDynamicCast(type, object)) ? (Call(type, object, function, __VA_ARGS__)) : (0)) } while(0)
 #define SafeCall(type, object, function, ...) SafeCallExpansion(type, object, function, __VA_ARGS__)
 
 #define DeleteExpansion(object)                         \
-		do {                                            \
           Call(object, delete);                         \
 		  object = NULL;                                \
-		} while(0)                                      \
 
-#define Delete(object) DeleteExpansion(object)
+#define Delete(object) do { DeleteExpansion(object) } while(0)
 
 #endif
 
@@ -298,6 +296,124 @@ bool MoveSetPointerToNull(bool result, void** object);
 //GLOBAL DEFINES
 #define NPOS -1
 
+#define OOC_CLASS(type, ...)                                      \
+	typedef struct CAT(type, VFTable_) CAT(type, VFTable);        \
+	typedef struct type                                           \
+	{                                                             \
+		CAT(type, VFTable)* pVFTable;                             \
+		CAT(type, VFTable)* objectpVFTable;                       \
+		struct                                                    \
+			GET_FIRST_ARG((__VA_ARGS__))                          \
+		;                                                         \
+	} *type;                                                      \
+	                                                              \
+	typedef struct CAT(type, VFTable_)                            \
+	{                                                             \
+		CompleteObjectLocator* pCompleteObjectLocator;            \
+		void (*delete)(type this);                                \
+		type (*copy)(type this);                                  \
+		bool (*equals)(type this, type other);                    \
+		int (*compareTo)(type this, type other);                  \
+		char* (*toString)(type this);                             \
+		struct                                                    \
+			GET_SECOND_ARG((__VA_ARGS__))                         \
+		;                                                         \
+	} CAT(type, VFTable);                                         \
+	                                                              \
+	type CAT(New, type)();                                        \
+	void Delete##type(type this);                                 \
+	type CAT(type, copy)(type this);                              \
+	bool CAT(type, equals)(type this, type other);                \
+	int CAT(type, compareTo)(type this, type other);              \
+	char* CAT(type, toString)(type this);                         \
+	                                                              \
+	TypeDescriptor CAT(type, TypeDescriptor);                     \
+	BaseClassDescriptor CAT(type, BaseClassArray)[2];             \
+	ClassHierarchyDescriptor CAT(type, ClassHierarchyDescriptor); \
+	CompleteObjectLocator CAT(type, CompleteObjectLocator);       \
+	                                                              \
+
+#define OOC_DEFAULT_CLASS_IMPL(type)                                                                                                                        \
+	CAT(type, VFTable) CAT(type, vfTable);                                                                                                                  \
+	type CAT(New, type)()																														            \
+	{                                                                                                                                                       \
+		type this = check_calloc(sizeof(struct type));                                                                                                      \
+		ObjectConstruct(this);	                                                                                                                            \
+		this->pVFTable = check_calloc(sizeof(CAT(type, VFTable)));                                                                                          \
+		ContainerConstruct(this);                                                                                                                           \
+		                                                                                                                                                    \
+	    CAT(type, vfTable).pCompleteObjectLocator = &CAT(type, CompleteObjectLocator);                                                                      \
+	    CAT(type, vfTable).delete = &Delete##type;                                                                                                          \
+	    CAT(type, vfTable).copy = &CAT(type, copy);                                                                                                         \
+	    CAT(type, vfTable).equals = &CAT(type, equals);                                                                                                     \
+	    CAT(type, vfTable).compareTo = &CAT(type, compareTo);                                                                                               \
+	    CAT(type, vfTable).toString = &CAT(type, toString);                                                                                                 \
+	                                                                                                                                                        \
+	    return this;                                                                                                                                        \
+	}                                                                                                                                                       \
+	                                                                                                                                                        \
+	void Delete##type(type this)                                                                                                                            \
+	{                                                                                                                                                       \
+		ObjectDestruct(this);	                                                                                                                            \
+	    this->pVFTable = NULL;                                                                                                                              \
+	    free(this->objectpVFTable);                                                                                                                         \
+	    free(this);                                                                                                                                         \
+	}                                                                                                                                                       \
+	                                                                                                                                                        \
+	type CAT(type, copy)(type this)                                                                                                                         \
+	{                                                                                                                                                       \
+		type copy_object = CAT(New, type)(this);	                                                                                                        \
+		CAT(type, VFTable)* copy_object_pvftable = copy_object->pVFTable;                                                                                   \
+		memcpy(copy_object, this, sizeof(struct type));                                                                                                     \
+		copy_object->pVFTable = copy_object_pvftable;                                                                                                       \
+		ContainerConstruct(this);                                                                                                                           \
+	    return this;                                                                                                                                        \
+	}                                                                                                                                                       \
+	                                                                                                                                                        \
+	bool CAT(type, equals)(type this, type other)                                                                                                           \
+	{                                                                                                                                                       \
+	    return !memcmp((char*)this + sizeof(CAT(type, VFTable)*), (char*)other + sizeof(CAT(type, VFTable)*), sizeof(type) - sizeof(CAT(type, VFTable)*));  \
+	}	                                                                                                                                                    \
+	                                                                                                                                                        \
+	int CAT(type, compareTo)(type this, type other)                                                                                                         \
+	{                                                                                                                                                       \
+	    return memcmp((char*)this + sizeof(CAT(type, VFTable)*), (char*)other + sizeof(CAT(type, VFTable)*), sizeof(type) - sizeof(CAT(type, VFTable)*));   \
+	}	  	                                                                                                                                                \
+	                                                                                                                                                        \
+	char* CAT(type, toString)(type this)                                                                                                                    \
+	{                                                                                                                                                       \
+	    return ObjectToString(this);                                                                                                                        \
+	}	  	                                                                                                                                                \
+	                                                                                                                                                        \
+	TypeDescriptor CAT(type, TypeDescriptor) =                                                                                                              \
+	{                                                                                                                                                       \
+		.pVFTable = &CAT(type, vfTable),                                                                                                                    \
+		.name = STRINGIFY(type)                                                                                                                             \
+	};                                                                                                                                                      \
+                                                                                                                                                            \
+	BaseClassDescriptor CAT(type, BaseClassArray)[] =                                                                                                       \
+	{                                                                                                                                                       \
+		ObjectBaseClassDescriptor,                                                                                                                          \
+		{                                                                                                                                                   \
+			.numContainedClasses = 2,                                                                                                                       \
+			.pTypeDescriptor = &CAT(type, TypeDescriptor)                                                                                                   \
+		}                                                                                                                                                   \
+	};                                                                                                                                                      \
+                                                                                                                                                            \
+	ClassHierarchyDescriptor CAT(type, ClassHierarchyDescriptor) =                                                                                          \
+	{                                                                                                                                                       \
+		.attributes = CLASS_HIERARCHY_VIRTUAL_INHERITENCE,                                                                                                  \
+		.numBaseClasses = 2,                                                                                                                                \
+		.pBaseClassArray = CAT(type, BaseClassArray)                                                                                                        \
+	};                                                                                                                                                      \
+                                                                                                                                                            \
+	CompleteObjectLocator CAT(type, CompleteObjectLocator) =                                                                                                \
+	{                                                                                                                                                       \
+		.signature = 0x48454845,                                                                                                                            \
+		.pTypeDescriptor = &CAT(type, TypeDescriptor),                                                                                                      \
+		.pClassHierarchyDescriptor = &CAT(type, ClassHierarchyDescriptor)                                                                                   \
+	};                                                                                                                                                      \
+                                                                                                                                                            \
 
 
 //GCC
