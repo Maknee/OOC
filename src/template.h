@@ -346,13 +346,12 @@ bool MoveSetPointerToNull(bool result, void** object);
 	                                                              \
 
 #define OOC_DEFAULT_CLASS_IMPL(type)                                                                                                                        \
-	CAT(type, VFTable) CAT(type, vfTable);                                                                                                                  \
+	CAT(type, VFTable) CAT(type, vfTable) = { 0 };                                                                                                          \
 	type CAT(New, type)()																														            \
 	{                                                                                                                                                       \
 		type this = check_calloc(sizeof(struct CAT(type, _)));                                                                                              \
-		ObjectConstruct(this);	                                                                                                                            \
 		this->pVFTable = check_calloc(sizeof(CAT(type, VFTable)));                                                                                          \
-		ContainerConstruct(this);                                                                                                                           \
+		ObjectConstruct(this);                                                                                                                              \
 		                                                                                                                                                    \
 	    CAT(type, vfTable).pCompleteObjectLocator = &CAT(type, CompleteObjectLocator);                                                                      \
 	    CAT(type, vfTable).delete = &Delete##type;                                                                                                          \
@@ -360,6 +359,8 @@ bool MoveSetPointerToNull(bool result, void** object);
 	    CAT(type, vfTable).equals = &CAT(type, equals);                                                                                                     \
 	    CAT(type, vfTable).compareTo = &CAT(type, compareTo);                                                                                               \
 	    CAT(type, vfTable).toString = &CAT(type, toString);                                                                                                 \
+	                                                                                                                                                        \
+	    memcpy(this->pVFTable, &CAT(type, vfTable), sizeof(struct CAT(type, _)));                                                                           \
 	                                                                                                                                                        \
 	    return this;                                                                                                                                        \
 	}                                                                                                                                                       \
@@ -375,21 +376,18 @@ bool MoveSetPointerToNull(bool result, void** object);
 	type CAT(type, copy)(type this)                                                                                                                         \
 	{                                                                                                                                                       \
 		type copy_object = CAT(New, type)(this);	                                                                                                        \
-		CAT(type, VFTable)* copy_object_pvftable = copy_object->pVFTable;                                                                                   \
-		memcpy(copy_object, this, sizeof(struct CAT(type, _)));                                                                                             \
-		copy_object->pVFTable = copy_object_pvftable;                                                                                                       \
-		ContainerConstruct(this);                                                                                                                           \
-	    return this;                                                                                                                                        \
+		memcpy((char*)copy_object + sizeof(CAT(type, VFTable)*), (char*)this + sizeof(CAT(type, VFTable)*), sizeof(struct CAT(type, _)) - sizeof(CAT(type, VFTable)*));         \
+	    return copy_object;                                                                                                                        \
 	}                                                                                                                                                       \
 	                                                                                                                                                        \
 	bool CAT(type, equals)(type this, type other)                                                                                                           \
 	{                                                                                                                                                       \
-	    return !memcmp((char*)this + sizeof(CAT(type, VFTable)*), (char*)other + sizeof(CAT(type, VFTable)*), sizeof(type) - sizeof(CAT(type, VFTable)*));  \
+	    return !memcmp((char*)this + sizeof(CAT(type, VFTable)*), (char*)other + sizeof(CAT(type, VFTable)*), sizeof(struct CAT(type, _)) - sizeof(CAT(type, VFTable)*));  \
 	}	                                                                                                                                                    \
 	                                                                                                                                                        \
 	int CAT(type, compareTo)(type this, type other)                                                                                                         \
 	{                                                                                                                                                       \
-	    return memcmp((char*)this + sizeof(CAT(type, VFTable)*), (char*)other + sizeof(CAT(type, VFTable)*), sizeof(type) - sizeof(CAT(type, VFTable)*));   \
+	    return memcmp((char*)this + sizeof(CAT(type, VFTable)*), (char*)other + sizeof(CAT(type, VFTable)*), sizeof(struct CAT(type, _)) - sizeof(CAT(type, VFTable)*));   \
 	}	  	                                                                                                                                                \
 	                                                                                                                                                        \
 	char* CAT(type, toString)(type this)                                                                                                                    \
