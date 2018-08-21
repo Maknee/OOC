@@ -13,7 +13,7 @@ std::vector<std::string> SplitByDelimiter(std::string str, std::string delimiter
 	int index_of_slash = 0;
 
 	//Find the index of the next occurence of "/"
-	while ((index_of_slash = str.find(delimiter) != std::string::npos)
+	while ((index_of_slash = str.find(delimiter) != std::string::npos))
 	{
 		//Get the substring between the last occurence and next occurence of "/"
 		std::string directory = str.substr(start_index, index_of_slash);
