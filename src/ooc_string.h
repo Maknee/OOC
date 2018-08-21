@@ -746,7 +746,7 @@ StringVFTable StringvfTable;
  * @var		_String::container
  * 			Since the container inherits from the container class,
  * 			it must contain the container's class
- *			@see _Container
+ *			@see Container_
  *			
  * @var		_String::length
  * 			item that contains the current number of characters in the string

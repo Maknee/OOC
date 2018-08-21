@@ -55,7 +55,7 @@ CompleteObjectLocator CAT(entryCompleteObjectLocator, CAT(K, V)) =
 ENTRY CAT(NewEntry, CAT(K, V))()
 {
 	//allocate a new entry
-	ENTRY this = check_calloc(sizeof(struct CAT(_Entry, CAT(K, V))));
+	ENTRY this = check_calloc(sizeof(struct CAT(Entry_, CAT(K, V))));
 
 	//cast to entry
 	ENTRY this_entry = (ENTRY)this;

@@ -22,7 +22,7 @@ void TestContainerVFTableInitializedCompleteObjectLocator()
 	//since container is an abstract container
 	
 	//allocate a new container
-	void* container = calloc(1, sizeof(struct _Container));
+	void* container = calloc(1, sizeof(struct Container_));
 
 	//allocate vftable
 	((Container)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
@@ -66,7 +66,7 @@ void TestContainerConstructor()
 	//since container is an abstract container
 
 	//allocate a new container
-	void* container = calloc(1, sizeof(struct _Container));
+	void* container = calloc(1, sizeof(struct Container_));
 
 	//allocate vftable
 	((Container)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
@@ -106,7 +106,7 @@ void TestContainerDestructor()
 	//since container is an abstract container
 
 	//allocate a new container
-	void* container = calloc(1, sizeof(struct _Container));
+	void* container = calloc(1, sizeof(struct Container_));
 
 	//allocate vftable
 	((Container)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
@@ -140,7 +140,7 @@ void TestContainerVFTableEquals()
 	//since container is an abstract container
 
 	//allocate a new container
-	void* container = calloc(1, sizeof(struct _Container));
+	void* container = calloc(1, sizeof(struct Container_));
 
 	//allocate vftable
 	((Container)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
@@ -149,7 +149,7 @@ void TestContainerVFTableEquals()
 	ContainerConstruct(container);
 
 	//allocate a new container
-	void* other_container = calloc(1, sizeof(struct _Container));
+	void* other_container = calloc(1, sizeof(struct Container_));
 
 	//allocate vftable
 	((Container)other_container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
@@ -194,7 +194,7 @@ void TestContainerVFTableCompareTo()
 	//since container is an abstract container
 
 	//allocate a new container
-	void* container = calloc(1, sizeof(struct _Container));
+	void* container = calloc(1, sizeof(struct Container_));
 
 	//allocate vftable
 	((Container)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
@@ -203,7 +203,7 @@ void TestContainerVFTableCompareTo()
 	ContainerConstruct(container);
 
 	//allocate a new container
-	void* other_container = calloc(1, sizeof(struct _Container));
+	void* other_container = calloc(1, sizeof(struct Container_));
 
 	//allocate vftable
 	((Container)other_container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));
@@ -248,7 +248,7 @@ void TestContainerVFTableContainerToString()
 	//since container is an abstract container
 
 	//allocate a new container
-	void* container = calloc(1, sizeof(struct _Container));
+	void* container = calloc(1, sizeof(struct Container_));
 
 	//allocate vftable
 	((Container)container)->object.pVFTable = calloc(1, sizeof(ContainerVFTable));

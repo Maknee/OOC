@@ -32,7 +32,7 @@
  * @def		DEFAULT_MAP_CAPACITY
  *
  * @brief	A macro that defines the default capacity of a map
- * @see		_Map
+ * @see		Map_
  * 			
  * @def		NULL_MAP_VFTABLE
  * @brief	A macro that defines a null map vftable template for classes
@@ -71,7 +71,7 @@
 *===========================================================================*/
 
 #define DEFINE_MAP_ITERATOR                                    \
-	typedef struct CAT(CAT(_Map, CAT(K, V)), Iterator)         \
+	typedef struct CAT(CAT(Map_, CAT(K, V)), Iterator)         \
 	{                                                          \
 		int index;                                             \
 		ENTRY* data;                                           \
@@ -119,13 +119,13 @@ DEFINE_MAP_ITERATOR
  //also super class has to templated... not exactly what I call
  //perfect inheritence
 
-typedef struct CAT(_Map, CAT(K, V)) *CAT(Map, CAT(K, V));
+typedef struct CAT(Map_, CAT(K, V)) *CAT(Map, CAT(K, V));
 
 #define MAP CAT(Map, CAT(K, V))
 #define MapVFTable CAT(MAP, VFTable)
 
 #define DEFINE_MAP_VFTABLE                                     \
-	typedef struct CAT(CAT(_Map, CAT(K, V)), VFTable)          \
+	typedef struct CAT(CAT(Map_, CAT(K, V)), VFTable)          \
 	{                                                          \
 		CompleteObjectLocator* pCompleteObjectLocator;         \
 		void (*delete)(MAP this);                           \
@@ -552,10 +552,10 @@ CAT(CAT(Map, CAT(K, V)), VFTable) CAT(CAT(Map, CAT(K, V)), vfTable);
 *===========================================================================*/
 
 #define DEFINE_MAPNODE                                         \
-	typedef struct CAT(_MapNode, CAT(K, V))                     \
+	typedef struct CAT(MapNode_, CAT(K, V))                     \
 	{                                                          \
 		ENTRY entry;                                           \
-		struct CAT(_MapNode, CAT(K, V))* children[2];           \
+		struct CAT(MapNode_, CAT(K, V))* children[2];           \
 		bool color;                                            \
 	} *CAT(MapNode, CAT(K, V));                                 \
 
@@ -576,9 +576,9 @@ int CAT(MapTest, CAT(K, V))(CAT(MapNode, CAT(K, V)) root, int indent);
  **************************************************************************************************/
 
 #define DEFINE_MAP                                             \
-	typedef struct CAT(_Map, CAT(K, V))                         \
+	typedef struct CAT(Map_, CAT(K, V))                         \
 	{                                                          \
-		struct _Container container;                           \
+		struct Container_ container;                           \
 		size_t size;                                           \
 		CAT(MapNode, CAT(K, V)) root;                           \
 	} *CAT(Map, CAT(K, V));                                            \

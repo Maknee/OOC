@@ -62,13 +62,13 @@
 //also super class has to templated... not exactly what I call
 //perfect inheritence
 
-typedef struct CAT(_Entry, CAT(K, V)) *CAT(Entry, CAT(K, V));
+typedef struct CAT(Entry_, CAT(K, V)) *CAT(Entry, CAT(K, V));
 
 #define ENTRY CAT(Entry, CAT(K, V))
 #define EntryVFTable CAT(ENTRY, VFTable)
 
 #define DEFINE_ENTRY_VFTABLE                                  \
-	typedef struct CAT(CAT(_Entry, CAT(K, V)), VFTable)       \
+	typedef struct CAT(CAT(Entry_, CAT(K, V)), VFTable)       \
 	{                                                         \
 		CompleteObjectLocator* pCompleteObjectLocator;        \
 		void (*delete)(ENTRY this);                          \
@@ -270,9 +270,9 @@ CAT(CAT(Entry, CAT(K, V)), VFTable) CAT(CAT(Entry, CAT(K, V)), vfTable);
  **************************************************************************************************/
 
 #define DEFINE_ENTRY                                           \
-	typedef struct CAT(_Entry, CAT(K, V))                      \
+	typedef struct CAT(Entry_, CAT(K, V))                      \
 	{                                                          \
-		struct _Object object;                                 \
+		struct Object_ object;                                 \
 		K key;                                                 \
 		V value;                                               \
 	} *CAT(Entry, CAT(K, V));                                  \

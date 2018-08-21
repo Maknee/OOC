@@ -31,7 +31,7 @@
  * @def		DEFAULT_SET_CAPACITY
  *
  * @brief	A macro that defines the default capacity of a set
- * @see		_Set
+ * @see		Set_
  * 			
  * @def		NULL_SET_VFTABLE
  * @brief	A macro that defines a null set vftable template for classes
@@ -68,7 +68,7 @@
 *===========================================================================*/
 
 #define DEFINE_SET_ITERATOR                                 \
-	typedef struct CAT(CAT(_Set, T), Iterator)              \
+	typedef struct CAT(CAT(Set_, T), Iterator)              \
 	{                                                          \
 		int index;                                             \
 		T* data;                                               \
@@ -116,13 +116,13 @@ DEFINE_SET_ITERATOR
 //also super class has to templated... not exactly what I call
 //perfect inheritence
 
-typedef struct CAT(_Set, T) *CAT(Set, T);
+typedef struct CAT(Set_, T) *CAT(Set, T);
 
 #define SET CAT(Set, T)
 #define SetVFTable CAT(SET, VFTable)
 
 #define DEFINE_SET_VFTABLE                                     \
-	typedef struct CAT(CAT(_Set, T), VFTable)                  \
+	typedef struct CAT(CAT(Set_, T), VFTable)                  \
 	{                                                          \
 		CompleteObjectLocator* pCompleteObjectLocator;         \
 		void (*delete)(SET this);                              \
@@ -405,7 +405,7 @@ size_t CAT(SetSize, T)(SET this);
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	bool CAT(Set_Set, T)(SET this, const T* item, size_t num_elements);
+ * @fn	bool CAT(SetSet_, T)(SET this, const T* item, size_t num_elements);
  *
  * @brief	Sets the set to an array of elements
  *
@@ -419,7 +419,7 @@ size_t CAT(SetSize, T)(SET this);
  * @return	True if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool CAT(Set_Set, T)(SET this, const T* item, size_t num_elements);
+bool CAT(SetSet_, T)(SET this, const T* item, size_t num_elements);
 
 /**********************************************************************************************//**
  * @fn	bool CAT(SetMoveInsert, T)(SET this, T item)
@@ -549,10 +549,10 @@ CAT(CAT(Set, T), VFTable) CAT(CAT(Set, T), vfTable);
 *===========================================================================*/
 
 #define DEFINE_SETNODE                                         \
-	typedef struct CAT(_SetNode, T)                            \
+	typedef struct CAT(Set_Node, T)                            \
 	{                                                          \
 		T data;                                                \
-		struct CAT(_SetNode, T)* children[2];                  \
+		struct CAT(Set_Node, T)* children[2];                  \
 		bool color;                                            \
 	} *CAT(SetNode, T);                                        \
 
@@ -573,9 +573,9 @@ int CAT(SetTest, T)(CAT(SetNode, T) root, int indent);
  **************************************************************************************************/
 
 #define DEFINE_SET                                             \
-	typedef struct CAT(_Set, T)                                \
+	typedef struct CAT(Set_, T)                                \
 	{                                                          \
-		struct _Container container;                           \
+		struct Container_ container;                           \
 		size_t size;                                           \
 		CAT(SetNode, T) root;                                  \
 	} *CAT(Set, T);                                            \

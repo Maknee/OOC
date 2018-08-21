@@ -164,7 +164,7 @@ static MAPNODE CAT(MapDoubleRotate, CAT(K, V))(MAPNODE root, int direction)
 
 static MAPNODE CAT(MapNewMoveNode, CAT(K, V))(ENTRY entry)
 {
-	MAPNODE new_node = check_calloc(sizeof(struct CAT(_MapNode, CAT(K, V))));
+	MAPNODE new_node = check_calloc(sizeof(struct CAT(MapNode_, CAT(K, V))));
 
 	new_node->entry = entry;
 	new_node->children[LEFT] = NULL;
@@ -178,7 +178,7 @@ static MAPNODE CAT(MapNewMoveNode, CAT(K, V))(ENTRY entry)
 
 static MAPNODE CAT(MapNewNode, CAT(K, V))(ENTRY entry)
 {
-	MAPNODE new_node = check_calloc(sizeof(struct CAT(_MapNode, CAT(K, V))));
+	MAPNODE new_node = check_calloc(sizeof(struct CAT(MapNode_, CAT(K, V))));
 
 	new_node->entry = Call(ENTRY, copy, entry);
 	new_node->children[LEFT] = NULL;
@@ -192,7 +192,7 @@ static MAPNODE CAT(MapNewNode, CAT(K, V))(ENTRY entry)
 
 static MAPNODE CAT(MapCopyNode, CAT(K, V))(MAPNODE node)
 {
-	MAPNODE new_node = check_calloc(sizeof(struct CAT(_MapNode, CAT(K, V))));
+	MAPNODE new_node = check_calloc(sizeof(struct CAT(MapNode_, CAT(K, V))));
 
 	new_node->entry = Call(ENTRY, copy, node->entry);
 	new_node->children[LEFT] = NULL;
@@ -286,7 +286,7 @@ int CAT(MapTest, CAT(K, V))(CAT(MapNode, CAT(K, V)) root, int indent)
 MAP CAT(NewMap, CAT(K, V))()
 {
 	//allocate a new map
-	MAP this = check_calloc(sizeof(struct CAT(_Map, CAT(K, V))));
+	MAP this = check_calloc(sizeof(struct CAT(Map_, CAT(K, V))));
 
 	//cast to map
 	MAP this_map = (MAP)this;
@@ -568,7 +568,7 @@ bool CAT(MapRemove, CAT(K, V))(MAP this, ENTRY entry)
 	}
 
 	//imaginary parent's root
-	struct CAT(_MapNode, CAT(K, V)) parent_root = { .entry = NULL, .children = { NULL, NULL }, .color = BLACK };
+	struct CAT(MapNode_, CAT(K, V)) parent_root = { .entry = NULL, .children = { NULL, NULL }, .color = BLACK };
 	parent_root.children[RIGHT] = this_map->root;
 
 	MAPNODE grandparent = NULL;
@@ -751,7 +751,7 @@ bool CAT(MapMoveInsert, CAT(K, V))(MAP this, ENTRY entry)
 	else
 	{
 		//imaginary parent's root
-		struct CAT(_MapNode, CAT(K, V)) parent_root = { .entry = NULL, .children = { NULL, NULL }, .color = BLACK };
+		struct CAT(MapNode_, CAT(K, V)) parent_root = { .entry = NULL, .children = { NULL, NULL }, .color = BLACK };
 		parent_root.children[RIGHT] = this_map->root;
 
 		MAPNODE greatgrandparent = &parent_root;
@@ -857,7 +857,7 @@ bool CAT(MapInsert, CAT(K, V))(MAP this, ENTRY entry)
 	else
 	{
 		//imaginary parent's root
-		struct CAT(_MapNode, CAT(K, V)) parent_root = { .entry = NULL, .children = { NULL, NULL }, .color = BLACK };
+		struct CAT(MapNode_, CAT(K, V)) parent_root = { .entry = NULL, .children = { NULL, NULL }, .color = BLACK };
 		parent_root.children[RIGHT] = this_map->root;
 
 		MAPNODE greatgrandparent = &parent_root;
@@ -1038,7 +1038,7 @@ CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapBegin, CAT(K, V))(MAP this)
 	MAP this_map = (MAP)this;
 
 	//allocate a iterator
-	CAT(CAT(Map, CAT(K, V)), Iterator) iterator = check_calloc(sizeof(struct CAT(CAT(_Map, CAT(K, V)), Iterator)));
+	CAT(CAT(Map, CAT(K, V)), Iterator) iterator = check_calloc(sizeof(struct CAT(CAT(Map_, CAT(K, V)), Iterator)));
 
 	iterator->index = 0;
 

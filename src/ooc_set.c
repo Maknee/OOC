@@ -162,7 +162,7 @@ static SETNODE CAT(SetDoubleRotate, T)(SETNODE root, int direction)
 
 static SETNODE CAT(SetNewMoveNode, T)(T* data_ptr)
 {
-	SETNODE new_node = check_calloc(sizeof(struct CAT(_SetNode, T)));
+	SETNODE new_node = check_calloc(sizeof(struct CAT(Set_Node, T)));
 
 	new_node->data = *data_ptr;
 	new_node->children[LEFT] = NULL;
@@ -176,7 +176,7 @@ static SETNODE CAT(SetNewMoveNode, T)(T* data_ptr)
 
 static SETNODE CAT(SetNewNode, T)(T* data_ptr)
 {
-	SETNODE new_node = check_calloc(sizeof(struct CAT(_SetNode, T)));
+	SETNODE new_node = check_calloc(sizeof(struct CAT(Set_Node, T)));
 
 	new_node->data = T_COPY(data_ptr);
 	new_node->children[LEFT] = NULL;
@@ -190,7 +190,7 @@ static SETNODE CAT(SetNewNode, T)(T* data_ptr)
 
 static SETNODE CAT(SetCopyNode, T)(SETNODE node)
 {
-	SETNODE new_node = check_calloc(sizeof(struct CAT(_SetNode, T)));
+	SETNODE new_node = check_calloc(sizeof(struct CAT(Set_Node, T)));
 
 	new_node->data = T_COPY(&node->data);
 	new_node->children[LEFT] = NULL;
@@ -284,7 +284,7 @@ int CAT(SetTest, T)(CAT(SetNode, T) root, int indent)
 SET CAT(NewSet, T)()
 {
 	//allocate a new set
-	SET this = check_calloc(sizeof(struct CAT(_Set, T)));
+	SET this = check_calloc(sizeof(struct CAT(Set_, T)));
 
 	//cast to set
 	SET this_set = (SET)this;
@@ -357,7 +357,7 @@ void CAT(SetConstruct, T)(SET this)
 	//Initialize class member methods
 	//==========================
 
-	setVFTable.set = &CAT(Set_Set, T);
+	setVFTable.set = &CAT(SetSet_, T);
 	setVFTable.move_insert = &CAT(SetMoveInsert, T);
 	setVFTable.insert = &CAT(SetInsert, T);
 	setVFTable.find = &CAT(SetFind, T);
@@ -566,7 +566,7 @@ bool CAT(SetRemove, T)(SET this, T item)
 	}
 
 	//imaginary parent's root
-	struct CAT(_SetNode, T) parent_root = { .data = 0, .children = { NULL, NULL }, .color = BLACK };
+	struct CAT(Set_Node, T) parent_root = { .data = 0, .children = { NULL, NULL }, .color = BLACK };
 	parent_root.children[RIGHT] = this_set->root;
 
 	SETNODE grandparent = NULL;
@@ -713,7 +713,7 @@ size_t CAT(SetSize, T)(SET this)
 	return this_set->size;
 }
 
-bool CAT(Set_Set, T)(SET this, const T* item, size_t num_elements)
+bool CAT(SetSet_, T)(SET this, const T* item, size_t num_elements)
 {
 	CHECK_NULL(this, false);
 
@@ -749,7 +749,7 @@ bool CAT(SetMoveInsert, T)(SET this, T item)
 	else
 	{
 		//imaginary parent's root
-		struct CAT(_SetNode, T) parent_root = { .data = 0, .children = { NULL, NULL }, .color = BLACK };
+		struct CAT(Set_Node, T) parent_root = { .data = 0, .children = { NULL, NULL }, .color = BLACK };
 		parent_root.children[RIGHT] = this_set->root;
 
 		SETNODE greatgrandparent = &parent_root;
@@ -855,7 +855,7 @@ bool CAT(SetInsert, T)(SET this, T item)
 	else
 	{
 		//imaginary parent's root
-		struct CAT(_SetNode, T) parent_root = { .data = 0, .children = { NULL, NULL }, .color = BLACK };
+		struct CAT(Set_Node, T) parent_root = { .data = 0, .children = { NULL, NULL }, .color = BLACK };
 		parent_root.children[RIGHT] = this_set->root;
 
 		SETNODE greatgrandparent = &parent_root;
@@ -1036,7 +1036,7 @@ CAT(CAT(Set, T), Iterator) CAT(SetBegin, T)(SET this)
 	SET this_set = (SET)this;
 
 	//allocate a iterator
-	CAT(CAT(Set, T), Iterator) iterator = check_calloc(sizeof(struct CAT(CAT(_Set, T), Iterator)));
+	CAT(CAT(Set, T), Iterator) iterator = check_calloc(sizeof(struct CAT(CAT(Set_, T), Iterator)));
 
 	iterator->index = 0;
 
