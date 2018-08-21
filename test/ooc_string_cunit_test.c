@@ -24,7 +24,7 @@ void TestStringVFTableInitializedCompleteObjectLocator()
 	void* string = calloc(1, sizeof(struct _String));
 
 	//allocate vftable
-	((String)string)->container.object.pVFTable = calloc(1, sizeof(StringVFTable));
+	((String)string)->pVFTable = calloc(1, sizeof(StringVFTable));
 
 	//call constructor to set up string
 	StringConstruct(string);
@@ -35,7 +35,7 @@ void TestStringVFTableInitializedCompleteObjectLocator()
 	StringDestruct(string);
 
 	//free vftable
-	free(((String)string)->container.object.pVFTable);
+	free(((String)string)->pVFTable);
 
 	//free the string's resources
 	free(string);
@@ -83,19 +83,19 @@ void TestStringConstructor()
 	void* string = calloc(1, sizeof(struct _String));
 
 	//allocate vftable
-	((String)string)->container.object.pVFTable = calloc(1, sizeof(StringVFTable));
+	((String)string)->pVFTable = calloc(1, sizeof(StringVFTable));
 
 	//call constructor to set up string
 	StringConstruct(string);
 
 	//verify that the vftable is pointing in a different memory location
-	CU_ASSERT_PTR_NOT_EQUAL(((String)string)->container.object.pVFTable, &StringvfTable);
+	CU_ASSERT_PTR_NOT_EQUAL(((String)string)->pVFTable, &StringvfTable);
 	
 	//call destructor
 	StringDestruct(string);
 
 	//free vftable
-	free(((String)string)->container.object.pVFTable);
+	free(((String)string)->pVFTable);
 
 	//free the string's resources
 	free(string);
@@ -136,19 +136,19 @@ void TestStringDestructor()
 	void* string = calloc(1, sizeof(struct _String));
 
 	//allocate vftable
-	((String)string)->container.object.pVFTable = calloc(1, sizeof(StringVFTable));
+	((String)string)->pVFTable = calloc(1, sizeof(StringVFTable));
 
 	//call constructor to set up string
 	StringConstruct(string);
 
 	//show that vftable points to different memory region
-	CU_ASSERT_PTR_NOT_EQUAL(((String)string)->container.object.pVFTable, &StringvfTable);
+	CU_ASSERT_PTR_NOT_EQUAL(((String)string)->pVFTable, &StringvfTable);
 
 	//call destructor
 	StringDestruct(string);
 
 	//free vftable
-	free(((String)string)->container.object.pVFTable);
+	free(((String)string)->pVFTable);
 
 	//free the string's resources
 	free(string);
@@ -240,19 +240,19 @@ void TestStringVFTableStringToString()
 	void* string = calloc(1, sizeof(struct _String));
 
 	//allocate vftable
-	((String)string)->container.object.pVFTable = calloc(1, sizeof(StringVFTable));
+	((String)string)->pVFTable = calloc(1, sizeof(StringVFTable));
 
 	//call constructor to set up string
 	StringConstruct(string);
 
-	CU_ASSERT_STRING_EQUAL(((StringVFTable*)((String)string)->container.object.pVFTable)->toString(string), "String");
+	CU_ASSERT_STRING_EQUAL(((StringVFTable*)((String)string)->pVFTable)->toString(string), "String");
 	CU_ASSERT_STRING_EQUAL(StringToString(string), "String");
 
 	//call destructor
 	StringDestruct(string);
 
 	//free vftable
-	free(((String)string)->container.object.pVFTable);
+	free(((String)string)->pVFTable);
 
 	//free the string's resources
 	free(string);
