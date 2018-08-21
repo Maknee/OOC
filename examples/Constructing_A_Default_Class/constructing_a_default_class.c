@@ -17,7 +17,7 @@ int main()
 
 	assert(Call(copy_struct, equals, default_example_struct) == true);
 	assert(Call(copy_struct, compareTo, default_example_struct) == 0);
-	assert(!strcmp(Call(copy_struct, toString, default_example_struct), "DefaultExampleStruct"));
+	assert(!strcmp(Call(copy_struct, toString), "DefaultExampleStruct"));
 
 	Delete(copy_struct);
 	Delete(default_example_struct);
