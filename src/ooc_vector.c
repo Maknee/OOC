@@ -77,9 +77,6 @@ VECTOR CAT(NewVector, T)()
 	//cast to vector
 	VECTOR this_vector = (VECTOR)this;
 
-	//allocate vftable
-	this_vector->pVFTable = check_calloc(sizeof(VectorVFTable));
-
 	//call constructor to set up string
 	CAT(VectorConstruct, T)(this);
 
@@ -102,9 +99,6 @@ void CAT(DeleteVector, T)(VECTOR this)
 
 	//null the (casted) vftable
 	this_vector->pVFTable = NULL;
-
-	//free vftable
-	free(this_vector->objectpVFTable);
 
 	//free the string's resources
 	free(this);
@@ -164,7 +158,7 @@ void CAT(VectorConstruct, T)(VECTOR this)
 	VECTOR this_vector = (VECTOR)this;
 
 	//Initialize the vtable to a copy of this object's vtable
-	memcpy(this_vector->pVFTable, &vectorVFTable, sizeof(VectorVFTable));
+	this_vector->pVFTable = &vectorVFTable;
 
 	//Make the objectpVFTable point to the same table initially
 	this_vector->objectpVFTable = this_vector->pVFTable;
