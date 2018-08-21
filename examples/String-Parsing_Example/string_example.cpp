@@ -1,7 +1,7 @@
 
 #include <string>
 #include <vector>
-#include "../../src/template.h"
+#include <stdio.h>
 
 std::vector<std::string> SplitByDelimiter(std::string str, std::string delimiter)
 {
