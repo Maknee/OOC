@@ -310,7 +310,7 @@ bool MoveSetPointerToNull(bool result, void** object);
 
 #define OOC_CLASS(type, ...)                                      \
 	typedef struct CAT(type, VFTable_) CAT(type, VFTable);        \
-	typedef struct type                                           \
+	typedef struct CAT(type, _)                                   \
 	{                                                             \
 		CAT(type, VFTable)* pVFTable;                             \
 		CAT(type, VFTable)* objectpVFTable;                       \
@@ -349,7 +349,7 @@ bool MoveSetPointerToNull(bool result, void** object);
 	CAT(type, VFTable) CAT(type, vfTable);                                                                                                                  \
 	type CAT(New, type)()																														            \
 	{                                                                                                                                                       \
-		type this = check_calloc(sizeof(struct type));                                                                                                      \
+		type this = check_calloc(sizeof(struct CAT(type, _)));                                                                                              \
 		ObjectConstruct(this);	                                                                                                                            \
 		this->pVFTable = check_calloc(sizeof(CAT(type, VFTable)));                                                                                          \
 		ContainerConstruct(this);                                                                                                                           \
@@ -376,7 +376,7 @@ bool MoveSetPointerToNull(bool result, void** object);
 	{                                                                                                                                                       \
 		type copy_object = CAT(New, type)(this);	                                                                                                        \
 		CAT(type, VFTable)* copy_object_pvftable = copy_object->pVFTable;                                                                                   \
-		memcpy(copy_object, this, sizeof(struct type));                                                                                                     \
+		memcpy(copy_object, this, sizeof(struct CAT(type, _)));                                                                                             \
 		copy_object->pVFTable = copy_object_pvftable;                                                                                                       \
 		ContainerConstruct(this);                                                                                                                           \
 	    return this;                                                                                                                                        \
