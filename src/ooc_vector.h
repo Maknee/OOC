@@ -30,7 +30,7 @@
  * @def		DEFAULT_VECTOR_CAPACITY
  *
  * @brief	A macro that defines the default capacity of a vector
- * @see		_Vector
+ * @see		Vector_
  * 			
  * @def		NULL_VECTOR_VFTABLE
  * @brief	A macro that defines a null vector vftable template for classes
@@ -70,7 +70,7 @@
 *===========================================================================*/
 
 #define DEFINE_VECTOR_ITERATOR                                 \
-	typedef struct CAT(CAT(_Vector, T), Iterator)              \
+	typedef struct CAT(CAT(Vector_, T), Iterator)              \
 	{                                                          \
 		int index;                                             \
 		T* data;                                               \
@@ -118,7 +118,7 @@ DEFINE_VECTOR_ITERATOR
 //also super class has to templated... not exactly what I call
 //perfect inheritence
 
-typedef struct CAT(_Vector, T) *CAT(Vector, T);
+typedef struct CAT(Vector_, T) *CAT(Vector, T);
 
 #define VECTOR CAT(Vector, T)
 #define VectorVFTable CAT(VECTOR, VFTable)
@@ -669,7 +669,7 @@ CAT(CAT(Vector, T), VFTable) CAT(CAT(Vector, T), vfTable);
  **************************************************************************************************/
 
 #define DEFINE_VECTOR                                          \
-	typedef struct CAT(_Vector, T)                             \
+	typedef struct CAT(Vector_, T)                             \
 	{                                                          \
 		VectorVFTable* pVFTable;                               \
 		VectorVFTable* objectpVFTable;                         \

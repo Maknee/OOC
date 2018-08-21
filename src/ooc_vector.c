@@ -72,7 +72,7 @@ CompleteObjectLocator CAT(vectorCompleteObjectLocator, T) =
 VECTOR CAT(NewVector, T)()
 {
 	//allocate a new vector
-	VECTOR this = check_calloc(sizeof(struct CAT(_Vector, T)));
+	VECTOR this = check_calloc(sizeof(struct CAT(Vector_, T)));
 
 	//cast to vector
 	VECTOR this_vector = (VECTOR)this;
@@ -864,7 +864,7 @@ CAT(CAT(Vector, T), Iterator) CAT(VectorBegin, T)(VECTOR this)
 	VECTOR this_vector = (VECTOR)this;
 
 	//allocate a iterator
-	CAT(CAT(Vector, T), Iterator) iterator = check_calloc(sizeof(struct CAT(CAT(_Vector, T), Iterator)));
+	CAT(CAT(Vector, T), Iterator) iterator = check_calloc(sizeof(struct CAT(CAT(Vector_, T), Iterator)));
 
 	iterator->index = 0;
 
