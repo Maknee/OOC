@@ -238,19 +238,32 @@ typedef struct _String *String;
 
 typedef struct _StringVFTable
 {
-	struct _ContainerVFTable;
-	void* (*set)(void* this, const char* item);
-	char* (*c_str)(void* this);
-	bool (*append)(void* this, const char* item);
-	bool (*insert)(void* this, void* item, int index);
-	bool (*replace)(void* this, void* item, void* replacement);
-	bool (*erase)(void* this, int start, int end);
-	int (*find) (void* this, void* item, int index);
-	void* (*substring)(void* this, int start, int end);
+	CompleteObjectLocator* pCompleteObjectLocator;
+	void(*delete)(String this);
+	String (*copy)(String this);
+	bool(*equals)(String this, String other);
+	int(*compareTo)(String this, String other);
+	char* (*toString)(String this);
 
-	StringIterator (*begin)(void* this);
-	bool (*next)(void* this, StringIterator iterator);
-	StringIterator (*end)(void* this, StringIterator iterator);
+	bool(*add)(String this, String item);
+	void(*clear)(String this);
+	bool(*remove)(String this, String item);
+	bool(*contains)(String this, String item);
+	bool(*isEmpty)(String this);
+	size_t(*size)(String this);
+	
+	String (*set)(String this, const char* item);
+	char* (*c_str)(String this);
+	bool (*append)(String this, const char* item);
+	bool (*insert)(String this, String item, int index);
+	bool (*replace)(String this, String item, String replacement);
+	bool (*erase)(String this, int start, int end);
+	int (*find) (String this, String item, int index);
+	String (*substring)(String this, int start, int end);
+
+	StringIterator (*begin)(String this);
+	bool (*next)(String this, StringIterator iterator);
+	StringIterator (*end)(String this, StringIterator iterator);
 } StringVFTable;
 
 /*============================================================================
@@ -262,7 +275,7 @@ typedef struct _StringVFTable
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void* NewString()
+ * @fn	String NewString()
  * @brief	String's new operator
  * 			
  *			Returns an allocated new string
@@ -270,14 +283,14 @@ typedef struct _StringVFTable
  * @return	An allocated string object
  **************************************************************************************************/
 
-void* NewString();
+String NewString();
 
 /*============================================================================
 |	Delete Operator
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void DeleteString(void* this)
+ * @fn	void DeleteString(String this)
  * @brief	String's delete operator
  * 			
  *			Deletes the allocated string
@@ -289,14 +302,14 @@ void* NewString();
  * @warning If NULL is passed, an attempt to free NULL will be made
  **************************************************************************************************/
 
-void DeleteString(void* this);
+void DeleteString(String this);
 
 /*============================================================================
 |	Constructor
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void StringConstruct(void* this)
+ * @fn	void StringConstruct(String this)
  * @brief	String's constructor
  * 			
  *			Setups the vftable by completing the RTTI dependency
@@ -309,14 +322,14 @@ void DeleteString(void* this);
  * @todo	{Find a way to not use memcpy for setting up the vftable...}
  **************************************************************************************************/
 
-void StringConstruct(void* this);
+void StringConstruct(String this);
 
 /*============================================================================
 |	Copy Constructor
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void* StringCopyConstruct(void* this)
+ * @fn	String StringCopyConstruct(String this)
  * @brief	String's copy constructor
  * 			
  *			Returns a copy of the string
@@ -331,14 +344,14 @@ void StringConstruct(void* this);
  * 			for the pBuf if the current string has dynamically allocated memory
  **************************************************************************************************/
 
-void* StringCopyConstruct(void* this);
+String StringCopyConstruct(String this);
 
 /*============================================================================
 |	Destructor
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void StringDestruct(void* this)
+ * @fn	void StringDestruct(String this)
  * @brief	String's destructor
  * 			
  *			Calls the super destructors and properly manages 
@@ -350,14 +363,14 @@ void* StringCopyConstruct(void* this);
  * @return	Nothing
  **************************************************************************************************/
 
-void StringDestruct(void* this);
+void StringDestruct(String this);
 
 /*============================================================================
 |	Overridden member function definitions
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn		bool StringEquals(void* this, void* other);
+ * @fn		bool StringEquals(String this, String other);
  *
  * @brief	Checks if the string is equal to another string
  *
@@ -369,10 +382,10 @@ void StringDestruct(void* this);
  * @return	True if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool StringEquals(void* this, void* other);
+bool StringEquals(String this, String other);
 
 /**********************************************************************************************//**
- * @fn		int StringCompareTo(void* this, void* other);
+ * @fn		int StringCompareTo(String this, String other);
  *
  * @brief	Checks if the string is equal to another string
  *
@@ -384,10 +397,10 @@ bool StringEquals(void* this, void* other);
  * @return	0 if it succeeds, negative or positive if it fails.
  **************************************************************************************************/
 
-int StringCompareTo(void* this, void* other);
+int StringCompareTo(String this, String other);
 
 /**********************************************************************************************//**
- * @fn		bool StringToString(void* this);
+ * @fn		bool StringToString(String this);
  *
  * @brief	Gives the object's type name.
  * 			Is used for casts.
@@ -399,10 +412,10 @@ int StringCompareTo(void* this, void* other);
  * @return	Returns a pointer to the object's name
  **************************************************************************************************/
 
-char* StringToString(void* this);
+char* StringToString(String this);
 
 /**********************************************************************************************//**
- * @fn		bool StringAdd(void* this, void* item)
+ * @fn		bool StringAdd(String this, String item)
  *
  * @brief	Concatenates the two strings
  * 			
@@ -426,10 +439,10 @@ char* StringToString(void* this);
  * @todo	{figure out a way to merge this function and StringAppend}
  **************************************************************************************************/
 
-bool StringAdd(void* this, void* item);
+bool StringAdd(String this, String item);
 
 /**********************************************************************************************//**
- * @fn		void StringClear(void* this)
+ * @fn		void StringClear(String this)
  *
  * @brief	Clears the contents of the string
  * 			
@@ -442,10 +455,10 @@ bool StringAdd(void* this, void* item);
  * @return	Nothing
  **************************************************************************************************/
 
-void StringClear(void* this);
+void StringClear(String this);
 
 /**********************************************************************************************//**
- * @fn		bool StringRemove(void* this, void* item)
+ * @fn		bool StringRemove(String this, String item)
  *
  * @brief	Remove the substring in a string
  *			
@@ -462,10 +475,10 @@ void StringClear(void* this);
  * 			The overhead of free is most likely not worth resizing the capacity
  **************************************************************************************************/
 
-bool StringRemove(void* this, void* item);
+bool StringRemove(String this, String item);
 
 /**********************************************************************************************//**
- * @fn		bool StringContains(void* this, void* item)
+ * @fn		bool StringContains(String this, String item)
  *
  * @brief	Remove the substring in a string
  *			
@@ -477,10 +490,10 @@ bool StringRemove(void* this, void* item);
  * 			returns false if the substring couldn't be found
  **************************************************************************************************/
 
-bool StringContains(void* this, void* item);
+bool StringContains(String this, String item);
 
 /**********************************************************************************************//**
- * @fn	void* StringCopy(void* this)
+ * @fn	String StringCopy(String this)
  * @brief	String's copy function
  * 			
  *			Returns a deep copy of the string
@@ -495,10 +508,10 @@ bool StringContains(void* this, void* item);
  * @note	Does not memcpy the vtable (just points to the same vtable as the current string)
  **************************************************************************************************/
 
-void* StringCopy(void* this);
+String StringCopy(String this);
 
 /**********************************************************************************************//**
- * @fn		bool StringIsEmpty(void* this)
+ * @fn		bool StringIsEmpty(String this)
  *
  * @brief	Checks if the string is empty
  *			
@@ -508,10 +521,10 @@ void* StringCopy(void* this);
  * 			returns false if the substring is not empty
  **************************************************************************************************/
 
-bool StringIsEmpty(void* this);
+bool StringIsEmpty(String this);
 
 /**********************************************************************************************//**
- * @fn		int StringSize(void* this)
+ * @fn		int StringSize(String this)
  *
  * @brief	Returns the length of the string
  *			
@@ -521,14 +534,14 @@ bool StringIsEmpty(void* this);
  * @note	Includes NULL terminator
  **************************************************************************************************/
 
-size_t StringSize(void* this);
+size_t StringSize(String this);
 
 /*============================================================================
 |	Class member definitions
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn		String StringSet(void* this, const char* item)
+ * @fn		String StringSet(String this, const char* item)
  *
  * @brief	Concatenates the two strings
  * 			
@@ -550,10 +563,10 @@ size_t StringSize(void* this);
  * @todo	{find a case when the function should fail}
  **************************************************************************************************/
 
-void* StringSet(void* this, const char* item);
+String StringSet(String this, const char* item);
 
 /**********************************************************************************************//**
- * @fn		char* StringC_Str(void* this)
+ * @fn		char* StringC_Str(String this)
  *
  * @brief	Returns a pointer to the raw data of a string
  *			
@@ -562,10 +575,10 @@ void* StringSet(void* this, const char* item);
  * @return	Returns pointer to raw data
  **************************************************************************************************/
 
-char* StringC_Str(void* this);
+char* StringC_Str(String this);
 
 /**********************************************************************************************//**
- * @fn		bool StringAppend(void* this, const char* item)
+ * @fn		bool StringAppend(String this, const char* item)
  *
  * @brief	Appends one string with a char pointer
  *			
@@ -580,10 +593,10 @@ char* StringC_Str(void* this);
  * @todo	{find a way for this function to return false}
  **************************************************************************************************/
 
-bool StringAppend(void* this, const char* item);
+bool StringAppend(String this, const char* item);
 
 /**********************************************************************************************//**
- * @fn		bool StringInsert(void* this, void* item, int index)
+ * @fn		bool StringInsert(String this, String item, int index)
  *
  * @brief	Inserts other string into this string at index
  *			
@@ -596,10 +609,10 @@ bool StringAppend(void* this, const char* item);
  * @return	Returns true if the string was inserted, and false if not
  **************************************************************************************************/
 
-bool StringInsert(void* this, void* item, int index);
+bool StringInsert(String this, String item, int index);
 
 /**********************************************************************************************//**
- * @fn		bool StringReplace(void* this, void* item, void* replacement)
+ * @fn		bool StringReplace(String this, String item, String replacement)
  *
  * @brief	Replace the all occurences of item in this with replacement
  *			
@@ -614,10 +627,10 @@ bool StringInsert(void* this, void* item, int index);
  * 			it can done using @ref StringFind, @ref StringRemove and @StringInsert
  **************************************************************************************************/
 
-bool StringReplace(void* this, void* item, void* replacement);
+bool StringReplace(String this, String item, String replacement);
 
 /**********************************************************************************************//**
- * @fn		bool StringErase(void* this, int start, int end);
+ * @fn		bool StringErase(String this, int start, int end);
  *
  * @brief	Erases string starting at start to end
  *			
@@ -632,10 +645,10 @@ bool StringReplace(void* this, void* item, void* replacement);
  * 			it can done using @ref StringFind, @ref StringRemove and @StringInsert
  **************************************************************************************************/
 
-bool StringErase(void* this, int start, int end);
+bool StringErase(String this, int start, int end);
 
 /**********************************************************************************************//**
- * @fn		int StringFind(void* this, void* item, int index)
+ * @fn		int StringFind(String this, String item, int index)
  *
  * @brief	Returns the index of the first occurence of the substring
  *			
@@ -646,10 +659,10 @@ bool StringErase(void* this, int start, int end);
  * @return	Returns true if the string was found, and false if not
  **************************************************************************************************/
 
-int StringFind(void* this, void* item, int index);
+int StringFind(String this, String item, int index);
 
 /**********************************************************************************************//**
- * @fn		void* StringSubstring(void* this, int start, int end);
+ * @fn		String StringSubstring(String this, int start, int end);
  *
  * @brief	Finds the substrings of of the string if possible
  *			
@@ -663,10 +676,10 @@ int StringFind(void* this, void* item, int index);
  * @warning	Returns NULL if substring could not be found
  **************************************************************************************************/
 
-void* StringSubstring(void* this, int start, int end);
+String StringSubstring(String this, int start, int end);
 
 /**********************************************************************************************//**
- * @fn		StringIterator StringBegin(void* this)
+ * @fn		StringIterator StringBegin(String this)
  *
  * @brief   Returns an iterator starting at the beginning of a string
  *
@@ -676,10 +689,10 @@ void* StringSubstring(void* this, int start, int end);
  *			Returns a string iterator
  **************************************************************************************************/
 
-StringIterator StringBegin(void* this);
+StringIterator StringBegin(String this);
 
 /**********************************************************************************************//**
- * @fn		bool StringNext(void* this, StringIterator* iterator)
+ * @fn		bool StringNext(String this, StringIterator* iterator)
  *
  * @brief   Advances string iterator
  *
@@ -689,10 +702,10 @@ StringIterator StringBegin(void* this);
  *			Returns a string iterator
  **************************************************************************************************/
 
-bool StringNext(void* this, StringIterator iterator);
+bool StringNext(String this, StringIterator iterator);
 
 /**********************************************************************************************//**
- * @fn		StringIterator StringEnd(void* this)
+ * @fn		StringIterator StringEnd(String this)
  *
  * @brief   Returns an iterator starting at end of the string
  *
@@ -704,7 +717,7 @@ bool StringNext(void* this, StringIterator iterator);
  *			Returns a string iterator
  **************************************************************************************************/
 
-StringIterator StringEnd(void* this, StringIterator iterator);
+StringIterator StringEnd(String this, StringIterator iterator);
 
 /*============================================================================
 |   Container virtual function table instance
@@ -733,7 +746,7 @@ StringVFTable StringvfTable;
  * @var		_String::container
  * 			Since the container inherits from the container class,
  * 			it must contain the container's class
- *			@see _Container
+ *			@see Container_
  *			
  * @var		_String::length
  * 			item that contains the current number of characters in the string
@@ -767,7 +780,9 @@ StringVFTable StringvfTable;
 
 typedef struct _String
 {
-	struct _Container container;
+	StringVFTable* pVFTable;
+	StringVFTable* objectpVFTable;
+
 	size_t length;
 	size_t capacity;
 	union

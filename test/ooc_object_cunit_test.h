@@ -7,6 +7,8 @@
 
 #pragma once
 
+#define OOC_V1
+
 #include "CUnit/Automated.h"
 #include "CUnit/Basic.h"
 #include "../src/ooc.h"

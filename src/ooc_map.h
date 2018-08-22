@@ -19,6 +19,8 @@
 
 #if defined(K) && defined (V)
 
+#define OOC_V1
+
 #include "container.h"
 #include "template.h"
 
@@ -30,7 +32,7 @@
  * @def		DEFAULT_MAP_CAPACITY
  *
  * @brief	A macro that defines the default capacity of a map
- * @see		_Map
+ * @see		Map_
  * 			
  * @def		NULL_MAP_VFTABLE
  * @brief	A macro that defines a null map vftable template for classes
@@ -69,7 +71,7 @@
 *===========================================================================*/
 
 #define DEFINE_MAP_ITERATOR                                    \
-	typedef struct CAT(CAT(_Map, CAT(K, V)), Iterator)         \
+	typedef struct CAT(CAT(Map_, CAT(K, V)), Iterator)         \
 	{                                                          \
 		int index;                                             \
 		ENTRY* data;                                           \
@@ -111,32 +113,42 @@ DEFINE_MAP_ITERATOR
  *			end\n
  **************************************************************************************************/
 
-//have to use macro to define vftable because macros can't be
-//used in struct declaration
+ //have to use macro to define vftable because macros can't be
+ //used in struct declaration
 
-//also super class has to templated... not exactly what I call
-//perfect inheritence
+ //also super class has to templated... not exactly what I call
+ //perfect inheritence
+
+typedef struct CAT(Map_, CAT(K, V)) *CAT(Map, CAT(K, V));
+
+#define MAP CAT(Map, CAT(K, V))
+#define MapVFTable CAT(MAP, VFTable)
+
 #define DEFINE_MAP_VFTABLE                                     \
-	typedef struct CAT(CAT(_Map, CAT(K, V)), VFTable)          \
+	typedef struct CAT(CAT(Map_, CAT(K, V)), VFTable)          \
 	{                                                          \
-		struct _ObjectVFTable;                                 \
+		CompleteObjectLocator* pCompleteObjectLocator;         \
+		void (*delete)(MAP this);                           \
+		MAP (*copy)(MAP this);                           \
+        bool (*equals)(MAP this, MAP other);             \
+		int (*compareTo)(MAP this, MAP other);           \
+		char* (*toString)(MAP this);                        \
 		                                                       \
-		bool(*add)(void* this, ENTRY entry);                   \
-		void(*clear)(void* this);                              \
-		bool(*remove)(void* this, ENTRY entry);                \
-		bool(*contains)(void* this, ENTRY entry);              \
-		void* (*copy)(void* this);                             \
-		bool(*isEmpty)(void* this);                            \
-		size_t(*size)(void* this);                             \
+		bool(*add)(MAP this, ENTRY entry);                   \
+		void(*clear)(MAP this);                              \
+		bool(*remove)(MAP this, ENTRY entry);                \
+		bool(*contains)(MAP this, ENTRY entry);              \
+		bool(*isEmpty)(MAP this);                            \
+		size_t(*size)(MAP this);                             \
 		                                                       \
-		bool(*set)(void* this, const ENTRY* entries, size_t num_elements); \
-		bool(*move_insert)(void* this, ENTRY entry);                \
-		bool(*insert)(void* this, ENTRY entry);                     \
-		ENTRY*(*find) (void* this, ENTRY entry);                       \
-		bool(*replace)(void* this, ENTRY to_replace, ENTRY replacement); \
-		CAT(CAT(Map, CAT(K, V)), Iterator) (*begin)(void* this);      \
-		bool(*next)(void* this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator); \
-		CAT(CAT(Map, CAT(K, V)), Iterator) (*end)(void* this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator); \
+		bool(*set)(MAP this, const ENTRY* entries, size_t num_elements); \
+		bool(*move_insert)(MAP this, ENTRY entry);                \
+		bool(*insert)(MAP this, ENTRY entry);                     \
+		ENTRY*(*find) (MAP this, ENTRY entry);                       \
+		bool(*replace)(MAP this, ENTRY to_replace, ENTRY replacement); \
+		CAT(CAT(Map, CAT(K, V)), Iterator) (*begin)(MAP this);      \
+		bool(*next)(MAP this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator); \
+		CAT(CAT(Map, CAT(K, V)), Iterator) (*end)(MAP this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator); \
 	} CAT(CAT(Map, CAT(K, V)), VFTable);                            \
 
 DEFINE_MAP_VFTABLE
@@ -150,7 +162,7 @@ DEFINE_MAP_VFTABLE
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void* CAT(NewMap, CAT(K, V))()
+ * @fn	MAP CAT(NewMap, CAT(K, V))()
  * @brief	Map's new operator
  * 			
  *			Returns an allocated new map
@@ -158,14 +170,14 @@ DEFINE_MAP_VFTABLE
  * @return	An allocated map object or null if none could be allocated
  **************************************************************************************************/
 
-void* CAT(NewMap, CAT(K, V))();
+MAP CAT(NewMap, CAT(K, V))();
 
 /*============================================================================
 |	Delete Operator
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void CAT(DeleteMap, CAT(K, V))(void* this);
+ * @fn	void CAT(DeleteMap, CAT(K, V))(MAP this);
  *
  * @brief	Deletes and frees a map's resources
  *
@@ -174,14 +186,14 @@ void* CAT(NewMap, CAT(K, V))();
  * @return	Nothing
  **************************************************************************************************/
 
-void CAT(DeleteMap, CAT(K, V))(void* this);
+void CAT(DeleteMap, CAT(K, V))(MAP this);
 
 /*============================================================================
 |	Constructor
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void CAT(MapConstruct, CAT(K, V))(void* this);
+ * @fn	void CAT(MapConstruct, CAT(K, V))(MAP this);
  * @brief	Map's constructor
  * 			
  *			Mapups the vftable by completing the RTTI dependency
@@ -194,14 +206,14 @@ void CAT(DeleteMap, CAT(K, V))(void* this);
  * @todo	{Find a way to not use memcpy for mapting up the vftable...}
  **************************************************************************************************/
 
-void CAT(MapConstruct, CAT(K, V))(void* this);
+void CAT(MapConstruct, CAT(K, V))(MAP this);
 
 /*============================================================================
 |	Copy Constructor
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void* CAT(MapCopyConstruct, CAT(K, V))(void* this);
+ * @fn	MAP CAT(MapCopyConstruct, CAT(K, V))(MAP this);
  * @brief	Map's copy constructor
  * 			
  *			Returns a copy of the map
@@ -216,14 +228,14 @@ void CAT(MapConstruct, CAT(K, V))(void* this);
  * 			for the map and copy every element
  **************************************************************************************************/
 
-void* CAT(MapCopyConstruct, CAT(K, V))(void* this);
+MAP CAT(MapCopyConstruct, CAT(K, V))(MAP this);
 
 /*============================================================================
 |	Destructor
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	void CAT(MapDestruct, CAT(K, V))(void* this);
+ * @fn	void CAT(MapDestruct, CAT(K, V))(MAP this);
  * @brief	Map's destructor
  * 			
  *			Calls the super destructors and properly manages 
@@ -235,14 +247,14 @@ void* CAT(MapCopyConstruct, CAT(K, V))(void* this);
  * @return	Nothing
  **************************************************************************************************/
 
-void CAT(MapDestruct, CAT(K, V))(void* this);
+void CAT(MapDestruct, CAT(K, V))(MAP this);
 
 /*============================================================================
 |	Overridden member function definitions
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn		bool CAT(MapEquals, CAT(K, V))(void* this, void* other);
+ * @fn		bool CAT(MapEquals, CAT(K, V))(MAP this, MAP other);
  *
  * @brief	Checks if the type of the map is equal to another object
  *
@@ -254,10 +266,10 @@ void CAT(MapDestruct, CAT(K, V))(void* this);
  * @return	True if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool CAT(MapEquals, CAT(K, V))(void* this, void* other);
+bool CAT(MapEquals, CAT(K, V))(MAP this, MAP other);
 
 /**********************************************************************************************//**
- * @fn		int CAST(MapCompareTo, CAT(K, V))(void* this, void* other);
+ * @fn		int CAST(MapCompareTo, CAT(K, V))(MAP this, MAP other);
  *
  * @brief	Checks if the type of the map is equal to another object
  *
@@ -269,10 +281,10 @@ bool CAT(MapEquals, CAT(K, V))(void* this, void* other);
  * @return	0 if it succeeds, negative or positive if it fails.
  **************************************************************************************************/
 
-int CAT(MapCompareTo, CAT(K, V))(void* this, void* other);
+int CAT(MapCompareTo, CAT(K, V))(MAP this, MAP other);
 
 /**********************************************************************************************//**
- * @fn		char* CAT(MapToString, CAT(K, V))(void* this);
+ * @fn		char* CAT(MapToString, CAT(K, V))(MAP this);
  *
  * @brief	Gives the object's type name.
  * 			Is used for casts.
@@ -284,10 +296,10 @@ int CAT(MapCompareTo, CAT(K, V))(void* this, void* other);
  * @return	Returns a pointer to the object's name
  **************************************************************************************************/
 
-char* CAT(MapToString, CAT(K, V))(void* this);
+char* CAT(MapToString, CAT(K, V))(MAP this);
 
 /**********************************************************************************************//**
- * @fn		bool CAT(MapAdd, CAT(K, V))(void* this, ENTRY entry);
+ * @fn		bool CAT(MapAdd, CAT(K, V))(MAP this, ENTRY entry);
  *
  * @brief	Does the same as MapPushBack
  *
@@ -297,10 +309,10 @@ char* CAT(MapToString, CAT(K, V))(void* this);
  * 			The item (element of the map), not another <b>Map</b>
  **************************************************************************************************/
 
-bool CAT(MapAdd, CAT(K, V))(void* this, ENTRY entry);
+bool CAT(MapAdd, CAT(K, V))(MAP this, ENTRY entry);
 
 /**********************************************************************************************//**
- * @fn		void CAT(MapClear, CAT(K, V))(void* this);
+ * @fn		void CAT(MapClear, CAT(K, V))(MAP this);
  *
  * @brief	Clears the contents of the map
  * 			
@@ -313,10 +325,10 @@ bool CAT(MapAdd, CAT(K, V))(void* this, ENTRY entry);
  * @return	Nothing
  **************************************************************************************************/
 
-void CAT(MapClear, CAT(K, V))(void* this);
+void CAT(MapClear, CAT(K, V))(MAP this);
 
 /**********************************************************************************************//**
- * @fn		bool MapRemove(void* this, void* item)
+ * @fn		bool MapRemove(MAP this, MAP item)
  *
  * @brief	Remove the submap in a map
  *			
@@ -331,10 +343,10 @@ void CAT(MapClear, CAT(K, V))(void* this);
  * 			The overhead of free is most likely not worth resizing the capacity
  **************************************************************************************************/
 
-bool CAT(MapRemove, CAT(K, V))(void* this, ENTRY entry);
+bool CAT(MapRemove, CAT(K, V))(MAP this, ENTRY entry);
 
 /**********************************************************************************************//**
- * @fn		bool CAT(MapContains, CAT(K, V))(void* this, ENTRY entry);
+ * @fn		bool CAT(MapContains, CAT(K, V))(MAP this, ENTRY entry);
  *
  * @brief	Remove the item in a map
  *			
@@ -346,10 +358,10 @@ bool CAT(MapRemove, CAT(K, V))(void* this, ENTRY entry);
  * 			returns false if the item couldn't be found
  **************************************************************************************************/
 
-bool CAT(MapContains, CAT(K, V))(void* this, ENTRY entry);
+bool CAT(MapContains, CAT(K, V))(MAP this, ENTRY entry);
 
 /**********************************************************************************************//**
- * @fn	void* CAT(MapCopy, CAT(K, V))(void* this);
+ * @fn	MAP CAT(MapCopy, CAT(K, V))(MAP this);
  * @brief	Map's copy function
  * 			
  *			Returns a deep copy of the map
@@ -363,10 +375,10 @@ bool CAT(MapContains, CAT(K, V))(void* this, ENTRY entry);
  * 			for the pBuf if the current map has dynamically allocated memory
  **************************************************************************************************/
 
-void* CAT(MapCopy, CAT(K, V))(void* this);
+MAP CAT(MapCopy, CAT(K, V))(MAP this);
 
 /**********************************************************************************************//**
- * @fn		bool CAT(MapIsEmpty, CAT(K, V))(void* this);
+ * @fn		bool CAT(MapIsEmpty, CAT(K, V))(MAP this);
  *
  * @brief	Checks if the map is empty
  *			
@@ -376,10 +388,10 @@ void* CAT(MapCopy, CAT(K, V))(void* this);
  * 			returns false if the map is not empty
  **************************************************************************************************/
 
-bool CAT(MapIsEmpty, CAT(K, V))(void* this);
+bool CAT(MapIsEmpty, CAT(K, V))(MAP this);
 
 /**********************************************************************************************//**
- * @fn		size_t CAT(MapSize, CAT(K, V))(void* this);
+ * @fn		size_t CAT(MapSize, CAT(K, V))(MAP this);
  *
  * @brief	Returns the number of elements in the map
  *			
@@ -389,14 +401,14 @@ bool CAT(MapIsEmpty, CAT(K, V))(void* this);
  * @note	Includes NULL terminator
  **************************************************************************************************/
 
-size_t CAT(MapSize, CAT(K, V))(void* this);
+size_t CAT(MapSize, CAT(K, V))(MAP this);
 
 /*============================================================================
 |	Class member definitions
 *===========================================================================*/
 
 /**********************************************************************************************//**
- * @fn	bool CAT(MapSet, CAT(K, V))(void* this, const ENTRY entry item, size_t num_elements);
+ * @fn	bool CAT(MapSet, CAT(K, V))(MAP this, const ENTRY entry item, size_t num_elements);
  *
  * @brief	Maps the map to an array of elements
  *
@@ -410,10 +422,10 @@ size_t CAT(MapSize, CAT(K, V))(void* this);
  * @return	True if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool CAT(MapSet, CAT(K, V))(void* this, const ENTRY* entry, size_t num_elements);
+bool CAT(MapSet, CAT(K, V))(MAP this, const ENTRY* entry, size_t num_elements);
 
 /**********************************************************************************************//**
- * @fn	bool CAT(MapMoveInsert, CAT(K, V))(void* this, ENTRY entry)
+ * @fn	bool CAT(MapMoveInsert, CAT(K, V))(MAP this, ENTRY entry)
  *
  * @brief	Inserts the item at the index in the map by moving the item.\n
  * 			Everything after the index will be shifted to the right
@@ -428,10 +440,10 @@ bool CAT(MapSet, CAT(K, V))(void* this, const ENTRY* entry, size_t num_elements)
  * @return	True if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool CAT(MapMoveInsert, CAT(K, V))(void* this, ENTRY entry);
+bool CAT(MapMoveInsert, CAT(K, V))(MAP this, ENTRY entry);
 
 /**********************************************************************************************//**
- * @fn	bool CAT(MapInsert, CAT(K, V))(void* this, ENTRY entry);
+ * @fn	bool CAT(MapInsert, CAT(K, V))(MAP this, ENTRY entry);
  *
  * @brief	Inserts a copy of the item at the index in the map.\n
  * 			Everything after the index will be shifted to the right
@@ -446,10 +458,10 @@ bool CAT(MapMoveInsert, CAT(K, V))(void* this, ENTRY entry);
  * @return	True if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool CAT(MapInsert, CAT(K, V))(void* this, ENTRY entry);
+bool CAT(MapInsert, CAT(K, V))(MAP this, ENTRY entry);
 
 /**********************************************************************************************//**
- * @fn	ENTRY* entry CAT(MapFind, CAT(K, V)) (void* this, ENTRY entry)
+ * @fn	ENTRY* entry CAT(MapFind, CAT(K, V)) (MAP this, ENTRY entry)
  *
  * @brief	Finds the index of the element in the map
  *
@@ -461,10 +473,10 @@ bool CAT(MapInsert, CAT(K, V))(void* this, ENTRY entry);
  * @return	Index of the element. NPOS if none were found
  **************************************************************************************************/
 
-ENTRY* CAT(MapFind, CAT(K, V)) (void* this, ENTRY entry);
+ENTRY* CAT(MapFind, CAT(K, V)) (MAP this, ENTRY entry);
 
 /**********************************************************************************************//**
- * @fn	bool CAT(MapReplace, CAT(K, V))(void* this, T to_replace, T replacement);
+ * @fn	bool CAT(MapReplace, CAT(K, V))(MAP this, T to_replace, T replacement);
  *
  * @brief	Replaces the elements with another element
  * 			Deallocates previous element, and allocates a copy of the replacement element
@@ -479,10 +491,10 @@ ENTRY* CAT(MapFind, CAT(K, V)) (void* this, ENTRY entry);
  * @return	Index of the element. NPOS if none were found
  **************************************************************************************************/
 
-bool CAT(MapReplace, CAT(K, V))(void* this, ENTRY to_replace, ENTRY replacement);
+bool CAT(MapReplace, CAT(K, V))(MAP this, ENTRY to_replace, ENTRY replacement);
 
 /**********************************************************************************************//**
- * @fn		StringIterator StringBegin(void* this)
+ * @fn		StringIterator StringBegin(MAP this)
  *
  * @brief   Returns an iterator starting at the beginning of a string
  *
@@ -492,10 +504,10 @@ bool CAT(MapReplace, CAT(K, V))(void* this, ENTRY to_replace, ENTRY replacement)
  *			Returns a string iterator
  **************************************************************************************************/
 
-CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapBegin, CAT(K, V))(void* this);
+CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapBegin, CAT(K, V))(MAP this);
 
 /**********************************************************************************************//**
- * @fn		bool StringNext(void* this, StringIterator* iterator)
+ * @fn		bool StringNext(MAP this, StringIterator* iterator)
  *
  * @brief   Advances string iterator
  *
@@ -505,10 +517,10 @@ CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapBegin, CAT(K, V))(void* this);
  *			Returns a string iterator
  **************************************************************************************************/
 
-bool CAT(MapNext, CAT(K, V))(void* this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator);
+bool CAT(MapNext, CAT(K, V))(MAP this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator);
 
 /**********************************************************************************************//**
- * @fn		StringIterator StringEnd(void* this)
+ * @fn		StringIterator StringEnd(MAP this)
  *
  * @brief   Returns an iterator starting at end of the string
  *
@@ -520,7 +532,7 @@ bool CAT(MapNext, CAT(K, V))(void* this, CAT(CAT(Map, CAT(K, V)), Iterator) iter
  *			Returns a string iterator
  **************************************************************************************************/
 
-CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapEnd, CAT(K, V))(void* this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator);
+CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapEnd, CAT(K, V))(MAP this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator);
 
 /*============================================================================
 |   Container virtual function table instance
@@ -540,10 +552,10 @@ CAT(CAT(Map, CAT(K, V)), VFTable) CAT(CAT(Map, CAT(K, V)), vfTable);
 *===========================================================================*/
 
 #define DEFINE_MAPNODE                                         \
-	typedef struct CAT(_MapNode, CAT(K, V))                     \
+	typedef struct CAT(MapNode_, CAT(K, V))                     \
 	{                                                          \
 		ENTRY entry;                                           \
-		struct CAT(_MapNode, CAT(K, V))* children[2];           \
+		struct CAT(MapNode_, CAT(K, V))* children[2];           \
 		bool color;                                            \
 	} *CAT(MapNode, CAT(K, V));                                 \
 
@@ -564,9 +576,9 @@ int CAT(MapTest, CAT(K, V))(CAT(MapNode, CAT(K, V)) root, int indent);
  **************************************************************************************************/
 
 #define DEFINE_MAP                                             \
-	typedef struct CAT(_Map, CAT(K, V))                         \
+	typedef struct CAT(Map_, CAT(K, V))                         \
 	{                                                          \
-		struct _Container container;                           \
+		struct Container_ container;                           \
 		size_t size;                                           \
 		CAT(MapNode, CAT(K, V)) root;                           \
 	} *CAT(Map, CAT(K, V));                                            \
@@ -661,5 +673,8 @@ CompleteObjectLocator CAT(mapCompleteObjectLocator, CAT(K, V));
 *===========================================================================*/
 
 #undef ENTRY
+
+#undef MAP
+#undef MAPVFTable
 
 #endif

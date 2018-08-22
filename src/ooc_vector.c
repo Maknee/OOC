@@ -1,5 +1,7 @@
 #if defined(T) && defined(T_EQUALS)
 
+#define OOC_V1
+
 #include "template.h"
 
 //can't define this as Vector since name collision
@@ -10,7 +12,12 @@
 
 VectorVFTable vectorVFTable =
 {
-	NULL_OBJECT_VFTABLE,
+	.pCompleteObjectLocator = NULL,                     
+	.delete = NULL,                                     
+	.equals = NULL,                                     
+	.compareTo = NULL,                                  
+	.toString = NULL,
+
 	.add = NULL,
 	.clear = NULL,
 	.erase = NULL,
@@ -19,6 +26,7 @@ VectorVFTable vectorVFTable =
 	.copy = NULL,
 	.isEmpty = NULL,
 	.size = NULL,
+	
 	.set = NULL,
 	.get = NULL,
 	.push_front = NULL,
@@ -61,16 +69,16 @@ CompleteObjectLocator CAT(vectorCompleteObjectLocator, T) =
 |	New Operator
 *===========================================================================*/
 
-void* CAT(NewVector, T)()
+VECTOR CAT(NewVector, T)()
 {
 	//allocate a new vector
-	void* this = check_calloc(sizeof(struct CAT(_Vector, T)));
+	VECTOR this = check_calloc(sizeof(struct CAT(Vector_, T)));
 
 	//cast to vector
 	VECTOR this_vector = (VECTOR)this;
 
 	//allocate vftable
-	this_vector->container.object.pVFTable = check_calloc(sizeof(VectorVFTable));
+	this_vector->pVFTable = check_calloc(sizeof(VectorVFTable));
 
 	//call constructor to set up string
 	CAT(VectorConstruct, T)(this);
@@ -82,7 +90,7 @@ void* CAT(NewVector, T)()
 |	Delete Operator
 *===========================================================================*/
 
-void CAT(DeleteVector, T)(void* this)
+void CAT(DeleteVector, T)(VECTOR this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -93,10 +101,10 @@ void CAT(DeleteVector, T)(void* this)
 	CAT(VectorDestruct, T)(this);
 
 	//null the (casted) vftable
-	this_vector->container.object.pVFTable = NULL;
+	this_vector->pVFTable = NULL;
 
 	//free vftable
-	free(this_vector->container.object.objectpVFTable);
+	free(this_vector->objectpVFTable);
 
 	//free the string's resources
 	free(this);
@@ -106,7 +114,7 @@ void CAT(DeleteVector, T)(void* this)
 |	Constructor
 *===========================================================================*/
 
-void CAT(VectorConstruct, T)(void* this)
+void CAT(VectorConstruct, T)(VECTOR this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -118,17 +126,10 @@ void CAT(VectorConstruct, T)(void* this)
 
 	//Set the vtable's complete object locator to complete the RTTI circle
 	vectorVFTable.pCompleteObjectLocator = &CAT(vectorCompleteObjectLocator, T);
-
-	//Set the equals function
 	vectorVFTable.delete = &CAT(DeleteVector, T);
-
-	//Set the equals function
+	vectorVFTable.copy = &CAT(VectorCopy, T);
 	vectorVFTable.equals = &CAT(VectorEquals, T);
-
-	//Set the compareTo function
 	vectorVFTable.compareTo = &CAT(VectorCompareTo, T);
-
-	//Set the toString
 	vectorVFTable.toString = &CAT(VectorToString, T);
 
 	//Override Container's methods
@@ -139,7 +140,6 @@ void CAT(VectorConstruct, T)(void* this)
 	vectorVFTable.erase = &CAT(VectorErase, T);
 	vectorVFTable.remove = &CAT(VectorRemove, T);
 	vectorVFTable.contains = &CAT(VectorContains, T);
-	vectorVFTable.copy = &CAT(VectorCopy, T);
 	vectorVFTable.isEmpty = &CAT(VectorIsEmpty, T);
 	vectorVFTable.size = &CAT(VectorSize, T);
 	
@@ -164,10 +164,10 @@ void CAT(VectorConstruct, T)(void* this)
 	VECTOR this_vector = (VECTOR)this;
 
 	//Initialize the vtable to a copy of this object's vtable
-	memcpy(this_vector->container.object.pVFTable, &vectorVFTable, sizeof(VectorVFTable));
+	memcpy(this_vector->pVFTable, &vectorVFTable, sizeof(VectorVFTable));
 
 	//Make the objectpVFTable point to the same table initially
-	this_vector->container.object.objectpVFTable = this_vector->container.object.pVFTable;
+	this_vector->objectpVFTable = this_vector->pVFTable;
 
 	//Initialize member variables
 
@@ -183,7 +183,7 @@ void CAT(VectorConstruct, T)(void* this)
 |	Copy Constructor
 *===========================================================================*/
 
-void* CAT(VectorCopyConstruct, T)(void* this)
+VECTOR CAT(VectorCopyConstruct, T)(VECTOR this)
 {
 	CHECK_NULL(this, NULL);
 
@@ -191,7 +191,7 @@ void* CAT(VectorCopyConstruct, T)(void* this)
 	VECTOR this_vector = (VECTOR)this;
 
 	//allocate a new vector
-	void* copy = CAT(NewVector, T)();
+	VECTOR copy = CAT(NewVector, T)();
 
 	//cast to vector
 	VECTOR copy_vector = (VECTOR)copy;
@@ -226,7 +226,7 @@ void* CAT(VectorCopyConstruct, T)(void* this)
 |	Destructor
 *===========================================================================*/
 
-void CAT(VectorDestruct, T)(void* this)
+void CAT(VectorDestruct, T)(VECTOR this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -253,7 +253,7 @@ void CAT(VectorDestruct, T)(void* this)
 |	Overridden member function definitions
 *===========================================================================*/
 
-bool CAT(VectorEquals, T)(void* this, void* other)
+bool CAT(VectorEquals, T)(VECTOR this, VECTOR other)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(other, false);
@@ -299,7 +299,7 @@ bool CAT(VectorEquals, T)(void* this, void* other)
 	return true;
 }
 
-int CAT(VectorCompareTo, T)(void* this, void* other)
+int CAT(VectorCompareTo, T)(VECTOR this, VECTOR other)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(other, false);
@@ -347,14 +347,14 @@ int CAT(VectorCompareTo, T)(void* this, void* other)
 	return 0;
 }
 
-char* CAT(VectorToString, T)(void* this)
+char* CAT(VectorToString, T)(VECTOR this)
 {
 	CHECK_NULL(this, NULL);
 
 	return ContainerToString(this);
 }
 
-static void CAT(VectorRealloc, T)(void* this, size_t new_size)
+static void CAT(VectorRealloc, T)(VECTOR this, size_t new_size)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -369,12 +369,12 @@ static void CAT(VectorRealloc, T)(void* this, size_t new_size)
 	}
 }
 
-bool CAT(VectorAdd, T)(void* this, T item)
+bool CAT(VectorAdd, T)(VECTOR this, T item)
 {
 	return CAT(VectorPushBack, T)(this, item);
 }
 
-void CAT(VectorClear, T)(void* this)
+void CAT(VectorClear, T)(VECTOR this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -394,7 +394,7 @@ void CAT(VectorClear, T)(void* this)
 	this_vector->size = 0;
 }
 
-bool CAT(VectorErase, T)(void* this, int start, int end)
+bool CAT(VectorErase, T)(VECTOR this, int start, int end)
 {
 	CHECK_NULL(this, false);
 
@@ -446,7 +446,7 @@ bool CAT(VectorErase, T)(void* this, int start, int end)
 	return true;
 }
 
-bool CAT(VectorRemove, T)(void* this, T item)
+bool CAT(VectorRemove, T)(VECTOR this, T item)
 {
 	CHECK_NULL(this, false);
 
@@ -484,7 +484,7 @@ bool CAT(VectorRemove, T)(void* this, T item)
 	return true;
 }
 
-bool CAT(VectorContains, T)(void* this, T item)
+bool CAT(VectorContains, T)(VECTOR this, T item)
 {
 	CHECK_NULL(this, false);
 
@@ -509,14 +509,14 @@ bool CAT(VectorContains, T)(void* this, T item)
 	return false;
 }
 
-void* CAT(VectorCopy, T)(void* this)
+VECTOR CAT(VectorCopy, T)(VECTOR this)
 {
 	CHECK_NULL(this, NULL);
 
 	return CAT(VectorCopyConstruct, T)(this);
 }
 
-bool CAT(VectorIsEmpty, T)(void* this)
+bool CAT(VectorIsEmpty, T)(VECTOR this)
 {
 	CHECK_NULL(this, false);
 
@@ -526,7 +526,7 @@ bool CAT(VectorIsEmpty, T)(void* this)
 	return this_vector->size == 0;
 }
 
-size_t CAT(VectorSize, T)(void* this)
+size_t CAT(VectorSize, T)(VECTOR this)
 {
 	CHECK_NULL(this, false);
 
@@ -536,7 +536,7 @@ size_t CAT(VectorSize, T)(void* this)
 	return this_vector->size;
 }
 
-VECTOR CAT(VectorSet, T)(void* this, const T* item, size_t num_elements)
+VECTOR CAT(VectorSet, T)(VECTOR this, const T* item, size_t num_elements)
 {
 	CHECK_NULL(this, NULL);
 
@@ -577,7 +577,7 @@ VECTOR CAT(VectorSet, T)(void* this, const T* item, size_t num_elements)
 	return this_vector;
 }
 
-T* CAT(VectorGet, T)(void* this, int index)
+T* CAT(VectorGet, T)(VECTOR this, int index)
 {
 	CHECK_NULL(this, false);
 
@@ -597,7 +597,7 @@ T* CAT(VectorGet, T)(void* this, int index)
 	return (this_vector_data + index);
 }
 
-bool CAT(VectorMovePushFront, T)(void* this, T item)
+bool CAT(VectorMovePushFront, T)(VECTOR this, T item)
 {
 	CHECK_NULL(this, false);
 
@@ -625,7 +625,7 @@ bool CAT(VectorMovePushFront, T)(void* this, T item)
 	return true;
 }
 
-bool CAT(VectorPushFront, T)(void* this, T item)
+bool CAT(VectorPushFront, T)(VECTOR this, T item)
 {
 	CHECK_NULL(this, false);
 
@@ -656,7 +656,7 @@ bool CAT(VectorPushFront, T)(void* this, T item)
 	return true;
 }
 
-bool CAT(VectorMovePushBack, T)(void* this, T item)
+bool CAT(VectorMovePushBack, T)(VECTOR this, T item)
 {
 	CHECK_NULL(this, false);
 
@@ -684,7 +684,7 @@ bool CAT(VectorMovePushBack, T)(void* this, T item)
 	return true;
 }
 
-bool CAT(VectorPushBack, T)(void* this, T item)
+bool CAT(VectorPushBack, T)(VECTOR this, T item)
 {
 	CHECK_NULL(this, false);
 
@@ -715,7 +715,7 @@ bool CAT(VectorPushBack, T)(void* this, T item)
 	return true;
 }
 
-bool CAT(VectorMoveInsert, T)(void* this, T item, int index)
+bool CAT(VectorMoveInsert, T)(VECTOR this, T item, int index)
 {
 	CHECK_NULL(this, false);
 
@@ -755,7 +755,7 @@ bool CAT(VectorMoveInsert, T)(void* this, T item, int index)
 	return true;
 }
 
-bool CAT(VectorInsert, T)(void* this, T item, int index)
+bool CAT(VectorInsert, T)(VECTOR this, T item, int index)
 {
 	CHECK_NULL(this, false);
 
@@ -798,7 +798,7 @@ bool CAT(VectorInsert, T)(void* this, T item, int index)
 	return true;
 }
 
-int CAT(VectorFind, T) (void* this, T item)
+int CAT(VectorFind, T) (VECTOR this, T item)
 {
 	CHECK_NULL(this, false);
 
@@ -822,7 +822,7 @@ int CAT(VectorFind, T) (void* this, T item)
 	return NPOS;
 }
 
-bool CAT(VectorReplace, T)(void* this, T to_replace, T replacement)
+bool CAT(VectorReplace, T)(VECTOR this, T to_replace, T replacement)
 {
 	CHECK_NULL(this, false);
 
@@ -857,14 +857,14 @@ bool CAT(VectorReplace, T)(void* this, T to_replace, T replacement)
 	return replaced;
 }
 
-CAT(CAT(Vector, T), Iterator) CAT(VectorBegin, T)(void* this)
+CAT(CAT(Vector, T), Iterator) CAT(VectorBegin, T)(VECTOR this)
 {
 	CHECK_NULL(this, NULL);
 
 	VECTOR this_vector = (VECTOR)this;
 
 	//allocate a iterator
-	CAT(CAT(Vector, T), Iterator) iterator = check_calloc(sizeof(struct CAT(CAT(_Vector, T), Iterator)));
+	CAT(CAT(Vector, T), Iterator) iterator = check_calloc(sizeof(struct CAT(CAT(Vector_, T), Iterator)));
 
 	iterator->index = 0;
 
@@ -875,7 +875,7 @@ CAT(CAT(Vector, T), Iterator) CAT(VectorBegin, T)(void* this)
 	return iterator;
 }
 
-bool CAT(VectorNext, T)(void* this, CAT(CAT(Vector, T), Iterator) iterator)
+bool CAT(VectorNext, T)(VECTOR this, CAT(CAT(Vector, T), Iterator) iterator)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(iterator, false);
@@ -892,7 +892,7 @@ bool CAT(VectorNext, T)(void* this, CAT(CAT(Vector, T), Iterator) iterator)
 	return true;
 }
 
-CAT(CAT(Vector, T), Iterator) CAT(VectorEnd, T)(void* this, CAT(CAT(Vector, T), Iterator) iterator)
+CAT(CAT(Vector, T), Iterator) CAT(VectorEnd, T)(VECTOR this, CAT(CAT(Vector, T), Iterator) iterator)
 {
 	CHECK_NULL(this, NULL);
 	CHECK_NULL(iterator, NULL);

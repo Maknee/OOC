@@ -81,17 +81,9 @@ void ContainerConstruct(void* this)
 
 	//Set the vtable's complete object locator to complete the RTTI circle
 	ContainervfTable.pCompleteObjectLocator = &containerCompleteObjectLocator;
-
-	//Set the delete function
 	ContainervfTable.delete = &DeleteContainer;
-
-	//Set the equals function
 	ContainervfTable.equals = &ContainerEquals;
-
-	//Set the compareTo function
 	ContainervfTable.compareTo = &ContainerCompareTo;
-
-	//Set the toString
 	ContainervfTable.toString = &ContainerToString;
 
 	//Initialize the vtable to point to this object's vtable

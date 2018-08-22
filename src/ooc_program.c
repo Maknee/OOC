@@ -136,6 +136,8 @@
 *
 */
 
+#define OOC_V1
+
 #include "ooc.h"
 
 #ifdef _MSC_VER

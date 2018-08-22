@@ -27,7 +27,9 @@ by the amount of primitive data structures in C (struct, arrays), should use thi
 There also are Object oriented C libraries out there, but they're far too awkward to use (too C heavy-handed)
 
 [https://github.com/shichao-an/ooc](https://github.com/shichao-an/ooc)
+
 [http://ooc-coding.sourceforge.net/](http://ooc-coding.sourceforge.net/)
+
 [https://en.wikipedia.org/wiki/GObject](https://en.wikipedia.org/wiki/GObject)
 
 ## Tested compilers
@@ -108,7 +110,7 @@ For example, the string class inherits from a container class by holding the con
 ```C
 typedef struct _String
 {
-	struct _Container container;
+	struct Container_ container;
 	size_t length;
 	size_t capacity;
 	union
@@ -133,7 +135,7 @@ String Virtual Function Table
 ```C
 typedef struct _StringVFTable
 {
-	struct _ContainerVFTable;
+	struct ContainerVFTable;
 	void* (*set)(void* this, const char* item);
 	char* (*c_str)(void* this);
 	...
@@ -181,6 +183,10 @@ void StringConstruct(void* this)
 ```
 
 ## More detailed information on the topic
+
+Templating
+
+http://arnold.uthar.net/index.php?n=Work.TemplatesC
 
 A Stackoverflow post that inspired this project
 
@@ -287,9 +293,9 @@ https://www.blackhat.com/presentations/bh-dc-07/Sabanal_Yason/Paper/bh-dc-07-Sab
 
 [x] Map class
 
-[ >:( ] Provide Examples
+[ gotten better ] Provide Examples
 
-[sort of working] Move semantics
+[ sort of working(?) ] Move semantics
 
 [ in the far future ] const Iterator
 
@@ -297,26 +303,52 @@ https://www.blackhat.com/presentations/bh-dc-07/Sabanal_Yason/Paper/bh-dc-07-Sab
 
 [ really should ] Add do(){ } while(0); to macros...
 
-[ :( ] Change struct names beginning with underscore (nonstandard...)
+[x] Change struct names beginning with underscore (nonstandard...)
 
-[ :( ] Consider changing microsoft version of "anonymous" structs -> requires --fms-extensions on gcc :( (Less readable and seeing what is inheritence)
+[x] Consider changing microsoft version of "anonymous" structs -> requires --fms-extensions on gcc :( (Less readable and seeing what is inheritence)
 
 [ Not sure, maybe take a look at how it's done in C++ ] Exceptions/Exception handling
 
 [ should be simple ] Allow one to pass multiple parameters to a constructor. Add __VA_ARGS__ to New
 
-[ ehh ] Replace Delete(type, object) with Delete(object). Can be fixed by below
+[x] Replace Delete(type, object) with Delete(object). Can be fixed by below
 
-[ ugh, going to have to figure out how to template this one ] Simplify library calls by templating object.h/container.h. Instead of Call(type, object, method), one can use Call(object, method) or object->Call(...)
+[x (OOC_V2)] Simplify library calls by templating object.h/container.h. Instead of Call(type, object, method), one can use Call(object, method) or object->Call(...)
 
 [ Probably not ] Allow allocations on the stack and RAII like C++. Take a look at [https://github.com/Snaipe/libcsptr](https://github.com/Snaipe/libcsptr)
 
 [ well ] C++ shared/unique_ptr
 
-[ Soon tm ] Default constructor / Rule of 5 / Rule of 0
+[ oof ] Default constructor / Rule of 5 / Rule of 0
 
-[ Soon tm ] Easy way to initialize Object
+[x] Easy way to initialize Object
+
+[ oh no ] copy of vtable (upcasting...)
+
+[ good thing? ] no multiple inheritence
 
 ## Contributing
 
 Feel free to make a PR and when I have time, I'll take a look into it. :)
+
+MIT License
+
+Copyright (c) [2018] [Henry Zhu]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

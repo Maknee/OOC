@@ -22,7 +22,7 @@ void TestObjectVFTableInitializedCompleteObjectLocator()
 	//since object is an abstract object
 	
 	//allocate a new object
-	void* object = calloc(1, sizeof(struct _Object));
+	void* object = calloc(1, sizeof(struct Object_));
 
 	//allocate vftable
 	((Object)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
@@ -66,7 +66,7 @@ void TestObjectConstructor()
 	//since object is an abstract object
 
 	//allocate a new object
-	void* object = calloc(1, sizeof(struct _Object));
+	void* object = calloc(1, sizeof(struct Object_));
 
 	//allocate vftable
 	((Object)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
@@ -106,7 +106,7 @@ void TestObjectDestructor()
 	//since object is an abstract object
 
 	//allocate a new object
-	void* object = calloc(1, sizeof(struct _Object));
+	void* object = calloc(1, sizeof(struct Object_));
 
 	//allocate vftable
 	((Object)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
@@ -140,7 +140,7 @@ void TestObjectVFTableEquals()
 	//since object is an abstract object
 
 	//allocate a new object
-	void* object = calloc(1, sizeof(struct _Object));
+	void* object = calloc(1, sizeof(struct Object_));
 
 	//allocate vftable
 	((Object)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
@@ -149,7 +149,7 @@ void TestObjectVFTableEquals()
 	ObjectConstruct(object);
 
 	//allocate a new object
-	void* other_object = calloc(1, sizeof(struct _Object));
+	void* other_object = calloc(1, sizeof(struct Object_));
 
 	//allocate vftable
 	((Object)other_object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
@@ -194,7 +194,7 @@ void TestObjectVFTableCompareTo()
 	//since object is an abstract object
 
 	//allocate a new object
-	void* object = calloc(1, sizeof(struct _Object));
+	void* object = calloc(1, sizeof(struct Object_));
 
 	//allocate vftable
 	((Object)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
@@ -203,7 +203,7 @@ void TestObjectVFTableCompareTo()
 	ObjectConstruct(object);
 
 	//allocate a new object
-	void* other_object = calloc(1, sizeof(struct _Object));
+	void* other_object = calloc(1, sizeof(struct Object_));
 
 	//allocate vftable
 	((Object)other_object)->pVFTable = calloc(1, sizeof(ObjectVFTable));
@@ -248,7 +248,7 @@ void TestObjectVFTableObjectToString()
 	//since object is an abstract object
 
 	//allocate a new object
-	void* object = calloc(1, sizeof(struct _Object));
+	void* object = calloc(1, sizeof(struct Object_));
 
 	//allocate vftable
 	((Object)object)->pVFTable = calloc(1, sizeof(ObjectVFTable));

@@ -1,5 +1,7 @@
 #if defined(K) && defined(V)
 
+#define OOC_V1
+
 #include "template.h"
 
 //can't define this as Map since name collision
@@ -162,7 +164,7 @@ static MAPNODE CAT(MapDoubleRotate, CAT(K, V))(MAPNODE root, int direction)
 
 static MAPNODE CAT(MapNewMoveNode, CAT(K, V))(ENTRY entry)
 {
-	MAPNODE new_node = check_calloc(sizeof(struct CAT(_MapNode, CAT(K, V))));
+	MAPNODE new_node = check_calloc(sizeof(struct CAT(MapNode_, CAT(K, V))));
 
 	new_node->entry = entry;
 	new_node->children[LEFT] = NULL;
@@ -176,7 +178,7 @@ static MAPNODE CAT(MapNewMoveNode, CAT(K, V))(ENTRY entry)
 
 static MAPNODE CAT(MapNewNode, CAT(K, V))(ENTRY entry)
 {
-	MAPNODE new_node = check_calloc(sizeof(struct CAT(_MapNode, CAT(K, V))));
+	MAPNODE new_node = check_calloc(sizeof(struct CAT(MapNode_, CAT(K, V))));
 
 	new_node->entry = Call(ENTRY, copy, entry);
 	new_node->children[LEFT] = NULL;
@@ -190,7 +192,7 @@ static MAPNODE CAT(MapNewNode, CAT(K, V))(ENTRY entry)
 
 static MAPNODE CAT(MapCopyNode, CAT(K, V))(MAPNODE node)
 {
-	MAPNODE new_node = check_calloc(sizeof(struct CAT(_MapNode, CAT(K, V))));
+	MAPNODE new_node = check_calloc(sizeof(struct CAT(MapNode_, CAT(K, V))));
 
 	new_node->entry = Call(ENTRY, copy, node->entry);
 	new_node->children[LEFT] = NULL;
@@ -281,10 +283,10 @@ int CAT(MapTest, CAT(K, V))(CAT(MapNode, CAT(K, V)) root, int indent)
 |	New Operator
 *===========================================================================*/
 
-void* CAT(NewMap, CAT(K, V))()
+MAP CAT(NewMap, CAT(K, V))()
 {
 	//allocate a new map
-	void* this = check_calloc(sizeof(struct CAT(_Map, CAT(K, V))));
+	MAP this = check_calloc(sizeof(struct CAT(Map_, CAT(K, V))));
 
 	//cast to map
 	MAP this_map = (MAP)this;
@@ -302,7 +304,7 @@ void* CAT(NewMap, CAT(K, V))()
 |	Delete Operator
 *===========================================================================*/
 
-void CAT(DeleteMap, CAT(K, V))(void* this)
+void CAT(DeleteMap, CAT(K, V))(MAP this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -326,7 +328,7 @@ void CAT(DeleteMap, CAT(K, V))(void* this)
 |	Constructor
 *===========================================================================*/
 
-void CAT(MapConstruct, CAT(K, V))(void* this)
+void CAT(MapConstruct, CAT(K, V))(MAP this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -338,17 +340,10 @@ void CAT(MapConstruct, CAT(K, V))(void* this)
 
 	//Map the vtable's complete object locator to complete the RTTI circle
 	mapVFTable.pCompleteObjectLocator = &CAT(mapCompleteObjectLocator, CAT(K, V));
-
-	//Map the delete function
 	mapVFTable.delete = &CAT(DeleteMap, CAT(K, V));
-
-	//Map the equals function
+	mapVFTable.copy = &CAT(MapCopy, CAT(K, V));
 	mapVFTable.equals = &CAT(MapEquals, CAT(K, V));
-
-	//Map the compareTo function
 	mapVFTable.compareTo = &CAT(MapCompareTo, CAT(K, V));
-
-	//Map the toString
 	mapVFTable.toString = &CAT(MapToString, CAT(K, V));
 
 	//Override Container's methods
@@ -358,7 +353,6 @@ void CAT(MapConstruct, CAT(K, V))(void* this)
 	mapVFTable.clear = &CAT(MapClear, CAT(K, V));
 	mapVFTable.remove = &CAT(MapRemove, CAT(K, V));
 	mapVFTable.contains = &CAT(MapContains, CAT(K, V));
-	mapVFTable.copy = &CAT(MapCopy, CAT(K, V));
 	mapVFTable.isEmpty = &CAT(MapIsEmpty, CAT(K, V));
 	mapVFTable.size = &CAT(MapSize, CAT(K, V));
 	
@@ -408,7 +402,7 @@ static MAPNODE CAT(MapCopyHelper, CAT(K, V))(MAPNODE node, MAPNODE copy_node)
 	return NULL;
 }
 
-void* CAT(MapCopyConstruct, CAT(K, V))(void* this)
+MAP CAT(MapCopyConstruct, CAT(K, V))(MAP this)
 {
 	CHECK_NULL(this, NULL);
 
@@ -416,7 +410,7 @@ void* CAT(MapCopyConstruct, CAT(K, V))(void* this)
 	MAP this_map = (MAP)this;
 
 	//allocate a new map
-	void* copy = CAT(NewMap, CAT(K, V))();
+	MAP copy = CAT(NewMap, CAT(K, V))();
 
 	//cast to map
 	MAP copy_map = (MAP)copy;
@@ -434,7 +428,7 @@ void* CAT(MapCopyConstruct, CAT(K, V))(void* this)
 |	Destructor
 *===========================================================================*/
 
-void CAT(MapDestruct, CAT(K, V))(void* this)
+void CAT(MapDestruct, CAT(K, V))(MAP this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -462,7 +456,7 @@ static bool CAT(MapEqualsHelper, CAT(K, V))(MAPNODE node1, MAPNODE node2)
 		CAT(MapEqualsHelper, CAT(K, V))(node1->children[RIGHT], node2->children[RIGHT]));
 }
 
-bool CAT(MapEquals, CAT(K, V))(void* this, void* other)
+bool CAT(MapEquals, CAT(K, V))(MAP this, MAP other)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(other, false);
@@ -495,7 +489,7 @@ static int CAT(MapCompareToHelper, CAT(K, V))(MAPNODE node1, MAPNODE node2)
 		CAT(MapEqualsHelper, CAT(K, V))(node1->children[RIGHT], node2->children[RIGHT]));
 }
 
-int CAT(MapCompareTo, CAT(K, V))(void* this, void* other)
+int CAT(MapCompareTo, CAT(K, V))(MAP this, MAP other)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(other, false);
@@ -516,19 +510,19 @@ int CAT(MapCompareTo, CAT(K, V))(void* this, void* other)
 	return CAT(MapCompareToHelper, CAT(K, V))(this_map->root, other_map->root);
 }
 
-char* CAT(MapToString, CAT(K, V))(void* this)
+char* CAT(MapToString, CAT(K, V))(MAP this)
 {
 	CHECK_NULL(this, NULL);
 
 	return ContainerToString(this);
 }
 
-bool CAT(MapAdd, CAT(K, V))(void* this, ENTRY entry)
+bool CAT(MapAdd, CAT(K, V))(MAP this, ENTRY entry)
 {
 	return CAT(MapInsert, CAT(K, V))(this, entry);
 }
 
-void CAT(MapClear, CAT(K, V))(void* this)
+void CAT(MapClear, CAT(K, V))(MAP this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -562,7 +556,7 @@ void CAT(MapClear, CAT(K, V))(void* this)
 	this_map->root = NULL;
 }
 
-bool CAT(MapRemove, CAT(K, V))(void* this, ENTRY entry)
+bool CAT(MapRemove, CAT(K, V))(MAP this, ENTRY entry)
 {
 	CHECK_NULL(this, false);
 
@@ -574,7 +568,7 @@ bool CAT(MapRemove, CAT(K, V))(void* this, ENTRY entry)
 	}
 
 	//imaginary parent's root
-	struct CAT(_MapNode, CAT(K, V)) parent_root = { .entry = NULL, .children = { NULL, NULL }, .color = BLACK };
+	struct CAT(MapNode_, CAT(K, V)) parent_root = { .entry = NULL, .children = { NULL, NULL }, .color = BLACK };
 	parent_root.children[RIGHT] = this_map->root;
 
 	MAPNODE grandparent = NULL;
@@ -661,7 +655,7 @@ bool CAT(MapRemove, CAT(K, V))(void* this, ENTRY entry)
 	return true;
 }
 
-bool CAT(MapContains, CAT(K, V))(void* this, ENTRY entry)
+bool CAT(MapContains, CAT(K, V))(MAP this, ENTRY entry)
 {
 	CHECK_NULL(this, false);
 
@@ -694,14 +688,14 @@ bool CAT(MapContains, CAT(K, V))(void* this, ENTRY entry)
 	return false;
 }
 
-void* CAT(MapCopy, CAT(K, V))(void* this)
+MAP CAT(MapCopy, CAT(K, V))(MAP this)
 {
 	CHECK_NULL(this, NULL);
 
 	return CAT(MapCopyConstruct, CAT(K, V))(this);
 }
 
-bool CAT(MapIsEmpty, CAT(K, V))(void* this)
+bool CAT(MapIsEmpty, CAT(K, V))(MAP this)
 {
 	CHECK_NULL(this, false);
 
@@ -711,7 +705,7 @@ bool CAT(MapIsEmpty, CAT(K, V))(void* this)
 	return this_map->size == 0;
 }
 
-size_t CAT(MapSize, CAT(K, V))(void* this)
+size_t CAT(MapSize, CAT(K, V))(MAP this)
 {
 	CHECK_NULL(this, false);
 
@@ -721,7 +715,7 @@ size_t CAT(MapSize, CAT(K, V))(void* this)
 	return this_map->size;
 }
 
-bool CAT(MapSet, CAT(K, V))(void* this, const ENTRY* entry, size_t num_elements)
+bool CAT(MapSet, CAT(K, V))(MAP this, const ENTRY* entry, size_t num_elements)
 {
 	CHECK_NULL(this, false);
 
@@ -738,7 +732,7 @@ bool CAT(MapSet, CAT(K, V))(void* this, const ENTRY* entry, size_t num_elements)
 	return true;
 }
 
-bool CAT(MapMoveInsert, CAT(K, V))(void* this, ENTRY entry)
+bool CAT(MapMoveInsert, CAT(K, V))(MAP this, ENTRY entry)
 {
 	CHECK_NULL(this, false);
 
@@ -757,7 +751,7 @@ bool CAT(MapMoveInsert, CAT(K, V))(void* this, ENTRY entry)
 	else
 	{
 		//imaginary parent's root
-		struct CAT(_MapNode, CAT(K, V)) parent_root = { .entry = NULL, .children = { NULL, NULL }, .color = BLACK };
+		struct CAT(MapNode_, CAT(K, V)) parent_root = { .entry = NULL, .children = { NULL, NULL }, .color = BLACK };
 		parent_root.children[RIGHT] = this_map->root;
 
 		MAPNODE greatgrandparent = &parent_root;
@@ -844,7 +838,7 @@ bool CAT(MapMoveInsert, CAT(K, V))(void* this, ENTRY entry)
 	return true;
 }
 
-bool CAT(MapInsert, CAT(K, V))(void* this, ENTRY entry)
+bool CAT(MapInsert, CAT(K, V))(MAP this, ENTRY entry)
 {
 	CHECK_NULL(this, false);
 
@@ -863,7 +857,7 @@ bool CAT(MapInsert, CAT(K, V))(void* this, ENTRY entry)
 	else
 	{
 		//imaginary parent's root
-		struct CAT(_MapNode, CAT(K, V)) parent_root = { .entry = NULL, .children = { NULL, NULL }, .color = BLACK };
+		struct CAT(MapNode_, CAT(K, V)) parent_root = { .entry = NULL, .children = { NULL, NULL }, .color = BLACK };
 		parent_root.children[RIGHT] = this_map->root;
 
 		MAPNODE greatgrandparent = &parent_root;
@@ -950,7 +944,7 @@ bool CAT(MapInsert, CAT(K, V))(void* this, ENTRY entry)
 	return true;
 }
 
-ENTRY* CAT(MapFind, CAT(K, V)) (void* this, ENTRY entry)
+ENTRY* CAT(MapFind, CAT(K, V)) (MAP this, ENTRY entry)
 {
 	CHECK_NULL(this, NULL);
 
@@ -983,7 +977,7 @@ ENTRY* CAT(MapFind, CAT(K, V)) (void* this, ENTRY entry)
 	return NULL;
 }
 
-bool CAT(MapReplace, CAT(K, V))(void* this, ENTRY to_replace, ENTRY replacement)
+bool CAT(MapReplace, CAT(K, V))(MAP this, ENTRY to_replace, ENTRY replacement)
 {
 	CHECK_NULL(this, false);
 
@@ -1037,14 +1031,14 @@ static ENTRY* CAT(GetMapInOrderTraversalByIndex, CAT(K, V))(MAPNODE node, int* c
 	return NULL;
 }
 
-CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapBegin, CAT(K, V))(void* this)
+CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapBegin, CAT(K, V))(MAP this)
 {
 	CHECK_NULL(this, NULL);
 
 	MAP this_map = (MAP)this;
 
 	//allocate a iterator
-	CAT(CAT(Map, CAT(K, V)), Iterator) iterator = check_calloc(sizeof(struct CAT(CAT(_Map, CAT(K, V)), Iterator)));
+	CAT(CAT(Map, CAT(K, V)), Iterator) iterator = check_calloc(sizeof(struct CAT(CAT(Map_, CAT(K, V)), Iterator)));
 
 	iterator->index = 0;
 
@@ -1054,7 +1048,7 @@ CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapBegin, CAT(K, V))(void* this)
 	return iterator;
 }
 
-bool CAT(MapNext, CAT(K, V))(void* this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator)
+bool CAT(MapNext, CAT(K, V))(MAP this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(iterator, false);
@@ -1072,7 +1066,7 @@ bool CAT(MapNext, CAT(K, V))(void* this, CAT(CAT(Map, CAT(K, V)), Iterator) iter
 	return true;
 }
 
-CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapEnd, CAT(K, V))(void* this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator)
+CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapEnd, CAT(K, V))(MAP this, CAT(CAT(Map, CAT(K, V)), Iterator) iterator)
 {
 	CHECK_NULL(this, NULL);
 	CHECK_NULL(iterator, NULL);

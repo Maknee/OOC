@@ -13,8 +13,6 @@
 
 #include <stdio.h>
 
-#define OUTPUT_ERRORS
-
 /**********************************************************************************************//**
  * @def	DEBUG_PRINT(fmt, ...)
  *
@@ -25,7 +23,7 @@
  * @note * <a href="https://stackoverflow.com/questions/1644868/c-define-macro-for-debug-printing">Entire debug macro</a>
  **************************************************************************************************/
 
-#ifdef OUTPUT_ERRORS
+#if defined(DEBUG) || defined(NDEBUG) || defined(_DEBUG) || defined(_NDEBUG)
 
 #define DEBUG_PRINT(fmt, ...)                                   \
         do { fprintf(stderr, "%s : %d : %s(): " fmt, __FILE__,  \
@@ -58,9 +56,11 @@
 
 
 #else
+
 #define DEBUG_PRINT(fmt, ...)
 #define DEBUG_PRINT_AND_EXIT(fmt, ...)
 #define CHECK_NULL(ptr, return_type)
 #define CHECK_NULL_EXIT(ptr, fmt, ...) 
 #define CHECK_NULL_NO_RET(ptr)
+
 #endif

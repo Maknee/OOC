@@ -1,59 +1,50 @@
+#define OOC_V2
+
 #include "ooc.h"
+#include "assert.h"
 
 int main()
 {
-	//Want program to output
-	//C:
-	//path
-	//to
-	//dir
+	Vector(float) shopping_cart = New(Vector(float));
 
-	String path = New(String);
+	float carrot_cost = 1.00f;
+	float potato_cost = 2.00f;
+	float chicken_cost = 3.00f;
 
-	//Read data from file...
-	Call(String, set, path, "C:/path/to/dir");
+	Call(shopping_cart, add, carrot_cost);
+	Call(shopping_cart, add, potato_cost);
+	Call(shopping_cart, add, chicken_cost);
 
-	//Parse line 
-	int start_index = 0;
-	int index_of_slash = 0;
+	//Oops, we don't want carrots
+	Call(shopping_cart, remove, carrot_cost);
 
-	//Find substrings with "/"
-	String to_find = New(String);
-	Call(String, set, to_find, "/");
-
-	//Create a vector containing all the strings
-	Vector(String) directories = New(Vector(String));
-
-	//Find the index of the next occurence of "/"
-	while ((index_of_slash = Call(String, find, path, to_find, start_index)) != NPOS)
+	//Find the potato cost index
+	int found_potato_index = Call(shopping_cart, find, potato_cost);
+	if(found_potato_index != NPOS)
 	{
-		//Get the substring between the last occurence and next occurence of "/"
-		String directory = Call(String, substring, path, start_index, index_of_slash);
+		//it's a sale!
 
-		//Insert the substring into the vector
-		MoveCall(Vector(String), push_back, directories, directory);
-
-		//Update the index to one past the occurence of "/"
-		start_index = index_of_slash + 1;
+		//Get the entry from the index
+		float* found_potato_cost = Call(shopping_cart, get, found_potato_index);
+		*found_potato_cost -= 0.5f;
 	}
 
-	//There is still one substring after the last occurence of "/"
-	String last_directory = Call(String, substring, path, start_index, index_of_slash);
-
-	MoveCall(Vector(String), push_back, directories, last_directory);
-
-	//Iterate through each string and print
-	ForEach(String* directory, Vector(String), directories,
+	//Tax
+	ForEach(float* item_cost, Vector(float), shopping_cart,
 	{
-		printf("%s\n", Call(String, c_str, *directory));
+		*item_cost *= 1.1f;
 	})
 
-		//Free resources
-		Delete(String, to_find);
+	float total = 0.0f;
+	ForEach(float* item_cost, Vector(float), shopping_cart,
+	{
+		total += *item_cost;
+	})
 
-	Delete(String, path);
+	//Expect 4.95f
+	assert(fabs(total - 4.95f) < 0.01f);
 
-	Delete(Vector(String), directories);
+	Delete(shopping_cart);
 
 	return 0;
 }

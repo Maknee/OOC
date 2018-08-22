@@ -17,15 +17,11 @@
 
 #pragma once
 
+#define OOC_V1
+
 #include "template.h"
 
-#ifdef Vector
-#undef Vector
-#endif
 
-#ifdef T
-#undef T
-#endif
 
 #define T int
 #include "ooc_vector.h"
@@ -46,6 +42,3 @@
 #define T Container
 #include "ooc_vector.h"
 #undef T
-
-//re-enable what we type in as Vector(type) b/c Vector is used as a different Vector macro in the includes
-#define Vector(type) VectorExpansion(type)

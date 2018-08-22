@@ -117,13 +117,13 @@ static void StringStrncat(String this, String other)
 |	New Operator
 *===========================================================================*/
 
-void* NewString()
+String NewString()
 {
 	//allocate a new string
-	void* string = check_calloc(sizeof(struct _String));
+	String string = check_calloc(sizeof(struct _String));
 
 	//allocate vftable
-	((String)string)->container.object.pVFTable = check_calloc(sizeof(StringVFTable));
+	string->pVFTable = check_calloc(sizeof(StringVFTable));
 
 	//call constructor to set up string
 	StringConstruct(string);
@@ -134,7 +134,7 @@ void* NewString()
 |	Delete Operator
 *===========================================================================*/
 
-void DeleteString(void* this)
+void DeleteString(String this)
 {
 	CHECK_NULL_NO_RET(this);
 	
@@ -142,10 +142,10 @@ void DeleteString(void* this)
 	StringDestruct(this);
 
 	//null the (casted) vftable
-	((String)this)->container.object.pVFTable = NULL;
+	this->pVFTable = NULL;
 
 	//free vftable (the actual one)
-	free(((String)this)->container.object.objectpVFTable);
+	free(this->objectpVFTable);
 
 	//free the string's resources
 	free(this);
@@ -161,7 +161,7 @@ void DeleteString(void* this)
 |	Constructor
 *===========================================================================*/
 
-void StringConstruct(void* this)
+void StringConstruct(String this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -173,17 +173,10 @@ void StringConstruct(void* this)
 
 	//Set the vtable's complete object locator to complete the RTTI circle
 	StringvfTable.pCompleteObjectLocator = &stringCompleteObjectLocator;
-	
-	//Set the equals function
 	StringvfTable.delete = &DeleteString;
-
-	//Set the equals function
+	StringvfTable.copy = &StringCopy;
 	StringvfTable.equals = &StringEquals;
-
-	//Set the compareTo function
 	StringvfTable.compareTo = &StringCompareTo;
-
-	//Set the toString
 	StringvfTable.toString = &StringToString;
 
 	//Override Container's methods
@@ -193,7 +186,6 @@ void StringConstruct(void* this)
 	StringvfTable.clear = &StringClear;
 	StringvfTable.remove = &StringRemove;
 	StringvfTable.contains = &StringContains;
-	StringvfTable.copy = &StringCopy;
 	StringvfTable.isEmpty = &StringIsEmpty;
 	StringvfTable.size = &StringSize;
 
@@ -213,10 +205,10 @@ void StringConstruct(void* this)
 	StringvfTable.end = &StringEnd;
 
 	//Initialize the vtable to a copy of this object's vtable
-	memcpy(((String)this)->container.object.pVFTable, &StringvfTable, sizeof(StringVFTable));
+	memcpy(this->pVFTable, &StringvfTable, sizeof(StringVFTable));
 
 	//Make the objectpVFTable point to the same table initially
-	((String)this)->container.object.objectpVFTable = ((String)this)->container.object.pVFTable;
+	this->objectpVFTable = this->pVFTable;
 
 	//Initialize member variables
 
@@ -232,12 +224,12 @@ void StringConstruct(void* this)
 |	Copy Constructor
 *===========================================================================*/
 
-void* StringCopyConstruct(void* this)
+String StringCopyConstruct(String this)
 {
 	CHECK_NULL(this, NULL);
 	
 	//allocate a new string
-	void* copy = NewString();
+	String copy = NewString();
 
 	//cast to string
 	String this_string = (String)this;
@@ -264,7 +256,7 @@ void* StringCopyConstruct(void* this)
 |	Destructor
 *===========================================================================*/
 
-void StringDestruct(void* this)
+void StringDestruct(String this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -282,7 +274,7 @@ void StringDestruct(void* this)
 |	Overridden member functions
 *===========================================================================*/
 
-bool StringEquals(void* this, void* other)
+bool StringEquals(String this, String other)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(other, false);
@@ -290,7 +282,7 @@ bool StringEquals(void* this, void* other)
 	return (!strcmp(StringC_Str(this), StringC_Str(other)) ? true : false);
 }
 
-int StringCompareTo(void* this, void* other)
+int StringCompareTo(String this, String other)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(other, false);
@@ -298,7 +290,7 @@ int StringCompareTo(void* this, void* other)
 	return strcmp(StringC_Str(this), StringC_Str(other));
 }
 
-char* StringToString(void* this)
+char* StringToString(String this)
 {
 	CHECK_NULL(this, NULL);
 
@@ -309,7 +301,7 @@ char* StringToString(void* this)
 |	Class member definitions
 *===========================================================================*/
 
-void* StringSet(void* this, const char* item)
+String StringSet(String this, const char* item)
 {
 	CHECK_NULL(this, NULL);
 	CHECK_NULL(item, NULL);
@@ -380,7 +372,7 @@ void* StringSet(void* this, const char* item)
 	return this;
 }
 
-bool StringAdd(void* this, void* item)
+bool StringAdd(String this, String item)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(item, false);
@@ -448,7 +440,7 @@ bool StringAdd(void* this, void* item)
 	return true;
 }
 
-void StringClear(void* this)
+void StringClear(String this)
 {
 	CHECK_NULL_NO_RET(this);
 
@@ -469,7 +461,7 @@ void StringClear(void* this)
 	memset(this_string->data.buf, 0, sizeof(this_string->data.buf));
 }
 
-bool StringRemove(void* this, void* item)
+bool StringRemove(String this, String item)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(item, false);
@@ -544,7 +536,7 @@ bool StringRemove(void* this, void* item)
 	return false;
 }
 
-bool StringContains(void* this, void* item)
+bool StringContains(String this, String item)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(item, false);
@@ -552,21 +544,21 @@ bool StringContains(void* this, void* item)
 	return (StringFind(this, item, 0) != NPOS) ? true : false;
 }
 
-void* StringCopy(void* this)
+String StringCopy(String this)
 {
 	CHECK_NULL(this, NULL);
 
 	return StringCopyConstruct(this);
 }
 
-bool StringIsEmpty(void* this)
+bool StringIsEmpty(String this)
 {
 	CHECK_NULL(this, false);
 	
 	return ((String)this)->length == 0;
 }
 
-size_t StringSize(void* this)
+size_t StringSize(String this)
 {
 	CHECK_NULL(this, false);
 	
@@ -577,7 +569,7 @@ size_t StringSize(void* this)
 |	Class member functions
 *===========================================================================*/
 
-char* StringC_Str(void* this)
+char* StringC_Str(String this)
 {
 	CHECK_NULL(this, NULL);
 
@@ -592,7 +584,7 @@ char* StringC_Str(void* this)
 	}
 }
 
-bool StringAppend(void* this, const char* item)
+bool StringAppend(String this, const char* item)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(item, false);
@@ -660,7 +652,7 @@ bool StringAppend(void* this, const char* item)
 	return true;
 }
 
-bool StringInsert(void* this, void* item, int index)
+bool StringInsert(String this, String item, int index)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(item, false);
@@ -775,7 +767,7 @@ bool StringInsert(void* this, void* item, int index)
 	return true;
 }
 
-bool StringReplace(void* this, void* item, void* replacement)
+bool StringReplace(String this, String item, String replacement)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(item, false);
@@ -860,7 +852,7 @@ bool StringReplace(void* this, void* item, void* replacement)
 	return true;
 }
 
-bool StringErase(void* this, int start, int end)
+bool StringErase(String this, int start, int end)
 {
 	CHECK_NULL(this, false);
 
@@ -939,7 +931,7 @@ bool StringErase(void* this, int start, int end)
 	return true;
 }
 
-int StringFind(void* this, void* item, int index)
+int StringFind(String this, String item, int index)
 {
 	CHECK_NULL(this, -1);
 	CHECK_NULL(item, -1);
@@ -992,7 +984,7 @@ int StringFind(void* this, void* item, int index)
 	}
 }
 
-void* StringSubstring(void* this, int start, int end)
+String StringSubstring(String this, int start, int end)
 {
 	CHECK_NULL(this, NULL);
 	
@@ -1044,7 +1036,7 @@ void* StringSubstring(void* this, int start, int end)
 	return copy_string;
 }
 
-StringIterator StringBegin(void* this)
+StringIterator StringBegin(String this)
 {
 	CHECK_NULL(this, NULL);
 
@@ -1065,7 +1057,7 @@ StringIterator StringBegin(void* this)
 	return iterator;
 }
 
-bool StringNext(void* this, StringIterator iterator)
+bool StringNext(String this, StringIterator iterator)
 {
 	CHECK_NULL(this, false);
 	CHECK_NULL(iterator, false);
@@ -1086,7 +1078,7 @@ bool StringNext(void* this, StringIterator iterator)
 	return true;
 }
 
-StringIterator StringEnd(void* this, StringIterator iterator)
+StringIterator StringEnd(String this, StringIterator iterator)
 {
 	CHECK_NULL(this, NULL);
 	CHECK_NULL(iterator, NULL);
