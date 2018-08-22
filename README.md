@@ -182,6 +182,10 @@ void StringConstruct(void* this)
 
 ## More detailed information on the topic
 
+Templating
+
+http://arnold.uthar.net/index.php?n=Work.TemplatesC
+
 A Stackoverflow post that inspired this project
 
 https://stackoverflow.com/questions/2181079/object-oriented-programming-in-c
@@ -287,9 +291,9 @@ https://www.blackhat.com/presentations/bh-dc-07/Sabanal_Yason/Paper/bh-dc-07-Sab
 
 [x] Map class
 
-[ >:( ] Provide Examples
+[ gotten better ] Provide Examples
 
-[sort of working] Move semantics
+[ sort of working(?) ] Move semantics
 
 [ in the far future ] const Iterator
 
@@ -297,25 +301,29 @@ https://www.blackhat.com/presentations/bh-dc-07/Sabanal_Yason/Paper/bh-dc-07-Sab
 
 [ really should ] Add do(){ } while(0); to macros...
 
-[ :( ] Change struct names beginning with underscore (nonstandard...)
+[x] Change struct names beginning with underscore (nonstandard...)
 
-[ :( ] Consider changing microsoft version of "anonymous" structs -> requires --fms-extensions on gcc :( (Less readable and seeing what is inheritence)
+[x] Consider changing microsoft version of "anonymous" structs -> requires --fms-extensions on gcc :( (Less readable and seeing what is inheritence)
 
 [ Not sure, maybe take a look at how it's done in C++ ] Exceptions/Exception handling
 
 [ should be simple ] Allow one to pass multiple parameters to a constructor. Add __VA_ARGS__ to New
 
-[ ehh ] Replace Delete(type, object) with Delete(object). Can be fixed by below
+[x] Replace Delete(type, object) with Delete(object). Can be fixed by below
 
-[ ugh, going to have to figure out how to template this one ] Simplify library calls by templating object.h/container.h. Instead of Call(type, object, method), one can use Call(object, method) or object->Call(...)
+[x (OOC_V2)] Simplify library calls by templating object.h/container.h. Instead of Call(type, object, method), one can use Call(object, method) or object->Call(...)
 
 [ Probably not ] Allow allocations on the stack and RAII like C++. Take a look at [https://github.com/Snaipe/libcsptr](https://github.com/Snaipe/libcsptr)
 
 [ well ] C++ shared/unique_ptr
 
-[ Soon tm ] Default constructor / Rule of 5 / Rule of 0
+[ oof ] Default constructor / Rule of 5 / Rule of 0
 
-[ Soon tm ] Easy way to initialize Object
+[x] Easy way to initialize Object
+
+[ oh no ] copy of vtable (upcasting...)
+
+[ good thing? ] no multiple inheritence
 
 ## Contributing
 
