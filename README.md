@@ -27,7 +27,9 @@ by the amount of primitive data structures in C (struct, arrays), should use thi
 There also are Object oriented C libraries out there, but they're far too awkward to use (too C heavy-handed)
 
 [https://github.com/shichao-an/ooc](https://github.com/shichao-an/ooc)
+
 [http://ooc-coding.sourceforge.net/](http://ooc-coding.sourceforge.net/)
+
 [https://en.wikipedia.org/wiki/GObject](https://en.wikipedia.org/wiki/GObject)
 
 ## Tested compilers
@@ -328,3 +330,25 @@ https://www.blackhat.com/presentations/bh-dc-07/Sabanal_Yason/Paper/bh-dc-07-Sab
 ## Contributing
 
 Feel free to make a PR and when I have time, I'll take a look into it. :)
+
+MIT License
+
+Copyright (c) [2018] [Henry Zhu]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
