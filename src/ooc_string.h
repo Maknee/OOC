@@ -731,7 +731,7 @@ StringIterator StringEnd(String this, StringIterator iterator);
 * @note Downcast results in changing to this weird naming convention
 */
 
-StringVFTable StringvfTable;
+extern StringVFTable StringvfTable;
 
 /*============================================================================
 |   Container class definition
@@ -823,7 +823,7 @@ typedef struct _String
 * 			is the string class
 */
 
-TypeDescriptor stringTypeDescriptor;
+extern TypeDescriptor stringTypeDescriptor;
 
 /**********************************************************************************************//**
  * @def	StringBaseClassDescriptor
@@ -847,7 +847,7 @@ TypeDescriptor stringTypeDescriptor;
  * 			its own base class descriptor (string base descriptor)
  */
 
-BaseClassDescriptor stringBaseClassArray[2];
+extern BaseClassDescriptor stringBaseClassArray[2];
 
 /**
 * @brief	Global string class hierarchy descriptor
@@ -859,7 +859,7 @@ BaseClassDescriptor stringBaseClassArray[2];
 *			@ref stringBaseClassArray
 */
 
-ClassHierarchyDescriptor stringClassHierarchyDescriptor;
+extern ClassHierarchyDescriptor stringClassHierarchyDescriptor;
 
 /**
 * @brief	Global string complete object locator
@@ -870,7 +870,7 @@ ClassHierarchyDescriptor stringClassHierarchyDescriptor;
 * 			pClassHierarchyDescriptor points to the string's class hierarchy descriptor
 */
 
-CompleteObjectLocator stringCompleteObjectLocator;
+extern CompleteObjectLocator stringCompleteObjectLocator;
 
 /*============================================================================
 |	Overridden member functions

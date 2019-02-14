@@ -278,7 +278,7 @@ char* ObjectToString(void* this);
 * @note	ObjectvfTable will be set in constructor
 */
 
-ObjectVFTable ObjectvfTable;
+extern ObjectVFTable ObjectvfTable;
 
 /*============================================================================
 |   Object class definition
@@ -328,7 +328,7 @@ typedef struct Object_
 * 			is the object class
 */
 
-TypeDescriptor objectTypeDescriptor;
+extern TypeDescriptor objectTypeDescriptor;
 
 /**********************************************************************************************//**
  * @def	ObjectBaseClassDescriptor
@@ -350,7 +350,7 @@ TypeDescriptor objectTypeDescriptor;
  * 			Contains the object base descriptor (itself)
  */
 
-BaseClassDescriptor objectBaseClassArray[1];
+extern BaseClassDescriptor objectBaseClassArray[1];
 
 /**
 * @brief	Global object class hierarchy descriptor
@@ -362,7 +362,7 @@ BaseClassDescriptor objectBaseClassArray[1];
 *			@ref objectBaseClassArray
 */
 
-ClassHierarchyDescriptor objectClassHierarchyDescriptor;
+extern ClassHierarchyDescriptor objectClassHierarchyDescriptor;
 /**
 * @brief	Global object complete object locator
 *
@@ -372,7 +372,7 @@ ClassHierarchyDescriptor objectClassHierarchyDescriptor;
 * 			pClassHierarchyDescriptor points to the object's class hierarchy descriptor
 */
 
-CompleteObjectLocator objectCompleteObjectLocator;
+extern CompleteObjectLocator objectCompleteObjectLocator;
 
 /*============================================================================
 |	Overridden member functions

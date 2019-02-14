@@ -316,7 +316,7 @@ char* ContainerToString(void* this);
  * @note	objectVFTable will be set in constructor
  */
 
-ContainerVFTable ContainervfTable;
+extern ContainerVFTable ContainervfTable;
 
 /*============================================================================
 |   Container class definition
@@ -368,7 +368,7 @@ typedef struct Container_
 * 			is the ooc_container.class
 */
 
-TypeDescriptor containerTypeDescriptor;
+extern TypeDescriptor containerTypeDescriptor;
 
 /**********************************************************************************************//**
  * @def	ContainerBaseClassDescriptor
@@ -393,7 +393,7 @@ TypeDescriptor containerTypeDescriptor;
  * 			its own base class descriptor (container base descriptor)
  */
 
-BaseClassDescriptor containerBaseClassArray[2];
+extern BaseClassDescriptor containerBaseClassArray[2];
 
 /**
 * @brief	Global ooc_container.class hierarchy descriptor
@@ -405,7 +405,7 @@ BaseClassDescriptor containerBaseClassArray[2];
 *			@ref containerBaseClassArray
 */
 
-ClassHierarchyDescriptor containerClassHierarchyDescriptor;
+extern ClassHierarchyDescriptor containerClassHierarchyDescriptor;
 
 /**
 * @brief	Global ooc_container.complete object locator
@@ -416,7 +416,7 @@ ClassHierarchyDescriptor containerClassHierarchyDescriptor;
 * 			pClassHierarchyDescriptor points to the container's class hierarchy descriptor
 */
 
-CompleteObjectLocator containerCompleteObjectLocator;
+extern CompleteObjectLocator containerCompleteObjectLocator;
 
 /*============================================================================
 |	Class member functions

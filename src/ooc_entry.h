@@ -255,7 +255,7 @@ V* CAT(EntryGetValue, CAT(K, V))(ENTRY this);
 |   Container virtual function table instance
 *===========================================================================*/
 
-CAT(CAT(Entry, CAT(K, V)), VFTable) CAT(CAT(Entry, CAT(K, V)), vfTable);
+extern CAT(CAT(Entry, CAT(K, V)), VFTable) CAT(CAT(Entry, CAT(K, V)), vfTable);
 
 /**********************************************************************************************//**
  * @def	DEFINE_ENTRY
@@ -309,7 +309,7 @@ DEFINE_ENTRY
 * 			is the entry class
 */
 
-TypeDescriptor CAT(entryTypeDescriptor, CAT(K, V));
+extern TypeDescriptor CAT(entryTypeDescriptor, CAT(K, V));
 
 /**********************************************************************************************//**
  * @def	EntryBaseClassDescriptor
@@ -333,7 +333,7 @@ TypeDescriptor CAT(entryTypeDescriptor, CAT(K, V));
  * 			its own base class descriptor (entry base descriptor)
  */
 
-BaseClassDescriptor CAT(entryBaseClassArray, CAT(K, V))[2];
+extern BaseClassDescriptor CAT(entryBaseClassArray, CAT(K, V))[2];
 
 /**
 * @brief	Global entry class hierarchy descriptor
@@ -345,7 +345,7 @@ BaseClassDescriptor CAT(entryBaseClassArray, CAT(K, V))[2];
 *			@ref entryBaseClassArray
 */
 
-ClassHierarchyDescriptor CAT(entryClassHierarchyDescriptor, CAT(K, V));
+extern ClassHierarchyDescriptor CAT(entryClassHierarchyDescriptor, CAT(K, V));
 
 /**
 * @brief	Global entry complete object locator
@@ -356,7 +356,7 @@ ClassHierarchyDescriptor CAT(entryClassHierarchyDescriptor, CAT(K, V));
 * 			pClassHierarchyDescriptor points to the entry's class hierarchy descriptor
 */
 
-CompleteObjectLocator CAT(entryCompleteObjectLocator, CAT(K, V));
+extern CompleteObjectLocator CAT(entryCompleteObjectLocator, CAT(K, V));
 
 /*============================================================================
 |	Overridden member functions
