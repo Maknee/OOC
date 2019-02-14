@@ -22,8 +22,8 @@
 
 #pragma once
 
-#include "template.h"
-#include "container.h"
+#include "ooc_template.h"
+#include "ooc_container.h"
 
 /*============================================================================
 |   Defines
@@ -744,7 +744,7 @@ StringVFTable StringvfTable;
  * 			See @ref StringVFTable for avaliable string functions
  * 			
  * @var		_String::container
- * 			Since the container inherits from the container class,
+ * 			Since the container inherits from the ooc_container.class,
  * 			it must contain the container's class
  *			@see Container_
  *			
@@ -853,7 +853,7 @@ BaseClassDescriptor stringBaseClassArray[2];
 * @brief	Global string class hierarchy descriptor
 *
 * 			String class hierarchy descriptor is marked as virtual
-* 			since it inherits from the container class.
+* 			since it inherits from the ooc_container.class.
 * 			numBaseClasses is one since container inherits from only one class
 * 			pBaseClassArray points to the container's base class descriptor
 *			@ref stringBaseClassArray

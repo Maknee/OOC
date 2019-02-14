@@ -19,8 +19,8 @@
 
 #ifdef T
 
-#include "container.h"
-#include "template.h"
+#include "ooc_container.h"
+#include "ooc_template.h"
 
 /*============================================================================
 |   Defines
@@ -741,7 +741,7 @@ BaseClassDescriptor CAT(vectorBaseClassArray, T)[2];
 * @brief	Global vector class hierarchy descriptor
 *
 * 			Vector class hierarchy descriptor is marked as virtual
-* 			since it inherits from the container class.
+* 			since it inherits from the ooc_container.class.
 * 			numBaseClasses is one since container inherits from only one class
 * 			pBaseClassArray points to the container's base class descriptor
 *			@ref vectorBaseClassArray

@@ -1,5 +1,5 @@
 /**
-* @file object.h
+* @file ooc_object.h
 * @brief Object class header
 *
 * Abstract base class of all classes in ooc.
@@ -23,8 +23,8 @@
 
 #pragma once
 
-#include "rtti.h"
-#include "error.h"
+#include "ooc_rtti.h"
+#include "ooc_error.h"
 
 /**********************************************************************************************//**
  * @fn	void* check_calloc(size_t size);

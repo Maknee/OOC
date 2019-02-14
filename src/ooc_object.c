@@ -2,13 +2,13 @@
 * @file object.c
 * @brief Object source file
 *
-* Implementation of @ref object.h
+* Implementation of @ref ooc_object.h
 *
 * @author Henry Zhu (Maknee)
 * @date	8/2/2017
 */
 
-#include "object.h"
+#include "ooc_object.h"
 
 void* check_calloc(size_t size)
 {

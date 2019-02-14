@@ -1,11 +1,11 @@
 /**
-* @file container.h
+* @file ooc_container.h
 * @brief Container class header
 *
 * This file contains the information about the
-* abstract container class of container classes 
+* abstract ooc_container.class of ooc_container.classes 
 * (ex: string, vector, map...).
-* Every container class <b> MUST </b> inherit from this
+* Every ooc_container.class <b> MUST </b> inherit from this
 * class and override the functions in the vftable.
 * 
 * @author Henry Zhu (Maknee)
@@ -16,13 +16,13 @@
 * 		   nor do they check if the object or item is matches the 
 * 		   correct object or item. Unfortunately, it is up to 
 * 		   the <b>CODER</b> to ensure that the types are correct. 
-* @see container.c
+* @see ooc_container.c
 * @date	8/1/2017
 */
 
 #pragma once
 
-#include "object.h"
+#include "ooc_object.h"
 
 /*============================================================================
 |   Defines
@@ -32,7 +32,7 @@
  * @def		NULL_CONTAINER_VFTABLE
  *
  * @brief	A macro that defines a null container vftable template for classes
- * 			that inherit from the container class
+ * 			that inherit from the ooc_container.class
  * 			
  * @see		_String
  * @see		_List
@@ -54,7 +54,7 @@
 /**********************************************************************************************//**
  * @struct	ContainerVFTable
  *
- * @brief	Struct that contains the vftable of the container class
+ * @brief	Struct that contains the vftable of the ooc_container.class
  * 			
  * @var		ContainerVFTable::objectVFTable
  * 			Pointer to the inherited object's virtual function table
@@ -202,7 +202,7 @@ void DeleteContainer(void* this);
  * 			Container object to be initialized
  * 			
  * @return	Nothing
- * @note	All derived class container constructors must call the container constructor
+ * @note	All derived class ooc_container.constructors must call the ooc_container.constructor
  **************************************************************************************************/
 
 void ContainerConstruct(void* this);
@@ -259,7 +259,7 @@ void ContainerDestruct(void* this);
 /**********************************************************************************************//**
  * @fn		bool ContainerEquals(void* this, void* other);
  *
- * @brief	Checks if the type of the container is equal to container container
+ * @brief	Checks if the type of the container is equal to ooc_container.container
  *
  * @param	[in] this 
  * 			The object
@@ -365,7 +365,7 @@ typedef struct Container_
 * 			
 * 			Contains the a pointer to the container vftable
 * 			and the name of "Container" to indicate that this
-* 			is the container class
+* 			is the ooc_container.class
 */
 
 TypeDescriptor containerTypeDescriptor;
@@ -396,7 +396,7 @@ TypeDescriptor containerTypeDescriptor;
 BaseClassDescriptor containerBaseClassArray[2];
 
 /**
-* @brief	Global container class hierarchy descriptor
+* @brief	Global ooc_container.class hierarchy descriptor
 *
 * 			Container class hierarchy descriptor is marked as virtual
 * 			since it inherits from the object class.
@@ -408,7 +408,7 @@ BaseClassDescriptor containerBaseClassArray[2];
 ClassHierarchyDescriptor containerClassHierarchyDescriptor;
 
 /**
-* @brief	Global container complete object locator
+* @brief	Global ooc_container.complete object locator
 *
 * 			Contains the signature to indicate that this struct contains
 * 			RTTI information.

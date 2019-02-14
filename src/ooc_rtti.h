@@ -1,5 +1,5 @@
 /** 
-* @file rtti.h
+* @file ooc_rtti.h
 * @brief Object oriented class definition header (RTTI)
 * 		 
 * This file contains the necessary struct definitions 

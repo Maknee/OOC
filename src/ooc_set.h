@@ -21,7 +21,7 @@
 
 #define OOC_V1
 
-#include "template.h"
+#include "ooc_template.h"
 
 /*============================================================================
 |   Defines
@@ -642,7 +642,7 @@ BaseClassDescriptor CAT(setBaseClassArray, T)[2];
 * @brief	Global set class hierarchy descriptor
 *
 * 			Set class hierarchy descriptor is marked as virtual
-* 			since it inherits from the container class.
+* 			since it inherits from the ooc_container.class.
 * 			numBaseClasses is one since container inherits from only one class
 * 			pBaseClassArray points to the container's base class descriptor
 *			@ref setBaseClassArray

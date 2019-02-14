@@ -11,10 +11,10 @@
 */
 
 #pragma once
-#include "template.h"
-#include "rtti.h"
-#include "object.h"
-#include "container.h"
+#include "ooc_template.h"
+#include "ooc_rtti.h"
+#include "ooc_object.h"
+#include "ooc_container.h"
 #include "ooc_string.h"
 #include "ooc_vector_template.h"
 #include "ooc_set_template.h"

@@ -1,14 +1,14 @@
 /**
-* @file container.c
+* @file ooc_container.c
 * @brief Object source file
 *
-* Implementation of @ref container.h
+* Implementation of @ref ooc_container.h
 *
 * @author Henry Zhu (Maknee)
 * @date	8/2/2017
 */
 
-#include "container.h"
+#include "ooc_container.h"
 
 ContainerVFTable ContainervfTable =
 {

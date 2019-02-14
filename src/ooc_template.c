@@ -1,4 +1,4 @@
-#include "template.h"
+#include "ooc_template.h"
 
 void* SetVFTable(void* object, void* new_vftable)
 {
