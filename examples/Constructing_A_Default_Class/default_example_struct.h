@@ -1,6 +1,6 @@
 #pragma once
 
-#include "template.h"
+#include "ooc_template.h"
 
 OOC_CLASS
 (

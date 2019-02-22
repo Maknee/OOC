@@ -1,5 +1,5 @@
 /**
-* @file ooc_entry_template.h
+* @file ooc_entry_ooc_template.h
 * @brief Entry class header
 *
 * The entry class is a dynamic array that increases in size 
@@ -19,7 +19,7 @@
 
 #define OOC_V1
 
-#include "template.h"
+#include "ooc_template.h"
 
 #ifdef Entry
 #undef Entry

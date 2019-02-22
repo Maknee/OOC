@@ -2,7 +2,7 @@
 
 #define OOC_V1
 
-#include "template.h"
+#include "ooc_template.h"
 
 //can't define this as Set since name collision
 #define SET CAT(Set, T)

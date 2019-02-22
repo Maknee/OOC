@@ -1,5 +1,5 @@
 /**
-* @file template.h
+* @file ooc_template.h
 * @brief Template header file
 *
 * Includes macros for templates
@@ -12,7 +12,7 @@
 */
 
 #pragma once
-#include "object.h"
+#include "ooc_object.h"
 #include "ooc_string.h"
 #include <math.h>
 #include <stdbool.h>

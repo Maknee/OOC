@@ -21,8 +21,8 @@
 
 #define OOC_V1
 
-#include "container.h"
-#include "template.h"
+#include "ooc_container.h"
+#include "ooc_template.h"
 
 /*============================================================================
 |   Defines
@@ -545,7 +545,7 @@ CAT(CAT(Map, CAT(K, V)), Iterator) CAT(MapEnd, CAT(K, V))(MAP this, CAT(CAT(Map,
 * @note	containerVFTable will be map in constructor
 */
 
-CAT(CAT(Map, CAT(K, V)), VFTable) CAT(CAT(Map, CAT(K, V)), vfTable);
+extern CAT(CAT(Map, CAT(K, V)), VFTable) CAT(CAT(Map, CAT(K, V)), vfTable);
 
 /*============================================================================
 |   Map class definition
@@ -615,7 +615,7 @@ DEFINE_MAP
 * 			is the map class
 */
 
-TypeDescriptor CAT(mapTypeDescriptor, CAT(K, V));
+extern TypeDescriptor CAT(mapTypeDescriptor, CAT(K, V));
 
 /**********************************************************************************************//**
  * @def	MapBaseClassDescriptor
@@ -639,19 +639,19 @@ TypeDescriptor CAT(mapTypeDescriptor, CAT(K, V));
  * 			its own base class descriptor (map base descriptor)
  */
 
-BaseClassDescriptor CAT(mapBaseClassArray, CAT(K, V))[2];
+extern BaseClassDescriptor CAT(mapBaseClassArray, CAT(K, V))[2];
 
 /**
 * @brief	Global map class hierarchy descriptor
 *
 * 			Map class hierarchy descriptor is marked as virtual
-* 			since it inherits from the container class.
+* 			since it inherits from the ooc_container.class.
 * 			numBaseClasses is one since container inherits from only one class
 * 			pBaseClassArray points to the container's base class descriptor
 *			@ref mapBaseClassArray
 */
 
-ClassHierarchyDescriptor CAT(mapClassHierarchyDescriptor, CAT(K, V));
+extern ClassHierarchyDescriptor CAT(mapClassHierarchyDescriptor, CAT(K, V));
 
 /**
 * @brief	Global map complete object locator
@@ -662,7 +662,7 @@ ClassHierarchyDescriptor CAT(mapClassHierarchyDescriptor, CAT(K, V));
 * 			pClassHierarchyDescriptor points to the map's class hierarchy descriptor
 */
 
-CompleteObjectLocator CAT(mapCompleteObjectLocator, CAT(K, V));
+extern CompleteObjectLocator CAT(mapCompleteObjectLocator, CAT(K, V));
 
 /*============================================================================
 |	Overridden member functions

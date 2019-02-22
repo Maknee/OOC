@@ -21,7 +21,7 @@
 
 #define OOC_V1
 
-#include "template.h"
+#include "ooc_template.h"
 
 /*============================================================================
 |   Defines
@@ -542,7 +542,7 @@ CAT(CAT(Set, T), Iterator) CAT(SetEnd, T)(SET this, CAT(CAT(Set, T), Iterator) i
 * @note	containerVFTable will be set in constructor
 */
 
-CAT(CAT(Set, T), VFTable) CAT(CAT(Set, T), vfTable);
+extern CAT(CAT(Set, T), VFTable) CAT(CAT(Set, T), vfTable);
 
 /*============================================================================
 |   Set class definition
@@ -612,7 +612,7 @@ DEFINE_SET
 * 			is the set class
 */
 
-TypeDescriptor CAT(setTypeDescriptor, T);
+extern TypeDescriptor CAT(setTypeDescriptor, T);
 
 /**********************************************************************************************//**
  * @def	SetBaseClassDescriptor
@@ -636,19 +636,19 @@ TypeDescriptor CAT(setTypeDescriptor, T);
  * 			its own base class descriptor (set base descriptor)
  */
 
-BaseClassDescriptor CAT(setBaseClassArray, T)[2];
+extern BaseClassDescriptor CAT(setBaseClassArray, T)[2];
 
 /**
 * @brief	Global set class hierarchy descriptor
 *
 * 			Set class hierarchy descriptor is marked as virtual
-* 			since it inherits from the container class.
+* 			since it inherits from the ooc_container.class.
 * 			numBaseClasses is one since container inherits from only one class
 * 			pBaseClassArray points to the container's base class descriptor
 *			@ref setBaseClassArray
 */
 
-ClassHierarchyDescriptor CAT(setClassHierarchyDescriptor, T);
+extern ClassHierarchyDescriptor CAT(setClassHierarchyDescriptor, T);
 
 /**
 * @brief	Global set complete object locator
@@ -659,7 +659,7 @@ ClassHierarchyDescriptor CAT(setClassHierarchyDescriptor, T);
 * 			pClassHierarchyDescriptor points to the set's class hierarchy descriptor
 */
 
-CompleteObjectLocator CAT(setCompleteObjectLocator, T);
+extern CompleteObjectLocator CAT(setCompleteObjectLocator, T);
 
 /*============================================================================
 |	Overridden member functions

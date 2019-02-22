@@ -19,7 +19,7 @@
 
 #define OOC_V1
 
-#include "template.h"
+#include "ooc_template.h"
 
 #ifdef Set
 #undef Set

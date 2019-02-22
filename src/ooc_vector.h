@@ -19,8 +19,8 @@
 
 #ifdef T
 
-#include "container.h"
-#include "template.h"
+#include "ooc_container.h"
+#include "ooc_template.h"
 
 /*============================================================================
 |   Defines
@@ -650,7 +650,7 @@ CAT(CAT(Vector, T), Iterator) CAT(VectorEnd, T)(VECTOR this, CAT(CAT(Vector, T),
 * @note	containerVFTable will be set in constructor
 */
 
-CAT(CAT(Vector, T), VFTable) CAT(CAT(Vector, T), vfTable);
+extern CAT(CAT(Vector, T), VFTable) CAT(CAT(Vector, T), vfTable);
 
 /*============================================================================
 |   Container class definition
@@ -711,7 +711,7 @@ DEFINE_VECTOR
 * 			is the vector class
 */
 
-TypeDescriptor CAT(vectorTypeDescriptor, T);
+extern TypeDescriptor CAT(vectorTypeDescriptor, T);
 
 /**********************************************************************************************//**
  * @def	VectorBaseClassDescriptor
@@ -735,19 +735,19 @@ TypeDescriptor CAT(vectorTypeDescriptor, T);
  * 			its own base class descriptor (vector base descriptor)
  */
 
-BaseClassDescriptor CAT(vectorBaseClassArray, T)[2];
+extern BaseClassDescriptor CAT(vectorBaseClassArray, T)[2];
 
 /**
 * @brief	Global vector class hierarchy descriptor
 *
 * 			Vector class hierarchy descriptor is marked as virtual
-* 			since it inherits from the container class.
+* 			since it inherits from the ooc_container.class.
 * 			numBaseClasses is one since container inherits from only one class
 * 			pBaseClassArray points to the container's base class descriptor
 *			@ref vectorBaseClassArray
 */
 
-ClassHierarchyDescriptor CAT(vectorClassHierarchyDescriptor, T);
+extern ClassHierarchyDescriptor CAT(vectorClassHierarchyDescriptor, T);
 
 /**
 * @brief	Global vector complete object locator
@@ -758,7 +758,7 @@ ClassHierarchyDescriptor CAT(vectorClassHierarchyDescriptor, T);
 * 			pClassHierarchyDescriptor points to the vector's class hierarchy descriptor
 */
 
-CompleteObjectLocator CAT(vectorCompleteObjectLocator, T);
+extern CompleteObjectLocator CAT(vectorCompleteObjectLocator, T);
 
 /*============================================================================
 |	Overridden member functions
